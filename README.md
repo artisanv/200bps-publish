@@ -170,7 +170,7 @@ ZERNIO_API_KEY=<your-key>
 
 ### الطريقة 1 — ملف zip من صفحة الإصدارات
 
-حمّل آخر نسخة `200bps-publish-vX.Y.Z.zip` من صفحة **Releases**: `<GITHUB_URL>/releases`
+حمّل آخر نسخة `200bps-publish-vX.Y.Z.zip` من صفحة [**Releases**](https://github.com/artisanv/200bps-publish/releases)
 
 <div dir="ltr">
 
@@ -190,7 +190,7 @@ claude
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-git clone <GITHUB_URL> .claude/skills/200bps-publish
+git clone https://github.com/artisanv/200bps-publish .claude/skills/200bps-publish
 claude
 ```
 

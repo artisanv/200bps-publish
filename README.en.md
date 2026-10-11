@@ -124,7 +124,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ## Install (try it in a test folder)
 
 **Option 1: release zip.** Download the latest `200bps-publish-vX.Y.Z.zip` from
-[Releases](<GITHUB_URL>/releases), then:
+[Releases](https://github.com/artisanv/200bps-publish/releases), then:
 
 ```bash
 mkdir my-posts && cd my-posts
@@ -138,7 +138,7 @@ claude
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-git clone <GITHUB_URL> .claude/skills/200bps-publish
+git clone https://github.com/artisanv/200bps-publish .claude/skills/200bps-publish
 claude
 ```
 
