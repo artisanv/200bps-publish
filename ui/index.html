@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>200BPS Publish</title>
+<meta name="description" content="Publishing and growth dashboard for Instagram and LinkedIn. Built by 200BPS.ai.">
+<link rel="icon" href="assets/200bps-mark.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<script>
+  // set theme before first paint (saved choice, else the OS setting)
+  try { var t = localStorage.getItem("bps.theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+        document.documentElement.setAttribute("data-theme", t); } catch (e) { document.documentElement.setAttribute("data-theme", "dark"); }
+</script>
+</head>
+<body>
+<canvas id="bgfx" aria-hidden="true"></canvas>
+
+<div class="topbar">
+  <a class="brand" href="https://www.200bps.ai" target="_blank" rel="noopener">
+    <img class="mark" src="assets/200bps-mark.webp" alt="">
+    <span class="brand-rule" aria-hidden="true"></span>
+    <span class="name">200bps<b>.ai</b></span>
+    <span class="nm2">Publish</span>
+  </a>
+  <button class="btn back-btn" id="backBtn" type="button" hidden><svg class="ico2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 5l-7 7 7 7"/></svg><span data-i18n="back">Back</span></button>
+  <span class="spacer"></span>
+  <span class="pill listen" id="listenPill"><i></i><span></span></span>
+  <button class="pill decision" id="decisionPill" type="button" hidden></button>
+  <span class="pill" id="streakPill" title="">&nbsp;</span>
+  <button class="pill jobs-pill" id="jobsPill" type="button" hidden aria-haspopup="true"><i class="jobs-spin" aria-hidden="true"></i><span></span><b class="jobs-mini" aria-hidden="true"><s></s></b></button>
+  <button class="btn img-top" id="imgTop" type="button"><svg class="ico2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="4" width="18" height="16"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-9 8"/></svg><span data-i18n="imgShort">Image</span></button>
+  <button class="btn note-top" id="noteTop" type="button"><svg class="ico2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16v12H9l-5 4z"/></svg><span data-i18n="noteFab">Note to Claude</span></button>
+  <button class="btn kbd" id="cmdBtn" type="button" aria-label="Command bar"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="4" width="11" height="11"/><path d="M14 14l6 6"/></svg><span data-i18n="cmdShort">Search</span> <kbd>Ctrl K</kbd></button>
+  <button class="btn icon-btn" id="drawerBtn" type="button" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+</div>
+
+<section class="hero" id="hero">
+  <div class="slope-plate" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="label kicker" data-i18n="kicker">200 breakthroughs per second</div>
+    <h1 id="heroTitle" data-i18n="heroTitle">Post smarter. Grow faster.</h1>
+    <p id="heroSub" data-i18n="heroSub">Your accounts, your content, one screen. Nothing is published until you approve it in the chat.</p>
+    <div class="since" id="since"></div>
+  </div>
+</section>
+
+<main>
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" data-view="post" aria-selected="true" data-i18n="tabPost">Post</button>
+    <button class="tab" role="tab" data-view="posts" aria-selected="false" data-i18n="tabPosts">Posts</button>
+    <button class="tab" role="tab" data-view="plan" aria-selected="false" data-i18n="tabPlan">Plan</button>
+    <button class="tab" role="tab" data-view="growth" aria-selected="false" data-i18n="tabGrowth">Growth</button>
+    <button class="tab" role="tab" data-view="inbox" aria-selected="false" data-i18n="tabInbox">Inbox</button>
+    <button class="tab note-tab" id="noteTab" type="button"><svg class="ico2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16v12H9l-5 4z"/></svg><span data-i18n="noteShort">Note</span></button>
+  </nav>
+
+  <!-- THIS POST -->
+  <section class="view active" id="view-post">
+    <div class="card connect" id="connectCard" hidden></div>
+    <div class="card newpost" id="newPostCard" hidden></div>
+    <div class="journey card" id="journey"></div>
+    <details class="changes card" id="changes" hidden><summary><span data-i18n="changes">Changes</span> <b id="changesCount"></b></summary><ol id="changesList"></ol></details>
+    <div id="postStatus"></div>
+    <div class="grid g-main">
+      <div class="grid">
+        <div class="card">
+          <header><h2 data-i18n="preview">Preview</h2><span class="label" id="postType"></span><button class="btn sm" id="imgPreview" type="button">＋ <span data-i18n="imgOpen">Create image</span></button></header>
+          <div class="media-strip" id="mediaStrip"></div>
+          <div class="plat-switch" id="platSwitch" style="margin:12px 0"></div>
+          <div class="caption-box" id="captionBox"></div>
+        </div>
+        <div class="card">
+          <header><h2 data-i18n="checks">Checks</h2><span class="label" id="checkCount"></span></header>
+          <ul class="checks" id="checkList"></ul>
+        </div>
+      </div>
+      <div class="grid" style="align-content:start">
+        <div class="card">
+          <header><h2 data-i18n="score">Post score</h2><span class="label">0-100</span></header>
+          <div class="ring" id="scoreRing"></div>
+          <ul class="tips" id="tipList"></ul>
+        </div>
+        <div class="card" id="coverCard" hidden>
+          <header><h2 data-i18n="cover">Cover</h2><button class="btn" id="gridToggle" type="button" data-i18n="gridView">Grid view</button></header>
+          <div class="cover-stage"><div class="phone" id="phone"><img id="coverImg" alt=""><div class="nocover" id="noCover" data-i18n="noCover">No cover yet</div><div class="gridcrop" aria-hidden="true"></div></div></div>
+          <div class="label" style="margin:12px 0 6px" data-i18n="candidates">Options</div>
+          <div class="cands" id="coverCands"></div>
+        </div>
+        <div class="card">
+          <header><h2 data-i18n="plan">Plan</h2></header>
+          <dl class="plan" id="planList"></dl>
+        </div>
+        <div class="card">
+          <header><h2 data-i18n="bestTime">Best time</h2><span class="label" id="btBasis"></span></header>
+          <div id="bestTime"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROWTH -->
+  <section class="view" id="view-growth">
+    <div class="grid g4" id="kpis"></div>
+    <div class="grid g-main">
+      <div class="card"><header><h2 data-i18n="followers">Followers</h2><span class="label" id="folRange"></span></header><div id="folChart"></div></div>
+      <div class="card"><header><h2 data-i18n="goal">Goal</h2><span class="label" id="goalLabel"></span></header><div class="ring" id="goalRing"></div><div class="goal-info" id="goalInfo"></div><div class="streak-grid" id="streakGrid" aria-label="last 14 days"></div></div>
+    </div>
+    <div class="card"><header><h2 data-i18n="topPosts">Top posts</h2><span class="label" data-i18n="rankedBy">ranked by follows, then saves + shares</span></header><div id="topPosts"></div></div>
+    <div class="grid g2">
+      <div class="card"><header><h2 data-i18n="audience">Audience</h2></header><div id="demo"></div></div>
+      <div class="card"><header><h2 data-i18n="ideaBank">Idea bank</h2><span class="label" data-i18n="ideaHint">from your best posts</span></header><div class="grid" id="ideas"></div></div>
+    </div>
+  </section>
+
+  <!-- POSTS: what's in Zernio + local drafts -->
+  <section class="view" id="view-posts">
+    <div class="card zacct"><header><h2 data-i18n="zTitle">Your Zernio account</h2>
+      <span class="row2"><span class="label" id="zSynced"></span><button class="btn on" id="zBatch" type="button" data-i18n="bBtn">Batch schedule</button><button class="btn" id="zRefresh" type="button" data-i18n="zRefresh">Refresh from Zernio</button></span></header>
+      <div id="zAccounts" class="aud-row"></div><div id="zCounts" class="zcounts"></div></div>
+    <div class="seg zfilter" id="zFilter" role="group"></div>
+    <div id="zList" class="zlist"></div>
+  </section>
+
+  <!-- PLAN: calendar + best times -->
+  <section class="view" id="view-plan">
+    <div class="plan-head"><p class="hint" data-i18n="planHint">Click a day or an hour to schedule, move or plan a post.</p><button class="btn on batch-btn" id="batchBtn" type="button"><svg class="ico2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4M8 14h3M13 14h3M8 17h3"/></svg><span data-i18n="bBtn">Batch schedule</span></button></div>
+    <div class="grid g-main">
+      <div class="card"><header><h2 id="calTitle"></h2><span class="cal-nav"><button class="btn icon-btn" id="calPrev" type="button" data-i18n-label="calPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button class="btn" id="calToday" type="button" data-i18n="calToday">Today</button><button class="btn icon-btn" id="calNext" type="button" data-i18n-label="calNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></span></header><div id="cal"></div></div>
+      <div class="card"><header><h2 data-i18n="heatmap">When your audience engages</h2><span class="label" id="heatTz"></span></header><div id="heat"></div></div>
+    </div>
+  </section>
+
+  <!-- INBOX -->
+  <section class="view" id="view-inbox">
+    <div class="grid g2">
+      <div class="card"><header><h2 data-i18n="comments">Comments waiting</h2><span class="label" id="cmtCount"></span></header><div id="comments"></div></div>
+      <div class="card"><header><h2 data-i18n="automations">DM automations</h2></header><div id="automations"></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="credit">
+  <img src="assets/200bps-mark.webp" alt="">
+  <div class="who">Built by 200BPS.ai<small data-i18n="credit">A free gift from Nasser Al-Ostath. Learn and build AI with us.</small></div>
+  <nav>
+    <a href="https://www.200bps.ai" target="_blank" rel="noopener">200bps.ai</a>
+    <a href="https://www.instagram.com/200bps.ai/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.linkedin.com/in/nasser-al-ostath/" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+</footer>
+
+
+<aside class="drawer" id="drawer" hidden aria-labelledby="drawerTitle">
+  <div class="drawer-dim" id="drawerDim"></div>
+  <div class="drawer-panel">
+    <header class="drawer-head"><h2 id="drawerTitle" data-i18n="settings">Settings</h2><button class="btn" id="drawerClose" type="button" data-i18n="close">Close</button></header>
+    <div class="card keys-card"><header><h3 data-i18n="keysTitle">API keys</h3><span class="label" data-i18n="keysLocal">stored on this computer only</span></header><div id="keysList"></div></div>
+    <div class="card prefs">
+      <h3 data-i18n="prefs">Preferences</h3>
+      <div class="pref"><span data-i18n="language">Language</span><button class="btn" id="langBtn" type="button" aria-label="Switch language">العربية</button></div>
+      <div class="pref"><span data-i18n="timeFormat">Time format</span><span class="seg" role="group"><button class="btn" id="h12Btn" type="button">12h</button><button class="btn" id="h24Btn" type="button">24h</button></span></div>
+      <div class="pref"><span data-i18n="theme">Theme</span><button class="btn icon-btn" id="themeBtn" type="button" aria-label="Toggle light and dark mode"></button></div>
+      <div class="pref"><span data-i18n="tipsLabel">Hover tips</span><button class="btn" id="tipsBtn" type="button">On</button></div>
+      <div class="pref"><span data-i18n="version">Version</span><span class="pill" id="versionPill">v</span></div>
+    </div>
+    <div class="card"><header><h2 data-i18n="readiness">Readiness</h2><span class="label" id="readyCount"></span></header><ul class="checks" id="doctorList"></ul></div>
+    <div class="card"><header><h2 data-i18n="accounts">Connected accounts</h2></header><div id="accounts"></div></div>
+    <div class="drawer-about"><div class="grid g-main">
+      <div class="card about">
+        <div class="about-head">
+          <img src="assets/200bps-mark.webp" alt="200BPS.ai">
+          <div>
+            <div class="label kicker" data-i18n="aboutKicker">About this tool</div>
+            <h2 data-i18n="aboutTitle">200BPS Publish</h2>
+          </div>
+        </div>
+        <p data-i18n="aboutMade">Vibe-coded by Nasser Al-Ostath with Claude Code.</p>
+        <p data-i18n="aboutWhat">It checks your post, finds your best time from your own data, and publishes to Instagram and LinkedIn. Nothing goes live until you say so.</p>
+        <p class="free" data-i18n="aboutFree">Free to use. Share it with anyone.</p>
+        <h3 data-i18n="aboutHow">How to use it</h3>
+        <ol class="steps">
+          <li data-i18n="aboutStep1">Put your caption and media in one folder.</li>
+          <li data-i18n="aboutStep2">In Claude Code, type /200bps-publish and the folder name.</li>
+          <li data-i18n="aboutStep3">Review everything here, then type “go” in Claude Code.</li>
+        </ol>
+        <h3 class="guide-h" data-i18n="guideTitle">Guide: every feature</h3>
+        <p class="hint" data-i18n="guideHint">Rest the mouse on anything for a quick tip.</p>
+        <div class="guide" id="guide"></div>
+      </div>
+      <div class="card about contact" style="align-content:start">
+        <h2 data-i18n="aboutContactTitle">Have an AI idea or project?</h2>
+        <p data-i18n="aboutContact">Let's talk. I help people and teams learn and build with AI.</p>
+        <div class="who-big"><span data-i18n="aboutName">Nasser Al-Ostath</span><small data-i18n="aboutRole">Founder, 200BPS.ai · Kuwait</small></div>
+        <div class="links">
+          <a class="btn on" href="https://www.200bps.ai" target="_blank" rel="noopener">200bps.ai</a>
+          <a class="btn" href="https://www.instagram.com/200bps.ai/" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn" href="https://www.linkedin.com/in/nasser-al-ostath/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</aside>
+
+<div class="modal-wrap" id="modal" hidden>
+  <div class="modal-dim" id="modalDim"></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"><div class="modal-plate" aria-hidden="true"></div><div class="modal-body" id="modalBody"></div></div>
+</div>
+<div class="palette-wrap" id="palette" hidden>
+  <div class="modal-dim" id="paletteDim"></div>
+  <div class="palette" role="dialog" aria-modal="true" aria-label="Command bar">
+    <input type="text" id="paletteInput" autocomplete="off" spellcheck="false">
+    <ul id="paletteList" role="listbox"></ul>
+    <div class="palette-foot label"><span>↑↓</span> <span data-i18n="navigate">navigate</span> · <span>Enter</span> <span data-i18n="run">run</span> · <span>Esc</span></div>
+  </div>
+</div>
+<button class="fab" id="noteFab" type="button" aria-label="Note to Claude"><svg class="fab-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16v12H9l-5 4z"/></svg><span data-i18n="noteFab">Note to Claude</span></button>
+
+<script src="app.js"></script>
+</body>
+</html>

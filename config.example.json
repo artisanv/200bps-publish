@@ -1,0 +1,31 @@
+{
+  "_comment": "Filled in by the setup wizard. Safe to edit by hand. No secrets here.",
+  "language": "en",
+  "timezone": "Asia/Kuwait",
+  "platforms": [
+    "instagram",
+    "linkedin"
+  ],
+  "primary_platform": "instagram",
+  "profile_id": null,
+  "accounts": {},
+  "keywords": [],
+  "banned_hashtags": [],
+  "safety_terms": [],
+  "cta_words": [],
+  "goal": {
+    "followers": 1000
+  },
+  "instagram": {
+    "trial_reels": true,
+    "location_id": null,
+    "location_name": null,
+    "collaborators": []
+  },
+  "linkedin": {
+    "organization_urn": null
+  },
+  "label_ai_generated": false,
+  "dm_gifts": [],
+  "ice_breakers": []
+}
