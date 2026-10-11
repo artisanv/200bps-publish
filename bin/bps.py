@@ -30,7 +30,7 @@
     bps.py undo --platform P             restore the caption before the last applied fix
     bps.py answer ID TEXT [--note TEXT]  record the user's chat answer (first answer wins)
     bps.py watch [--timeout S]           wait for dashboard notes/requests (run in background; restart after handling)
-    bps.py notes [--mark-read]           notes the user typed in the dashboard
+    bps.py notes [--mark-read [--ids A,B]]  notes the user typed in the dashboard; --mark-read marks only the ones you were shown
     bps.py allow-publish [--yes]         let Claude Code run publish/dm itself (adds 2 exact allow rules; ask the user first)
     bps.py connect PLATFORM              print the sign-in link to connect instagram or linkedin in Zernio
     bps.py clear                         start fresh: set the current post aside (nothing is deleted)
@@ -113,7 +113,7 @@ def main() -> None:
     sy.add_argument("--option", action="append", default=[]); sy.add_argument("--expect", action="store_true", help="needs an answer")
     sub.add_parser("thread")
     wt = sub.add_parser("watch"); wt.add_argument("--timeout", type=int, default=3600)
-    nt = sub.add_parser("notes"); nt.add_argument("--mark-read", action="store_true"); nt.add_argument("--all", action="store_true")
+    nt = sub.add_parser("notes"); nt.add_argument("--mark-read", action="store_true"); nt.add_argument("--all", action="store_true"); nt.add_argument("--ids", default="", help="comma-separated note ids to mark read (default: the ones watch/notes showed you)")
     ap_ = sub.add_parser("allow-publish"); ap_.add_argument("--yes", action="store_true")
     cn = sub.add_parser("connect"); cn.add_argument("platform")
     sub.add_parser("clear")
@@ -330,7 +330,11 @@ def run(args) -> None:
         items = hitl.watch(timeout=args.timeout)
         emit({"requests": items, "next": "Handle each, run 'notes --mark-read', then start 'watch' again."} if items else {"requests": [], "timeout": True})
     elif c == "notes":
-        emit(hitl.notes(unread_only=not args.all, mark_read=args.mark_read))
+        ids = [i.strip() for i in args.ids.split(",") if i.strip()]
+        out = hitl.notes(unread_only=not args.all, mark_read=args.mark_read, ids=ids or None)
+        if not args.mark_read and not args.all:
+            hitl.hand(out)          # these are the notes you have now seen
+        emit(out)
     elif c == "connect":
         plat = args.platform.lower()
         if plat not in acct.CONNECTABLE:

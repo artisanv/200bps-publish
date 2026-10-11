@@ -12,12 +12,20 @@ the confirm word exactly (default "go"); the server enforces it.
 """
 from __future__ import annotations
 
+import contextlib
 import json
+import os
 import re
 import time
 import uuid
 
 from store import read_json, state_dir, write_json
+
+try:                                    # POSIX
+    import fcntl
+except ImportError:                     # Windows
+    fcntl = None
+    import msvcrt
 
 KINDS = ("choice", "text", "frames", "publish", "fix")
 
@@ -112,6 +120,63 @@ def wait(qid: str, timeout: int = 900, poll: float = 1.0) -> dict:
     return {**(get(qid) or {}), "status": "timeout"}
 
 
+# ---------------------------------------------------------------- shared jsonl files
+# The dashboard (server) and Claude (bps.py) both write notes.jsonl and messages.jsonl.
+# Every append and every read-modify-write holds the same lock, so neither side can
+# overwrite the other's change or read a half-written line.
+@contextlib.contextmanager
+def _locked(name: str):
+    lock = state_dir() / f".{name}.lock"
+    lock.parent.mkdir(parents=True, exist_ok=True)
+    with open(lock, "a+") as f:
+        if fcntl:
+            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+        else:
+            f.seek(0)
+            for _ in range(500):        # ~10 s
+                try:
+                    msvcrt.locking(f.fileno(), msvcrt.LK_NBLCK, 1)
+                    break
+                except OSError:
+                    time.sleep(0.02)
+        try:
+            yield
+        finally:
+            if fcntl:
+                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+            else:
+                with contextlib.suppress(OSError):
+                    f.seek(0)
+                    msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+
+
+def _read_rows(p) -> tuple[list, list]:
+    """(parsed rows, raw lines). A line that doesn't parse is kept as raw text so a
+    rewrite never drops it; it is simply skipped by readers."""
+    if not p.exists():
+        return [], []
+    raw = [l for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+    rows = []
+    for l in raw:
+        try:
+            rows.append(json.loads(l))
+        except json.JSONDecodeError:
+            rows.append(None)
+    return rows, raw
+
+
+def _write_rows(p, rows: list, raw: list) -> None:
+    lines = [json.dumps(r, ensure_ascii=False) if r is not None else l for r, l in zip(rows, raw)]
+    tmp = p.with_suffix(p.suffix + ".tmp")
+    tmp.write_text("".join(l + "\n" for l in lines), encoding="utf-8")
+    os.replace(tmp, p)
+
+
+def _append(p, row: dict, lock: str) -> None:
+    with _locked(lock), open(p, "a", encoding="utf-8") as f:
+        f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
 # ---------------------------------------------------------------- notes
 def add_note(text: str, action: dict | None = None) -> dict:
     """A note from the user. `action` makes it a structured request the agent
@@ -122,24 +187,45 @@ def add_note(text: str, action: dict | None = None) -> dict:
     n = {"id": uuid.uuid4().hex[:8], "ts": int(time.time()), "text": text[:4000], "read": False}
     if action:
         n["action"] = action
-    with open(state_dir() / "notes.jsonl", "a", encoding="utf-8") as f:
-        f.write(json.dumps(n, ensure_ascii=False) + "\n")
+    _append(state_dir() / "notes.jsonl", n, "notes")
     return n
 
 
-def notes(unread_only: bool = True, mark_read: bool = False) -> list[dict]:
+def _handed_path():
+    return state_dir() / "handed.json"
+
+
+def hand(items: list[dict]) -> None:
+    """Remember which notes Claude has been shown (by `watch` or `notes`), so
+    `notes --mark-read` marks exactly those and never a note that arrived later."""
+    if not items:
+        return
+    with _locked("notes"):
+        ids = set((read_json(_handed_path()) or {}).get("ids", [])) | {r["id"] for r in items}
+        write_json(_handed_path(), {"ids": sorted(ids), "ts": time.time()})
+
+
+def notes(unread_only: bool = True, mark_read: bool = False, ids: list | None = None) -> list[dict]:
+    """List notes. With mark_read, mark as read only the notes Claude was shown
+    (handed out by `watch`/`notes`), or exactly `ids` when given. Anything newer
+    stays unread, so the next `watch` returns it."""
     p = state_dir() / "notes.jsonl"
-    if not p.exists():
-        return []
-    rows = [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
-    out = [r for r in rows if not (unread_only and r.get("read"))]
-    if mark_read and out:
-        ids = {r["id"] for r in out}
-        for r in rows:
-            if r["id"] in ids:
+    with _locked("notes"):
+        rows, raw = _read_rows(p)
+        good = [r for r in rows if r is not None]
+        if not mark_read:
+            return [r for r in good if not (unread_only and r.get("read"))]
+        want = set(ids) if ids else set((read_json(_handed_path()) or {}).get("ids", []))
+        marked = []
+        for r in good:
+            if r["id"] in want and not r.get("read"):
                 r["read"] = True
-        p.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8")
-    return out
+                marked.append(r)
+        if marked:
+            _write_rows(p, rows, raw)
+        if not ids:
+            write_json(_handed_path(), {"ids": [], "ts": time.time()})
+        return marked
 
 
 # ---------------------------------------------------------------- Claude's messages
@@ -148,10 +234,9 @@ def _mpath():
 
 
 def _messages() -> list[dict]:
-    p = _mpath()
-    if not p.exists():
-        return []
-    return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+    with _locked("messages"):
+        rows, _ = _read_rows(_mpath())
+    return [r for r in rows if r is not None]
 
 
 def say(text: str, to: str = "", options: list | None = None, expect: bool = False) -> dict:
@@ -163,21 +248,21 @@ def say(text: str, to: str = "", options: list | None = None, expect: bool = Fal
     m = {"id": uuid.uuid4().hex[:8], "ts": int(time.time()), "text": text[:4000], "to": to or "",
          "options": [str(o)[:80] for o in (options or []) if str(o).strip()][:6],
          "expect": bool(expect or options), "seen": False, "answered": False}
-    with open(_mpath(), "a", encoding="utf-8") as f:
-        f.write(json.dumps(m, ensure_ascii=False) + "\n")
+    _append(_mpath(), m, "messages")
     return m
 
 
 def _update_message(mid: str, **fields) -> dict:
-    rows = _messages()
-    hit = None
-    for r in rows:
-        if r["id"] == mid:
-            r.update(fields)
-            hit = r
-    if not hit:
-        raise ValueError("Unknown message.")
-    _mpath().write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8")
+    with _locked("messages"):
+        rows, raw = _read_rows(_mpath())
+        hit = None
+        for r in rows:
+            if r is not None and r.get("id") == mid:
+                r.update(fields)
+                hit = r
+        if not hit:
+            raise ValueError("Unknown message.")
+        _write_rows(_mpath(), rows, raw)
     return hit
 
 
@@ -248,8 +333,12 @@ def watch(timeout: int = 3600, poll: float = 1.0) -> list[dict]:
     end = time.time() + timeout
     while time.time() < end:
         heartbeat()
-        items = notes(unread_only=True)
+        try:
+            items = notes(unread_only=True)
+        except (OSError, ValueError):     # never stop listening over one bad read
+            items = []
         if items:
+            hand(items)
             return items
         time.sleep(poll)
     return []

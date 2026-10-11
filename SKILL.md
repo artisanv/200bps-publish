@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
 description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram and LinkedIn through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.15.0
+version: 1.15.1
 ---
 
 # 200BPS Publish
@@ -363,7 +363,7 @@ returns the unread requests. For each one:
 | `new_post` | The user started a post from the dashboard's **New post** window (files, made images, or a folder). If `opened`, the post is already the current plan: run the step 2 flow from point 3 (report findings, fixes, time, gift). If `needsCaption`, look at the media (and `hint`, the image prompts), write a caption in the user's voice, save it as `caption.txt` in `folder`, show it in chat, then `analyze` that folder and continue step 2 |
 | `image_prompt` | The user pressed "Ask Claude to improve it" in the image window. Turn `action.text` (and any guide pictures in `action.refs`) into one clear, specific image prompt in their language, then `bps.py image prompt --prompt "…" --note "…"`. It appears in the window with a "Use this prompt" button. Don't generate the image yourself |
 
-Then run `bps.py notes --mark-read` and start `watch` again.
+Then run `bps.py notes --mark-read` and start `watch` again **right away**. `--mark-read` marks only the notes you were shown; anything that arrived meanwhile stays unread and the next `watch` returns it at once. Never leave the dashboard open without a `watch` running: notes then wait on "Waiting for Claude…" with no one to answer them.
 
 **Talking back in the dashboard.** The user may not be looking at the terminal.
 After handling a dashboard request, send a short reply they see as a pop-up (and

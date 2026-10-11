@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.15.1 (2026-10-11)
+- **Fixed: notes to Claude could loop, go unanswered or disappear.** The dashboard and Claude now take turns on the notes and replies files (a file lock on Linux, macOS and Windows), so neither side overwrites the other. In a stress test before the fix, 25 of 500 notes were lost; now 0.
+- **Fixed: a note sent while Claude was busy could be marked "✓ Claude got it" without being handled.** `notes --mark-read` now marks only the notes Claude was actually shown (by `watch` or `notes`); anything newer stays unread and the next `watch` returns it. `--ids A,B` marks exact notes.
+- **Fixed: the listening loop could stop on a half-written note** (the status light then stayed on "Claude is working" with your note on "Waiting for Claude…"). `watch` now skips an unfinished line and keeps listening; a damaged line is kept in the file, never dropped.
+
 ## 1.15.0 (2026-10-09)
 - **Claude talks back in the dashboard.** Claude's replies pop up ("Claude says") with answer buttons and a reply box; your answer goes straight back to Claude. Chat: `bps.py say --text … [--to NOTE] [--option A --option B] [--expect]`, `bps.py thread`.
 - **"Note to Claude" is now a chat**: your notes and Claude's replies in one thread, live, with "✓ Claude got it" / "Waiting for Claude…" on each of your messages. A badge on the button counts unread replies.
