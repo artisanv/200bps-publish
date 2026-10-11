@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.2 (2026-10-11)
+- **Fixed: a DM gift's automation id wasn't saved.** Zernio now returns the new automation as `id` (not `_id`), so the post lost track of its gift (the gift itself worked). Both are read now.
+- **Growth → "New follows · 7 days" no longer shows "–".** When Zernio has no follow count for the week, the card shows the change in your follower count instead (net new followers, this week vs the week before).
+
 ## 1.15.1 (2026-10-11)
 - **Fixed: notes to Claude could loop, go unanswered or disappear.** The dashboard and Claude now take turns on the notes and replies files (a file lock on Linux, macOS and Windows), so neither side overwrites the other. In a stress test before the fix, 25 of 500 notes were lost; now 0.
 - **Fixed: a note sent while Claude was busy could be marked "✓ Claude got it" without being handled.** `notes --mark-read` now marks only the notes Claude was actually shown (by `watch` or `notes`); anything newer stays unread and the next `watch` returns it. `--ids A,B` marks exact notes.

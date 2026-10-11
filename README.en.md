@@ -129,7 +129,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.15.1.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.15.2.zip -d .claude/skills/
 claude
 ```
 

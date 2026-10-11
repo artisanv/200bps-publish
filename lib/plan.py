@@ -510,7 +510,8 @@ def create_dm(plan: dict, confirm: bool) -> dict:
     if not (plan.get("result") or {}).get("postId"):
         raise ValueError("Publish or schedule the post first; the automation attaches to its post id.")
     res = Zernio().create_automation(dm_body(plan))
-    plan["dm"]["automationId"] = (res.get("automation") or res).get("_id")
+    made = res.get("automation") or res
+    plan["dm"]["automationId"] = made.get("_id") or made.get("id")   # Zernio returns "id" here
     save(plan)
     append_log({"event": "dm_automation", "plan": plan["id"], "keyword": dm["keyword"], "automationId": plan["dm"]["automationId"]})
     return res

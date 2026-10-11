@@ -205,6 +205,21 @@ def _build() -> dict:
             "engagement": _metric_total(cur, "total_interactions"), "engagement_prev": _metric_total(prev, "total_interactions"),
             "follows": _metric_total(cur, "follows_and_unfollows"), "follows_prev": _metric_total(prev, "follows_and_unfollows"),
         }
+        # Zernio often leaves follows_and_unfollows empty; fall back to the change in the
+        # follower count (net new followers) from the daily series we already have.
+        if out["kpis"]["follows"] is None:
+            by_day = {p["date"]: p["value"] for p in fol.get("series") or [] if p.get("value") is not None}
+
+            def _at(day):
+                # the last known value on or before `day`
+                ks = [k for k in by_day if k <= day.isoformat()]
+                return by_day[max(ks)] if ks else None
+
+            now, wk, two = _at(today), _at(d7), _at(d14)
+            if now is not None and wk is not None:
+                out["kpis"]["follows"] = now - wk
+                out["kpis"]["follows_prev"] = (wk - two) if two is not None else None
+                out["kpis"]["follows_basis"] = "follower_count"
 
     # posts + analytics
     an = section("post analytics", lambda: z.analytics(fromDate=(today - timedelta(days=90)).isoformat(), toDate=today.isoformat(), limit=100, source="all"))

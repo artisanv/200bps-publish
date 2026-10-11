@@ -11,7 +11,7 @@
 <p align="center">
   <img alt="Claude Code skill" src="https://img.shields.io/badge/Claude%20Code-skill-CCFF33?style=for-the-badge&labelColor=08090A">
   <img alt="Free" src="https://img.shields.io/badge/%D9%85%D8%AC%D8%A7%D9%86%D9%8A-free-CCFF33?style=for-the-badge&labelColor=08090A">
-  <img alt="Version 1.15.1" src="https://img.shields.io/badge/version-1.15.1-CCFF33?style=for-the-badge&labelColor=08090A">
+  <img alt="Version 1.15.2" src="https://img.shields.io/badge/version-1.15.2-CCFF33?style=for-the-badge&labelColor=08090A">
   <img alt="Instagram · LinkedIn" src="https://img.shields.io/badge/Instagram%20%C2%B7%20LinkedIn-via%20Zernio-CCFF33?style=for-the-badge&labelColor=08090A">
 </p>
 
@@ -177,7 +177,7 @@ ZERNIO_API_KEY=<your-key>
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.15.1.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.15.2.zip -d .claude/skills/
 claude
 ```
 
