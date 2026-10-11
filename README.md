@@ -1,130 +1,178 @@
-# 200BPS Publish
+<div dir="rtl">
 
-**English** · [العربية](README.ar.md) · [Arabic guide (PDF)](200bps-publish-README-ar.pdf)
+<p align="center">
+  <img src="docs/banner.png" alt="200bps Publish — سكل مجاني لكلود كود من 200bps.ai" width="100%">
+</p>
 
-![200bps Publish](docs/banner.png)
+<p align="center">
+  <b>العربية</b> · <a href="README.en.md">English</a>
+</p>
 
-**A free Claude Code skill from [200BPS.ai](https://www.200bps.ai).** Point it at a
-folder containing your caption and media. It checks everything, tells you what
-it will do, finds your best posting time from your own data, and publishes to
-**Instagram and LinkedIn** through [Zernio](https://zernio.com),
-but only after you say yes. It also comes with a branded dashboard that mirrors
-your Zernio account.
+<p align="center">
+  <img alt="Claude Code skill" src="https://img.shields.io/badge/Claude%20Code-skill-CCFF33?style=for-the-badge&labelColor=08090A">
+  <img alt="Free" src="https://img.shields.io/badge/%D9%85%D8%AC%D8%A7%D9%86%D9%8A-free-CCFF33?style=for-the-badge&labelColor=08090A">
+  <img alt="Version 1.15.0" src="https://img.shields.io/badge/version-1.15.0-CCFF33?style=for-the-badge&labelColor=08090A">
+  <img alt="Instagram · LinkedIn" src="https://img.shields.io/badge/Instagram%20%C2%B7%20LinkedIn-via%20Zernio-CCFF33?style=for-the-badge&labelColor=08090A">
+</p>
 
-> Built by Nasser Al-Ostath · [200bps.ai](https://www.200bps.ai) · [Instagram](https://www.instagram.com/200bps.ai/) · [LinkedIn](https://www.linkedin.com/in/nasser-al-ostath/)
+# 200bps Publish
 
-## What it does
+### انشر بوستك صح… وكبّر حسابك.
 
-- **Connect accounts from the dashboard.** Instagram and LinkedIn today (more
-  later): press Connect, approve on the network's own site, and it's ready to
-  post. Your password never touches the skill.
-- **Readiness check.** Confirms Python, ffprobe (optional), your `.env` key, your
-  Zernio connection, your linked accounts and the add-ons. Anything missing, it
-  asks for.
-- **Setup wizard, once.** Covers your accounts, search keywords, words you must
-  never use, blocked hashtags, a follower goal, Trial Reels, location, LinkedIn
-  personal or company, and DM ice breakers.
-- **Post checks.** Caption length, the hook before "more", a search keyword in
-  the first line, a closing question, **hashtag caps (5 on Instagram and
-  LinkedIn)**, restricted wording, and media specs (read-only). Zernio's
-  validator runs as a second check before anything is sent.
-- **Post score from 0 to 100,** with the tips that raise it.
-- **Best time for each day, with evidence.** Each weekday's peak hours come
-  with the number of posts behind them, the lift vs your average and a
-  confidence level. They're adjusted for where your audience lives (their time
-  zones). When there isn't enough data, it says so instead of guessing.
-- **Posts tab: see what really happened.** A thumbnail grid (or a list). Every post in your Zernio account
-  (draft, scheduled, publishing, published, partly published, failed), plus
-  local drafts not uploaded yet. It shows per-platform status, links to the live
-  post, error messages and filters, with a "Refresh from Zernio" button.
-- **Batch schedule.** Pick several post folders (from this folder, or with **Browse…**,
-  which opens your computer's own folder picker; outside folders are copied into `my-posts/`), let it fill
-  each post's time from your own best-time data (or one fixed time, every day /
-  every 2 days / chosen weekdays), drag to reorder, then type **go** once. Every
-  post is created in Zernio as scheduled, with live progress.
-- **Cancel anything, anywhere.** From a post's details, the calendar, the Post
-  tab, the batch results or Ctrl+K. Scheduled posts are removed from Zernio
-  before they go out (your draft stays, so you can reschedule). Published posts
-  are removed where the network allows it; Instagram posts are deleted in the
-  Instagram app. You type **cancel** to confirm.
-- **New post, anytime.** Clear the Post tab to start fresh. Nothing is deleted;
-  earlier drafts wait under Posts → Not uploaded.
-- **Undo anything before you publish.** Use ↺ on each step, or revert any
-  single change from the Changes timeline.
-- **Growth settings per post:**
-  - Instagram: Trial Reels, custom Reel cover, location, first comment, collaborators
-  - LinkedIn: document title and company page
-- **DM gifts, only with your permission.** For example, "comment *skill* and
-  get it in your DMs". The gift can require people to follow you first.
-- **Caption fixes you approve.** When a check fails, click it (or let Claude
-  notice). Claude writes a fix and shows a before/after with the score change.
-  You can approve, edit or reject it, and your original is always backed up.
-- **Reel covers.** Pick a frame from the video, use your own image, or let
-  Claude design one in your brand. You see it in the profile-grid crop before posting.
-- **Pop-up decisions.** When Claude needs you, a pop-up asks. You can answer
-  there or in the chat, and the first answer wins.
-- **One-click publish, verified.** Press **Publish**, type **go**, and the
-  dashboard uploads the post to Zernio, then reads it back from your Zernio
-  account to prove it's there (status, time, links).
-- **Dashboard in Arabic and English:**
-  - the post preview and plan
-  - growth KPIs, the follower curve and your goal ring
-  - top posts, an engagement heatmap and audience data
-  - calendar, comments waiting, automations and ice breakers
-  - an idea bank that refills after every post ("Get ideas" anytime); click an idea for its hook, outline and call to action
-  - your posting streak and what changed since your last visit
-  - a journey bar (Check → Cover → Time → Gift → Go) with one "Next step" button
-  - a Plan tab: click any calendar day or heatmap hour to schedule, move or plan a post
-  - a command bar (Ctrl/⌘ + K), light/dark mode, and 12h/24h time
-  - hover tips: rest the mouse on anything for a short explanation, and a full feature guide in Settings → About (or Ctrl+K → Guide)
-  - a quiet animated background of the 200bps.ai mark and name that follows your mouse with depth (off with "reduce motion")
+**سكل مجاني لـ Claude Code سوّيته لكم من [200bps.ai](https://www.200bps.ai).**
+تعطيه فولدر البوست (الكابشن والصور أو الفيديو)، وهو يشيّك على كل شي، يعطيك سكور من 100، يطلع لك أحسن وقت تنزّل فيه **من أرقامك إنت**، ويجدول أو ينزّل البوست على **انستقرام ولينكدإن** عن طريق [Zernio](https://zernio.com).
 
-The dashboard opens by itself whenever the skill runs, and works on any screen
-size: phone, tablet or desktop, in light or dark mode.
+> **ولا شي ينزل إلا لما تكتب `go` بنفسك.**
 
-Nothing is published, scheduled or automated until you approve it.
+📄 **نسخة PDF:** [200bps-publish-README-ar.pdf](200bps-publish-README-ar.pdf)
 
-## Requirements
+> سوّاه ناصر الأستاذ · [200bps.ai](https://www.200bps.ai) · [Instagram](https://www.instagram.com/200bps.ai/) · [LinkedIn](https://www.linkedin.com/in/nasser-al-ostath/)
+
+---
+
+## 📌 المحتويات
+
+- [شنو يسوي؟](#-شنو-يسوي)
+- [المميزات](#-المميزات)
+- [الداشبورد](#-الداشبورد)
+- [شنو تحتاج؟](#-شنو-تحتاج)
+- [المفاتيح (API keys)](#-المفاتيح-api-keys)
+- [التنصيب](#-التنصيب)
+- [أول تشغيل](#-أول-تشغيل)
+- [شلون تستخدمه؟](#-شلون-تستخدمه)
+- [الأمان والخصوصية](#-الأمان-والخصوصية)
+- [أسئلة دايماً تنسأل](#-أسئلة-دايماً-تنسأل)
+- [الرخصة والهوية](#-الرخصة-والهوية)
+
+---
+
+## ✨ شنو يسوي؟
+
+عندك بوست جاهز… بس بأي وقت تنزّله؟ وشلون تدري إنه زين؟
+
+**200bps Publish** يشتغل داخل Claude Code على جهازك:
+
+1. **تعطيه الفولدر** — كابشن + صورة، كاروسيل، ريل، أو PDF للينكدإن.
+2. **يشيّك على كل شي** — الهوك، الهاشتاقات، طول الكابشن، الكلمات الممنوعة، ومقاسات الصور والفيديو.
+3. **يعطيك سكور من 100** — ومعاه نصايح ترفعه، وتعديلات للكابشن توافق عليها أو تعدّلها أو ترفضها.
+4. **يختار الوقت** — من بيانات حسابك إنت، مو تخمين. ما عنده بيانات كافية؟ يقول لك بصراحة ويسألك.
+5. **ينتظر الـ `go` مالتك** — وبعدها ينزّل أو يجدول، ويرجع يتأكد من Zernio إن البوست فعلاً موجود.
+
+وكل هذا وقدامك **داشبورد** بهوية 200bps.ai يعرض حسابك كله، بالعربي والإنقليزي.
+
+---
+
+## 🚀 المميزات
+
+### ✅ يشيّك على البوست
+| الميزة | شنو تسوي |
+|---|---|
+| فحص الجاهزية | يتأكد من بايثون، المفتاح، الاتصال بـ Zernio، الحسابات المربوطة والإضافات. أي شي ناقص يقول لك شلون تصلّحه. |
+| فحص الكابشن | الهوك قبل "المزيد"، كلمة بحث بأول سطر، سؤال بالنهاية، حد الهاشتاقات (5 بانستقرام ولينكدإن)، والكلمات اللي ما تبيها. |
+| فحص الميديا | المقاسات والأبعاد (قراءة بس، ما يغيّر ملفاتك)، ويمرّ على فاحص Zernio قبل لا يرسل. |
+| سكور من 100 | رقم واحد واضح، ومعاه النصايح اللي ترفعه. |
+| تعديلات توافق عليها | كلود يكتب التعديل ويوريك قبل وبعد مع فرق السكور. توافق، تعدّل، أو ترفض — والأصلي دايماً محفوظ. |
+| تراجع عن أي شي | ↺ على كل خطوة، أو ترجع أي تعديل من سجل التغييرات، قبل لا تنشر. |
+
+### ⏰ الوقت والجدولة
+| الميزة | شنو تسوي |
+|---|---|
+| أحسن وقت بالأدلة | لكل يوم بالأسبوع: أحسن ساعة، كم بوست وراها، نسبة الزيادة عن معدّلك، ودرجة الثقة — ومحسوبة على توقيت جمهورك. |
+| الكالندر | كل بوست بيومه وبلون حالته. تضغط أي يوم أو أي ساعة بالخريطة الحرارية وتجدول أو تحرّك. |
+| جدولة مجموعة بوستات | تختار كذا فولدر ← يعبّي الأوقات من بياناتك (أو وقت ثابت: كل يوم، كل يومين، أو أيام تختارها) ← تكتب `go` **مرة وحدة**. كل بوست ينزل مجدول، مو "انشر الحين". |
+| الإلغاء من أي مكان | المجدول ينشال من Zernio قبل لا ينزل (والمسودة تظل عندك). المنشور ينشال من المنصات اللي تسمح. تكتب `cancel` عشان تأكّد. |
+
+### 📲 النشر والإدارة
+| الميزة | شنو تسوي |
+|---|---|
+| نشر بضغطة، ومتأكد منه | تضغط **Publish**، تكتب `go`، وهو يرفع ويرجع يقرا البوست من Zernio عشان يثبت إنه موجود (الحالة، الوقت، الروابط). |
+| تبويب البوستات | كل بوستاتك: المنشور، المجدول، اللي يبيله تعديل، والمسودات — بصورها وروابطها ورسائل الأخطاء. |
+| بوست جديد بدون ما تكتب مسارات | صور أو فيديو من جهازك (سحب وإفلات)، أو فولدر بوست، ترتّبهم وتسمّي البوست. |
+| كفر الريل | تختار فريم من الفيديو، أو صورتك، أو تخلي كلود يصمم واحد بهويتك — وتشوفه بقصّة شبكة البروفايل قبل النشر. |
+| عدّاد الشغل بالخلفية | "2 شغّالة · 64%" للرفع والجدولة والتحديث، مع شريط لكل وحدة. |
+
+### 📈 النمو
+| الميزة | شنو تسوي |
+|---|---|
+| داشبورد النمو | المتابعين، هدفك ودائرة التقدّم، أحسن بوستاتك، خريطة التفاعل، وجمهورك. |
+| بنك الأفكار | أفكار لبوستاتك الجاية، كل فكرة بهوكها ونقاطها والدعوة للفعل. |
+| هدايا بالخاص (اختيارية) | مثل: "علّق بكلمة *skill* ويوصلك بالخاص" — ويقدر يشترط المتابعة. **ما تنفعّل إلا إذا وافقت، بوست بوست.** |
+| أزرار المحادثة | لين 4 أزرار بالخاص (Ice breakers). |
+| خيارات انستقرام | Trial Reels، الموقع، أول تعليق، والمتعاونين. وللينكدإن: عنوان المستند وصفحة الشركة. |
+
+### 🤖 كلود معاك بالداشبورد
+| الميزة | شنو تسوي |
+|---|---|
+| "Claude says" | كلود يكلمك من الداشبورد بنافذة فيها أزرار للجواب ومربع للرد — وأول جواب يوصل هو اللي يمشي. |
+| محادثة "Note to Claude" | ملاحظاتك وردود كلود بمحادثة وحدة مباشرة، مع `✓ Claude got it` على كل رسالة. |
+| لمبة الحالة | **يسمعك** (أخضر) · **يشتغل** (تنبض) · **Claude Code مسكّر** (رمادي). |
+
+---
+
+## 🖥️ الداشبورد
+
+- يفتح بروحه أول ما يشتغل السكل، على `127.0.0.1` بجهازك بس.
+- **عربي وإنقليزي** مع اتجاه كامل من اليمين لليسار، فاتح وغامج، و12 أو 24 ساعة.
+- **Ctrl/⌘ + K** شريط أوامر لكل شي.
+- شرح يطلع لما توقف الماوس على أي زر، ودليل كامل من **Settings → About**.
+- يشتغل على الجوال والتابلت والكمبيوتر.
+- رحلة البوست بخطوات واضحة: **Check → Cover → Time → Gift → Go** وزر "الخطوة الجاية".
+
+---
+
+## 🧰 شنو تحتاج؟
 
 - [Claude Code](https://claude.com/claude-code)
-- Python 3.9 or newer. No pip installs needed.
-- A [Zernio](https://zernio.com) account and API key, with your accounts connected
-  (Instagram needs a Business or Creator account).
-  - The Analytics add-on powers best time, insights and the dashboard numbers.
-  - The Inbox add-on powers comments and DM gifts.
-- Optional: ffmpeg/ffprobe, to verify video specs.
+- **بايثون 3.9 أو أحدث** — بدون أي `pip install`.
+- حساب [Zernio](https://zernio.com) ومفتاح API، وحساباتك مربوطة فيه (انستقرام لازم يكون **Business أو Creator**).
+  - إضافة **Analytics** لأحسن وقت والأرقام بالداشبورد.
+  - إضافة **Inbox** للتعليقات والهدايا بالخاص.
+- اختياري: `ffmpeg` / `ffprobe` عشان يتأكد من مواصفات الفيديو.
 
-## API keys: what you need and how to set them up
+---
 
-The skill needs **one key: your Zernio API key**. It connects the skill to your accounts and publishes for you.
+## 🔑 المفاتيح (API keys)
 
-**1. Get the key**
+السكل يحتاج **مفتاح واحد بس**: مفتاح **Zernio**. هو اللي يربط السكل بحساباتك وينشر عنك.
 
-1. Sign up at [zernio.com](https://zernio.com).
-2. Connect your accounts: **Instagram** (must be a **Business or Creator** account) and **LinkedIn**.
-3. Go to **Settings → API keys**, create a new key and copy it.
-4. Optional but recommended: turn on the **Analytics** add-on (best time, dashboard numbers) and the **Inbox** add-on (comments, DM gifts).
+### 1) سوّ حساب Zernio وطلّع المفتاح
 
-**2. Save it in the skill (two ways)**
+1. سجّل بـ [zernio.com](https://zernio.com).
+2. اربط حساباتك: **انستقرام** (لازم يكون **Business أو Creator**) و**لينكدإن**.
+3. روح **Settings → API keys** وسوّ مفتاح جديد، وانسخه.
+4. اختياري بس ننصح فيه: فعّل إضافة **Analytics** (أحسن وقت وأرقام الداشبورد) وإضافة **Inbox** (التعليقات وهدايا الخاص).
 
-- **Easiest, from the dashboard:** run `/200bps-publish set me up`, paste the key into the **Connect Zernio** card (or **Settings → Keys**) and press **Save**. It's tested right away and shown masked from then on.
-- **By hand, in `.env`:** in your working folder (**not** inside the skill folder), copy `.env.example` to `.env` and paste the key after the `=`:
+### 2) حطّه بالسكل — طريقتين
+
+- **الأسهل — من الداشبورد:** شغّل `/200bps-publish set me up`، وبكرت **Connect Zernio** (أو **Settings → Keys**) الصق المفتاح واضغط **Save**. ينفحص على طول ويبين لك مقنّع.
+- **يدوي — ملف `.env`:** بفولدر شغلك (**مو** داخل فولدر السكل) انسخ `.env.example` باسم `.env` والصق المفتاح بعد علامة `=`:
+
+<div dir="ltr">
 
 ```bash
 # my-posts/.env   ← your working folder, never the skill folder
 ZERNIO_API_KEY=<your-key>
 ```
 
-**3. Check it works**
+</div>
 
-In the dashboard press **Test** next to the key; you'll see **✓ Connected** and your account count. Or ask Claude to run `bps.py doctor` for the full readiness check.
+### 3) تأكّد إنه شغّال
 
-> Never put a key in a chat, a commit or a screenshot. It lives only in `.env`, readable only by you, and `.gitignore` keeps it out of git. If it leaks, revoke it in Zernio and create a new one.
+بالداشبورد اضغط **Test** جنب المفتاح — يطلع لك **✓ Connected** وعدد الحسابات. أو خلّ كلود يشغّل `bps.py doctor` ويوريك كل الفحوصات.
 
-## Install (try it in a test folder)
+> 🔒 **المفتاح ما ينكتب بالشات أبداً**، ولا بكومِت، ولا بسكرين شوت. ينحفظ بـ `.env` بصلاحيات لك بس، والـ `.gitignore` يمنعه يروح GitHub. لو انكشف بالغلط: ألغه من Zernio وسوّ واحد جديد.
 
-**Option 1: release zip.** Download the latest `200bps-publish-vX.Y.Z.zip` from
-[Releases](<GITHUB_URL>/releases), then:
+---
+
+## 📦 التنصيب
+
+جرّبه أول شي بفولدر تجربة.
+
+### الطريقة 1 — ملف zip من صفحة الإصدارات
+
+حمّل آخر نسخة `200bps-publish-vX.Y.Z.zip` من صفحة **Releases**: `<GITHUB_URL>/releases`
+
+<div dir="ltr">
 
 ```bash
 mkdir my-posts && cd my-posts
@@ -133,7 +181,11 @@ unzip ~/Downloads/200bps-publish-v1.15.0.zip -d .claude/skills/
 claude
 ```
 
-**Option 2: clone from GitHub.**
+</div>
+
+### الطريقة 2 — من GitHub مباشرة
+
+<div dir="ltr">
 
 ```bash
 mkdir my-posts && cd my-posts
@@ -142,50 +194,155 @@ git clone <GITHUB_URL> .claude/skills/200bps-publish
 claude
 ```
 
-The folder must be named `200bps-publish` inside `.claude/skills/`.
+</div>
 
-Then in Claude Code:
+> لازم يكون الفولدر اسمه `200bps-publish` داخل `.claude/skills/`.
+
+---
+
+## 🏁 أول تشغيل
+
+داخل Claude Code اكتب:
+
+<div dir="ltr">
 
 ```
 /200bps-publish set me up
 ```
 
-The dashboard opens with a **Connect Zernio** card. Paste your Zernio API key
-there and press **Save**; it's tested right away. Keys are stored only in the
-`.env` file in your folder, with owner-only permissions, and are never shown in
-full again. You can add other API keys under **Settings → Keys**. Never paste a
-key into the chat.
+</div>
 
-## Use
+1. الداشبورد يفتح وفيه كرت **Connect Zernio**.
+2. الصق مفتاح Zernio هناك واضغط **Save** — ينفحص على طول (التفاصيل بقسم [المفاتيح](#-المفاتيح-api-keys)).
+3. كلود يسألك أسئلة الإعداد **مرة وحدة** (وتقدر تقول "defaults"):
+   اللغة، التوقيت، أي حسابات تنشر عليها، كلمات البحث، الكلمات الممنوعة، الهاشتاقات الممنوعة، هدف المتابعين، Trial Reels، الموقع، لينكدإن شخصي ولا صفحة شركة، وأزرار الخاص.
 
-Make one folder per post:
+> ⚠️ **لا تلصق أي مفتاح بالشات أبداً.** المفاتيح تنحط بالداشبورد بس، وتنحفظ بملف `.env` بفولدرك. لو لصقته بالغلط، ألغه من Zernio وسوّ واحد جديد.
+
+---
+
+## 🧭 شلون تستخدمه؟
+
+سوّ فولدر لكل بوست:
+
+<div dir="ltr">
 
 ```
 posts/agent-anatomy/
-  caption.txt              main caption (required)
-  caption.linkedin.txt     optional per-platform version
-  01.jpg 02.jpg …          media, posted in name order (or one .mp4 for a Reel, or a .pdf for LinkedIn)
-  cover.jpg                optional Reel cover, 1080x1920
+  caption.txt              الكابشن (لازم)
+  caption.linkedin.txt     نسخة خاصة للينكدإن (اختياري)
+  01.jpg 02.jpg …          الصور بالترتيب (أو mp4 واحد للريل، أو pdf للينكدإن)
+  cover.jpg                كفر الريل 1080x1920 (اختياري)
 ```
+
+</div>
+
+وبعدها:
+
+<div dir="ltr">
 
 ```
 /200bps-publish posts/agent-anatomy
 ```
 
-Other things you can ask for:
-- "open my dashboard"
-- "report on my last post"
-- "give me post ideas"
-- "set my ice breakers"
+</div>
 
-## Privacy and safety
+وتقدر تقول له بكلامك العادي:
 
-- Your key stays in your own `.env`. It is never written into the skill, shown
-  in the dashboard, or sent anywhere except `zernio.com`.
-- The dashboard runs only on `127.0.0.1` and is read-only. It cannot publish.
-- `tools/secret_scan.py` runs before every release build (`tools/package.py`).
+- "افتح الداشبورد"
+- "عطني تقرير عن آخر بوست"
+- "عطني أفكار بوستات"
+- "جدول هالفولدرات على أحسن أوقاتي"
+- "ركّب أزرار الخاص"
 
-## License
+<details>
+<summary><b>أوامر الطرفية (للي يحب التفاصيل)</b></summary>
 
-The code is MIT. The 200BPS.ai name, mark and visual identity are not; see
-[BRAND.md](BRAND.md). Please keep the "Built by 200BPS.ai" credit.
+كلود هو اللي يشغّلها عنك، بس هذي أهمها:
+
+<div dir="ltr">
+
+| Command | What it does |
+|---|---|
+| `bps.py doctor` | readiness checks |
+| `bps.py dashboard` | open the dashboard |
+| `bps.py analyze <folder>` | checks + score for a post |
+| `bps.py schedule best\|now\|<ISO>` | set when it goes out |
+| `bps.py publish --confirm` | publish/schedule — only after your "go" |
+| `bps.py batch scan \| prepare \| suggest \| run --confirm` | batch scheduling |
+| `bps.py cancel --post ID --confirm` | cancel a scheduled post |
+| `bps.py cover frames \| use \| design` | Reel cover |
+| `bps.py report` | results 48h+ after publishing |
+| `bps.py jobs` | background jobs with % done |
+
+</div>
+</details>
+
+---
+
+## 🔒 الأمان والخصوصية
+
+- **ولا شي ينزل بدون `go` منك.** والموافقة على بوست ما تنحسب للي بعده. الجدولة الجماعية: `go` وحدة تغطي بالضبط البوستات والأوقات اللي شفتها.
+- **الإلغاء بعد يحتاج موافقتك** — تكتب `cancel`.
+- **هدايا الخاص اختيارية** — بوست بوست، وما تنفعّل افتراضياً.
+- **مفاتيحك بجهازك.** بملف `.env` بصلاحيات لك بس، ما تنكتب بالسكل، ما تبين كاملة بالداشبورد، وما تروح لأي مكان غير `zernio.com`.
+- **باسوورداتك ما يشوفها السكل.** ربط انستقرام ولينكدإن يصير بصفحة المنصة نفسها.
+- **أحسن وقت = أرقامك بس.** ما يخترع أرقام؛ إذا البيانات ما تكفي يقول لك.
+- **صوتك يظل صوتك.** التعديلات اقتراحات، وما تنطبق إلا بموافقتك.
+- **الداشبورد على `127.0.0.1` بس.**
+- كل شي يظل داخل فولدر المشروع: الإعدادات بـ `.bps/`، والمفتاح بـ `.env`.
+
+---
+
+## ❓ أسئلة دايماً تنسأل
+
+<details>
+<summary><b>هل هو مجاني؟</b></summary>
+
+إي، السكل مجاني. تحتاج حساب Zernio (وإضافاته إذا تبي التحليلات والإنبوكس).
+</details>
+
+<details>
+<summary><b>يقدر ينشر بروحه بدون ما أوافق؟</b></summary>
+
+لا. `publish` و`dm` و`cancel` ما يشتغلون بدون تأكيد، والداشبورد يطلب منك تكتب `go` أو `cancel` بنفسك.
+</details>
+
+<details>
+<summary><b>ليش يقول ما عنده بيانات كافية لأحسن وقت؟</b></summary>
+
+لأنه ما يعطيك وقت عام من الإنترنت. يحتاج بوستات كافية على حسابك. لين ذاك الوقت يسألك إنت متى تبي تنزّل.
+</details>
+
+<details>
+<summary><b>يشتغل على ويندوز وماك ولينكس؟</b></summary>
+
+إي، أي جهاز عليه Claude Code وبايثون 3.9+.
+</details>
+
+<details>
+<summary><b>أقدر أحذف بوست من انستقرام من السكل؟</b></summary>
+
+انستقرام ما يسمح للتطبيقات تحذف البوستات المنشورة. الداشبورد يقول لك هالشي ويعطيك رابط البوست تحذفه من التطبيق. المجدول تقدر تلغيه عادي.
+</details>
+
+---
+
+## 📄 الرخصة والهوية
+
+- **الكود:** رخصة MIT — شوف [LICENSE](LICENSE).
+- **الهوية:** اسم 200bps.ai، الشعار الليموني، والهوية البصرية بالداشبورد **مو تحت رخصة MIT** — تقدر تستخدمها مثل ما هي كجزء من السكل. شوف [BRAND.md](BRAND.md).
+- خلّوا "**Built by 200BPS.ai**" مثل ما هو. 🙏
+
+---
+
+<p align="center">
+  <img src="ui/assets/200bps-mark.webp" alt="200bps.ai" width="56"><br>
+  <b>سوّاه ناصر الأستاذ — 200bps.ai</b><br>
+  <i>200 breakthroughs per second</i><br><br>
+  <a href="https://www.200bps.ai">200bps.ai</a> ·
+  <a href="https://www.instagram.com/200bps.ai/">Instagram @200bps.ai</a> ·
+  <a href="https://www.linkedin.com/in/nasser-al-ostath/">LinkedIn</a>
+</p>
+
+</div>
