@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
-description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram and LinkedIn through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.15.2
+description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram, LinkedIn, Facebook, TikTok and Snapchat through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
+version: 1.16.0
 ---
 
 # 200BPS Publish
@@ -295,14 +295,24 @@ It shows (bilingual, with 12h/24h and light/dark toggles):
 ## Starting a new post
 
 The **New post** card (Post tab, when no post is open), Ctrl+K → "New post", and
-the "New post" button on any made image open one window with three ways in:
+the "New post" button on any made image open one window with four ways in:
 **Photos or video** (from the computer; uploaded to `.bps/uploads` then copied),
 **My images** (made in Create an image; click in order for a carousel) and
-**A post folder** (the computer's folder picker, or the built-in browser). The
+**A post folder** (the computer's folder picker, or the built-in browser) and
+**Create an image** (makes one, then "Add to new post"). The
 items can be reordered; one photo = single, several = carousel, one video =
 Reel. A new folder is made under `my-posts/<name>`. With a caption the post opens
 at once; without one, Claude gets a `new_post` request to write it. The user's
 own files are never moved or changed.
+
+The window then walks the user through **4 steps**: 1 media & caption →
+2 **Check & improve** (score, checks, the user's own caption edits saved with
+`/api/plan op=caption`, "Ask Claude to fix" per item; your `ask --kind fix`
+suggestion is shown inline there with Use it / Edit / No thanks, so answer
+fix requests as usual) → 3 **Time** (their best slots, any day and minute,
+or right away; `op=time`) → 4 **Review & schedule** (optional gift, typed
+**go**, same publish path as the Publish button). Keep replies about a post
+that is still in the window short; the user sees the result live there.
 
 The dashboard's **New post** button (or `bps.py clear`) sets the current post
 aside. Nothing is deleted: its plan stays in `.bps/plans/` and shows under
@@ -347,7 +357,7 @@ returns the unread requests. For each one:
 
 | `action.type` | What to do |
 |---|---|
-| none (plain note) | Follow the instruction; reply in one line in chat **and** in the dashboard: `bps.py say --to <note id> --text "..."` |
+| none (plain note) | Follow the instruction; reply in one line in chat **and** in the dashboard with its live status: `bps.py say --to <note id> --status done --text "..."` (see "Live status of every note") |
 | `reply` | The user answered one of your `say` messages (`claudeSaid` = what you asked). Act on it, then confirm with `say --to <id>` |
 | `fix_request` | Write a fix for that check → `suggest` (step 2.4) |
 | `plan_scheduled` | Already applied; just acknowledge and re-run `recheck` |
@@ -355,8 +365,10 @@ returns the unread requests. For each one:
 | `post_cancelled` | The user cancelled a post from the dashboard. Run `bps.py sync` and confirm in one line (for a published Instagram post, remind them to delete it in the app) |
 | `batch_scheduled` | The user batch-scheduled from the dashboard. Run `bps.py sync`, then report in 2-3 lines: how many were scheduled, the first and last date, and any failures with their error. Never schedule them again |
 | `published` | The user published from the dashboard. Confirm with `bps.py sync`, then report the status and links. Never publish again |
-| gift switched in the dashboard | Already saved in `plan.dm`; the automation is created only after publishing (`dm --confirm`, with a yes) |
+| gift switched in the dashboard | Already saved in `plan.dm` (keyword, message, link + button, follow-first on/off, public reply, and the user's own follow-first texts `followGateMessage` / `followGateButton` / `notFollowingMessage`, used instead of the English defaults). The dashboard's gift window explains the whole scenario to the user; the automation is created only after publishing (`dm --confirm`, with a yes) |
 | `reschedule` | Confirm with the post and time, then `bps.py reschedule --post ID --at ISO --confirm` |
+| `comment_deleted` | The user deleted a comment in the Inbox (typed delete). Already done; acknowledge in one line with `say --to <id> --status done` |
+| `post_moved` / `post_edited` | The user moved a post or edited its caption in the Plan tab (after typing move / edit). It is **already done** in Zernio (`lib/zedit.py`, read back). Just acknowledge in one line with `say --to <id> --status done`; never repeat it |
 | `assign` | Run the step 2 flow on that folder with `schedule <at>` |
 | `idea` | Draft caption + media plan for that idea and date; show it; nothing is published |
 | `report` | `bps.py report --plan …` or summarise that post's analytics |
@@ -364,6 +376,21 @@ returns the unread requests. For each one:
 | `image_prompt` | The user pressed "Ask Claude to improve it" in the image window. Turn `action.text` (and any guide pictures in `action.refs`) into one clear, specific image prompt in their language, then `bps.py image prompt --prompt "…" --note "…"`. It appears in the window with a "Use this prompt" button. Don't generate the image yourself |
 
 Then run `bps.py notes --mark-read` and start `watch` again **right away**. `--mark-read` marks only the notes you were shown; anything that arrived meanwhile stays unread and the next `watch` returns it at once. Never leave the dashboard open without a `watch` running: notes then wait on "Waiting for Claude…" with no one to answer them.
+
+**Live status of every note (required).** The dashboard shows each note's
+progress under it and pops a notice when it's finished, then refreshes itself.
+`watch` already marks the notes it returns as "Claude got it". For each one:
+1. If it takes more than a few seconds, say what you're doing:
+   `bps.py say --to <note id> --status working --text "Rewriting the hook"`
+   (no pop-up; repeat with the next step for long jobs).
+2. Always finish it, in one or two plain lines with the concrete result:
+   `bps.py say --to <note id> --status done --text "Done: caption shortened, score 82 → 95"`
+   or, when it can't be done, `--status failed --text "Couldn't: <why> · <what the user can do>"`.
+The **Activity** bell in the top bar lists every note with this status and your
+result text, so keep results short and concrete. A note marked read without
+done/failed shows as "Handled".
+A note that needs the user's decision first gets a normal `say --to … --expect`
+(or `--option`) question instead; finish it with done/failed after the answer.
 
 **Talking back in the dashboard.** The user may not be looking at the terminal.
 After handling a dashboard request, send a short reply they see as a pop-up (and
@@ -377,6 +404,42 @@ request. Public actions still need their own typed "go".
 `bps.py` command counts). Grey "Claude Code is closed": no sign of Claude Code
 for 10 minutes; requests are saved and wait until the user opens Claude Code and
 runs `/200bps-publish`.
+
+## Facebook, TikTok and Snapchat
+
+All three connect like Instagram and LinkedIn (Posts → + Connect account).
+- **Facebook** (a Page): `facebook.format` feed (text, 1-10 photos or a video,
+  no mixing) / reel (one vertical video, 3-90 s, optional `facebook.title`) /
+  story (one item, 24h, no caption, no draft). Also `facebook.firstComment`,
+  `facebook.draft` (Publishing Tools draft) and `facebook.pageId` (Pages from
+  `/accounts/{id}/facebook-page`; empty = the default Page).
+
+A post goes to every connected network that can show it (`plan.FITS`):
+Facebook takes everything but a PDF, TikTok videos and photo posts (no
+PDF/text), Snapchat one photo or one video; the
+others are listed in `skipped_reasons`. Never work around a skip.
+- **TikTok** blocks until the user sets `tiktok.privacyLevel` (from
+  `/accounts/{id}/tiktok/creator-info`, shown in the dashboard) and gives
+  **their own** consent (`tiktok.consent`), which is tied to the exact caption
+  and media and asked again after any change. Never set consent yourself;
+  ask the user to tick it in the dashboard (or say yes to that exact post).
+  Other settings: allowComment/Duet/Stitch, commercialContentType
+  (none / brand_organic / brand_content), videoMadeWithAi, draft (Creator Inbox).
+- **Snapchat** `snapchat.contentType`: story (24h, no caption), saved_story
+  (title ≤45), spotlight (video only, ≤160). Needs a Public Profile.
+Set them with `bps.py set tiktok.privacyLevel PUBLIC_TO_EVERYONE` style
+commands or the dashboard's Network settings.
+
+## Inbox (dashboard)
+
+The Inbox lists comments waiting (last 7 days, the 5 posts with comments),
+each with its post and that post's gift. From the dashboard the user can
+**reply** (public), **send the gift** as a private reply (`lib/inbox.py`;
+Instagram/Facebook, one per comment within 7 days; the link goes in the text,
+a button only if they choose it), **hide/show**, **delete** (typed "delete")
+and add **labels**. Labels and "handled" marks are local (`.bps/inbox.json`).
+When asked to answer comments from chat, draft the replies and let the user
+send them (or send only after their explicit yes per comment).
 
 ## Background jobs meter
 
@@ -402,13 +465,28 @@ Preview card, or Ctrl+K → "Create an image") opens one window:
   Keys → OpenAI → Image model, or "Keep these as my defaults").
 - Results land in `.bps/images/` (with `index.json`: prompt, model, settings,
   guides). Each image offers Add to post (current draft: copied into its folder
-  and the media list refreshed, recorded in history), Save to folder, Use as
-  guide, Again, Download, Delete (moved to `.bps/trash/images`).
+  and the media list refreshed, recorded in history), Save to folder (the
+  computer's own folder window, any folder), Save as… (the file manager's
+  save window, any place and name), Edit, Use as guide, Again, Download,
+  Delete (moved to `.bps/trash/images`).
+- **Edit** changes one picture as the user describes and keeps the rest
+  (sent to OpenAI's edits endpoint with high input fidelity, shape "auto" keeps
+  the original proportions). Like ChatGPT, the user marks the picture with
+  pins, boxes, paint strokes or loops (Surround), writes a note for each
+  mark, and can work in full screen. The notes go in one request, each tied
+  to its place; with "Only change the marked spots" (on by default) the
+  dashboard also sends a mask made from the marks, then pastes only the
+  marked areas of OpenAI's answer onto the original (soft edge, original
+  size), so everything outside the marks is pixel-for-pixel unchanged.
+  OpenAI's own full output is kept as `<name>-openai.png`. The source can be any gallery image or a picture
+  from the computer ("Edit a picture from my computer" uploads it into
+  `.bps/images/refs`). Edits are new gallery images; the original is untouched.
 - Creating an image costs the user OpenAI credit; it never publishes anything.
 
 From chat:
 ```bash
 python3 "$SKILL/bin/bps.py" image gen --prompt "..." [--ref FILE ...] [--shape square|tall|wide] [--quality draft|standard|best] [--n 1-4] [--model ID]
+python3 "$SKILL/bin/bps.py" image gen --edit FILE --prompt "what to change" [--quality ..] [--n 1-4]
 python3 "$SKILL/bin/bps.py" image models | list | set --model ID [--shape ..] [--quality ..]
 python3 "$SKILL/bin/bps.py" image copy --id IMAGE_ID [--to FOLDER]
 python3 "$SKILL/bin/bps.py" image prompt --prompt "<improved prompt>" --note "<one line why>"

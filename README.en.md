@@ -7,16 +7,29 @@
 **A free Claude Code skill from [200BPS.ai](https://www.200bps.ai).** Point it at a
 folder containing your caption and media. It checks everything, tells you what
 it will do, finds your best posting time from your own data, and publishes to
-**Instagram and LinkedIn** through [Zernio](https://zernio.com),
+**Instagram, LinkedIn, Facebook, TikTok and Snapchat** through [Zernio](https://zernio.com),
 but only after you say yes. It also comes with a branded dashboard that mirrors
 your Zernio account.
 
 > Built by Nasser Al-Ostath · [200bps.ai](https://www.200bps.ai) · [Instagram](https://www.instagram.com/200bps.ai/) · [LinkedIn](https://www.linkedin.com/in/nasser-al-ostath/)
 
+## New in v1.16.0
+
+- **Facebook, TikTok and Snapchat.** Connect them like Instagram and LinkedIn. A post goes to every network that can show it, and the rest are skipped with the reason. Facebook: Feed post, Reel or Story, first comment, save as a Facebook draft, pick the Page. TikTok: who can see it, comments/duets/stitches, promotional and AI labels, send to your TikTok inbox as a draft, and TikTok's required "I previewed it and agree" (yours only, asked again after any change). Snapchat: Story, Saved story or Spotlight.
+- **New post in 4 steps:** media & caption → check & improve (Claude's fixes appear right there) → time → review & schedule.
+- **Edit images like ChatGPT:** pin, box, paint or circle the spots to change, a note for each, full screen. Only the marked spots change; everything else stays pixel-for-pixel. Edit any picture from your computer, and save with your own file manager.
+- **Plan in Month, Week or Day.** Drag a post to move it, click or drag an empty time to plan one, edit a scheduled caption.
+- **Inbox:** every comment with its post and the post's gift; reply, send the gift privately, hide, delete, label.
+- **Notes to Claude show live status** (got it → working → done), a notice when Claude finishes, and an **Activity** bell with everything.
+- **A gift you can read at a glance:** one sentence plus a live storyboard of what people will see.
+- **Idea bank tools** (select, delete with undo, edit, add, save as .md or .json, load), a **full post viewer** (every slide, the full video, the PDF) and **color-blind mode**.
+
+See [CHANGELOG.md](CHANGELOG.md) for the full list.
+
 ## What it does
 
-- **Connect accounts from the dashboard.** Instagram and LinkedIn today (more
-  later): press Connect, approve on the network's own site, and it's ready to
+- **Connect accounts from the dashboard.** Instagram, LinkedIn, Facebook, TikTok
+  and Snapchat: press Connect, approve on the network's own site, and it's ready to
   post. Your password never touches the skill.
 - **Readiness check.** Confirms Python, ffprobe (optional), your `.env` key, your
   Zernio connection, your linked accounts and the add-ons. Anything missing, it
@@ -101,7 +114,7 @@ The skill needs **one key: your Zernio API key**. It connects the skill to your 
 **1. Get the key**
 
 1. Sign up at [zernio.com](https://zernio.com).
-2. Connect your accounts: **Instagram** (must be a **Business or Creator** account) and **LinkedIn**.
+2. Connect your accounts: **Instagram** (must be a **Business or Creator** account) and **LinkedIn**, plus, if you like, **Facebook** (a Page), **TikTok** and **Snapchat** (a Public Profile).
 3. Go to **Settings → API keys**, create a new key and copy it.
 4. Optional but recommended: turn on the **Analytics** add-on (best time, dashboard numbers) and the **Inbox** add-on (comments, DM gifts).
 
@@ -129,7 +142,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.15.2.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.16.0.zip -d .claude/skills/
 claude
 ```
 
@@ -180,9 +193,13 @@ Other things you can ask for:
 
 ## Privacy and safety
 
-- Your key stays in your own `.env`. It is never written into the skill, shown
-  in the dashboard, or sent anywhere except `zernio.com`.
-- The dashboard runs only on `127.0.0.1` and is read-only. It cannot publish.
+- Your keys stay in your own `.env`. They are never written into the skill or
+  shown in full in the dashboard, and they go only to their own service:
+  the Zernio key to `zernio.com`, the OpenAI key (optional, for images) to
+  `api.openai.com`.
+- The dashboard runs only on `127.0.0.1`. It publishes, schedules, moves or
+  deletes only after you type the confirm word (go, move, edit, cancel, delete).
+- TikTok's consent is always yours: Claude can't give it for you.
 - `tools/secret_scan.py` runs before every release build (`tools/package.py`).
 
 ## License

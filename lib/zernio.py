@@ -183,6 +183,23 @@ class Zernio:
     def comments(self, post_id: str, account_id: str, **q):
         return self.get(f"/inbox/comments/{post_id}", accountId=account_id, **q)
 
+    def reply_comment(self, post_id: str, account_id: str, comment_id: str, message: str):
+        return self._req("POST", f"/inbox/comments/{post_id}", body={"accountId": account_id, "message": message, "commentId": comment_id})
+
+    def private_reply(self, post_id: str, comment_id: str, account_id: str, message: str, buttons: list | None = None):
+        body = {"accountId": account_id, "message": message}
+        if buttons:
+            body["buttons"] = buttons
+        return self._req("POST", f"/inbox/comments/{post_id}/{comment_id}/private-reply", body=body)
+
+    def delete_comment(self, post_id: str, account_id: str, comment_id: str):
+        return self._req("DELETE", f"/inbox/comments/{post_id}", query={"accountId": account_id, "commentId": comment_id})
+
+    def hide_comment(self, post_id: str, comment_id: str, account_id: str, hide: bool = True):
+        if hide:
+            return self._req("POST", f"/inbox/comments/{post_id}/{comment_id}/hide", body={"accountId": account_id})
+        return self._req("DELETE", f"/inbox/comments/{post_id}/{comment_id}/hide", query={"accountId": account_id})
+
     # ---------------- automations ----------------
     def automations(self, profile_id: str | None = None):
         return self.get("/comment-automations", profileId=profile_id)

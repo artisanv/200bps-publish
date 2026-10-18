@@ -8,11 +8,11 @@ from __future__ import annotations
 
 from store import config, save_config
 
-SUPPORTED = ("instagram", "linkedin")
+SUPPORTED = ("instagram", "linkedin", "tiktok", "snapchat", "facebook")
 # Networks the dashboard can connect today, and ones shown as "coming soon".
 # To add a network later: move it into CONNECTABLE and into plan.PLATFORMS.
-CONNECTABLE = ("instagram", "linkedin")
-COMING_SOON = ("facebook", "threads", "twitter", "tiktok", "youtube", "pinterest", "bluesky")
+CONNECTABLE = ("instagram", "linkedin", "tiktok", "snapchat", "facebook")
+COMING_SOON = ("threads", "twitter", "youtube", "pinterest", "bluesky")
 
 
 def profile_id(z) -> str | None:

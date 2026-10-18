@@ -171,17 +171,33 @@ def _multipart(fields: dict, files: list[tuple[str, Path]]) -> tuple[bytes, str]
     return b"".join(out) + f"--{b}--\r\n".encode(), "multipart/form-data; boundary=" + b
 
 
-def _one(key: str, prompt: str, model: str, size: str, quality: str, refs: list[Path]) -> dict:
+def _one(key: str, prompt: str, model: str, size: str, quality: str, refs: list[Path], edit: bool = False,
+         mask: Path | None = None) -> dict:
     if refs:
-        body, ct = _multipart({"model": model, "prompt": prompt, "size": size, "quality": quality},
-                              [("image[]", p) for p in refs])
-        return _call(API + "/edits", body, ct, key)
+        fields = {"model": model, "prompt": prompt, "size": size, "quality": quality}
+        if edit:                                    # keep the source picture's faces, text and layout
+            fields["input_fidelity"] = "high"
+        files = [("image[]", p) for p in refs] + ([("mask", mask)] if mask else [])
+        body, ct = _multipart(fields, files)
+        try:
+            return _call(API + "/edits", body, ct, key)
+        except RuntimeError as e:
+            if not edit or "input_fidelity" not in str(e):
+                raise
+            fields.pop("input_fidelity")              # this model doesn't take it
+            body, ct = _multipart(fields, files)
+            return _call(API + "/edits", body, ct, key)
     body = json.dumps({"model": model, "prompt": prompt, "size": size, "quality": quality, "n": 1}).encode()
     return _call(API + "/generations", body, "application/json", key)
 
 
 def generate(prompt: str, refs: list[str] | None = None, model: str = "", shape: str = "", quality: str = "",
-             n: int = 0, via: str = "chat") -> dict:
+             n: int = 0, via: str = "chat", edit_of: str = "", mask: str = "", notes: list | None = None) -> dict:
+    """Make new images. With edit_of, the first picture is changed as the
+    prompt says and everything else is kept (other refs are extra guides).
+    mask (base64 PNG, same size as the picture): its transparent parts are
+    the only places that may change (the dashboard draws it from the user's
+    pins and boxes); notes are those marks, kept with the result."""
     prompt = (prompt or "").strip()
     if not prompt:
         raise ValueError("Describe the image you want.")
@@ -197,18 +213,28 @@ def generate(prompt: str, refs: list[str] | None = None, model: str = "", shape:
     if shape not in SHAPES or quality not in QUALITY:
         raise ValueError("Unknown shape or quality.")
     n = max(1, min(MAX_N, int(n or s["n"] or 1)))
-    refs = list(dict.fromkeys(refs or []))
+    refs = list(dict.fromkeys(([edit_of] if edit_of else []) + list(refs or [])))
     if len(refs) > MAX_REFS:
         raise ValueError(f"Up to {MAX_REFS} reference images.")
     ref_paths = [ref_path(r) for r in refs]
+    mask_path = None
+    if mask and edit_of:
+        raw = base64.b64decode(mask.split(",", 1)[-1], validate=False)
+        if not raw.startswith(b"\x89PNG") or len(raw) > 4 * 1024 * 1024:
+            raise ValueError("The marks couldn't be turned into a mask (PNG under 4 MB).")
+        mask_path = img_dir() / "refs" / f"mask-{uuid.uuid4().hex[:8]}.png"
+        mask_path.parent.mkdir(parents=True, exist_ok=True)
+        mask_path.write_bytes(raw)
+    ask = (f"Edit the first image. Keep everything that isn't mentioned exactly as it is. Change: {prompt}"
+           if edit_of else prompt)
     t0 = time.time()
     import jobs
     from concurrent.futures import as_completed
     expect = {"draft": 15, "standard": 30, "best": 60}.get(quality, 30) + (10 if ref_paths else 0)
-    jid = jobs.start("image", f"Making {n} image{'s' if n > 1 else ''}" + (f" from {len(ref_paths)} guide{'s' if len(ref_paths) > 1 else ''}" if ref_paths else ""),
+    jid = jobs.start("image", (f"Editing a picture ({n} version{'s' if n > 1 else ''})" if edit_of else f"Making {n} image{'s' if n > 1 else ''}") + (f" from {len(ref_paths)} guide{'s' if len(ref_paths) > 1 else ''}" if ref_paths else ""),
                      total=n if n > 1 else None, estimate=expect, step=f"OpenAI {model} is drawing…")
     with ThreadPoolExecutor(max_workers=n) as ex:      # n images in parallel
-        futs = [ex.submit(_one, key, prompt, model, SHAPES[shape], QUALITY[quality], ref_paths) for _ in range(n)]
+        futs = [ex.submit(_one, key, ask, model, SHAPES[shape], QUALITY[quality], ref_paths, bool(edit_of), mask_path) for _ in range(n)]
         results, errors = [], []
         for f in as_completed(futs):
             try:
@@ -232,12 +258,14 @@ def generate(prompt: str, refs: list[str] | None = None, model: str = "", shape:
         (img_dir() / fname).write_bytes(base64.b64decode(item["b64_json"]))
         row = {"id": uuid.uuid4().hex[:10], "file": fname, "prompt": prompt, "model": model, "shape": shape,
                "quality": quality, "size": d.get("size") or SHAPES[shape], "refs": refs, "ts": int(time.time()),
-               "secs": round(time.time() - t0, 1), "via": via}
+               "secs": round(time.time() - t0, 1), "via": via, **({"editOf": edit_of} if edit_of else {}),
+               **({"notes": notes[:20]} if notes else {}), **({"masked": True} if mask_path else {})}
         rows.append(row)
         made.append(row)
     _save_index(rows)
     from store import append_log
-    append_log({"ts": int(time.time()), "event": "image", "model": model, "n": len(made), "refs": len(refs), "via": via})
+    append_log({"ts": int(time.time()), "event": "image", "model": model, "n": len(made), "refs": len(refs), "via": via,
+                **({"edit": True} if edit_of else {})})
     return {"images": made, "errors": errors, "secs": round(time.time() - t0, 1)}
 
 
@@ -265,20 +293,81 @@ def delete(image_id: str) -> None:
     _save_index(keep)
 
 
+def keep_outside(image_id: str, data_b64: str) -> dict:
+    """Store the dashboard's composite of a masked edit: the edited pixels
+    inside the user's marks pasted onto the untouched original. OpenAI's
+    own output is kept next to it as <name>-openai.png."""
+    rows = gallery()
+    row = next((r for r in rows if r["id"] == image_id), None)
+    if not row or not row.get("masked"):
+        raise ValueError("Only an edit made with marks can be finished this way.")
+    raw = base64.b64decode(data_b64.split(",", 1)[-1], validate=False)
+    if not raw.startswith(b"\x89PNG") or len(raw) > 40 * 1024 * 1024:
+        raise ValueError("The finished picture couldn't be read.")
+    f = img_dir() / row["file"]
+    keep = f.with_name(f.stem + "-openai" + f.suffix)
+    if not keep.exists():
+        shutil.copy2(f, keep)
+    out = f.with_suffix(".png")
+    out.write_bytes(raw)
+    if out != f:
+        f.unlink(missing_ok=True)
+    row.update(file=out.name, kept="outside", v=int(time.time()))
+    _save_index(rows)
+    return row
+
+
 def _next_name(folder: Path, ext: str) -> str:
     nums = [int(m.group(1)) for f in folder.iterdir() if (m := re.match(r"^(\d+)", f.name))]
     n = max(nums, default=0) + 1
     return f"{n:02d}-ai{ext}"
 
 
-def copy_to(image_id: str, folder: str = "") -> dict:
+def _native(*args: str) -> dict:
+    """The computer's own file manager dialog (lib/picker.py); blocks until closed."""
+    import subprocess
+    import sys
+    try:
+        r = subprocess.run([sys.executable, str(Path(__file__).with_name("picker.py")), *args],
+                           capture_output=True, text=True, timeout=900)
+        return json.loads((r.stdout or "").strip().splitlines()[-1])
+    except Exception as e:
+        return {"ok": False, "error": str(e)[:200]}
+
+
+def save_as(image_id: str) -> dict:
+    """Save a copy anywhere: the file manager's own "Save as" window."""
+    src = path_of(image_id)
+    got = _native(str(Path.home() / "Pictures" if (Path.home() / "Pictures").is_dir() else Path.home()),
+                  "--save", src.name, "Save image as")
+    if not got.get("ok"):
+        raise ValueError("no-native-picker" if got.get("error") == "no-native-picker" else got.get("error") or "The save window failed.")
+    if not got.get("files"):
+        return {"cancelled": True}
+    dest = Path(got["files"][0]).expanduser()
+    if dest.suffix.lower() not in IMG_EXT:
+        dest = dest.with_name(dest.name + src.suffix)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, dest)
+    return {"path": str(dest)}
+
+
+def copy_to(image_id: str, folder: str = "", pick: bool = False) -> dict:
     """Copy an image into a post folder. With no folder, the current post's
-    folder; if that post is still a draft its media list is refreshed."""
+    folder; if that post is still a draft its media list is refreshed. With
+    pick, the user chooses the folder in the file manager (any folder)."""
     import media
     import plan as plans
     src = path_of(image_id)
     p = plans.load()
-    if folder:
+    if pick:
+        got = _native(str(Path(p["folder"]).resolve().parent if p else workspace()), "--folder", "Save the image into which folder?")
+        if not got.get("ok"):
+            raise ValueError("no-native-picker" if got.get("error") == "no-native-picker" else got.get("error") or "The folder window failed.")
+        if not got.get("folders"):
+            return {"cancelled": True}
+        d = Path(got["folders"][0]).resolve()
+    elif folder:
         root = workspace()
         d = (Path(folder) if Path(folder).is_absolute() else root / folder).resolve()
         if root not in d.parents:
@@ -290,7 +379,8 @@ def copy_to(image_id: str, folder: str = "") -> dict:
         d = Path(p["folder"]).resolve()
     dest = d / _next_name(d, src.suffix)
     shutil.copy2(src, dest)
-    out = {"file": dest.name, "folder": rel(d), "addedToPost": False}
+    root = workspace()
+    out = {"file": dest.name, "folder": rel(d) if root in d.parents or d == root else str(d), "addedToPost": False}
     if p and Path(p["folder"]).resolve() == d and plans.editable(p) and not p.get("postId"):
         from checks import post_type
         p["media"] = media.scan_folder(d)["media"]

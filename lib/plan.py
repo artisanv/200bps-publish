@@ -21,7 +21,10 @@ from zernio import Zernio, ZernioError
 
 # Platforms this release publishes to. Facebook and Threads support is kept in
 # the code (RULES, settings, build_body) but switched off; add them back here.
-PLATFORMS = ("instagram", "linkedin")
+PLATFORMS = ("instagram", "linkedin", "tiktok", "snapchat", "facebook")
+# which post types each network takes; a post skips a network that can't show it
+FITS = {"tiktok": ("reel", "single", "carousel"), "snapchat": ("reel", "single"), "facebook": ("reel", "single", "carousel", "text")}
+TIKTOK_PRIVACY = ("PUBLIC_TO_EVERYONE", "MUTUAL_FOLLOW_FRIENDS", "FOLLOWER_OF_CREATOR", "SELF_ONLY")
 
 
 def plan_path(plan_id: str) -> Path:
@@ -159,7 +162,8 @@ def list_plans() -> list[dict]:
                     "postId": (p.get("result") or {}).get("postId"), "remote": p.get("remote"),
                     "score": {k: v.get("value") for k, v in (p.get("score") or {}).items()}, "updated": p.get("updated"),
                     "firstMedia": ({"file": p["media"][0]["file"], "kind": p["media"][0]["kind"]} if p.get("media") else None),
-                    "hasCover": bool(p.get("cover")), "mediaCount": len(p.get("media") or []), "captions": p.get("captions"),
+                    "hasCover": bool(p.get("cover")), "mediaCount": len(p.get("media") or []),
+                    "mediaList": [{"file": m["file"], "kind": m["kind"]} for m in p.get("media") or []], "captions": p.get("captions"),
                     "kind": {"reel": "reel", "carousel": "carousel", "single": "post", "document": "document", "text": "text"}.get(p.get("type"), "post")})
     return sorted(out, key=lambda x: -(x.get("updated") or 0))
 
@@ -167,7 +171,17 @@ def list_plans() -> list[dict]:
 SETTABLE = {
     "instagram": {"firstComment": str, "collaborators": list, "trial": bool, "graduation": str, "locationId": str, "locationName": str},
     "linkedin": {"firstComment": str, "documentTitle": str, "organizationUrn": str},
+    "tiktok": {"privacyLevel": str, "allowComment": bool, "allowDuet": bool, "allowStitch": bool, "commercialContentType": str,
+               "videoMadeWithAi": bool, "draft": bool, "consent": bool},
+    "snapchat": {"contentType": str},
+    "facebook": {"format": str, "title": str, "firstComment": str, "draft": bool, "pageId": str},
 }
+
+
+def content_hash(plan: dict, platform: str) -> str:
+    """What the user previewed: caption + media. TikTok's consent is for exactly this."""
+    raw = plan["captions"].get(platform, "") + "|" + "|".join(f"{m['file']}:{m.get('bytes')}" for m in plan.get("media") or [])
+    return hashlib.sha1(raw.encode()).hexdigest()[:12]
 
 
 def _coerce(kind, raw: str):
@@ -208,6 +222,16 @@ def set_setting(plan: dict, path: str, raw: str, via: str = "chat") -> dict:
         raise ValueError("Instagram allows up to 3 collaborators.")
     if key == "graduation" and val not in ("MANUAL", "SS_PERFORMANCE"):
         raise ValueError("graduation is MANUAL or SS_PERFORMANCE.")
+    if key == "privacyLevel" and val not in TIKTOK_PRIVACY:
+        raise ValueError("privacyLevel is one of " + ", ".join(TIKTOK_PRIVACY))
+    if key == "commercialContentType" and val not in ("none", "brand_organic", "brand_content"):
+        raise ValueError("commercialContentType is none, brand_organic or brand_content.")
+    if plat == "facebook" and key == "format" and val not in ("feed", "reel", "story"):
+        raise ValueError("format is feed, reel or story.")
+    if plat == "snapchat" and key == "contentType" and val not in ("story", "saved_story", "spotlight"):
+        raise ValueError("contentType is story, saved_story or spotlight.")
+    if plat == "tiktok" and key == "consent":           # stored as the exact content it was given for
+        key, val = "consentFor", (content_hash(plan, "tiktok") if val else "")
     settings = {k: dict(v) for k, v in plan["settings"].items()}
     settings.setdefault(plat, {})[key] = val
     plan["settings"] = settings
@@ -266,6 +290,8 @@ def analyze(folder: str, platforms: list[str] | None = None, connected: list[str
     if not plats:
         raise ValueError("None of " + ", ".join(wanted) + " is connected in Zernio. Connect an account at zernio.com, then run doctor.")
     ptype = checks.post_type(scan["media"])
+    unfit = {p: ptype for p in plats if p in FITS and ptype not in FITS[p]}      # e.g. a PDF on TikTok
+    plats = [p for p in plats if p not in unfit] or plats
     pid = _slug(Path(folder).name) + "-" + hashlib.sha1(scan["folder"].encode()).hexdigest()[:6]
     old = load(pid) or {}
     captions = {p: scan["captions"].get(p, scan["captions"].get("default", "")) for p in plats}
@@ -291,14 +317,19 @@ def analyze(folder: str, platforms: list[str] | None = None, connected: list[str
                 "firstComment": "",
                 "collaborators": list(ig_defaults.get("collaborators", [])),
             },
-            "facebook": {"firstComment": ""},
+            "facebook": {"firstComment": "", "format": "reel" if ptype == "reel" else "feed", "title": "", "draft": False,
+                         "pageId": cfg.get("facebook", {}).get("page_id", "")},
             "threads": {"topic_tag": cfg.get("threads", {}).get("topic_tag", "")},
             "linkedin": {"firstComment": "", "documentTitle": "", "organizationUrn": cfg.get("linkedin", {}).get("organization_urn")},
+            "tiktok": {"privacyLevel": cfg.get("tiktok", {}).get("privacy_level", ""), "allowComment": True, "allowDuet": True, "allowStitch": True,
+                       "commercialContentType": "none", "videoMadeWithAi": bool(cfg.get("label_ai_generated")), "draft": False, "consentFor": ""},
+            "snapchat": {"contentType": cfg.get("snapchat", {}).get("content_type", "story")},
         }),
         "dm": old.get("dm", {"enabled": False, "asked": False}),
         "history": old.get("history", []),
         "fixRequests": old.get("fixRequests", {}),
         "skipped_platforms": [p for p in wanted if p not in plats],
+        "skipped_reasons": {p: f"{p} can't show a {t} post" for p, t in unfit.items()},
         "status": "draft",
     }
     recheck(plan)
@@ -352,6 +383,49 @@ def _extra_checks(plan: dict, p: str) -> list[dict]:
         tags = checks.hashtags(plan["captions"].get(p, ""))
         if tags and not plan["settings"]["threads"].get("topic_tag"):
             out.append({"id": "threads.topic", "platform": p, "status": "info", "msg": f"Threads uses one topic tag; suggest topic_tag = {tags[0]}."})
+    if p == "tiktok":
+        s = plan["settings"].get("tiktok") or {}
+        if not s.get("privacyLevel"):
+            out.append({"id": "tiktok.privacy", "platform": p, "status": "fail", "msg": "Choose who can see it on TikTok."})
+        if s.get("consentFor") != content_hash(plan, "tiktok"):
+            out.append({"id": "tiktok.consent", "platform": p, "status": "fail",
+                        "msg": "TikTok needs your OK: confirm you previewed this post and agree to post it (asked again after any change)."})
+        if s.get("commercialContentType") == "brand_content" and s.get("privacyLevel") == "SELF_ONLY":
+            out.append({"id": "tiktok.branded_private", "platform": p, "status": "fail", "msg": "Branded content can't be posted as Only me on TikTok."})
+        if plan["type"] in ("single", "carousel") and len(plan["captions"].get(p, "")) > checks.RULES["tiktok"]["photo_title_max"]:
+            out.append({"id": "tiktok.photo_title", "platform": p, "status": "info",
+                        "msg": "Photo posts show the first 90 characters as the title; the full caption is sent as the description."})
+    if p == "snapchat":
+        ct = (plan["settings"].get("snapchat") or {}).get("contentType", "story")
+        cap = plan["captions"].get(p, "")
+        if ct == "spotlight" and plan["type"] != "reel":
+            out.append({"id": "snapchat.spotlight_video", "platform": p, "status": "fail", "msg": "Snapchat Spotlight takes a video only."})
+        if ct == "saved_story" and len(cap) > checks.RULES["snapchat"]["saved_story_max"]:
+            out.append({"id": "snapchat.title", "platform": p, "status": "fail", "msg": f"Saved story titles are up to 45 characters ({len(cap)} now)."})
+        if ct == "story" and cap.strip():
+            out.append({"id": "snapchat.story_caption", "platform": p, "status": "info", "msg": "Snapchat Stories show no caption text; only the photo or video."})
+    if p == "facebook":
+        fs = plan["settings"].get("facebook") or {}
+        fmt = fs.get("format") or ("reel" if plan["type"] == "reel" else "feed")
+        kinds = {m["kind"] for m in plan["media"]}
+        if fmt == "feed" and len(kinds) > 1:
+            out.append({"id": "facebook.mixed", "platform": p, "status": "fail", "msg": "A Facebook feed post can't mix photos and video."})
+        if fmt == "reel" and plan["type"] != "reel":
+            out.append({"id": "facebook.reel_video", "platform": p, "status": "fail", "msg": "A Facebook Reel is one vertical video."})
+        if fmt == "reel" and plan["type"] == "reel":
+            v = plan["media"][0]
+            lo, hi = checks.RULES["facebook"]["reel_duration"]
+            if v.get("duration") and not lo <= v["duration"] <= hi:
+                out.append({"id": "facebook.reel_duration", "platform": p, "status": "warn", "msg": f"Reel is {v['duration']}s; Meta's guide says {lo}-{hi}s."})
+            if v.get("aspect") and abs(v["aspect"] - 9 / 16) > 0.02:
+                out.append({"id": "facebook.reel_vertical", "platform": p, "status": "warn", "msg": "Facebook Reels should be vertical 9:16."})
+        if fmt == "story":
+            if len(plan["media"]) != 1:
+                out.append({"id": "facebook.story_one", "platform": p, "status": "fail", "msg": "A Facebook Story is one photo or one video."})
+            if plan["captions"].get(p, "").strip():
+                out.append({"id": "facebook.story_caption", "platform": p, "status": "info", "msg": "Facebook Stories show no caption; only the photo or video."})
+            if fs.get("draft"):
+                out.append({"id": "facebook.story_draft", "platform": p, "status": "fail", "msg": "Stories can't be saved as Facebook drafts."})
     if p == "instagram" and not plan["settings"]["instagram"].get("firstComment"):
         out.append({"id": "engage.first_comment", "platform": p, "status": "info", "msg": "No first comment set. A pinned question invites replies."})
     return out
@@ -401,13 +475,37 @@ def build_body(plan: dict, z: Zernio, dry: bool = False, make_current: bool = Tr
             if cfg.get("label_ai_generated"):
                 psd["isAiGenerated"] = True
         elif p == "facebook":
-            if plan["type"] == "reel":
-                psd["contentType"] = "reel"
-            if s.get("firstComment"):
+            fmt = s.get("format") or ("reel" if plan["type"] == "reel" else "feed")
+            if fmt in ("reel", "story"):
+                psd["contentType"] = fmt
+            if fmt == "reel" and s.get("title"):
+                psd["title"] = s["title"]
+            if fmt != "story" and s.get("firstComment"):
                 psd["firstComment"] = s["firstComment"]
+            if s.get("pageId"):
+                psd["pageId"] = s["pageId"]
+            if s.get("draft") and fmt != "story":
+                psd["facebookSettings"] = {"draft": True}
         elif p == "threads":
             if s.get("topic_tag"):
                 psd["topic_tag"] = s["topic_tag"].lstrip("#")[:50]
+        elif p == "tiktok":
+            ok = s.get("consentFor") == content_hash(plan, "tiktok")
+            psd.update({"privacyLevel": s.get("privacyLevel"), "allowComment": bool(s.get("allowComment", True)),
+                        "contentPreviewConfirmed": ok, "expressConsentGiven": ok,
+                        "commercialContentType": s.get("commercialContentType") or "none"})
+            if plan["type"] == "reel":
+                psd.update({"allowDuet": bool(s.get("allowDuet", True)), "allowStitch": bool(s.get("allowStitch", True))})
+                if plan.get("cover"):
+                    psd["videoCoverImageUrl"] = url_for(plan["cover"]["file"], plan["cover"].get("path"))
+            else:
+                psd["description"] = plan["captions"].get(p, default)[:4000]
+            if s.get("videoMadeWithAi"):
+                psd["videoMadeWithAi"] = True
+            if s.get("draft"):
+                psd["draft"] = True
+        elif p == "snapchat":
+            psd["contentType"] = s.get("contentType") or "story"
         elif p == "linkedin":
             if s.get("firstComment"):
                 psd["firstComment"] = s["firstComment"]

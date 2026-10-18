@@ -28,8 +28,10 @@ RULES = {
         "hashtags_max": 5,
         "hook_chars": 480,
         "carousel_max": 10,
+        "reel_aspect": 9 / 16,
+        "reel_duration": (3, 90),              # Meta's Reels publishing guide
         "links_clickable": True,
-        "source": "docs.zernio.com/platforms/facebook",
+        "source": "docs.zernio.com/platforms/facebook; Zernio API reference, FacebookPlatformData (checked 2026-10-18)",
     },
     "threads": {
         "caption_max": 500,
@@ -38,6 +40,26 @@ RULES = {
         "carousel_max": 10,
         "links_clickable": True,
         "source": "docs.zernio.com/platforms/threads",
+    },
+    "tiktok": {
+        "caption_max": 2200,                   # video caption; photo titles are cut at 90 (full text goes in description)
+        "photo_title_max": 90,
+        "hashtags_max": 5,
+        "hook_chars": 150,
+        "carousel_max": 35,                    # photo posts
+        "reel_aspect": 9 / 16,
+        "links_clickable": False,
+        "source": "Zernio API reference, TikTokPlatformData (openapi.yaml, checked 2026-10-18)",
+    },
+    "snapchat": {
+        "caption_max": 160,                    # Spotlight; Saved story titles 45; Stories show no caption
+        "saved_story_max": 45,
+        "hashtags_max": 3,
+        "hook_chars": 160,
+        "carousel_max": 1,                     # one photo or video per post
+        "reel_aspect": 9 / 16,
+        "links_clickable": False,
+        "source": "Zernio API reference, SnapchatPlatformData (openapi.yaml, checked 2026-10-18)",
     },
     "linkedin": {
         "caption_max": 3000,
@@ -198,6 +220,10 @@ def check_media(scan: dict, platform: str) -> list[dict]:
             ok = lo - 0.01 <= m["aspect"] <= hi + 0.01
             add("media.aspect", "pass" if ok else "fail",
                 f"{m['file']}: {m['width']}x{m['height']}" + ("" if ok else " is outside 9:16 to 1.91:1 (4:5 recommended)."))
+        if platform in ("tiktok", "snapchat") and m.get("aspect"):
+            ok_ar = abs(m["aspect"] - r["reel_aspect"]) < 0.02
+            add("media.vertical", "pass" if ok_ar else "warn",
+                f"{m['file']}: {m['width']}x{m['height']}" + ("" if ok_ar else f" is not 9:16 (vertical); {platform} shows it with bars or cropped."))
         if platform == "instagram" and m["kind"] == "video":
             ok_ar = abs(m.get("aspect", 0) - r["reel_aspect"]) < 0.02
             add("media.reel_aspect", "pass" if ok_ar else "warn",

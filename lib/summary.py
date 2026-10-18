@@ -18,6 +18,16 @@ from zernio import Zernio, ZernioError
 CACHE_SECONDS = 300
 
 
+def _media_items(mi) -> list[dict]:
+    """Every slide / video / document of a post, in order, for the post viewer."""
+    out = []
+    for m in mi or []:
+        if isinstance(m, dict) and m.get("url"):
+            out.append({"type": m.get("type") or "image", "url": m["url"],
+                        "thumb": m.get("thumbnail") or m.get("instagramThumbnail")})
+    return out
+
+
 def _items(resp) -> list:
     if isinstance(resp, list):
         return resp
@@ -266,7 +276,8 @@ def _build() -> dict:
                               a.get("mediaType") or (first.get("type") if len(mi) <= 1 else "carousel"), a.get("mediaProductType"), n,
                               [x.get("type") for x in mi], url0),
             "count": n, "scheduledFor": p.get("scheduledFor"), "createdAt": p.get("createdAt"), "updatedAt": p.get("updatedAt"),
-            "media": len(mi), "platforms": plats, "fromSkill": p.get("_id") in mine})
+            "media": len(mi), "items": _media_items(mi) or _media_items(a.get("mediaItems")),
+            "platforms": plats, "fromSkill": p.get("_id") in mine})
     only = {}                                           # platform -> its only connected account
     for x in accounts or []:
         only.setdefault(x.get("platform"), []).append(x)
@@ -280,7 +291,7 @@ def _build() -> dict:
             "thumbs": [u for u in (a.get("thumbnailUrl"), ((a.get("mediaItems") or [{}])[0] or {}).get("thumbnail")) if u],
             "kind": post_kind(a.get("platform"), a.get("mediaType"), a.get("mediaProductType"), n,
                               [x.get("type") for x in a.get("mediaItems") or []], a.get("platformPostUrl") or ""),
-            "count": n, "createdAt": a.get("publishedAt"),
+            "count": n, "createdAt": a.get("publishedAt"), "items": _media_items(a.get("mediaItems")),
             "platforms": [{"platform": a.get("platform"), "status": "published", "url": a.get("platformPostUrl"),
                            "publishedAt": a.get("publishedAt"), "account": acc.get("username") or a.get("accountUsername"),
                            "accountId": a.get("accountId") or acc.get("_id")}],
@@ -338,27 +349,33 @@ def _build() -> dict:
     # list: {data: [{id (post id), accountId, platform, commentCount}]}
     # per post: {comments: [{id, message, createdTime, from{username, isOwner}, replies[{from{isOwner}}]}]}
     cps = section("comments", lambda: z.comment_posts(since=d7.isoformat(), limit=10)) or {}
-    comments = []
+    comments, cposts = [], {}
     for cp in (cps.get("data") or [])[:5]:
         pid, aid = cp.get("id"), cp.get("accountId") or ig
         if not (pid and aid) or not cp.get("commentCount"):
             continue
         cs = section("comments on post", lambda pid=pid, aid=aid: z.comments(pid, aid, limit=10)) or {}
+        po = cs.get("post") or {}
+        cposts[pid] = {"permalink": po.get("permalink"), "caption": (po.get("text") or "")[:600], "thumb": po.get("thumbnailUrl") or po.get("mediaUrl")}
         for c in cs.get("comments") or []:
             frm = c.get("from") or {}
             if frm.get("isOwner"):
                 continue
             if any((rp.get("from") or {}).get("isOwner") for rp in c.get("replies") or []):
                 continue          # already answered
-            comments.append({"id": c.get("id"), "postId": pid, "platform": cp.get("platform"),
+            comments.append({"id": c.get("id"), "postId": pid, "accountId": aid, "platform": cp.get("platform"),
                              "author": frm.get("username") or frm.get("name"),
-                             "text": c.get("message") or "", "createdAt": c.get("createdTime")})
+                             "text": c.get("message") or "", "createdAt": c.get("createdTime"), "url": c.get("url"),
+                             "hidden": bool(c.get("isHidden")), "likes": c.get("likeCount") or 0,
+                             "can": {k: bool(c.get("can" + k.capitalize(), True)) for k in ("reply", "delete", "hide")}})
     out["comments"] = comments
+    out["commentPosts"] = cposts
 
     au = section("automations", lambda: z.automations(cfg.get("profile_id")))
     out["automations"] = [
         {"id": a.get("id") or a.get("_id"), "name": a.get("name"), "keywords": a.get("keywords", []), "active": a.get("isActive", True),
-         "followGate": bool(a.get("followGate")), "postId": a.get("platformPostId") or a.get("postId")}
+         "followGate": bool(a.get("followGate")), "postId": a.get("platformPostId") or a.get("postId"),
+         "message": a.get("dmMessage") or "", "buttons": a.get("buttons") or []}
         for a in _items(au)
     ]
     if ig:

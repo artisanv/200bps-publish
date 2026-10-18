@@ -164,12 +164,14 @@ def _claude() -> list[dict]:
               "assign": "Preparing a post", "reschedule": "Moving a post"}
     out, now = [], time.time()
     listening = hitl.listening()
-    for n in hitl.notes(unread_only=True):
+    for n in hitl.notes(unread_only=False):
+        if n.get("status") in ("done", "failed") or (n.get("read") and n.get("status") != "working"):
+            continue
         a = n.get("action") or {}
         typ = a.get("type") or "note"
         label = labels.get(typ, "Reading your note")
         out.append({"id": "n-" + n["id"], "kind": "claude", "label": "Claude: " + label,
-                    "step": ("Working on it…" if listening else "Waiting for Claude to start listening"),
+                    "step": n.get("step") or ("Working on it…" if listening else "Waiting for Claude to start listening"),
                     "state": "running", "pct": None, "indeterminate": True, "started": n["ts"],
                     "secs": round(now - n["ts"]), "text": (n.get("text") or "")[:160]})
     return out

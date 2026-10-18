@@ -31,6 +31,7 @@
     bps.py answer ID TEXT [--note TEXT]  record the user's chat answer (first answer wins)
     bps.py watch [--timeout S]           wait for dashboard notes/requests (run in background; restart after handling)
     bps.py notes [--mark-read [--ids A,B]]  notes the user typed in the dashboard; --mark-read marks only the ones you were shown
+    bps.py say --to ID --status working|done|failed --text "…"   live status of one note in the dashboard
     bps.py allow-publish [--yes]         let Claude Code run publish/dm itself (adds 2 exact allow rules; ask the user first)
     bps.py connect PLATFORM              print the sign-in link to connect instagram or linkedin in Zernio
     bps.py clear                         start fresh: set the current post aside (nothing is deleted)
@@ -111,6 +112,8 @@ def main() -> None:
     sy = sub.add_parser("say", help="message the user in the dashboard (pop-up they can answer)")
     sy.add_argument("--text", required=True); sy.add_argument("--to", default="", help="the note id this answers")
     sy.add_argument("--option", action="append", default=[]); sy.add_argument("--expect", action="store_true", help="needs an answer")
+    sy.add_argument("--status", default="", choices=["", "working", "done", "failed"],
+                    help="with --to: working = show this step under the note (no pop-up); done/failed = close it with this text")
     sub.add_parser("thread")
     wt = sub.add_parser("watch"); wt.add_argument("--timeout", type=int, default=3600)
     nt = sub.add_parser("notes"); nt.add_argument("--mark-read", action="store_true"); nt.add_argument("--all", action="store_true"); nt.add_argument("--ids", default="", help="comma-separated note ids to mark read (default: the ones watch/notes showed you)")
@@ -127,6 +130,7 @@ def main() -> None:
     im.add_argument("--model", default=""); im.add_argument("--shape", default="", choices=["", "square", "tall", "wide", "auto"])
     im.add_argument("--quality", default="", choices=["", "draft", "standard", "best"]); im.add_argument("--n", type=int, default=0)
     im.add_argument("--id", default=""); im.add_argument("--to", default=""); im.add_argument("--note", default="")
+    im.add_argument("--edit", default="", help="gen: change this picture (workspace path) as --prompt says")
     bt_ = sub.add_parser("batch"); bt_.add_argument("action", choices=["scan", "prepare", "suggest", "run"]); bt_.add_argument("folders", nargs="*")
     bt_.add_argument("--count", type=int, default=0); bt_.add_argument("--start", default=""); bt_.add_argument("--every", type=int, default=1)
     bt_.add_argument("--days", default=""); bt_.add_argument("--mode", default="best", choices=["best", "fixed"]); bt_.add_argument("--hour", type=int, default=20)
@@ -221,7 +225,7 @@ def run(args) -> None:
     elif c == "image":
         import images
         if args.action == "gen":
-            emit({"ok": True, **images.generate(args.prompt, args.ref, args.model, args.shape, args.quality, args.n, via="chat")})
+            emit({"ok": True, **images.generate(args.prompt, args.ref, args.model, args.shape or ("auto" if args.edit else ""), args.quality, args.n, via="chat", edit_of=args.edit)})
         elif args.action == "models":
             emit(images.models())
         elif args.action == "list":
@@ -297,7 +301,7 @@ def run(args) -> None:
         print(json.dumps({"asked": qq["id"]}), flush=True)
         emit(hitl.wait(qq["id"], timeout=args.timeout))
     elif c == "say":
-        emit({"ok": True, "message": hitl.say(args.text, args.to, args.option, args.expect),
+        emit({"ok": True, "message": hitl.say(args.text, args.to, args.option, args.expect, args.status),
               "next": "The user sees it in the dashboard; an answer arrives through watch as a 'reply' request."})
     elif c == "thread":
         emit(hitl.thread())
@@ -351,6 +355,8 @@ def run(args) -> None:
     elif c == "allow-publish":
         emit(allow_publish(args.yes))
     elif c == "set":
+        if args.path == "tiktok.consent":
+            raise PermissionError("TikTok's consent is the user's own: they tick it in the dashboard (New post → Review, or Network settings).")
         pl = plans.set_setting(need_plan(), args.path, args.value, via="chat")
         emit({"ok": True, "settings": pl["settings"], "score": {k: v["value"] for k, v in pl["score"].items()}})
     elif c == "dashboard":

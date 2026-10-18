@@ -197,12 +197,47 @@ def _handed_path():
 
 def hand(items: list[dict]) -> None:
     """Remember which notes Claude has been shown (by `watch` or `notes`), so
-    `notes --mark-read` marks exactly those and never a note that arrived later."""
+    `notes --mark-read` marks exactly those and never a note that arrived later.
+    The dashboard shows them as "Claude got it" from this moment."""
     if not items:
         return
     with _locked("notes"):
         ids = set((read_json(_handed_path()) or {}).get("ids", [])) | {r["id"] for r in items}
         write_json(_handed_path(), {"ids": sorted(ids), "ts": time.time()})
+        p = state_dir() / "notes.jsonl"
+        rows, raw = _read_rows(p)
+        got = {r["id"] for r in items}
+        changed = False
+        for r in rows:
+            if r is not None and r["id"] in got and not r.get("status"):
+                r["status"], r["statusTs"] = "received", int(time.time())
+                changed = True
+        if changed:
+            _write_rows(p, rows, raw)
+
+
+STATUSES = ("received", "working", "done", "failed")
+
+
+def note_status(nid: str, status: str, text: str = "") -> dict:
+    """Where Claude is with one note: working (text = the current step), done
+    (text = the result) or failed (text = why). The dashboard shows it live."""
+    if status not in STATUSES:
+        raise ValueError("Status is received, working, done or failed.")
+    p = state_dir() / "notes.jsonl"
+    with _locked("notes"):
+        rows, raw = _read_rows(p)
+        hit = next((r for r in rows if r is not None and r.get("id") == nid), None)
+        if not hit:
+            raise ValueError(f"Unknown note: {nid}")
+        hit["status"], hit["statusTs"] = status, int(time.time())
+        if status == "working":
+            hit["step"] = (text or "")[:300]
+        elif status in ("done", "failed"):
+            hit["result"] = (text or "")[:2000]
+            hit.pop("step", None)
+        _write_rows(p, rows, raw)
+    return hit
 
 
 def notes(unread_only: bool = True, mark_read: bool = False, ids: list | None = None) -> list[dict]:
@@ -239,15 +274,25 @@ def _messages() -> list[dict]:
     return [r for r in rows if r is not None]
 
 
-def say(text: str, to: str = "", options: list | None = None, expect: bool = False) -> dict:
+def say(text: str, to: str = "", options: list | None = None, expect: bool = False, status: str = "") -> dict:
     """A message from Claude to the user (a reply to a note, a status, or a question that
-    needs an answer). The dashboard pops it up; the user's reply comes back as a note."""
+    needs an answer). The dashboard pops it up; the user's reply comes back as a note.
+    With status (and `to`), it also moves that note along: working shows the step
+    under the note without a pop-up; done / failed close it with this text."""
     text = (text or "").strip()
     if not text:
         raise ValueError("Empty message.")
+    if status:
+        if not to:
+            raise ValueError("--status needs --to <note id>.")
+        n = note_status(to, status, text)
+        if status in ("working", "received"):
+            return {"id": "", "to": to, "status": status, "text": text, "note": n["id"]}
     m = {"id": uuid.uuid4().hex[:8], "ts": int(time.time()), "text": text[:4000], "to": to or "",
          "options": [str(o)[:80] for o in (options or []) if str(o).strip()][:6],
          "expect": bool(expect or options), "seen": False, "answered": False}
+    if status:
+        m["status"] = status
     _append(_mpath(), m, "messages")
     return m
 
@@ -285,9 +330,32 @@ def reply(mid: str, text: str) -> dict:
 def thread(limit: int = 40) -> list[dict]:
     """The conversation, oldest first: your notes and Claude's messages."""
     mine = [{"id": n["id"], "ts": n["ts"], "from": "you", "text": n.get("text") or _describe(n.get("action") or {}),
-             "read": n.get("read", False)} for n in notes(unread_only=False)]
+             "read": n.get("read", False), "status": {"waiting": ""}.get(_shown_status(n), _shown_status(n)),
+             "statusTs": n.get("statusTs"), "step": n.get("step"), "result": n.get("result")}
+            for n in notes(unread_only=False)]
     theirs = [{**m, "from": "claude"} for m in _messages()]
     return sorted(mine + theirs, key=lambda r: r["ts"])[-limit:]
+
+
+def _shown_status(n: dict) -> str:
+    """What the dashboard shows. Claude marks a note read only after handling it,
+    so a read note with no done/failed (older notes, or a reply without
+    --status) counts as handled, not as still in progress."""
+    st = n.get("status") or ""
+    if n.get("read") and st in ("", "received"):
+        return "handled"
+    return st or "waiting"
+
+
+def activity(limit: int = 60) -> list[dict]:
+    """Your notes and requests, newest first, with where Claude is on each and
+    its result: the dashboard's Activity bell."""
+    out = []
+    for n in notes(unread_only=False)[-limit:]:
+        a = n.get("action") or {}
+        out.append({"id": n["id"], "ts": n["ts"], "text": n.get("text") or _describe(a), "type": a.get("type") or "note",
+                    "status": _shown_status(n), "statusTs": n.get("statusTs"), "step": n.get("step"), "result": n.get("result")})
+    return out[::-1]
 
 
 def _describe(action: dict) -> str:

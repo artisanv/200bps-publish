@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.16.0 (2026-10-18)
+- **New networks: Facebook, TikTok and Snapchat.** Connect them from Posts → + Connect account. A post goes to every connected network that can show it; the others are skipped with the reason.
+  - Facebook (a Page): Feed post, Reel (with title) or Story; first comment, save as a draft in Facebook's Publishing Tools, pick the Page.
+  - TikTok: who can see it (your account's real choices), comments / duets / stitches, promotional and AI labels, send to your TikTok inbox as a draft, and TikTok's required "I previewed it and agree" — given by you only, asked again after any change.
+  - Snapchat: Story, Saved story or Spotlight, with each one's limits checked.
+- **New post in 4 steps**: media & caption → check & improve (edit the caption, ask Claude to fix each item, its before/after right there) → time (your best slots, any minute, or right away) → review & schedule (gift, type go).
+- **Edit images like ChatGPT**: mark the picture with pins, boxes, paint or a loop, write a note per mark, full screen. "Only change the marked spots" keeps everything else pixel-for-pixel (the edit is pasted onto the original). Edit any picture from your computer, Save as… / Save to folder with your file manager, and Create an image inside New post.
+- **Plan: Month · Week · Day.** Week and Day show the hours with your best hours shaded; drag a post to move it (type move), click or drag an empty time to plan one, edit a scheduled post's caption (type edit).
+- **Inbox**: each comment with its post and the post's gift; reply, send the gift privately (one per comment), hide, delete (type delete), and labels kept on this computer.
+- **Notes to Claude show live status**: waiting → Claude got it → working (with the step) → done or couldn't, Claude's answer under your note, a notice when it finishes, and the **Activity** bell listing everything. Claude reports with `bps.py say --to ID --status working|done|failed`.
+- **Clearer DM gift**: one sentence that says exactly what will happen, a live storyboard of every scene people will see, and your own follow-first messages.
+- **Idea bank tools**: select, delete with undo, clear all, edit, add your own, save as a document (.md) or a backup (.json), load a backup.
+- **Full post viewer**: every carousel slide, the full video with sound, or the PDF, full screen.
+- **Color-blind mode** (Settings): safer colors plus shapes and marks, so no status relies on color alone.
+- Every new feature has hover tips and a Guide entry in English and Arabic.
+- Fixed: two dashboard requests saving the same file at once could fail; the background animation could throw errors while the page loaded.
+
 ## 1.15.2 (2026-10-11)
 - **Fixed: a DM gift's automation id wasn't saved.** Zernio now returns the new automation as `id` (not `_id`), so the post lost track of its gift (the gift itself worked). Both are read now.
 - **Growth → "New follows · 7 days" no longer shows "–".** When Zernio has no follow count for the week, the card shows the change in your follower count instead (net new followers, this week vs the week before).

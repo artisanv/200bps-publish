@@ -49,6 +49,7 @@ def ws_id() -> str:
     return hashlib.sha1(str(workspace()).encode()).hexdigest()[:12]
 MAX_BODY = 16 * 1024
 MAX_UPLOAD = 28 * 1024 * 1024        # one reference image, base64
+MAX_IDEAS_BODY = 2 * 1024 * 1024     # an imported idea backup
 
 
 def _doctor():
@@ -123,6 +124,27 @@ class Handler(BaseHTTPRequestHandler):
             import providers
             name = (q.get("name") or [""])[0].upper()
             return self._json({"ok": True, "test": providers.last_tests().get(name)})
+        if u.path == "/api/facebook-pages":            # which Page to post to, when there's more than one
+            from zernio import Zernio
+            acc = (config().get("accounts", {}).get("facebook") or {}).get("id")
+            if not acc:
+                return self._json({"ok": False, "error": "No Facebook account connected."})
+            try:
+                r = Zernio().get(f"/accounts/{acc}/facebook-page")
+                return self._json({"ok": True, "pages": [{"id": x.get("id"), "name": x.get("name")} for x in r.get("pages") or []],
+                                   "selected": r.get("selectedPageId")})
+            except ZernioError as e:
+                return self._json({"ok": False, "error": str(e)})
+        if u.path == "/api/tiktok":                    # the account's real privacy choices and limits
+            from zernio import Zernio
+            acc = (config().get("accounts", {}).get("tiktok") or {}).get("id")
+            if not acc:
+                return self._json({"ok": False, "error": "No TikTok account connected."})
+            mt = (q.get("mediaType") or ["video"])[0]
+            try:
+                return self._json({"ok": True, **Zernio().get(f"/accounts/{acc}/tiktok/creator-info", mediaType=mt if mt in ("video", "photo") else "video")})
+            except ZernioError as e:
+                return self._json({"ok": False, "error": str(e)})
         if u.path == "/api/accounts":
             return self._json(self._accounts_live())
         if u.path == "/connected":
@@ -177,7 +199,8 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
         if "application/json" not in (self.headers.get("Content-Type") or ""):
             return self._json({"ok": False, "error": "json only"}, 415)
         n = int(self.headers.get("Content-Length") or 0)
-        if n > (MAX_UPLOAD if urlparse(self.path).path == "/api/images" else MAX_BODY):
+        limit = {"/api/images": MAX_UPLOAD, "/api/ideas": MAX_IDEAS_BODY, "/api/zpost": 64 * 1024, "/api/inbox": 64 * 1024}.get(urlparse(self.path).path, MAX_BODY)
+        if n > limit:
             return self._json({"ok": False, "error": "too large"}, 413)
         try:
             data = json.loads(self.rfile.read(n) or b"{}")
@@ -252,6 +275,30 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                     raise ValueError("No post.")
                 n = hitl.add_note(f"Give me the full report for post {pid}.", {"type": "report", "postId": pid})
                 return self._json({"ok": True, "queued": n["id"]})
+            if path == "/api/inbox":            # Inbox: reply, gift, hide, delete (typed), labels
+                import inbox
+                op, a = data.get("op"), [str(data.get(k, "")) for k in ("postId", "accountId", "commentId")]
+                if op == "reply":
+                    return self._json({"ok": True, **inbox.reply(*a, str(data.get("text", "")))})
+                if op == "gift":
+                    return self._json({"ok": True, **inbox.gift(*a, str(data.get("text", "")), str(data.get("link") or ""),
+                                                                  str(data.get("button") or ""), bool(data.get("asButton")))})
+                if op in ("hide", "show"):
+                    return self._json({"ok": True, **inbox.hide(*a, op == "hide")})
+                if op == "delete":
+                    return self._json({"ok": True, **inbox.delete(*a, str(data.get("confirm", "")))})
+                if op == "label":
+                    return self._json({"ok": True, "inbox": inbox.label(a[2], str(data.get("name", "")), bool(data.get("on", True)))})
+                if op == "unhandle":
+                    return self._json({"ok": True, "inbox": inbox.unhandle(a[2])})
+                raise ValueError("Unknown action.")
+            if path == "/api/zpost":            # Plan tab: move / edit a post in Zernio (typed word)
+                import zedit
+                if data.get("op") == "move":
+                    return self._json({"ok": True, **zedit.move(str(data.get("postId", "")), str(data.get("at", "")), str(data.get("confirm", "")))})
+                if data.get("op") == "edit":
+                    return self._json({"ok": True, **zedit.edit_caption(str(data.get("postId", "")), str(data.get("text", ""))[:5000], str(data.get("confirm", "")))})
+                raise ValueError("Unknown action.")
             if path == "/api/slot":
                 return self._json(self._slot(data))
             if path == "/api/cancel":
@@ -358,30 +405,37 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 "connected": rec["connected"], "auto": rec["auto"]}
 
     def _ideas(self, data: dict) -> dict:
-        """Idea bank actions from the dashboard: ask Claude for ideas, mark or drop one."""
+        """Idea bank actions from the dashboard (lib/ideas.py). Only local
+        files change; asking for new ideas is a note for Claude."""
+        import ideas
         op = data.get("op")
-        p = state_dir() / "ideas.json"
-        ideas = read_json(p, []) or []
         if op == "request":
             topic = str(data.get("topic", "")).strip()[:200]
             n = hitl.add_note(("Give me fresh post ideas" + (f" about: {topic}" if topic else "") + "."),
                               {"type": "ideas_request", "topic": topic})
             return {"ok": True, "queued": n["id"]}
-        title = str(data.get("title", ""))
-        hit = next((i for i in ideas if i.get("title") == title), None)
-        if not hit:
-            raise ValueError("Unknown idea.")
+        iid = str(data.get("id", ""))
+        if not iid and data.get("title"):          # older dashboards name the idea by title
+            iid = next((i["id"] for i in ideas.load() if i.get("title") == data["title"]), "")
+        ids = [str(x) for x in (data.get("ids") or [])][:ideas.MAX_IDEAS]
         if op == "mark":
-            st = str(data.get("status", ""))
-            if st not in ("new", "drafted", "posted"):
-                raise ValueError("Bad status.")
-            hit["status"] = st
-        elif op == "drop":
-            ideas = [i for i in ideas if i is not hit]
-        else:
-            raise ValueError("Unknown action.")
-        write_json(p, ideas)
-        return {"ok": True}
+            ideas.mark(iid, str(data.get("status", "")))
+            return {"ok": True}
+        if op in ("drop", "delete"):
+            return {"ok": True, "deleted": ideas.delete(ids or [iid])}
+        if op == "clear":
+            return {"ok": True, "deleted": ideas.delete([i["id"] for i in ideas.load()])}
+        if op == "undo":
+            return {"ok": True, "restored": ideas.undo()}
+        if op == "edit":
+            return {"ok": True, "idea": ideas.edit(iid, data.get("fields") or {})}
+        if op == "add":
+            return {"ok": True, "idea": ideas.add(data.get("fields") or {})}
+        if op == "export":
+            return {"ok": True, **ideas.export(ids, str(data.get("format", "md")))}
+        if op == "import":
+            return {"ok": True, **ideas.import_(data.get("data"))}
+        raise ValueError("Unknown action.")
 
     def _keys(self, data: dict) -> dict:
         """Save / remove / test API keys. Values are written to .env only and
@@ -412,8 +466,11 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             try:
                 out = images.generate(str(data.get("prompt", "")), [str(r) for r in (data.get("refs") or [])][:images.MAX_REFS],
                                       str(data.get("model") or ""), str(data.get("shape") or ""), str(data.get("quality") or ""),
-                                      int(data.get("n") or 0), via="dashboard")
-            except RuntimeError as e:
+                                      int(data.get("n") or 0), via="dashboard", edit_of=str(data.get("editOf") or ""),
+                                      mask=str(data.get("mask") or ""), notes=[str(x)[:500] for x in (data.get("notes") or [])][:20])
+            except (RuntimeError, ValueError) as e:
+                from store import append_log
+                append_log({"ts": int(time.time()), "event": "image_failed", "edit": bool(data.get("editOf")), "error": str(e)[:300]})
                 return {"ok": False, "error": str(e)}
             return {"ok": True, **out}
         if op == "upload":
@@ -424,7 +481,11 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             images.delete(str(data.get("id", "")))
             return {"ok": True}
         if op == "copy":
-            return {"ok": True, **images.copy_to(str(data.get("id", "")), str(data.get("folder") or ""))}
+            return {"ok": True, **images.copy_to(str(data.get("id", "")), str(data.get("folder") or ""), bool(data.get("pick")))}
+        if op == "keep_outside":
+            return {"ok": True, "image": images.keep_outside(str(data.get("id", "")), str(data.get("data", "")))}
+        if op == "saveas":
+            return {"ok": True, **images.save_as(str(data.get("id", "")))}
         if op == "ask":                      # "Ask Claude to write the prompt"
             idea = str(data.get("text", ""))[:2000]
             n = hitl.add_note(f"Write an image prompt for: {idea}", {"type": "image_prompt", "text": idea,
@@ -446,10 +507,11 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 raise ValueError("Unknown post.")
             (state_dir() / "current.txt").write_text(pid)
             return {"ok": True}
-        p = plans.load()
+        # the Plan tab can time any local draft (it becomes the open post)
+        p = plans.load(str(data["planId"])) if op == "time" and data.get("planId") else plans.load()
         if not p:
             raise ValueError("No post loaded.")
-        if op in ("gift", "clear_time") and not plans.editable(p):
+        if op in ("gift", "clear_time", "caption", "time", "setting") and not plans.editable(p):
             raise PermissionError("This post is already scheduled or live; ask Claude to change it.")
         if op == "gift":
             g = data.get("dm") or {}
@@ -465,6 +527,10 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                            "link": link or None, "buttonTitle": (str(g.get("buttonTitle", "")).strip() or "Open")[:20],
                            "followGate": bool(g.get("followGate", True)), "matchMode": "word",
                            "commentReply": str(g.get("commentReply", "")).strip()[:300] or None}
+                for k, n in (("followGateMessage", 640), ("followGateButton", 20), ("notFollowingMessage", 640)):
+                    v = str(g.get(k, "")).strip()
+                    if v:
+                        p["dm"][k] = v[:n]                 # the follow-first messages, in the user's words
             else:
                 p["dm"] = {"enabled": False, "asked": True}
             if p.get("status") == "awaiting_approval":
@@ -472,6 +538,47 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             plans.recheck(p)
             plans.save(p, via="dashboard")
             return {"ok": True, "dm": p["dm"]}
+        if op == "setting":                   # a network's own options (TikTok privacy, Snapchat type…)
+            import json as _j
+            v = data.get("value")
+            plans.set_setting(p, str(data.get("path", "")), v if isinstance(v, str) else _j.dumps(v), via="dashboard")
+            return {"ok": True, "settings": p["settings"], "score": {k: x["value"] for k, x in p["score"].items()}}
+        if op == "caption":                   # New post steps: the user's own edit, re-checked at once
+            text = str(data.get("text", "")).strip()
+            if not text:
+                raise ValueError("The caption is empty.")
+            plats = [str(data["platform"])] if data.get("platform") else list(p["platforms"])
+            for pl in plats:
+                if pl not in p["platforms"]:
+                    raise ValueError(f"{pl} is not in this post.")
+                if p["captions"].get(pl, "") != text:
+                    p.setdefault("caption_history", []).append(
+                        {"ts": int(time.time()), "platform": pl, "before": p["captions"].get(pl, ""), "after": text[:5000], "via": "dashboard"})
+                    p["captions"][pl] = text[:5000]
+            if p.get("status") == "awaiting_approval":
+                p["status"] = "draft"
+            plans.recheck(p)
+            plans.save(p, via="dashboard")
+            return {"ok": True, "score": {k: v["value"] for k, v in p["score"].items()}}
+        if op == "time":                      # New post steps: any day and minute, or now
+            from datetime import datetime, timedelta
+            from zoneinfo import ZoneInfo
+            if data.get("now"):
+                p["schedule"] = {"mode": "now", "via": "dashboard"}
+            else:
+                tz = ZoneInfo(config().get("timezone", "UTC"))
+                try:
+                    when = datetime.fromisoformat(str(data.get("at", ""))[:16]).replace(tzinfo=tz)
+                except ValueError:
+                    raise ValueError("Pick a day and a time.") from None
+                if when < datetime.now(tz) + timedelta(minutes=15):
+                    raise ValueError("Pick a time at least 15 minutes from now.")
+                p["schedule"] = {"mode": "at", "at": when.isoformat(), "via": "dashboard"}
+            if p.get("status") == "awaiting_approval":
+                p["status"] = "draft"
+            plans.recheck(p)
+            plans.save(p, via="dashboard")
+            return {"ok": True, "schedule": p["schedule"]}
         if op == "clear_time":
             p["schedule"] = {"mode": "ask"}
             if p.get("status") == "awaiting_approval":
@@ -551,6 +658,8 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
         raise ValueError("Unknown action.")
 
     def _state(self, visit: bool) -> dict:
+        import ideas
+        import inbox
         cfg = config()
         data = {
             "version": VERSION,
@@ -559,11 +668,11 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             "config": _public_config(cfg),
             "doctor": _doctor(),
             "plan": plans.load(),
-            "ideas": read_json(state_dir() / "ideas.json", []),
+            "ideas": ideas.load(), "ideasUndo": ideas.undo_info(), "inbox": inbox.state(),
             "question": hitl.pending(),
             "listening": hitl.listening(),
             "presence": hitl.presence(),
-            "thread": hitl.thread(),
+            "thread": hitl.thread(), "activity": hitl.activity(),
             "claudeMsg": hitl.unseen(),
             "keys": keys.listing(),
             "plans": plans.list_plans(),
