@@ -313,6 +313,25 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 raise ValueError("Unknown action.")
             if path == "/api/slot":
                 return self._json(self._slot(data))
+            if path == "/api/abtest":           # hook A/B test with two Instagram Trial Reels (typed go)
+                import abtest
+                op = str(data.get("op", ""))
+                if op == "list":
+                    return self._json({"ok": True, "tests": abtest.tests()})
+                if op == "results":
+                    return self._json({"ok": True, "test": abtest.results(str(data.get("test", "")))})
+                p = plans.load()
+                if not p:
+                    raise ValueError("No post open.")
+                if op == "setup":
+                    return self._json({"ok": True, "abtest": abtest.setup(p, data.get("captionB"), data.get("coverB"))})
+                if op == "ask_hook":
+                    return self._json({"ok": True, **abtest.ask_hook(p)})
+                if op == "start":
+                    import jobs
+                    with jobs.job("abtest", "Starting a hook test", estimate=40):
+                        return self._json({"ok": True, "test": abtest.start(p, str(data.get("confirm", "")))})
+                raise ValueError("Unknown action.")
             if path == "/api/recycle":          # re-post a best post every N weeks/months with new hooks (typed go)
                 import recycle
                 op, pid = str(data.get("op", "")), str(data.get("postId", ""))

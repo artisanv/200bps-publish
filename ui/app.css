@@ -2113,3 +2113,19 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 @media (max-width: 560px) { .rc-list li { grid-template-columns: 56px 1fr; } .rc-list li > .btn { grid-column: 1 / -1; } }
 .li-poll-when { margin: 4px 0 0; font-weight: 600; }
 .li-posted { margin-top: 12px; }
+/* Hook A/B test (v1.19) */
+.ab-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0; }
+.ab-col { display: grid; gap: 6px; align-content: start; padding: 10px; background: var(--bps-slate); min-width: 0; }
+.ab-col h3 { margin: 0; font-size: 14px; }
+.ab-cover img, .ab-cover .np-vid { width: 96px; height: 170px; object-fit: cover; border: 1px solid var(--bps-line); }
+.ab-hook { font-weight: 600; }
+.ab-cap { width: 100%; }
+.ab-covers { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ab-cv { padding: 0; border: 2px solid transparent; background: none; cursor: pointer; }
+.ab-cv.on { border-color: var(--bps-lime); }
+.ab-cv img { width: 48px; height: 85px; object-fit: cover; display: block; }
+.ab-word { max-width: 140px; }
+.ab-table th.ab-win { color: var(--accent-ink); }
+.ab-hooks p { margin: 2px 0; }
+.ab-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--bps-line); }
+@media (max-width: 640px) { .ab-cols { grid-template-columns: 1fr; } }

@@ -32,6 +32,10 @@ Base URL: `https://zernio.com/api/v1`. Auth header: `Authorization: Bearer sk_�
 - **Threads:** `topic_tag`
 - **LinkedIn:** `firstComment`, `documentTitle`, `organizationUrn`, `poll` {question ≤140, options 2-4 ×≤30, duration ONE_DAY|THREE_DAYS|SEVEN_DAYS|FOURTEEN_DAYS}, `reshareUrl` (post link or urn:li:share/ugcPost/groupPost). poll and reshareUrl exclude mediaItems and each other. No long-form articles in the API.
 
+## Hook tests (v1.19)
+- Instagram `platformSpecificData.trialParams` {graduationStrategy: MANUAL | SS_PERFORMANCE}: Trial Reels shown to non-followers only; graduation (share to followers) happens in the Instagram app.
+- `GET /analytics?postId=<Zernio id>`: one post's analytics incl. `reelsSkipRate` (0-1), `igReelsAvgWatchTime` (ms), views, reach. 202 = sync pending.
+
 ## Recycling (v1.18)
 - `PUT /posts/{id}` with `recycling` {enabled, gap ≥1, gapFreq week|month, startDate, expireCount|null, expireDate|null, contentVariations [] or 2-20}. Published posts accept only this change.
 - Read back: `GET /posts/{id}` → `recycling` {enabled, recycleCount, nextRecycleAt, lastRecycledAt, contentVariationIndex}.

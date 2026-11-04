@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
 description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram, LinkedIn, Facebook, TikTok and Snapchat through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.18.1
+version: 1.19.0
 ---
 
 # 200BPS Publish
@@ -266,6 +266,20 @@ Both go out as Zernio `platformSpecificData.poll` / `reshareUrl` and can't carry
 After scheduling, the poll shows in the post window (Posts/Plan) from the local plan (Zernio does not echo it); vote counts are not available through the API, only on LinkedIn.
 Native LinkedIn articles are not possible: neither Zernio nor LinkedIn's API offers them.
 
+## Hook A/B test (Instagram Trial Reels)
+
+For an Instagram Reel that isn't scheduled yet: version A is the post, version B gets a different first
+line (and optionally another cover from `coverCandidates`). `bps.py abtest start --confirm` (only after the
+user's go; the dashboard asks for a typed go itself) creates **two Instagram-only Trial Reels** at the same
+time (`trialParams.graduationStrategy = MANUAL`), so only non-followers see them. The post's other networks
+are not posted by the test. Results: `bps.py abtest results --test ID` reads each post's analytics
+(`GET /analytics?postId=`): a winner only with ≥100 views each and ≥48 h; skip rate decides first (≥5 points),
+then average watch time (≥10%); otherwise "too close to call". Never invent a winner. The user shares the
+winner to followers in the Instagram app (no API).
+- When an `ab_hook` request arrives: write hook B (the full caption with a different first line: a new angle,
+  not a rewording; the user's voice and language), save it to a file and run
+  `bps.py abtest hook --file b.txt --note "<one line why>"`. It appears in the Hook test window.
+
 ## Recycle best posts
 
 Zernio's own `recycling`: a **published** post is re-posted every N weeks/months, rotating new caption
@@ -429,6 +443,8 @@ returns the unread requests. For each one:
 | `new_post` | The user started a post from the dashboard's **New post** window (files, made images, or a folder). If `opened`, the post is already the current plan: run the step 2 flow from point 3 (report findings, fixes, time, gift). If `needsCaption`, look at the media (and `hint`, the image prompts), write a caption in the user's voice, save it as `caption.txt` in `folder`, show it in chat, then `analyze` that folder and continue step 2 |
 | `reply_drafts` | The user pressed "Ask Claude to draft replies" in the Inbox. `action.comments` lists the waiting comments (id, author, text, post, platform). Write one short public reply per comment in the user's voice and language (match the comment's language), and save each with `bps.py inbox draft --comment ID --text "…"`. Never send them: the user presses Use it → Send reply. Skip spam or comments that need no answer, and say so in the `say --status done` line |
 | `post_copied` | The user copied a post to another day from the dashboard (Copy → Paste). It's **already done** in Zernio (a new scheduled post after typed go, or a Zernio draft). Acknowledge in one line with `say --to <id> --status done`; never repeat it |
+| `ab_hook` | The user pressed "Ask Claude for hook B" in the Hook test window. `action.caption` is version A. Write B and save it with `bps.py abtest hook` (see "Hook A/B test"). Never start the test yourself |
+| `abtest_started` | The user started a hook test from the dashboard. Already done; acknowledge in one line and say results come after 48 hours |
 | `recycle_hooks` | The user pressed "Ask Claude for new hooks" in the Recycle window. `action.caption`, `metrics` and `platforms` describe the post. Write 3-5 new versions and save them with `bps.py recycle hooks` (see "Recycle best posts"). Never start recycling yourself |
 | `image_prompt` | The user pressed "Ask Claude to improve it" in the image window. Turn `action.text` (and any guide pictures in `action.refs`) into one clear, specific image prompt in their language, then `bps.py image prompt --prompt "…" --note "…"`. It appears in the window with a "Use this prompt" button. Don't generate the image yourself |
 

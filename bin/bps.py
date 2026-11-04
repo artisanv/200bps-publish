@@ -46,6 +46,9 @@
     bps.py recycle state --post ID       read the post's recycling from Zernio
     bps.py recycle on --post ID --every 2 --unit week [--times 4] [--file F.json] --confirm   start (only after the user's go)
     bps.py recycle off --post ID         stop recycling
+    bps.py abtest hook --file B.txt [--note ".."]   save hook B (full caption) for the open Reel's A/B test
+    bps.py abtest start --confirm        create both Instagram Trial Reels (only after the user's go)
+    bps.py abtest list | results --test ID   tests and their results (skip rate, watch time, reach)
     bps.py cancel --draft PLAN_ID        set a never-uploaded draft aside (.bps/trash; the folder is untouched)
     bps.py dashboard [--no-open] [--port N]
     bps.py version
@@ -129,6 +132,8 @@ def main() -> None:
     db = sub.add_parser("dashboard"); db.add_argument("--no-open", action="store_true"); db.add_argument("--port", type=int, default=4217)
     sub.add_parser("version")
     sub.add_parser("jobs")
+    ab = sub.add_parser("abtest"); ab.add_argument("action", choices=["hook", "start", "list", "results"])
+    ab.add_argument("--file", default=""); ab.add_argument("--note", default=""); ab.add_argument("--test", default=""); ab.add_argument("--confirm", action="store_true")
     rc = sub.add_parser("recycle"); rc.add_argument("action", choices=["list", "hooks", "state", "on", "off"]); rc.add_argument("--post", default="")
     rc.add_argument("--file", default=""); rc.add_argument("--note", default=""); rc.add_argument("--every", type=int, default=0)
     rc.add_argument("--unit", default="week", choices=["week", "month"]); rc.add_argument("--times", type=int, default=0); rc.add_argument("--confirm", action="store_true")
@@ -233,6 +238,23 @@ def run(args) -> None:
         pl["status"] = "awaiting_approval"; plans.save(pl); emit({"ok": True, "status": pl["status"]})
     elif c == "preview":
         pl = need_plan(); emit(plans.build_body(pl, Zernio(), dry=True))
+    elif c == "abtest":
+        import abtest
+        a = args.action
+        if a == "hook":
+            if not args.file:
+                raise ValueError("Give --file with hook B's full caption.")
+            ab_ = abtest.setup(need_plan(), Path(args.file).read_text(encoding="utf-8"), via="claude")
+            hitl.say("🅰🅱 Hook B is ready in the Hook test window." + (f" {args.note}" if args.note else ""))
+            emit({"ok": True, "abtest": ab_})
+        elif a == "start":
+            if not args.confirm:
+                raise PermissionError("A hook test posts two Trial Reels: only after the user's go for this exact test (--confirm).")
+            emit(abtest.start(need_plan(), "go", via="chat"))
+        elif a == "list":
+            emit(abtest.tests())
+        elif a == "results":
+            emit(abtest.results(args.test))
     elif c == "recycle":
         import recycle
         a = args.action

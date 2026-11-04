@@ -13,6 +13,10 @@ your Zernio account.
 
 > Built by Nasser Al-Ostath · [200bps.ai](https://www.200bps.ai) · [Instagram](https://www.instagram.com/200bps.ai/) · [LinkedIn](https://www.linkedin.com/in/nasser-al-ostath/)
 
+## New in v1.19.0
+
+- **🅰🅱 Test two hooks:** one Reel, two first lines (or covers), posted as Instagram Trial Reels to non-followers only. After 48 hours, compare skip rate and watch time and share the winner to your followers.
+
 ## New in v1.18.0
 
 - **LinkedIn polls:** a question, 2-4 choices and how long it stays open, with a live preview. No media needed.
@@ -151,7 +155,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.18.0.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.19.0.zip -d .claude/skills/
 claude
 ```
 

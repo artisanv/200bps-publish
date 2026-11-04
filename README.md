@@ -11,7 +11,7 @@
 <p align="center">
   <img alt="Claude Code skill" src="https://img.shields.io/badge/Claude%20Code-skill-CCFF33?style=for-the-badge&labelColor=08090A">
   <img alt="Free" src="https://img.shields.io/badge/%D9%85%D8%AC%D8%A7%D9%86%D9%8A-free-CCFF33?style=for-the-badge&labelColor=08090A">
-  <img alt="Version 1.18.0" src="https://img.shields.io/badge/version-1.18.0-CCFF33?style=for-the-badge&labelColor=08090A">
+  <img alt="Version 1.19.0" src="https://img.shields.io/badge/version-1.19.0-CCFF33?style=for-the-badge&labelColor=08090A">
   <img alt="Instagram · LinkedIn · Facebook · TikTok · Snapchat" src="https://img.shields.io/badge/Instagram%20%C2%B7%20LinkedIn%20%C2%B7%20Facebook%20%C2%B7%20TikTok%20%C2%B7%20Snapchat-via%20Zernio-CCFF33?style=for-the-badge&labelColor=08090A">
 </p>
 
@@ -33,6 +33,7 @@
 ## 📌 المحتويات
 
 - [شنو يسوي؟](#-شنو-يسوي)
+- [الجديد في 1.19.0](#-الجديد-في-1190)
 - [الجديد في 1.18.0](#-الجديد-في-1180)
 - [الجديد في 1.16.0](#-الجديد-في-1160)
 - [المميزات](#-المميزات)
@@ -63,6 +64,10 @@
 وكل هذا وقدامك **داشبورد** بهوية 200bps.ai يعرض حسابك كله، بالعربي والإنقليزي.
 
 ---
+
+## 🆕 الجديد في 1.19.0
+
+- **🅰🅱 جرّب هوكين:** ريل واحد بسطرين أول مختلفين (أو كفرين)، ينزلون كـ Trial Reels بانستقرام لغير المتابعين بس. بعد 48 ساعة قارن نسبة التخطي ووقت المشاهدة وشارك الفايز مع متابعينك.
 
 ## 🆕 الجديد في 1.18.0
 
@@ -203,7 +208,7 @@ ZERNIO_API_KEY=<your-key>
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.18.0.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.19.0.zip -d .claude/skills/
 claude
 ```
 

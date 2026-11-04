@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.19.0 (2026-11-04)
+- **🅰🅱 Test two hooks** (Instagram Reel: Post tab → Preview → Test two hooks, or Ctrl+K): version B gets a different first line (write it, or **✨ Ask Claude for hook B**) and optionally a different cover. A typed **go** posts both as Instagram **Trial Reels** at the same time, so only non-followers see them and your followers aren't touched.
+- **Hook tests** (Growth): **Check results** shows A vs B from your own Zernio numbers: views, reach, skip rate, average watch time, likes, shares, saves, follows. A winner only with 100+ views each, 48 hours and a clear gap (skip rate 5+ points, else watch time 10%+); otherwise "too close to call". Then share the winner to followers in the Instagram app (Instagram has no API for it), with a button that opens it.
+- Guide, hover tips, READMEs in English and Arabic.
+
 ## 1.18.1 (2026-11-04)
 - **See your LinkedIn poll after scheduling and after it's live**: open the post in Posts or Plan for the poll card (question, choices), "Opens when it's posted · open for 1 week", then "Open · 3 days left · closes …" or "Closed …", LinkedIn's impressions, reactions, comments and reposts, and **See the votes on LinkedIn ↗**. LinkedIn doesn't share poll votes with apps, so the vote split stays on LinkedIn. Polls get a ☰ Poll label in Posts and Plan; reposts show their link.
 
