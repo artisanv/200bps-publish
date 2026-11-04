@@ -28,7 +28,7 @@ import hitl
 import keys
 import plan as plans
 import summary
-from store import SKILL_DIR, VERSION, config, read_json, save_config, state_dir, write_json
+from store import SKILL_DIR, VERSION, build_id, config, read_json, save_config, state_dir, write_json
 
 UI_DIR = SKILL_DIR / "ui"
 ALLOWED_HOSTS = {"127.0.0.1", "localhost"}
@@ -291,16 +291,48 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                     return self._json({"ok": True, "inbox": inbox.label(a[2], str(data.get("name", "")), bool(data.get("on", True)))})
                 if op == "unhandle":
                     return self._json({"ok": True, "inbox": inbox.unhandle(a[2])})
+                if op == "ask_drafts":
+                    return self._json({"ok": True, **inbox.ask_drafts(data.get("items") or [])})
+                if op == "drop_draft":
+                    return self._json({"ok": True, "inbox": inbox.drop_draft(a[2])})
                 raise ValueError("Unknown action.")
             if path == "/api/zpost":            # Plan tab: move / edit a post in Zernio (typed word)
                 import zedit
                 if data.get("op") == "move":
                     return self._json({"ok": True, **zedit.move(str(data.get("postId", "")), str(data.get("at", "")), str(data.get("confirm", "")))})
+                if data.get("op") == "networks":   # turn networks / accounts on or off (typed edit)
+                    return self._json({"ok": True, **zedit.set_networks(str(data.get("postId", "")), data.get("platforms") or [], str(data.get("confirm", "")))})
+                if data.get("op") == "unpublish":  # take a published post off one network (typed remove)
+                    return self._json({"ok": True, **zedit.remove_published(str(data.get("postId", "")), str(data.get("platform", "")),
+                                                                            str(data.get("accountId", "")), str(data.get("confirm", "")))})
+                if data.get("op") == "copy":       # Paste a copied post on another day
+                    import copypost
+                    return self._json({"ok": True, **copypost.copy(data)})
                 if data.get("op") == "edit":
                     return self._json({"ok": True, **zedit.edit_caption(str(data.get("postId", "")), str(data.get("text", ""))[:5000], str(data.get("confirm", "")))})
                 raise ValueError("Unknown action.")
             if path == "/api/slot":
                 return self._json(self._slot(data))
+            if path == "/api/recycle":          # re-post a best post every N weeks/months with new hooks (typed go)
+                import recycle
+                op, pid = str(data.get("op", "")), str(data.get("postId", ""))
+                if op == "list":
+                    return self._json({"ok": True, **recycle.best(int(data.get("n") or 8))})
+                if op == "state":
+                    return self._json({"ok": True, **recycle.state(pid)})
+                if op == "ask_hooks":
+                    return self._json({"ok": True, **recycle.ask_hooks(pid, str(data.get("topic", "")))})
+                if op == "variations":
+                    return self._json({"ok": True, "draft": recycle.save_variations(pid, [str(v) for v in (data.get("variations") or [])][:40], via="dashboard")})
+                if op == "enable":
+                    times = data.get("times")
+                    return self._json({"ok": True, **recycle.enable(pid, int(data.get("gap") or 0), str(data.get("freq", "")),
+                                                                    int(times) if times not in (None, "", 0) else None,
+                                                                    [str(v) for v in (data.get("variations") or [])][:40], str(data.get("confirm", "")),
+                                                                    start=str(data.get("start", "")))})
+                if op == "disable":
+                    return self._json({"ok": True, **recycle.disable(pid)})
+                raise ValueError("Unknown action.")
             if path == "/api/cancel":
                 if data.get("draft"):
                     return self._json({"ok": True, **cancel.delete_draft(str(data["draft"]))})
@@ -315,7 +347,15 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 if not 0 < n <= 1_000_000_000:
                     raise ValueError("Goal must be a positive number.")
                 cfg = config()
-                cfg.setdefault("goal", {})["followers"] = n
+                pf, acc = str(data.get("platform") or ""), str(data.get("account") or "")
+                if acc:                               # a goal per account (Growth → network → account)
+                    cfg.setdefault("goal", {}).setdefault("by", {})[acc] = n
+                    if pf == "instagram" and acc == ((cfg.get("accounts") or {}).get("instagram") or {}).get("id"):
+                        cfg["goal"]["followers"] = n  # the main Instagram account keeps driving the overview ring
+                elif pf and pf != "instagram":        # older form: a goal per network
+                    cfg.setdefault("goal", {}).setdefault("by", {})[pf] = n
+                else:
+                    cfg.setdefault("goal", {})["followers"] = n
                 save_config(cfg)
                 return self._json({"ok": True, "goal": cfg["goal"]})
         except PermissionError as e:
@@ -508,10 +548,10 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             (state_dir() / "current.txt").write_text(pid)
             return {"ok": True}
         # the Plan tab can time any local draft (it becomes the open post)
-        p = plans.load(str(data["planId"])) if op == "time" and data.get("planId") else plans.load()
+        p = plans.load(str(data["planId"])) if op in ("time", "networks") and data.get("planId") else plans.load()
         if not p:
             raise ValueError("No post loaded.")
-        if op in ("gift", "clear_time", "caption", "time", "setting") and not plans.editable(p):
+        if op in ("gift", "clear_time", "caption", "time", "setting", "targets", "networks") and not plans.editable(p):
             raise PermissionError("This post is already scheduled or live; ask Claude to change it.")
         if op == "gift":
             g = data.get("dm") or {}
@@ -579,6 +619,14 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             plans.recheck(p)
             plans.save(p, via="dashboard")
             return {"ok": True, "schedule": p["schedule"]}
+        if op == "networks":                 # a local draft: which networks (and accounts) it goes to
+            known = (summary.build() or {}).get("accounts") or []
+            plans.set_networks(p, data.get("platforms") or [], known)
+            return {"ok": True}
+        if op == "targets":                  # which accounts on each network this post goes to
+            known = (summary.build() or {}).get("accounts") or []
+            plans.set_targets(p, data.get("targets") or {}, known)
+            return {"ok": True}
         if op == "clear_time":
             p["schedule"] = {"mode": "ask"}
             if p.get("status") == "awaiting_approval":
@@ -662,7 +710,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
         import inbox
         cfg = config()
         data = {
-            "version": VERSION,
+            "version": VERSION, "build": build_id(),
             "workspace": ws_id(),
             "boot": BOOT,
             "config": _public_config(cfg),

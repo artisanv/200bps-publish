@@ -42,7 +42,7 @@
       ready: "ready", issues: "issues", post: "Post", reach: "Reach", saves: "Saves", shares: "Shares", follows: "Follows",
       ideaOpen: "Open details", ideaKicker: "Idea", ideaHook: "Hook", ideaWhy: "Why it should work", ideaOutline: "Outline", ideaCta: "Call to action",
       ideaTags: "Hashtags", ideaWhen: "Suggested time", ideaBased: "Inspired by", ideaDrop: "Not for me", ideaPlan: "Plan it on a day", ideaPickDay: "Pick a day in the calendar",
-      kind_carousel: "Carousel", kind_reel: "Reel", kind_video: "Video", kind_short: "Short", kind_story: "Story", kind_document: "Document",
+      kind_carousel: "Carousel", kind_reel: "Reel", kind_video: "Video", kind_short: "Short", kind_story: "Story", kind_document: "Document", kind_archive: "Zipped post",
       kind_article: "Article", kind_text: "Text", kind_post: "Post", zOutside: "posted outside Zernio", zAccounts: "Accounts", zAllAccounts: "All accounts",
       accKicker: "Accounts", accTitle: "Connect a social account", accHint: "Sign in on the network's own site and approve. Zernio keeps the connection; this skill never sees your password.",
       accNotConnected: "Not connected", accConnect: "Connect", accReconnect: "Reconnect", accAddAnother: "Add another", accSoon: "Coming soon", accConnectShort: "Connect account",
@@ -76,13 +76,13 @@
       replace: "Replace", addKey: "Add key", test: "Test", remove: "Remove", removed: "Key removed", removeConfirm: "Remove {k} from this computer?", whereKey: "Get it at", addOther: "Add another API key",
       keysSafe: "Keys are saved in the .env file in this folder, readable only by you. They never go into the chat and are never shown in full again.",
       npStep1: "Media & caption", npStep2: "Check & improve", npStep3: "Time", npStep4: "Review & schedule", npStepOf: "Step {n} of 4", npNextCheck: "Next: check it", npNextClaude: "Next: Claude writes the caption", npNextTime: "Next: pick a time", npNextReview: "Next: review", npBack: "Back", npCloseKeep: "Close (the draft is kept)", npWriting: "Claude is writing your caption…", npWritingHint: "It appears here as soon as it's ready (Claude Code must be open). You can close this window; the post also opens in the Post tab.", npChecking: "Checking your post…", npCaptionAll: "Caption (all platforms)", npCaptionFor: "Caption for {p}", npSaveCheck: "Save and check again", npSavedCheck: "Saved and checked again", npPassed: "{n} checks passed", npToFix: "To fix", npAskFix: "Ask Claude to fix", npFixing: "Claude is on it…", npSugReady: "Claude's suggestion", npApprove: "Use it", npEditSug: "Edit", npReject: "No thanks", npSugSent: "Sent. Claude applies it and the checks update here.", npBlockedNext: "Red items must be fixed before you can schedule.", npAllGood: "All checks pass.", npBest: "Your best times", npBestHint: "From your own posts: lift vs your average, and how many posts back it.", npPickAny: "Or pick any day and time", npNow: "Post right after I confirm", npWhen: "When", npNoTime: "Pick a time first.", npGiftAdd: "Add a gift (optional)", npGiftEdit: "Change the gift", npCoverHint: "Reels: Instagram uses the first frame unless you set a cover in the Post tab.", npSchedule: "Schedule it", npPublishNow: "Publish now", npOpenPost: "Open in the Post tab", npNoBest: "Not enough of your own data yet to suggest a time. Pick one below.", npTitle: "New post", npSub: "Pick what goes in it. One photo = single post, several = carousel, one video = Reel.", npPaletteHint: "files · images · folder",
-      npFromPc: "Photos or video", npFromPcHint: "from your computer", npFromMine: "My images", npFromMineHint: "made in Create an image", npFromFolder: "A post folder", npFromFolderHint: "already has the files",
+      npFromPc: "Photos or video", npFromPcHint: "photos, video, PDF or a .zip from your computer", npArchive: "Archive", npArchiveAlone: "An archive already holds the whole post, so add it on its own.", npArchiveMany: "That archive holds {n} posts. They're in Batch schedule now.", npFromMine: "My images", npFromMineHint: "made in Create an image", npFromFolder: "A post folder", npFromFolderHint: "already has the files",
       npFromImage: "New post", npFromImageHint: "Start a new post with this image", npCarouselFromMine: "Make a post or carousel from these",
-      npMedia: "In this post", npDrop: "Nothing yet. Drop files here or use the buttons above.", npSingle: "Single image", npCarousel: "Carousel · {n} slides", npReel: "Reel",
+      npMedia: "In this post", rcKicker: "Recycle", rcTitle: "Recycle your best posts", rcOpen: "Recycle best posts", rcBtn: "Recycle", rcManage: "Manage", rcAll: "All best posts", rcSub: "Zernio re-posts a published post every few weeks or months, with a fresh hook each time. Ranked from your own results.", rcRanked: "Ranked by follows, then saves + shares, then reach. TikTok posts can't be recycled.", rcActive: "{a} of {b} recycling now (Zernio allows {b})", rcSavesShares: "saves + shares", rcRhythm: "How often", rcEvery: "Every", rcWeeks: "weeks", rcMonths: "months", rcEveryN: "every {n} {u}", rcEveryWeek: "every week", rcEveryMonth: "every month", rcStopAfter: "Stop after", rcTimes: "{n} reposts", rcUntilStop: "Until I stop it", rcFirst: "First repost", rcVersions: "New versions", rcVersionsHint: "Each repost uses the next version, in turn. Leave none to repost the same caption. Use 2 or more.", rcVersion: "Version {n}", rcAsk: "Ask Claude for new hooks", rcAsking: "Claude is writing… (they appear here)", rcHooksIn: "New versions from Claude are in", rcAdd: "Add a version", rcNeedTwo: "Add one more version, or remove it: Zernio needs 2 or more (or none).", rcSentence: "Zernio will re-post this {every}, {times}, {what}, starting {d}.", rcWithN: "rotating {n} new versions", rcSame: "with the same caption", rcIgNote: "Instagram shows each repost as a new post.", rcLimits: "Up to 10 posts can recycle at once. Stop it any time; reposts already made stay.", rcType: "Type “go” to start", rcStart: "Start recycling", rcUpdate: "Save changes", rcStarting: "Telling Zernio…", rcStarted: "Recycling is on in Zernio", rcCheck: "Saved, but Zernio shows something different. Check the post.", rcStop: "Stop recycling", rcStopped: "Recycling stopped", rcNext: "next", rcMade: "{a} made", rcMadeOf: "{a} of {b} made", npTextPost: "Text post", npTextHint: "No media? Just write the caption: it becomes a text post for LinkedIn and Facebook. Make it a LinkedIn poll or repost in step 2.", liKind: "Post type", liPost: "Normal post", liPoll: "Poll", liRepost: "Repost", liPostHint: "Your caption with the photos, video or PDF, as usual.", liPostTextHint: "Your caption as a text post. Or make it a poll or a repost.", liNoMedia: "LinkedIn polls and reposts can't have photos, video or a PDF. Remove the media, or pick Normal post.", liUrl: "Link of the LinkedIn post to repost", liRepostHint: "Your caption shows as your comment above the original post. Get the link from the post's ··· menu → Copy link to post.", liQ: "Question", liQPh: "Ask something your followers can answer in one tap", liOpts: "Choices (2 to 4)", liOptPh: "Choice {n}", liAddOpt: "Add a choice", liDur: "Open for", liD1: "1 day", liD3: "3 days", liD7: "1 week", liD14: "2 weeks", liPreview: "Preview", liPvFoot: "Poll · open for {d}", liPollHint: "Your caption shows above the poll. Only LinkedIn gets the poll; Facebook (if on) gets the caption as a text post.", npDrop: "Nothing yet. Drop files here or use the buttons above.", npSingle: "Single image", npCarousel: "Carousel · {n} slides", npReel: "Reel",
       npEarlier: "Move earlier", npLater: "Move later", npName: "Post name", npWhere: "Saved in {f}", npCap: "Caption",
       npCapPh: "Optional. Leave empty and Claude writes it in your voice.", npCapHint: "With a caption the post opens right away; without one, Claude writes it first.",
       npCreateOpen: "Create post", npCreateClaude: "Create post · Claude writes the caption", npCreating: "Creating…", npUploading: "Uploading {i} of {n}…",
-      npBadFile: "Use photos (JPG, PNG, WEBP), a video (MP4, MOV) or a PDF.", npMineHint: "Click images in the order you want them",
+      npBadFile: "Use photos (JPG, PNG, WEBP), a video (MP4, MOV), a PDF, or an archive (.zip, .7z, .rar, .tar.gz).", npMineHint: "Click images in the order you want them",
       npOpened: "Post opened: {f}", npClaudeWrites: "Folder {f} is ready. Claude is writing the caption…", npUseFolder: "Use this folder",
       npChat: "You can also just tell Claude in the chat, e.g. \"make a post from my-posts/robot\".", npOrType: "Or type a folder path:",
       imgTitle: "Create an image", imgSub: "Describe it, add pictures to guide it if you like, press Create. Images stay on this computer until you add them to a post.",
@@ -159,7 +159,7 @@
       sent: "Sent to Claude", decisionWaiting: "1 decision waiting", publishNow: "Publish", typeGo: "Type “{w}” to confirm",
       before: "Before", after: "After", approve: "Approve", reject: "Reject", edit: "Edit", saveEdit: "Use my edit",
       noteFab: "Note to Claude", noteShort: "Note", noteKicker: "Message", noteTitle: "Note to Claude", noteHint: "Anything you want Claude to change or know. It reads this before the next step.",
-      notePh2: "e.g. use frame 4, make the headline shorter, post on LinkedIn too", noteSent: "Note sent", cancel: "Cancel",
+      notePh2: "e.g. use frame 4, make the headline shorter, post on LinkedIn too", enterHint: "Enter sends · Shift+Enter or Ctrl+Enter for a new line", noteSent: "Note sent", cancel: "Cancel",
       tabAbout: "About", aboutKicker: "About this tool", aboutTitle: "200BPS Publish",
       aboutMade: "Vibe-coded by Nasser Al-Ostath with Claude Code.",
       aboutWhat: "It checks your post, finds your best time from your own data, and publishes to Instagram and LinkedIn. Nothing goes live until you say so.",
@@ -172,7 +172,7 @@
       ages: "Age", gender: "Gender", cities: "Top cities", countries: "Top countries", male: "Male", female: "Female", unknown: "Unknown",
       milestone: "Milestone reached", days: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
       daysN: "{n} days", followGated: "follow-gated", iceBreakers: "Ice breakers", postWord: "post", trialShort: "Trial",
-      cvMonth: "Month", cvWeek: "Week", cvDay: "Day", cvPrevWeek: "Previous", cvNextWeek: "Next", mvTitle: "Move this post?", mvFrom: "From", mvTo: "To", mvType: "Type “move” to change it in Zernio", mvBtn: "Move it", mvDone: "Moved to {t}", mvLocal: "Draft moved to {t}", mvNotAll: "Zernio kept the old time on: {p}. Check it in Zernio.", mvPast: "Pick a time at least 15 minutes from now.", mvPick: "New day and time", edTitle: "Edit the caption", edType: "Type “edit” to save it in Zernio", edBtn: "Save caption", edDone: "Caption saved in Zernio", slTitle: "Schedule at {t}", slCurrent: "Put my open draft here", slDrafts: "Or one of my drafts", slNoDrafts: "No drafts waiting.", slNew: "Start a new post for this time", slIdea: "Draft one from an idea", slIdeaSent: "Sent to Claude: a draft for {t}", slSet: "Scheduled for {t}. Publish it with go when it's ready.", pdMove: "Move…", pdEdit: "Edit caption…", tgDrag: "Drag a post to move it · click or drag on an empty time to plan one", tgNoChange: "Published posts can't be moved or edited.", ibxAll: "All", ibxWaiting: "Waiting", ibxDone: "Handled", ibxReply: "Reply", ibxGift: "Send gift", ibxPrivate: "Private message", ibxHide: "Hide", ibxShow: "Show", ibxDelete: "Delete…", ibxOpenPost: "Open post", ibxOnPost: "On", ibxGiftOf: "This post's gift", ibxNoGift: "No gift on this post", ibxReplyPh: "Write your public reply…", ibxSend: "Send reply", ibxGiftHint: "Sent to their DMs. One private message per comment, within 7 days of the comment.", ibxAsButton: "Send the link as a button", ibxBtnWarn: "Instagram may refuse buttons to people who don't follow you, and a refused try still uses up this comment's one message. The link in the text always works.", ibxConfirm: "Confirm: send to @{a}", ibxSent: "Reply sent", ibxGiftSent: "Gift sent to @{a}", ibxHidden: "Comment hidden", ibxShown: "Comment shown", ibxDelTitle: "Delete this comment?", ibxDelType: "Type “delete” to remove it from the post (can't be undone)", ibxDelBtn: "Delete comment", ibxDeleted: "Comment deleted", ibxSt_replied: "✓ Replied", ibxSt_gift: "✓ Gift sent", "ibxSt_gift-used": "Gift already used", "ibxSt_gift-unknown": "Gift probably sent", ibxSt_deleted: "✓ Deleted", ibxUnmark: "Back to waiting", ibxAddLabel: "+ label", ibxLabelPh: "New label", ibxNone: "No comments waiting. Nice.", ibxLikes: "likes", ibxHiddenTag: "hidden", nsTitle: "Network settings", nsFB: "Facebook", nsFormat: "Format", nsFeed: "Feed post", nsReel: "Reel", nsFbStory: "Story", nsFeedHint: "Text, one photo, up to 10 photos, or a video. No mixing photos and video.", nsReelHint: "One vertical video (9:16), 3-90 seconds.", nsFbStoryHint: "One photo or video, gone after 24 hours. No caption.", nsReelTitle: "Reel title (optional)", nsFirst: "First comment (optional)", nsFbDraft: "Save as a draft in Facebook's Publishing Tools instead of posting", nsPage: "Facebook Page", nsDefaultPage: "My default Page", nsTT: "TikTok", nsSC: "Snapchat", nsWho: "Who can see it", nsComments: "Comments", nsDuet: "Duets", nsStitch: "Stitches", nsDisclose: "Promotional content", nsNone: "Not promotional", nsOwnBrand: "Your own brand", nsBranded: "Branded content (paid partnership)", nsAi: "Made with AI (label it on TikTok)", nsDraft: "Send to my TikTok inbox as a draft; I finish it in the app", nsConsent: "I previewed this post and agree to post it on TikTok", nsConsentHint: "TikTok requires this. If you change the caption or media, it asks again.", nsLimit: "TikTok says this account can't post more right now. Try later.", nsLoading: "Loading your TikTok choices…", nsStory: "Story", nsSaved: "Saved story", nsSpot: "Spotlight", nsStoryHint: "Disappears after 24 hours. Shows no caption.", nsSavedHint: "Stays on your Public Profile. Title up to 45 characters.", nsSpotHint: "The public video feed. Video only, caption up to 160 characters.", nsSkipped: "Skipped", nsChange: "Change…", nsPriv_PUBLIC_TO_EVERYONE: "Everyone", nsPriv_MUTUAL_FOLLOW_FRIENDS: "Friends", nsPriv_FOLLOWER_OF_CREATOR: "Followers", nsPriv_SELF_ONLY: "Only me", nsPick: "Choose…", calPrev: "Previous month", calNext: "Next month", calToday: "Today", calMore: "+{n} more",
+      cvMonth: "Month", cvWeek: "Week", cvDay: "Day", cvPrevWeek: "Previous", cvNextWeek: "Next", mvTitle: "Move this post?", mvFrom: "From", mvTo: "To", mvType: "Type “move” to change it in Zernio", mvBtn: "Move it", mvDone: "Moved to {t}", mvLocal: "Draft moved to {t}", mvNotAll: "Zernio kept the old time on: {p}. Check it in Zernio.", mvPast: "Pick a time at least 15 minutes from now.", mvPick: "New day and time", edTitle: "Edit the caption", edType: "Type “edit” to save it in Zernio", edBtn: "Save caption", edDone: "Caption saved in Zernio", slTitle: "Schedule at {t}", slCurrent: "Put my open draft here", slDrafts: "Or one of my drafts", slNoDrafts: "No drafts waiting.", slNew: "Start a new post for this time", slIdea: "Draft one from an idea", slIdeaSent: "Sent to Claude: a draft for {t}", slSet: "Scheduled for {t}. Publish it with go when it's ready.", pdMove: "Move…", pdEdit: "Edit caption…", tgDrag: "Drag a post to move it · click or drag on an empty time to plan one", tgNoChange: "Published posts can't be moved or edited.", ibxAll: "All", ibxWaiting: "Waiting", ibxDone: "Handled", ibxReply: "Reply", ibxGift: "Send gift", ibxPrivate: "Private message", ibxHide: "Hide", ibxShow: "Show", ibxDelete: "Delete…", ibxOpenPost: "Open post", ibxOnPost: "On", ibxGiftOf: "This post's gift", ibxNoGift: "No gift on this post", ibxReplyPh: "Write your public reply…", ibxSend: "Send reply", ibxGiftHint: "Sent to their DMs. One private message per comment, within 7 days of the comment.", ibxAsButton: "Send the link as a button", ibxBtnWarn: "Instagram may refuse buttons to people who don't follow you, and a refused try still uses up this comment's one message. The link in the text always works.", ibxConfirm: "Confirm: send to @{a}", ibxSent: "Reply sent", ibxGiftSent: "Gift sent to @{a}", ibxHidden: "Comment hidden", ibxShown: "Comment shown", ibxDelTitle: "Delete this comment?", ibxDelType: "Type “delete” to remove it from the post (can't be undone)", ibxDelBtn: "Delete comment", ibxDeleted: "Comment deleted", ibxSt_replied: "✓ Replied", ibxSt_gift: "✓ Gift sent", "ibxSt_gift-used": "Gift already used", "ibxSt_gift-unknown": "Gift probably sent", ibxSt_deleted: "✓ Deleted", ibxSt_marked: "✓ Marked handled", ibxSt_gated: "Gift sends when they follow", ibxSt_notfollower: "Not a follower · no gift", "ibxSt_auto-sent": "✓ Auto: gift sent", "ibxSt_auto-gated": "Auto: gift sends when they follow", "ibxSt_auto-skipped": "Auto: skipped by the automation", "ibxSt_auto-failed": "Auto gift failed", ibxAutoTip: "Zernio's DM automation already handled this comment. Nothing to do here; it moved to Handled by itself.", ibxAutoGatedTip: "Zernio sent them the follow-first message. When they follow and tap the button, the gift goes out by itself.", ibxAutoFailTip: "Zernio's automation tried and failed, so it stays in Waiting. You can send the gift yourself if the comment's one private message isn't used up.", ibxAutoUsed: "This comment's one private message is already used, so no gift can be sent by hand.", ibxDraftAll: "✨ Ask Claude to draft replies", ntAll: "All networks", nwBtn: "Networks…", nwKicker: "Networks for this post", nwHint: "Switch each network on or off. The post stays scheduled on the ones left on.", nwHintLocal: "Switch each network on or off for this draft.", nwHintPub: "Already published. You can take it off a network where the network allows it.", nwType: "Type “edit” to change it in Zernio", nwSave: "Save networks", nwKeepOne: "Keep at least one network on. To stop the whole post, use Cancel.", nwSaved: "Networks updated", nwCheck: "Saved, but Zernio shows something different. Check the post.", nwCant: "can't show a {k}", nwNotOn: "not on this post", nwRemove: "Remove from {p}…", nwRemoveTitle: "Remove it from {p}?", nwRemoveHint: "The post is deleted from that network only; the others stay. This can't be undone.", nwTypeRemove: "Type “remove” to confirm", nwRemoved: "Removed from {p}", nwAppOnly: "{p} doesn't let apps delete posts: delete it in the {p} app.", cpGift: "Also copy the gift (“{k}”)", cpGiftHint: "Same keyword, message, link and reply, on the copy. It works once the copy is published.", cpGiftDone: "gift copied", dayOpen: "Open this day", buildWord: "build", cpCopy: "Copy", cpCopied: "Copied. Click a day in Plan, then Paste here (or point at a day and press Ctrl+V).", cpOnClip: "Copied:", cpHow: "click a day → Paste here · or Ctrl+V on a day", cpClear: "Forget the copy", cpKicker: "Paste a copy", cpWhat: "Same photos or video, networks, accounts and settings. Pick the time; change the caption if you like.", cpWhatLocal: "A new local draft with the same files and settings. Nothing goes to Zernio until you publish it with go.", cpWhen: "Day and time", cpNets: "Networks", cpCaption: "Caption", cpSchedule: "Schedule it", cpDraft: "Save as a draft in Zernio", cpTypeGo: "Type “go” to schedule the copy", cpPasteBtn: "Schedule the copy", cpDraftBtn: "Save the draft", cpLocalBtn: "Make the copy", cpPickNet: "Pick at least one network.", cpDone: "Copy scheduled for {t}", cpDoneDraft: "Copy saved as a draft in Zernio for {t}", cpDoneLocal: "Copy made as a draft for {t}", cpPasteHere: "Paste here", tgAccounts: "Post to these accounts", tgHint: "Tick every account this post should go to. Same caption and settings on each.", tgLocked: "This post is already in Zernio; its accounts can't change now.", tgOne: "Keep at least one account.", tgSaved: "Accounts saved", vView: "View", ntPickNet: "Network", ntConnect: "Connect", ntAllAcc: "All {p} accounts ({n})", ntPin: "Pin to the top", ntUnpin: "Unpin", ntFind: "Find an account…", ntAccount: "Account", ntCh7: "7 days", ntCh30: "30 days", ntCompare: "Accounts side by side", ntCompareHint: "last 30 days · click a column to sort, a row to open", ntGoalPerAcc: "Goals are per account: open one account to set its goal.", ntBestPick: "Best times are per account: open one account to see its best times.", nsTitle2: "Where this post goes", nsWhen: "When", nsAccount: "Account", nsStatusOf: "Status", nsMore: "+{n}", nsOpen: "Open on {p} ↗", nsNoTime: "No time set yet", nsLocalNote: "Not uploaded to Zernio yet: it goes to these networks when you publish it with go.", nsOpenPost: "Open the post", ntSince: "{n} since {d}", ntSinceTip: "Zernio has follower history for this network only since that day, so a 30-day change isn't possible yet.", ibxTz: "Times in", ibxTzMine: "{c} (my time)", ibxTzLocal: "This computer's clock", ibxTzAud: "Where your audience is", ibxTzAll: "Every time zone", ntPosts: "Posts", ntImpr: "Impressions", ntReach: "Reach", ntEng: "Engagements", ntER: "Avg engagement rate", ntNewF: "New followers", ntLast30: "last 30 days vs the 30 before", ntWeek: "{n} this week", ntMonth: "{n} in 30 days", ntGoal: "Goal", ntSetGoal: "Set a goal", ntNoGoal: "No goal for this network yet.", ntBest: "Best times", ntBestNone: "No time stands out yet on this network (none beats your average). Every post improves this.", ntLift: "{l}% vs your average", ntRhythm: "Posting rhythm", ntRhythmHint: "posts per week · last 8 weeks", ntTop: "Top posts", ntTopHint: "most engagements · last 90 days", ntOpen: "Open", ntNoPosts: "No posts from the last 90 days on this network.", ntFollowers: "Followers", ntConf_high: "high confidence", ntConf_medium: "medium confidence", ntConf_low: "low confidence", ntN: "{n} posts", "ibxSt_ig-replied": "✓ You replied on Instagram", "ibxSt_ig-mentioned": "✓ You @mentioned them", "ibxSt_ig-dm": "✓ You answered in DMs", ibxIgTip: "You handled this in the Instagram app, so it moved to Handled by itself.", ibxYouWrote: "You wrote", ibxLiked: "♥ You liked it", ibxDraftSent: "Sent to Claude: drafts for {n} comments", ibxDraftNone: "Every waiting comment already has a draft.", ibxDraftOf: "Claude's draft", ibxSendAll: "Send all drafts ({n})", ibxSendAllTitle: "These replies will be posted publicly:", ibxSendAllGo: "✓ Post {n} replies", ibxSendAllDone: "{n} replies sent", ibxSendAllFail: "Couldn't send to @{a}: {e}", ibxCancel: "Cancel", ibxDraftUse: "Use it", ibxDraftNo: "No thanks", fnTriggered: "Commented the keyword", fnGate: "Got follow-first", fnPassed: "Followed + tapped", fnSent: "Gift DM sent", fnClicked: "Opened the link", fnNone: "No one has triggered it yet.", fnPost: "Open post", folFresh: "updated {t}", folFreshTip: "Zernio refreshes follower counts about once a day, so a new follower can take up to a day to show.", ibxUnmark: "Back to waiting", ibxAddLabel: "+ label", ibxLabelPh: "New label", ibxNone: "No comments waiting. Nice.", ibxLikes: "likes", ibxHiddenTag: "hidden", nsTitle: "Network settings", nsFB: "Facebook", nsFormat: "Format", nsFeed: "Feed post", nsReel: "Reel", nsFbStory: "Story", nsFeedHint: "Text, one photo, up to 10 photos, or a video. No mixing photos and video.", nsReelHint: "One vertical video (9:16), 3-90 seconds.", nsFbStoryHint: "One photo or video, gone after 24 hours. No caption.", nsReelTitle: "Reel title (optional)", nsFirst: "First comment (optional)", nsFbDraft: "Save as a draft in Facebook's Publishing Tools instead of posting", nsPage: "Facebook Page", nsDefaultPage: "My default Page", nsTT: "TikTok", nsSC: "Snapchat", nsWho: "Who can see it", nsComments: "Comments", nsDuet: "Duets", nsStitch: "Stitches", nsDisclose: "Promotional content", nsNone: "Not promotional", nsOwnBrand: "Your own brand", nsBranded: "Branded content (paid partnership)", nsAi: "Made with AI (label it on TikTok)", nsDraft: "Send to my TikTok inbox as a draft; I finish it in the app", nsConsent: "I previewed this post and agree to post it on TikTok", nsConsentHint: "TikTok requires this. If you change the caption or media, it asks again.", nsLimit: "TikTok says this account can't post more right now. Try later.", nsLoading: "Loading your TikTok choices…", nsStory: "Story", nsSaved: "Saved story", nsSpot: "Spotlight", nsStoryHint: "Disappears after 24 hours. Shows no caption.", nsSavedHint: "Stays on your Public Profile. Title up to 45 characters.", nsSpotHint: "The public video feed. Video only, caption up to 160 characters.", nsSkipped: "Skipped", nsChange: "Change…", nsPriv_PUBLIC_TO_EVERYONE: "Everyone", nsPriv_MUTUAL_FOLLOW_FRIENDS: "Friends", nsPriv_FOLLOWER_OF_CREATOR: "Followers", nsPriv_SELF_ONLY: "Only me", nsPick: "Choose…", calPrev: "Previous month", calNext: "Next month", calToday: "Today", calMore: "+{n} more",
       goalHow: "How this goal works", goalSet: "Your goal: {g} followers.", goalSrc: "You set it during setup. Change it anytime.",
       goalNow: "{c} now · {r} to go", goalReached: "Goal reached. Pick the next one.", goalLive: "Progress comes from your follower count in Zernio and updates with every refresh.",
       goalEdit: "Change goal", goalPh: "e.g. 1000", goalQuick: "Quick picks", goalSaved: "Goal updated", goalBad: "Enter a number above your current followers.",
@@ -229,7 +229,7 @@
       ready: "جاهز", issues: "ملاحظات", post: "البوست", reach: "الوصول", saves: "حفظ", shares: "مشاركة", follows: "متابعة",
       ideaOpen: "التفاصيل", ideaKicker: "فكرة", ideaHook: "الافتتاحية", ideaWhy: "ليش بتنجح", ideaOutline: "المخطط", ideaCta: "الدعوة للتفاعل",
       ideaTags: "الهاشتاقات", ideaWhen: "الوقت المقترح", ideaBased: "مستوحاة من", ideaDrop: "مو لي", ideaPlan: "خطط لها بيوم", ideaPickDay: "اختار يوم من التقويم",
-      kind_carousel: "كاروسيل", kind_reel: "ريل", kind_video: "فيديو", kind_short: "شورت", kind_story: "ستوري", kind_document: "مستند",
+      kind_carousel: "كاروسيل", kind_reel: "ريل", kind_video: "فيديو", kind_short: "شورت", kind_story: "ستوري", kind_document: "مستند", kind_archive: "بوست مضغوط",
       kind_article: "مقال", kind_text: "نص", kind_post: "بوست", zOutside: "انتشر برا Zernio", zAccounts: "الحسابات", zAllAccounts: "كل الحسابات",
       accKicker: "الحسابات", accTitle: "اربط حساب سوشال ميديا", accHint: "سجّل دخول في موقع الشبكة نفسها ووافق. Zernio يحفظ الربط، والسكل ما يشوف كلمة السر أبداً.",
       accNotConnected: "مو مربوط", accConnect: "اربط", accReconnect: "أعد الربط", accAddAnother: "أضف حساب ثاني", accSoon: "قريباً", accConnectShort: "اربط حساب",
@@ -263,13 +263,13 @@
       replace: "استبدال", addKey: "أضف مفتاح", test: "اختبار", remove: "حذف", removed: "انحذف المفتاح", removeConfirm: "تحذف {k} من هالجهاز؟", whereKey: "تحصله من", addOther: "أضف مفتاح API ثاني",
       keysSafe: "المفاتيح تنحفظ في ملف ‎.env‎ بهالمجلد، وأنت بس تقدر تقراه. ما تروح للمحادثة وما تنعرض كاملة مرة ثانية.",
       npStep1: "الملفات والكابشن", npStep2: "افحص وحسّن", npStep3: "الوقت", npStep4: "راجع وجدول", npStepOf: "الخطوة {n} من 4", npNextCheck: "التالي: افحصه", npNextClaude: "التالي: Claude يكتب الكابشن", npNextTime: "التالي: اختار الوقت", npNextReview: "التالي: راجع", npBack: "رجوع", npCloseKeep: "سكّر (المسودة محفوظة)", npWriting: "Claude قاعد يكتب الكابشن…", npWritingHint: "يطلع هني أول ما يخلص (لازم Claude Code يكون مفتوح). تقدر تسكّر هالنافذة؛ والبوست بعد ينفتح في تبويب البوست.", npChecking: "قاعد نفحص البوست…", npCaptionAll: "الكابشن (كل المنصات)", npCaptionFor: "الكابشن لـ{p}", npSaveCheck: "احفظ وافحص من جديد", npSavedCheck: "انحفظ وانفحص من جديد", npPassed: "{n} فحص ناجح", npToFix: "يحتاج تصليح", npAskFix: "اطلب من Claude يصلحه", npFixing: "Claude قاعد يشتغل عليه…", npSugReady: "اقتراح Claude", npApprove: "استخدمه", npEditSug: "عدّل", npReject: "لا شكراً", npSugSent: "انرسل. Claude يطبّقه والفحص يتحدث هني.", npBlockedNext: "لازم تصلّح الأحمر قبل لا تجدول.", npAllGood: "كل الفحوصات ناجحة.", npBest: "أفضل أوقاتك", npBestHint: "من بوستاتك: الزيادة عن معدلك، وكم بوست وراها.", npPickAny: "أو اختار أي يوم ووقت", npNow: "انشره أول ما أأكد", npWhen: "متى", npNoTime: "اختار وقت أول.", npGiftAdd: "أضف هدية (اختياري)", npGiftEdit: "غيّر الهدية", npCoverHint: "الريلز: Instagram ياخذ أول لقطة إلا إذا حطيت غلاف من تبويب البوست.", npSchedule: "جدوله", npPublishNow: "انشر الحين", npOpenPost: "افتح في تبويب البوست", npNoBest: "ما في بيانات كافية من بوستاتك عشان نقترح وقت. اختار واحد تحت.", npTitle: "بوست جديد", npSub: "اختار شنو فيه. صورة وحدة = بوست عادي، كم صورة = كاروسيل، فيديو واحد = ريل.", npPaletteHint: "ملفات · صور · مجلد",
-      npFromPc: "صور أو فيديو", npFromPcHint: "من جهازك", npFromMine: "صوري", npFromMineHint: "اللي سويتها في سوّ صورة", npFromFolder: "مجلد بوست", npFromFolderHint: "فيه الملفات أصلاً",
+      npFromPc: "صور أو فيديو", npFromPcHint: "صور أو فيديو أو PDF أو ملف .zip من جهازك", npArchive: "ملف مضغوط", npArchiveAlone: "الملف المضغوط فيه البوست كامل، فضيفه بروحه.", npArchiveMany: "هالملف المضغوط فيه {n} بوستات. تلقاهم في الجدولة الجماعية.", npFromMine: "صوري", npFromMineHint: "اللي سويتها في سوّ صورة", npFromFolder: "مجلد بوست", npFromFolderHint: "فيه الملفات أصلاً",
       npFromImage: "بوست جديد", npFromImageHint: "ابدأ بوست جديد بهالصورة", npCarouselFromMine: "سوّ بوست أو كاروسيل منها",
-      npMedia: "في هالبوست", npDrop: "ما في شي للحين. اسحب الملفات هني أو استخدم الأزرار فوق.", npSingle: "صورة وحدة", npCarousel: "كاروسيل · {n} شرائح", npReel: "ريل",
+      npMedia: "في هالبوست", rcKicker: "إعادة تدوير", rcTitle: "أعد تدوير أفضل بوستاتك", rcOpen: "أعد تدوير الأفضل", rcBtn: "أعد تدويره", rcManage: "إدارة", rcAll: "كل أفضل البوستات", rcSub: "Zernio يعيد نشر البوست المنشور كل كم أسبوع أو شهر، بهوك جديد كل مرة. الترتيب من نتايجك أنت.", rcRanked: "الترتيب حسب المتابعين الجدد، بعدين الحفظ + المشاركة، بعدين الوصول. بوستات TikTok ما تنعاد.", rcActive: "{a} من {b} قاعدة تنعاد الحين (Zernio يسمح بـ {b})", rcSavesShares: "حفظ + مشاركة", rcRhythm: "كل قد إيش", rcEvery: "كل", rcWeeks: "أسابيع", rcMonths: "شهور", rcEveryN: "كل {n} {u}", rcEveryWeek: "كل أسبوع", rcEveryMonth: "كل شهر", rcStopAfter: "وقّف بعد", rcTimes: "{n} مرات", rcUntilStop: "لين أوقفه", rcFirst: "أول إعادة", rcVersions: "نسخ جديدة", rcVersionsHint: "كل إعادة تاخذ النسخة اللي بعدها بالدور. إذا ما حطيت نسخ ينعاد نفس الكابشن. حط 2 أو أكثر.", rcVersion: "نسخة {n}", rcAsk: "اطلب من Claude هوكات جديدة", rcAsking: "Claude قاعد يكتب… (بتطلع هني)", rcHooksIn: "وصلت النسخ الجديدة من Claude", rcAdd: "أضف نسخة", rcNeedTwo: "أضف نسخة ثانية أو شيلها: Zernio يبي 2 أو أكثر (أو ولا وحدة).", rcSentence: "Zernio بيعيد نشره {every}، {times}، {what}، من {d}.", rcWithN: "ويدوّر بين {n} نسخ جديدة", rcSame: "بنفس الكابشن", rcIgNote: "Instagram يطلّع كل إعادة كبوست جديد.", rcLimits: "لين 10 بوستات تنعاد بنفس الوقت. توقفه متى ما تبي؛ اللي انعاد يظل.", rcType: "اكتب «go» عشان تبدأ", rcStart: "ابدأ إعادة التدوير", rcUpdate: "احفظ التعديلات", rcStarting: "قاعد أبلغ Zernio…", rcStarted: "إعادة التدوير شغالة في Zernio", rcCheck: "انحفظ، بس Zernio يبيّن شي ثاني. شيّك البوست.", rcStop: "وقّف إعادة التدوير", rcStopped: "وقفت إعادة التدوير", rcNext: "الجاية", rcMade: "{a} انعادت", rcMadeOf: "{a} من {b} انعادت", npTextPost: "بوست نص", npTextHint: "ما عندك صور أو فيديو؟ اكتب الكابشن بس: يصير بوست نص لـ LinkedIn وFacebook. تقدر تخليه تصويت أو إعادة نشر في LinkedIn بالخطوة 2.", liKind: "نوع البوست", liPost: "بوست عادي", liPoll: "تصويت", liRepost: "إعادة نشر", liPostHint: "الكابشن مع الصور أو الفيديو أو الـ PDF، مثل العادة.", liPostTextHint: "الكابشن كبوست نص. أو خلّه تصويت أو إعادة نشر.", liNoMedia: "التصويت وإعادة النشر في LinkedIn ما ينفع معاهم صور أو فيديو أو PDF. شيل الملفات، أو اختار بوست عادي.", liUrl: "رابط بوست LinkedIn اللي تبي تعيد نشره", liRepostHint: "الكابشن مالك يطلع كتعليقك فوق البوست الأصلي. خذ الرابط من قائمة ··· في البوست ← Copy link to post.", liQ: "السؤال", liQPh: "اسأل شي يجاوبون عليه بضغطة وحدة", liOpts: "الخيارات (من 2 إلى 4)", liOptPh: "خيار {n}", liAddOpt: "أضف خيار", liDur: "مفتوح لمدة", liD1: "يوم", liD3: "3 أيام", liD7: "أسبوع", liD14: "أسبوعين", liPreview: "معاينة", liPvFoot: "تصويت · مفتوح {d}", liPollHint: "الكابشن يطلع فوق التصويت. التصويت بس في LinkedIn؛ وFacebook (إذا شغّال) ياخذ الكابشن كبوست نص.", npDrop: "ما في شي للحين. اسحب الملفات هني أو استخدم الأزرار فوق.", npSingle: "صورة وحدة", npCarousel: "كاروسيل · {n} شرائح", npReel: "ريل",
       npEarlier: "قدّمها", npLater: "أخّرها", npName: "اسم البوست", npWhere: "ينحفظ في {f}", npCap: "الكابشن",
       npCapPh: "اختياري. خله فاضي وClaude يكتبه بأسلوبك.", npCapHint: "إذا فيه كابشن البوست ينفتح على طول، وإذا لا Claude يكتبه أول.",
       npCreateOpen: "سوّ البوست", npCreateClaude: "سوّ البوست · Claude يكتب الكابشن", npCreating: "قاعد يسوي…", npUploading: "قاعد يرفع {i} من {n}…",
-      npBadFile: "استخدم صور (JPG, PNG, WEBP) أو فيديو (MP4, MOV) أو PDF.", npMineHint: "اضغط الصور بالترتيب اللي تبيه",
+      npBadFile: "استخدم صور (JPG, PNG, WEBP) أو فيديو (MP4, MOV) أو PDF أو ملف مضغوط (.zip, .7z, .rar, .tar.gz).", npMineHint: "اضغط الصور بالترتيب اللي تبيه",
       npOpened: "انفتح البوست: {f}", npClaudeWrites: "المجلد {f} جاهز. Claude قاعد يكتب الكابشن…", npUseFolder: "استخدم هالمجلد",
       npChat: "تقدر بعد تقول لClaude بالمحادثة، مثلاً: «سوّ بوست من my-posts/robot».", npOrType: "أو اكتب مسار المجلد:",
       imgTitle: "سوّ صورة", imgSub: "اوصفها، وإذا تبي حط صور ترشدها، واضغط سوّ. الصور تبقى بجهازك لين تضيفها لبوست.",
@@ -346,7 +346,7 @@
       sent: "وصلت لـClaude", decisionWaiting: "قرار واحد ينتظرك", publishNow: "انشر", typeGo: "اكتب «{w}» للتأكيد",
       before: "قبل", after: "بعد", approve: "موافق", reject: "رفض", edit: "تعديل", saveEdit: "استخدم تعديلي",
       noteFab: "رسالة لـClaude", noteShort: "رسالة", noteKicker: "رسالة", noteTitle: "رسالة لـClaude", noteHint: "أي شي تبي Claude يغيّره أو يعرفه. بيقراه قبل الخطوة الجاية.",
-      notePh2: "مثلاً: استخدم اللقطة 4، قصّر العنوان، انشر على LinkedIn بعد", noteSent: "وصلت الرسالة", cancel: "إلغاء",
+      notePh2: "مثلاً: استخدم اللقطة 4، قصّر العنوان، انشر على LinkedIn بعد", enterHint: "Enter يرسل · Shift+Enter أو Ctrl+Enter لسطر جديد", noteSent: "وصلت الرسالة", cancel: "إلغاء",
       tabAbout: "عن الأداة", aboutKicker: "عن هذي الأداة", aboutTitle: "200BPS Publish",
       aboutMade: "صممها ناصر الأستاذ بأسلوب Vibe Coding مع Claude Code.",
       aboutWhat: "تفحص البوست، وتلقى أفضل وقت للنشر من بياناتك أنت، وتنشر على Instagram وLinkedIn. وما ينشر أي شي إلا بموافقتك.",
@@ -359,7 +359,7 @@
       ages: "العمر", gender: "الجنس", cities: "أكثر المدن", countries: "أكثر الدول", male: "ذكور", female: "إناث", unknown: "غير محدد",
       milestone: "وصلت لإنجاز جديد", days: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
       daysN: "{n} يوم", followGated: "للمتابعين بس", iceBreakers: "أسئلة البداية", postWord: "بوست", trialShort: "تجريبي",
-      cvMonth: "شهر", cvWeek: "أسبوع", cvDay: "يوم", cvPrevWeek: "السابق", cvNextWeek: "التالي", mvTitle: "تنقل هالبوست؟", mvFrom: "من", mvTo: "إلى", mvType: "اكتب «move» عشان يتغيّر في Zernio", mvBtn: "انقله", mvDone: "انتقل إلى {t}", mvLocal: "المسودة انتقلت إلى {t}", mvNotAll: "Zernio خلّى الوقت القديم على: {p}. شيّك عليه في Zernio.", mvPast: "اختار وقت بعد 15 دقيقة على الأقل.", mvPick: "اليوم والوقت الجديد", edTitle: "عدّل الكابشن", edType: "اكتب «edit» عشان ينحفظ في Zernio", edBtn: "احفظ الكابشن", edDone: "الكابشن انحفظ في Zernio", slTitle: "جدول على {t}", slCurrent: "حط المسودة المفتوحة هني", slDrafts: "أو وحدة من مسوداتي", slNoDrafts: "ما في مسودات تنتظر.", slNew: "ابدأ بوست جديد لهالوقت", slIdea: "خل Claude يكتب واحد من فكرة", slIdeaSent: "انرسلت لـClaude: مسودة لـ{t}", slSet: "انجدول على {t}. انشره بـgo لما يجهز.", pdMove: "انقل…", pdEdit: "عدّل الكابشن…", tgDrag: "اسحب بوست عشان تنقله · اضغط أو اسحب على وقت فاضي عشان تخطط واحد", tgNoChange: "البوستات المنشورة ما تنتقل ولا تتعدّل.", ibxAll: "الكل", ibxWaiting: "تنتظر", ibxDone: "انتهت", ibxReply: "رد", ibxGift: "أرسل الهدية", ibxPrivate: "رسالة خاصة", ibxHide: "اخفِ", ibxShow: "أظهر", ibxDelete: "احذف…", ibxOpenPost: "افتح البوست", ibxOnPost: "على", ibxGiftOf: "هدية هالبوست", ibxNoGift: "ما في هدية على هالبوست", ibxReplyPh: "اكتب ردك العام…", ibxSend: "أرسل الرد", ibxGiftHint: "توصله بالخاص. رسالة خاصة وحدة لكل تعليق، خلال 7 أيام من التعليق.", ibxAsButton: "أرسل الرابط كزر", ibxBtnWarn: "Instagram ممكن يرفض الأزرار للي ما يتابعونك، والمحاولة المرفوضة تستهلك الرسالة الوحيدة لهالتعليق. الرابط داخل النص يشتغل دايماً.", ibxConfirm: "أكّد: أرسل لـ@{a}", ibxSent: "انرسل الرد", ibxGiftSent: "انرسلت الهدية لـ@{a}", ibxHidden: "انخفى التعليق", ibxShown: "ظهر التعليق", ibxDelTitle: "تحذف هالتعليق؟", ibxDelType: "اكتب «delete» عشان ينشال من البوست (ما يرجع)", ibxDelBtn: "احذف التعليق", ibxDeleted: "انحذف التعليق", ibxSt_replied: "✓ انرد عليه", ibxSt_gift: "✓ انرسلت الهدية", "ibxSt_gift-used": "الهدية مستخدمة", "ibxSt_gift-unknown": "الهدية غالباً وصلت", ibxSt_deleted: "✓ انحذف", ibxUnmark: "رجّعه للانتظار", ibxAddLabel: "+ تصنيف", ibxLabelPh: "تصنيف جديد", ibxNone: "ما في تعليقات تنتظر. حلو.", ibxLikes: "لايك", ibxHiddenTag: "مخفي", nsTitle: "إعدادات المنصات", nsFB: "Facebook", nsFormat: "النوع", nsFeed: "بوست عادي", nsReel: "ريل", nsFbStory: "ستوري", nsFeedHint: "نص، صورة وحدة، لين 10 صور، أو فيديو. بدون خلط صور وفيديو.", nsReelHint: "فيديو واحد عمودي (9:16)، من 3 لين 90 ثانية.", nsFbStoryHint: "صورة أو فيديو واحد، تختفي بعد 24 ساعة. بدون كابشن.", nsReelTitle: "عنوان الريل (اختياري)", nsFirst: "أول تعليق (اختياري)", nsFbDraft: "احفظه كمسودة في أدوات النشر بفيسبوك بدال لا ينشر", nsPage: "صفحة Facebook", nsDefaultPage: "صفحتي الأساسية", nsTT: "TikTok", nsSC: "Snapchat", nsWho: "منو يشوفه", nsComments: "التعليقات", nsDuet: "الدويت", nsStitch: "الستيتش", nsDisclose: "محتوى ترويجي", nsNone: "مو ترويجي", nsOwnBrand: "براندك أنت", nsBranded: "محتوى مدفوع (شراكة)", nsAi: "مسوّى بالذكاء الاصطناعي (علّمه في TikTok)", nsDraft: "أرسله لصندوق TikTok كمسودة؛ وأكمله من التطبيق", nsConsent: "شفت البوست وأوافق أنشره على TikTok", nsConsentHint: "TikTok يطلبها. إذا غيّرت الكابشن أو الملفات، يسأل مرة ثانية.", nsLimit: "TikTok يقول هالحساب ما يقدر ينشر أكثر الحين. جرّب بعدين.", nsLoading: "قاعد نجيب خيارات TikTok مالتك…", nsStory: "ستوري", nsSaved: "ستوري محفوظة", nsSpot: "سبوتلايت", nsStoryHint: "تختفي بعد 24 ساعة. ما تبين الكابشن.", nsSavedHint: "تظل في بروفايلك العام. العنوان لين 45 حرف.", nsSpotHint: "فيد الفيديوهات العام. فيديو بس، والكابشن لين 160 حرف.", nsSkipped: "انتجاهل", nsChange: "غيّر…", nsPriv_PUBLIC_TO_EVERYONE: "الكل", nsPriv_MUTUAL_FOLLOW_FRIENDS: "الأصدقاء", nsPriv_FOLLOWER_OF_CREATOR: "المتابعين", nsPriv_SELF_ONLY: "أنا بس", nsPick: "اختار…", calPrev: "الشهر السابق", calNext: "الشهر الجاي", calToday: "اليوم", calMore: "+{n} ثانية",
+      cvMonth: "شهر", cvWeek: "أسبوع", cvDay: "يوم", cvPrevWeek: "السابق", cvNextWeek: "التالي", mvTitle: "تنقل هالبوست؟", mvFrom: "من", mvTo: "إلى", mvType: "اكتب «move» عشان يتغيّر في Zernio", mvBtn: "انقله", mvDone: "انتقل إلى {t}", mvLocal: "المسودة انتقلت إلى {t}", mvNotAll: "Zernio خلّى الوقت القديم على: {p}. شيّك عليه في Zernio.", mvPast: "اختار وقت بعد 15 دقيقة على الأقل.", mvPick: "اليوم والوقت الجديد", edTitle: "عدّل الكابشن", edType: "اكتب «edit» عشان ينحفظ في Zernio", edBtn: "احفظ الكابشن", edDone: "الكابشن انحفظ في Zernio", slTitle: "جدول على {t}", slCurrent: "حط المسودة المفتوحة هني", slDrafts: "أو وحدة من مسوداتي", slNoDrafts: "ما في مسودات تنتظر.", slNew: "ابدأ بوست جديد لهالوقت", slIdea: "خل Claude يكتب واحد من فكرة", slIdeaSent: "انرسلت لـClaude: مسودة لـ{t}", slSet: "انجدول على {t}. انشره بـgo لما يجهز.", pdMove: "انقل…", pdEdit: "عدّل الكابشن…", tgDrag: "اسحب بوست عشان تنقله · اضغط أو اسحب على وقت فاضي عشان تخطط واحد", tgNoChange: "البوستات المنشورة ما تنتقل ولا تتعدّل.", ibxAll: "الكل", ibxWaiting: "تنتظر", ibxDone: "انتهت", ibxReply: "رد", ibxGift: "أرسل الهدية", ibxPrivate: "رسالة خاصة", ibxHide: "اخفِ", ibxShow: "أظهر", ibxDelete: "احذف…", ibxOpenPost: "افتح البوست", ibxOnPost: "على", ibxGiftOf: "هدية هالبوست", ibxNoGift: "ما في هدية على هالبوست", ibxReplyPh: "اكتب ردك العام…", ibxSend: "أرسل الرد", ibxGiftHint: "توصله بالخاص. رسالة خاصة وحدة لكل تعليق، خلال 7 أيام من التعليق.", ibxAsButton: "أرسل الرابط كزر", ibxBtnWarn: "Instagram ممكن يرفض الأزرار للي ما يتابعونك، والمحاولة المرفوضة تستهلك الرسالة الوحيدة لهالتعليق. الرابط داخل النص يشتغل دايماً.", ibxConfirm: "أكّد: أرسل لـ@{a}", ibxSent: "انرسل الرد", ibxGiftSent: "انرسلت الهدية لـ@{a}", ibxHidden: "انخفى التعليق", ibxShown: "ظهر التعليق", ibxDelTitle: "تحذف هالتعليق؟", ibxDelType: "اكتب «delete» عشان ينشال من البوست (ما يرجع)", ibxDelBtn: "احذف التعليق", ibxDeleted: "انحذف التعليق", ibxSt_replied: "✓ انرد عليه", ibxSt_gift: "✓ انرسلت الهدية", "ibxSt_gift-used": "الهدية مستخدمة", "ibxSt_gift-unknown": "الهدية غالباً وصلت", ibxSt_deleted: "✓ انحذف", ibxSt_marked: "✓ تعلّمت منتهية", ibxSt_gated: "الهدية توصله لما يتابع", ibxSt_notfollower: "مو متابع · بدون هدية", "ibxSt_auto-sent": "✓ تلقائي: انرسلت الهدية", "ibxSt_auto-gated": "تلقائي: الهدية توصله لما يتابع", "ibxSt_auto-skipped": "تلقائي: الأتمتة تجاهلته", "ibxSt_auto-failed": "الهدية التلقائية فشلت", ibxAutoTip: "أتمتة الرسائل في Zernio تعاملت مع هالتعليق. ما عليك شي؛ انتقل لـ«انتهت» بروحه.", ibxAutoGatedTip: "Zernio أرسل له رسالة «تابع أول». لما يتابع ويضغط الزر، توصله الهدية بروحها.", ibxAutoFailTip: "الأتمتة حاولت وفشلت، عشان جذي يظل في «تنتظر». تقدر ترسل الهدية بنفسك إذا الرسالة الخاصة الوحيدة لهالتعليق ما انستخدمت.", ibxAutoUsed: "الرسالة الخاصة الوحيدة لهالتعليق انستخدمت، فما تقدر ترسل هدية يدوياً.", ibxDraftAll: "✨ خل Claude يكتب الردود", ntAll: "كل المنصات", nwBtn: "المنصات…", nwKicker: "منصات هالبوست", nwHint: "شغّل أو طفّ كل منصة. البوست يظل مجدول على اللي تظل شغّالة.", nwHintLocal: "شغّل أو طفّ كل منصة لهالمسودة.", nwHintPub: "انشر خلاص. تقدر تشيله من منصة إذا المنصة تسمح.", nwType: "اكتب «edit» عشان يتغيّر في Zernio", nwSave: "احفظ المنصات", nwKeepOne: "خلّ منصة وحدة شغّالة على الأقل. عشان توقف البوست كله، استخدم «ألغِ».", nwSaved: "انحدّثت المنصات", nwCheck: "انحفظ، بس Zernio يبين شي مختلف. شيّك على البوست.", nwCant: "ما تعرض {k}", nwNotOn: "مو على هالبوست", nwRemove: "شيله من {p}…", nwRemoveTitle: "تشيله من {p}؟", nwRemoveHint: "البوست ينحذف من هالمنصة بس؛ والباقي يظل. ما يرجع.", nwTypeRemove: "اكتب «remove» عشان تأكد", nwRemoved: "انشال من {p}", nwAppOnly: "{p} ما يسمح للتطبيقات تحذف البوستات: احذفه من تطبيق {p}.", cpGift: "انسخ الهدية بعد («{k}»)", cpGiftHint: "نفس الكلمة والرسالة والرابط والرد، على النسخة. تشتغل لما تنزل النسخة.", cpGiftDone: "انسخت الهدية", dayOpen: "افتح هاليوم", buildWord: "بناء", cpCopy: "انسخ", cpCopied: "انسخ. اضغط يوم في الخطة، وبعدين «الصق هني» (أو أشّر على يوم واضغط Ctrl+V).", cpOnClip: "منسوخ:", cpHow: "اضغط يوم ← الصق هني · أو Ctrl+V على يوم", cpClear: "انسَ النسخة", cpKicker: "الصق نسخة", cpWhat: "نفس الصور أو الفيديو والمنصات والحسابات والإعدادات. اختار الوقت؛ وعدّل الكابشن إذا تبي.", cpWhatLocal: "مسودة جديدة على جهازك بنفس الملفات والإعدادات. ما يروح شي لـZernio لين تنشره بـgo.", cpWhen: "اليوم والوقت", cpNets: "المنصات", cpCaption: "الكابشن", cpSchedule: "جدوله", cpDraft: "احفظه مسودة في Zernio", cpTypeGo: "اكتب «go» عشان تجدول النسخة", cpPasteBtn: "جدول النسخة", cpDraftBtn: "احفظ المسودة", cpLocalBtn: "سوّ النسخة", cpPickNet: "اختار منصة وحدة على الأقل.", cpDone: "انجدولت النسخة على {t}", cpDoneDraft: "انحفظت النسخة مسودة في Zernio على {t}", cpDoneLocal: "انسوت النسخة كمسودة على {t}", cpPasteHere: "الصق هني", tgAccounts: "انشر على هالحسابات", tgHint: "علّم كل حساب تبي البوست ينزل عليه. نفس الكابشن والإعدادات على كل واحد.", tgLocked: "هالبوست صار في Zernio؛ ما تقدر تغيّر حساباته الحين.", tgOne: "خلّ حساب واحد على الأقل.", tgSaved: "انحفظت الحسابات", vView: "شوفه", ntPickNet: "المنصة", ntConnect: "اربط حساب", ntAllAcc: "كل حسابات {p} ({n})", ntPin: "ثبّته فوق", ntUnpin: "شيل التثبيت", ntFind: "دوّر على حساب…", ntAccount: "الحساب", ntCh7: "7 أيام", ntCh30: "30 يوم", ntCompare: "الحسابات جنب بعض", ntCompareHint: "آخر 30 يوم · اضغط عمود عشان ترتّب، وصف عشان تفتحه", ntGoalPerAcc: "الأهداف لكل حساب: افتح حساب عشان تحط هدفه.", ntBestPick: "أفضل الأوقات لكل حساب: افتح حساب عشان تشوفها.", nsTitle2: "وين ينزل هالبوست", nsWhen: "متى", nsAccount: "الحساب", nsStatusOf: "الحالة", nsMore: "+{n}", nsOpen: "افتحه في {p} ↗", nsNoTime: "ما في وقت للحين", nsLocalNote: "ما انرفع لـZernio للحين: بينزل على هالمنصات لما تنشره بـgo.", nsOpenPost: "افتح البوست", ntSince: "{n} من {d}", ntSinceTip: "Zernio عنده سجل متابعين لهالمنصة بس من هاليوم، فما نقدر نحسب تغيّر 30 يوم للحين.", ibxTz: "الوقت حسب", ibxTzMine: "{c} (وقتي)", ibxTzLocal: "ساعة هالجهاز", ibxTzAud: "وين جمهورك", ibxTzAll: "كل المناطق الزمنية", ntPosts: "البوستات", ntImpr: "الظهور", ntReach: "الوصول", ntEng: "التفاعلات", ntER: "متوسط نسبة التفاعل", ntNewF: "متابعين جدد", ntLast30: "آخر 30 يوم مقارنة بالـ30 اللي قبلها", ntWeek: "{n} هالأسبوع", ntMonth: "{n} خلال 30 يوم", ntGoal: "الهدف", ntSetGoal: "حط هدف", ntNoGoal: "ما في هدف لهالمنصة للحين.", ntBest: "أفضل الأوقات", ntBestNone: "ما في وقت بارز للحين على هالمنصة (ولا وقت أحسن من متوسطك). كل بوست يحسّن هالشي.", ntLift: "{l}% عن متوسطك", ntRhythm: "إيقاع النشر", ntRhythmHint: "بوستات بالأسبوع · آخر 8 أسابيع", ntTop: "أفضل البوستات", ntTopHint: "أكثر تفاعل · آخر 90 يوم", ntOpen: "افتح", ntNoPosts: "ما في بوستات بآخر 90 يوم على هالمنصة.", ntFollowers: "المتابعين", ntConf_high: "ثقة عالية", ntConf_medium: "ثقة متوسطة", ntConf_low: "ثقة قليلة", ntN: "{n} بوستات", "ibxSt_ig-replied": "✓ رديت عليه في Instagram", "ibxSt_ig-mentioned": "✓ منشنته بتعليقك", "ibxSt_ig-dm": "✓ رديت عليه بالخاص", ibxIgTip: "تعاملت معاه من تطبيق Instagram، فانتقل لـ«انتهت» بروحه.", ibxYouWrote: "كتبت", ibxLiked: "♥ عجبك", ibxDraftSent: "انرسلت لـClaude: ردود لـ{n} تعليق", ibxDraftNone: "كل التعليقات اللي تنتظر عندها مسودة.", ibxDraftOf: "مسودة Claude", ibxSendAll: "أرسل كل المسودات ({n})", ibxSendAllTitle: "هالردود بتنتشر للكل:", ibxSendAllGo: "✓ انشر {n} ردود", ibxSendAllDone: "انرسلت {n} ردود", ibxSendAllFail: "ما قدرت أرسل لـ@{a}: {e}", ibxCancel: "إلغاء", ibxDraftUse: "استخدمها", ibxDraftNo: "لا، شكراً", fnTriggered: "علّق بالكلمة", fnGate: "وصلته «تابع أول»", fnPassed: "تابع وضغط", fnSent: "وصلته الهدية", fnClicked: "فتح الرابط", fnNone: "محد استخدمها للحين.", fnPost: "افتح البوست", folFresh: "تحدّث {t}", folFreshTip: "Zernio يحدّث عدد المتابعين تقريباً مرة باليوم، فالمتابع الجديد ممكن ياخذ لين يوم عشان يبين.", ibxUnmark: "رجّعه للانتظار", ibxAddLabel: "+ تصنيف", ibxLabelPh: "تصنيف جديد", ibxNone: "ما في تعليقات تنتظر. حلو.", ibxLikes: "لايك", ibxHiddenTag: "مخفي", nsTitle: "إعدادات المنصات", nsFB: "Facebook", nsFormat: "النوع", nsFeed: "بوست عادي", nsReel: "ريل", nsFbStory: "ستوري", nsFeedHint: "نص، صورة وحدة، لين 10 صور، أو فيديو. بدون خلط صور وفيديو.", nsReelHint: "فيديو واحد عمودي (9:16)، من 3 لين 90 ثانية.", nsFbStoryHint: "صورة أو فيديو واحد، تختفي بعد 24 ساعة. بدون كابشن.", nsReelTitle: "عنوان الريل (اختياري)", nsFirst: "أول تعليق (اختياري)", nsFbDraft: "احفظه كمسودة في أدوات النشر بفيسبوك بدال لا ينشر", nsPage: "صفحة Facebook", nsDefaultPage: "صفحتي الأساسية", nsTT: "TikTok", nsSC: "Snapchat", nsWho: "منو يشوفه", nsComments: "التعليقات", nsDuet: "الدويت", nsStitch: "الستيتش", nsDisclose: "محتوى ترويجي", nsNone: "مو ترويجي", nsOwnBrand: "براندك أنت", nsBranded: "محتوى مدفوع (شراكة)", nsAi: "مسوّى بالذكاء الاصطناعي (علّمه في TikTok)", nsDraft: "أرسله لصندوق TikTok كمسودة؛ وأكمله من التطبيق", nsConsent: "شفت البوست وأوافق أنشره على TikTok", nsConsentHint: "TikTok يطلبها. إذا غيّرت الكابشن أو الملفات، يسأل مرة ثانية.", nsLimit: "TikTok يقول هالحساب ما يقدر ينشر أكثر الحين. جرّب بعدين.", nsLoading: "قاعد نجيب خيارات TikTok مالتك…", nsStory: "ستوري", nsSaved: "ستوري محفوظة", nsSpot: "سبوتلايت", nsStoryHint: "تختفي بعد 24 ساعة. ما تبين الكابشن.", nsSavedHint: "تظل في بروفايلك العام. العنوان لين 45 حرف.", nsSpotHint: "فيد الفيديوهات العام. فيديو بس، والكابشن لين 160 حرف.", nsSkipped: "انتجاهل", nsChange: "غيّر…", nsPriv_PUBLIC_TO_EVERYONE: "الكل", nsPriv_MUTUAL_FOLLOW_FRIENDS: "الأصدقاء", nsPriv_FOLLOWER_OF_CREATOR: "المتابعين", nsPriv_SELF_ONLY: "أنا بس", nsPick: "اختار…", calPrev: "الشهر السابق", calNext: "الشهر الجاي", calToday: "اليوم", calMore: "+{n} ثانية",
       goalHow: "شلون يشتغل الهدف", goalSet: "هدفك: {g} متابع.", goalSrc: "حددته وقت الإعداد. تقدر تغيّره أي وقت.",
       goalNow: "{c} الحين · باقي {r}", goalReached: "وصلت للهدف. اختار الهدف الجاي.", goalLive: "التقدم محسوب من عدد متابعينك في Zernio ويتحدث مع كل تحديث.",
       goalEdit: "غيّر الهدف", goalPh: "مثلاً 1000", goalQuick: "اختيارات سريعة", goalSaved: "انحدّث الهدف", goalBad: "اكتب رقم أكبر من عدد متابعينك الحين.",
@@ -434,6 +434,21 @@
   }
 
   /* ---------- rings ---------- */
+  // Notes to Claude: Enter sends; Shift+Enter or Ctrl+Enter adds a new line.
+  // (Typing with an input method, e.g. while composing, never sends.)
+  function enterSends(ta, send) {
+    ta.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
+      if (e.shiftKey) return;                                    // browser adds the new line
+      e.preventDefault();
+      if (e.ctrlKey || e.metaKey || e.altKey) {                  // Ctrl/Cmd+Enter: new line too
+        const a = ta.selectionStart, b = ta.selectionEnd;
+        ta.setRangeText("\n", a, b, "end"); ta.dispatchEvent(new Event("input", { bubbles: true })); return;
+      }
+      if (ta.value.trim()) send();
+    });
+    ta.setAttribute("enterkeyhint", "send");
+  }
   function ring(host, value, max, label) {
     const key = `${value}/${max}/${label}/${state.lang}`;
     if (host.dataset.key === key && host.firstChild) return;      // same value: keep it still
@@ -448,7 +463,7 @@
         <circle cx="75" cy="75" r="${r}" fill="none" stroke="${label === "goal" ? "var(--bps-lime)" : col}" stroke-width="10"
           stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - prevPct)}" stroke-linecap="round"/>
       </svg>
-      <div><span class="num">${label === "goal" ? Math.round(pct * 100) + "%" : value}</span><span class="of">${label === "goal" ? esc(fmt(value)) + " / " + esc(fmt(max)) : "/ 100"}</span></div>`;
+      <div><span class="num">${label === "goal" ? Math.round(pct * 100) + "%" : value}</span><span class="of${label === "goal" && (fmt(value) + fmt(max)).length > 8 ? " long" : ""}">${label === "goal" ? esc(fmt(value)) + " / " + esc(fmt(max)) : "/ 100"}</span></div>`;
     requestAnimationFrame(() => requestAnimationFrame(() => { host.querySelectorAll("circle")[1].style.strokeDashoffset = String(c * (1 - pct)); }));
   }
 
@@ -644,7 +659,7 @@
           bThumb(f), el("span", { class: "bcheck", "aria-hidden": "true" }),
           el("span", { class: "bmeta" }, el("b", {}, f.name), el("small", {}, (f.caption || "").split("\n")[0] || "—"),
             f.outside ? el("small", { class: "bpath", title: f.folder }, f.folder) : null,
-            el("span", { class: "bkind" }, kindChip({ kind: { single: "post", reel: "reel", carousel: "carousel", document: "document", text: "text" }[f.type] || "post", count: f.count }),
+            el("span", { class: "bkind" }, kindChip({ kind: { single: "post", reel: "reel", carousel: "carousel", document: "document", text: "text", archive: "archive" }[f.type] || "post", count: f.count }),
               sent ? el("span", { class: "zbadge st-pub" }, t("bSent")) : null)));
         card.addEventListener("click", () => { B.sel.has(f.folder) ? B.sel.delete(f.folder) : B.sel.add(f.folder); card.classList.toggle("on"); card.setAttribute("aria-pressed", B.sel.has(f.folder)); sync(); });
         grid.append(card);
@@ -899,7 +914,7 @@
       el("p", {}, t("goalSet").replace("{g}", fmt(g)) + " " + t("goalSrc")), el("p", {}, t("goalLive"))));
     host.append(el("button", { class: "btn" + (reached ? " on" : ""), type: "button", onclick: () => openGoal(g, cur) }, t("goalEdit")));
   }
-  function openGoal(g, cur) {
+  function openGoal(g, cur, pf, acc) {
     showModal("goal", (body) => {
       const inp = el("input", { type: "number", min: String(cur + 1), step: "1", inputmode: "numeric", placeholder: t("goalPh"), value: g || "" });
       const err = el("div", { class: "err", role: "alert" });
@@ -907,7 +922,7 @@
         n = Math.round(Number(n));
         if (!n || n <= cur) { err.textContent = t("goalBad"); return; }
         try {
-          const r = await fetch("/api/goal", { method: "POST", headers: { "Content-Type": "application/json", "X-BPS-Token": TOKEN }, body: JSON.stringify({ followers: n }) });
+          const r = await fetch("/api/goal", { method: "POST", headers: { "Content-Type": "application/json", "X-BPS-Token": TOKEN }, body: JSON.stringify({ followers: n, platform: pf || "", account: acc || "" }) });
           const j = await r.json().catch(() => ({}));
           if (!r.ok || !j.ok) throw new Error(j.error || "HTTP " + r.status);
           closeModal(() => { toast(t("goalSaved")); lastSig = ""; load(false); });
@@ -966,8 +981,11 @@
     if (!plats.includes(state.plat)) state.plat = plats[0];
     const sw = $("#platSwitch"); sw.innerHTML = "";
     plats.forEach((pl) => sw.append(el("button", { class: "btn" + (pl === state.plat ? " on" : ""), type: "button", onclick: () => { state.plat = pl; renderPost(); } }, pl)));
+    renderTargets(p);
     const cap = (p.captions || {})[state.plat] ?? (p.captions || {}).default ?? "";
     $("#captionBox").innerHTML = highlight(cap);
+    document.querySelectorAll(".li-pv-main").forEach((x) => x.remove());
+    if (state.plat === "linkedin") { const lx = liExtraPreview(p); if (lx) $("#captionBox").after(lx); }
 
     const list = $("#checkList"); list.innerHTML = "";
     const checks = (p.checks || []).filter((c) => !c.platform || c.platform === state.plat);
@@ -1008,11 +1026,12 @@
     }
     const dm = p.dm || {};
     row("dmGift", dm.enabled ? `“${dm.keyword}”${dm.followGate ? " · " + t("followGated") : ""}` : t("off"));
-    if (plats.some((x) => ["tiktok", "snapchat", "facebook"].includes(x)) || Object.keys(p.skipped_reasons || {}).length) {
+    if (hasNetSettings(p) || Object.keys(p.skipped_reasons || {}).length) {
       const tt = (p.settings || {}).tiktok || {}, sc = (p.settings || {}).snapchat || {};
       const bits = [];
       if (plats.includes("tiktok")) bits.push("TikTok: " + (tt.privacyLevel ? t("nsPriv_" + tt.privacyLevel) : t("nsPick")));
       if (plats.includes("snapchat")) bits.push("Snapchat: " + t({ story: "nsStory", saved_story: "nsSaved", spotlight: "nsSpot" }[sc.contentType || "story"]));
+      if (plats.includes("linkedin")) { const lk = ((p.settings || {}).linkedin || {}).kind || "post"; bits.push("LinkedIn: " + t({ post: "liPost", poll: "liPoll", repost: "liRepost" }[lk])); }
       if (plats.includes("facebook")) { const ff = (p.settings || {}).facebook || {}; bits.push("Facebook: " + t({ feed: "nsFeed", reel: "nsReel", story: "nsFbStory" }[ff.format || (p.type === "reel" ? "reel" : "feed")]) + (ff.draft ? " · draft" : "")); }
       Object.values(p.skipped_reasons || {}).forEach((r) => bits.push(t("nsSkipped") + ": " + r));
       row("nsTitle", el("span", {}, bits.join(" · ") + " ", editableNow() ? el("button", { class: "btn sm ns-open", type: "button", onclick: openNetSettings }, t("nsChange")) : null));
@@ -1033,19 +1052,21 @@
   /* ---------- growth ---------- */
   function lineChart(host, series) {
     if (!series || series.length < 2) { host.innerHTML = `<p class="empty">${esc(t("noData"))}</p>`; return; }
-    const W = 640, H = 200, P = 30;
+    const W = Math.max(320, Math.round(host.clientWidth) || 640), H = 200, P = 30;
     const vs = series.map((d) => d.value), min = Math.min(...vs), max = Math.max(...vs), span = max - min || 1;
-    const x = (i) => P + (i * (W - P * 2)) / (series.length - 1);
+    const PR = 14 + 7.5 * Math.max(...[min, min + span / 2, max].map((v) => fmt(Math.round(v)).length));   // room for the y labels
+    const x = (i) => P + (i * (W - P - PR)) / (series.length - 1);
     const y = (v) => H - P - ((v - min) * (H - P * 2)) / span;
     const pts = series.map((d, i) => `${x(i).toFixed(1)},${y(d.value).toFixed(1)}`).join(" ");
     const area = `${x(0)},${H - P} ${pts} ${x(series.length - 1)},${H - P}`;
-    const ticks = [min, min + span / 2, max].map((v) => `<line class="grid" x1="${P}" x2="${W - P}" y1="${y(v)}" y2="${y(v)}"/><text x="${W - P + 4}" y="${y(v) + 3}">${esc(fmt(Math.round(v)))}</text>`).join("");
+    const ticks = [min, min + span / 2, max].map((v) => `<line class="grid" x1="${P}" x2="${W - PR}" y1="${y(v)}" y2="${y(v)}"/><text x="${W - PR + 6}" y="${y(v) + 3}">${esc(fmt(Math.round(v)))}</text>`).join("");
     const lastI = series.length - 1;
-    host.innerHTML = `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="followers over time">
+    host.innerHTML = `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="followers over time">
       ${ticks}<polygon class="area" points="${area}"/><polyline class="line" points="${pts}"/>
       <rect x="${x(lastI) - 4}" y="${y(series[lastI].value) - 4}" width="8" height="8" fill="var(--bps-lime)"/>
-      <text x="${P}" y="${H - 8}">${esc(series[0].date)}</text><text x="${W - P}" y="${H - 8}" text-anchor="end">${esc(series[lastI].date)}</text></svg>`;
+      <text x="${P}" y="${H - 8}">${esc(series[0].date)}</text><text x="${W - PR}" y="${H - 8}" text-anchor="end">${esc(series[lastI].date)}</text></svg>`;
     $("#folRange").textContent = t("daysN").replace("{n}", fmt(series.length));
+    folFresh();
   }
 
   function delta(cur, prev) {
@@ -1053,44 +1074,198 @@
     return Math.round(((cur - prev) / prev) * 100);
   }
 
-  function renderGrowth() {
-    const z = state.z;
-    const k = $("#kpis"); k.innerHTML = "";
-    if (!z || !z.ok) {
-      k.append(el("div", { class: "card", style: "grid-column:1/-1" }, el("p", { class: "empty" }, z && z.error ? z.error : t("zernioOff"))));
-      return;
+  state.net = (() => { try { return localStorage.getItem("bps.net") || "all"; } catch (e) { return "all"; } })();
+  // Growth → network → account. Tabs list networks (with how many accounts), so 20 accounts
+  // never crowd the bar; inside a network, pick "All accounts" or one account.
+  state.netAcc = (() => { try { return JSON.parse(localStorage.getItem("bps.netAcc") || "{}"); } catch (e) { return {}; } })();
+  state.netPins = (() => { try { return JSON.parse(localStorage.getItem("bps.netPins") || "[]"); } catch (e) { return []; } })();
+  state.netQ = ""; state.netSort = { key: "followers", dir: -1 };
+  const saveNet = () => { try { localStorage.setItem("bps.net", state.net); localStorage.setItem("bps.netAcc", JSON.stringify(state.netAcc)); localStorage.setItem("bps.netPins", JSON.stringify(state.netPins)); } catch (e) {} };
+  const netGroups = () => {
+    const g = {};
+    ((state.z && state.z.networks) || []).forEach((n) => (g[n.platform] ||= []).push(n));
+    Object.values(g).forEach((l) => l.sort((a, b) => (state.netPins.includes(b.accountId) - state.netPins.includes(a.accountId)) || ((b.followers || 0) - (a.followers || 0))));
+    return g;
+  };
+  // Growth tabs: one per network that has accounts in Zernio ("LinkedIn · 3"). A network with
+  // several accounts opens a dropdown of them (All accounts + each one, with pins and search);
+  // one account opens straight away. "+ Connect" adds another network or account through Zernio.
+  state.netMenu = null;
+  function renderNetTabs() {
+    const host = $("#netTabs"); if (!host) return;
+    const groups = netGroups(), pfs = Object.keys(groups);
+    host.innerHTML = "";
+    if (!pfs.length) { host.hidden = true; return; }
+    host.hidden = false;
+    if (state.net !== "all" && !groups[state.net]) state.net = "all";
+    const bar = el("div", { class: "net-tabrow", role: "tablist" });
+    bar.append(el("button", { class: "net-tab" + (state.net === "all" ? " on" : ""), type: "button", role: "tab", "aria-selected": String(state.net === "all"),
+      onclick: () => { state.net = "all"; state.netMenu = null; saveNet(); renderGrowth(); } }, t("ntAll")));
+    pfs.forEach((pf) => {
+      const list = groups[pf], many = list.length > 1, on = state.net === pf;
+      const cur = state.netAcc[pf] || "all", curN = list.find((n) => n.accountId === cur);
+      const lbl = (NET_NAME[pf] || pf) + (many ? (on && curN ? " · " + handle(curN.username || curN.name || "?") : " · " + list.length) : list[0].username ? " · " + handle(list[0].username) : "");
+      const wrap = el("div", { class: "net-tabwrap" });
+      wrap.append(el("button", { class: "net-tab" + (on ? " on" : ""), type: "button", role: "tab", "aria-selected": String(on), "aria-haspopup": many ? "listbox" : null, "aria-expanded": many ? String(state.netMenu === pf) : null,
+        onclick: () => { if (!many) { state.net = pf; state.netMenu = null; saveNet(); renderGrowth(); return; } state.netMenu = state.netMenu === pf ? null : pf; renderNetTabs(); } },
+        lbl, many ? el("span", { class: "net-caret", "aria-hidden": "true" }, "▾") : null));
+      if (many && state.netMenu === pf) wrap.append(netMenu(pf, list));
+      bar.append(wrap);
+    });
+    bar.append(el("button", { class: "net-tab net-add", type: "button", onclick: () => openConnectChooser() }, "+ " + t("ntConnect")));
+    host.append(bar);
+  }
+  function netMenu(pf, list) {
+    const cur = state.net === pf ? (state.netAcc[pf] || "all") : null;
+    const pick = (id) => { state.net = pf; state.netAcc[pf] = id; state.netMenu = null; state.netQ = ""; saveNet(); renderGrowth(); };
+    const menu = el("div", { class: "net-menu", role: "listbox" });
+    const q = state.netQ.trim().toLowerCase();
+    if (list.length > 8) {
+      const inp = el("input", { type: "search", class: "acc-search", placeholder: t("ntFind"), value: state.netQ, "aria-label": t("ntFind") });
+      inp.addEventListener("input", () => { state.netQ = inp.value; renderNetTabs(); const x = $("#netTabs .acc-search"); if (x) { x.focus(); x.setSelectionRange(x.value.length, x.value.length); } });
+      menu.append(inp);
     }
-    const kp = z.kpis || {};
-    [["reach7", "reach"], ["views7", "views"], ["eng7", "engagement"], ["follows7", "follows"]].forEach(([lbl, key], i) => {
-      const d = delta(kp[key], kp[key + "_prev"]);
-      k.append(el("div", { class: "card kpi" + (state.kpiShown ? "" : " stagger"), style: `animation-delay:${i * 60}ms` },
-        el("div", { class: "label" }, t(lbl)), (() => { const v = el("div", { class: "v" }, state.counted ? fmt(kp[key]) : "0"); if (!state.counted) countUp(v, kp[key]); return v; })(),
+    const row = (id, label, n) => {
+      const pinned = n && state.netPins.includes(n.accountId);
+      return el("div", { class: "net-opt" + (cur === id ? " on" : ""), role: "option", "aria-selected": String(cur === id) },
+        el("button", { class: "net-opt-main", type: "button", onclick: () => pick(id) },
+          n ? (n.picture ? el("img", { src: n.picture, alt: "", referrerpolicy: "no-referrer", loading: "lazy" }) : el("span", { class: "net-opt-ph" }, (n.username || "?")[0].toUpperCase())) : el("span", { class: "net-opt-ph all" }, "∑"),
+          el("span", { class: "net-opt-txt" }, el("b", {}, label), n && n.followers != null ? el("small", {}, fmt(n.followers) + " " + t("followers")) : null)),
+        n ? el("button", { class: "acc-pin" + (pinned ? " on" : ""), type: "button", "aria-label": t(pinned ? "ntUnpin" : "ntPin"), title: t(pinned ? "ntUnpin" : "ntPin"),
+          onclick: () => { state.netPins = pinned ? state.netPins.filter((x) => x !== n.accountId) : [...state.netPins, n.accountId]; saveNet(); renderNetTabs(); } }, pinned ? "★" : "☆") : null);
+    };
+    menu.append(row("all", t("ntAllAcc").replace("{n}", list.length).replace("{p}", NET_NAME[pf] || pf)));
+    list.filter((n) => !q || (n.username || "").toLowerCase().includes(q) || (n.name || "").toLowerCase().includes(q))
+      .forEach((n) => menu.append(row(n.accountId, handle(n.username || n.name || "?"), n)));
+    return menu;
+  }
+  document.addEventListener("click", (e) => { if (state.netMenu && !e.target.closest(".net-tabwrap")) { state.netMenu = null; renderNetTabs(); } });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && state.netMenu) { state.netMenu = null; renderNetTabs(); } });
+  // the network dashboard for one account, or all accounts of a network added up
+  function netView() {
+    const list = netGroups()[state.net];
+    if (!list) return null;
+    const cur = state.netAcc[state.net] || "all";
+    if (list.length === 1) return list[0];
+    if (cur !== "all") { const one = list.find((n) => n.accountId === cur); if (one) return one; }
+    const sum = (f) => { const v = list.map(f).filter((x) => x != null); return v.length ? v.reduce((a, b) => a + b, 0) : null; };
+    const kp = (src) => { const o = {}; ["posts", "impressions", "reach", "views", "engagements", "comments", "shares", "saves", "followers"].forEach((k) => o[k] = sum((n) => (n[src] || {})[k]));
+      const ers = list.map((n) => (n[src] || {}).er).filter((x) => x != null); o.er = ers.length ? Math.round(ers.reduce((a, b) => a + b, 0) / ers.length * 100) / 100 : null; return o; };
+    const days = {}; list.forEach((n) => (n.series || []).forEach((r) => { days[r.date] = (days[r.date] || 0) + r.value; }));
+    const full = Object.keys(days).sort().filter((d) => list.every((n) => (n.series || []).some((r) => r.date <= d)));
+    const weeks = (list[0].weeks || []).map((w, i) => ({ from: w.from, posts: sum((n) => (n.weeks[i] || {}).posts), engagements: sum((n) => (n.weeks[i] || {}).engagements) }));
+    return { platform: state.net, aggregate: true, accounts: list, name: t("ntAllAcc").replace("{n}", list.length).replace("{p}", NET_NAME[state.net] || state.net),
+      followers: sum((n) => n.followers), change7: sum((n) => n.change7), change30: sum((n) => n.change30),
+      series: full.map((d) => ({ date: d, value: days[d] })), kpis: kp("kpis"), kpisPrev: kp("kpisPrev"), weeks,
+      top: list.flatMap((n) => (n.top || []).map((p) => ({ ...p, account: p.account || n.username }))).sort((a, b) =>
+        ["likes", "comments", "shares", "saves"].reduce((s2, x) => s2 + (b.metrics[x] || 0), 0) - ["likes", "comments", "shares", "saves"].reduce((s2, x) => s2 + (a.metrics[x] || 0), 0)).slice(0, 5),
+      bestTime: { basis: "pick" } };
+  }
+  // all accounts of a network side by side; click a row to open that account
+  function accTable(list) {
+    const S = state.netSort;
+    const cols = [["account", "ntAccount"], ["followers", "ntFollowers"], ["change7", "ntCh7"], ["change30", "ntCh30"], ["posts", "ntPosts"], ["er", "ntER"], ["engagements", "ntEng"]];
+    const val = (n, k) => k === "account" ? (n.username || "") : k === "posts" ? (n.kpis || {}).posts : k === "er" ? (n.kpis || {}).er : k === "engagements" ? (n.kpis || {}).engagements : n[k];
+    const rows = list.slice().sort((a, b) => { const x = val(a, S.key), y = val(b, S.key); return (x == null) - (y == null) || (typeof x === "string" ? x.localeCompare(y) : (x - y)) * S.dir; });
+    const sign = (v) => v == null ? "–" : (v > 0 ? "+" : "") + fmt(v);
+    const tb = el("table", { class: "t acc-table" }, el("thead", {}, el("tr", {}, cols.map(([k, lbl], i) => el("th", { style: i ? "text-align:end" : "" },
+      el("button", { class: "th-sort" + (S.key === k ? " on" : ""), type: "button", onclick: () => { state.netSort = { key: k, dir: S.key === k ? -S.dir : (k === "account" ? 1 : -1) }; renderGrowth(); } },
+        t(lbl) + (S.key === k ? (S.dir > 0 ? " ↑" : " ↓") : "")))))));
+    const body = el("tbody");
+    rows.forEach((n) => { const go_ = () => { state.netAcc[state.net] = n.accountId; saveNet(); renderGrowth(); };
+      const tr = el("tr", { class: "ntacc-row" },
+      el("td", {}, el("button", { class: "acc-cell", type: "button", onclick: (e) => { e.stopPropagation(); go_(); } }, n.picture ? el("img", { src: n.picture, alt: "", referrerpolicy: "no-referrer", loading: "lazy" }) : null,
+        el("b", {}, handle(n.username || n.name || "?")), state.netPins.includes(n.accountId) ? el("span", { class: "acc-star" }, "★") : null)),
+      el("td", { class: "n" }, n.followers != null ? fmt(n.followers) : "–"), el("td", { class: "n" }, sign(n.change7)), el("td", { class: "n" }, sign(n.change30)),
+      el("td", { class: "n" }, fmt((n.kpis || {}).posts)), el("td", { class: "n" }, (n.kpis || {}).er != null ? n.kpis.er + "%" : "–"), el("td", { class: "n" }, fmt((n.kpis || {}).engagements)));
+      tr.addEventListener("click", go_);
+      body.append(tr); });
+    tb.append(body);
+    return el("div", { class: "card" }, el("header", {}, el("h2", {}, t("ntCompare")), el("span", { class: "label" }, t("ntCompareHint"))), el("div", { class: "hscroll" }, tb));
+  }
+  const handle = (u) => /\s/.test(u) ? u : "@" + u;      // LinkedIn gives a name, not a handle
+  function renderNetDash(n) {
+    const host = $("#netDash"); host.innerHTML = "";
+    const k = n.kpis || {}, kp = n.kpisPrev || {};
+    const sign = (v) => v == null ? "–" : (v > 0 ? "+" : "") + fmt(v);
+    // header
+    host.append(el("div", { class: "card net-head" },
+      n.picture ? el("img", { src: n.picture, alt: "", referrerpolicy: "no-referrer", loading: "lazy" }) : null,
+      el("div", {}, el("div", { class: "label" }, NET_NAME[n.platform] || n.platform), el("h2", {}, [n.name, n.username && n.username !== n.name ? handle(n.username) : null].filter(Boolean).join(" "))),
+      el("div", { class: "net-big" }, el("b", {}, n.followers != null ? fmt(n.followers) : "–"), el("span", { class: "label" }, t("ntFollowers"))),
+      el("div", { class: "net-chips" },
+        el("span", { class: "chip" + ((n.change7 || 0) > 0 ? " ok" : "") }, t("ntWeek").replace("{n}", sign(n.change7))),
+        n.change30 != null ? el("span", { class: "chip" + (n.change30 > 0 ? " ok" : "") }, t("ntMonth").replace("{n}", sign(n.change30)))
+          : n.changeSince != null ? el("span", { class: "chip" + (n.changeSince > 0 ? " ok" : ""), title: t("ntSinceTip") }, t("ntSince").replace("{n}", sign(n.changeSince)).replace("{d}", dt(n.since, { hour: undefined, minute: undefined, weekday: undefined }))) : null,
+        n.followersUpdated ? el("span", { class: "label fol-fresh" }, t("folFresh").replace("{t}", ago(Date.parse(n.followersUpdated) / 1000))) : null)));
+    if (n.aggregate) host.append(accTable(n.accounts));
+    // KPIs: last 30 days vs the 30 before
+    const tiles = [["ntPosts", "posts"], ["ntImpr", "impressions"], ["ntReach", "reach"], ["ntEng", "engagements"], ["ntER", "er"], ["ntNewF", "followers"]];
+    const kg = el("div", { class: "grid g3 net-kpis" });
+    tiles.forEach(([lbl, key]) => {
+      const v = k[key], d = delta(v, kp[key]);
+      kg.append(el("div", { class: "card kpi" }, el("div", { class: "label" }, t(lbl)),
+        el("div", { class: "v" }, v == null ? "–" : key === "er" ? v + "%" : fmt(v)),
         el("div", { class: "d " + (d == null ? "" : d >= 0 ? "up" : "down") }, d == null ? " " : (d >= 0 ? "+" : "") + d + "%")));
     });
-    state.counted = true; state.kpiShown = true;
-    lineChart($("#folChart"), (z.followers || {}).series);
-
-    const goal = (state.data.config || {}).goal || {};
-    const cur = (z.followers || {}).current;
-    if (goal.followers && cur != null) { ring($("#goalRing"), cur, goal.followers, "goal"); $("#goalLabel").textContent = `${fmt(goal.followers)} ${t("followers")}`; }
-    else { $("#goalRing").innerHTML = `<p class="empty">${esc(t("noData"))}</p>`; $("#goalRing").dataset.key = ""; }
-    renderGoalInfo(goal.followers, cur);
-    const sg = $("#streakGrid"); sg.innerHTML = "";
-    ((z.streak || {}).days || []).forEach((on) => sg.append(el("i", { class: on ? "on" : "" })));
-
-    const tp = $("#topPosts"); tp.innerHTML = "";
-    const posts = (z.posts || []).slice().sort((a, b) => (b.metrics.follows || 0) - (a.metrics.follows || 0) || ((b.metrics.saves || 0) + (b.metrics.shares || 0)) - ((a.metrics.saves || 0) + (a.metrics.shares || 0))).slice(0, 8);
-    if (!posts.length) tp.innerHTML = `<p class="empty">${esc(t("noData"))}</p>`;
+    host.append(el("p", { class: "label net-note" }, t("ntLast30")), kg);
+    // followers + goal
+    const chart = el("div", { class: "net-chart" }), ringHost = el("div", { class: "ring" });
+    const goalBox = el("div", { class: "goal-info" });
+    host.append(el("div", { class: "grid g-main" },
+      el("div", { class: "card" }, el("header", {}, el("h2", {}, t("ntFollowers"))), chart),
+      el("div", { class: "card net-goal" }, el("header", {}, el("h2", {}, t("ntGoal"))), ringHost, goalBox)));
+    lineChart(chart, n.series);
+    if (n.goal && n.followers != null) {
+      ring(ringHost, n.followers, n.goal, "goal");
+      goalBox.append(el("p", { class: "goal-now" + (n.followers >= n.goal ? " done" : "") }, n.followers >= n.goal ? t("goalReached")
+        : t("goalNow").replace("{c}", fmt(n.followers)).replace("{r}", fmt(Math.max(0, n.goal - n.followers)))));
+    } else { ringHost.innerHTML = ""; goalBox.append(el("p", { class: "hint" }, t(n.aggregate ? "ntGoalPerAcc" : "ntNoGoal"))); }
+    if (n.followers != null && !n.aggregate) goalBox.append(el("button", { class: "btn", type: "button", onclick: () => openGoal(n.goal, n.followers, n.platform, n.accountId) }, n.goal ? t("goalEdit") : t("ntSetGoal")));
+    // best times + rhythm
+    const bt = n.bestTime || {}, bbox = el("div", { class: "net-best" });
+    const good = (bt.slots || []).filter((sl) => sl.lift == null || sl.lift > 0);     // only times that beat your average
+    if (bt.basis === "data" && good.length) good.forEach((sl, i) => bbox.append(el("div", { class: "net-slot" },
+      el("b", { class: "mono" }, (i + 1) + " · " + t("days")[sl.day] + " " + hourLabel(sl.hour)),
+      el("span", { class: "label" }, [sl.lift != null ? t("ntLift").replace("{l}", (sl.lift > 0 ? "+" : "") + sl.lift) : null, t("ntN").replace("{n}", sl.posts), t("ntConf_" + sl.confidence)].filter(Boolean).join(" · ")))));
+    else bbox.append(el("p", { class: "hint" }, t(bt.basis === "pick" ? "ntBestPick" : "ntBestNone")));
+    const wk = n.weeks || [], mx = Math.max(1, ...wk.map((w) => w.posts));
+    const bars = el("div", { class: "net-bars" }, wk.map((w) => el("div", { class: "net-bar", title: `${w.from} · ${t("ntN").replace("{n}", w.posts)} · ${fmt(w.engagements)} ${t("ntEng").toLowerCase()}` },
+      el("i", { style: `height:${Math.round(w.posts * 100 / mx)}%` }), el("small", {}, String(w.posts)))));
+    host.append(el("div", { class: "grid g2" },
+      el("div", { class: "card" }, el("header", {}, el("h2", {}, t("ntBest"))), bbox),
+      el("div", { class: "card" }, el("header", {}, el("h2", {}, t("ntRhythm")), el("span", { class: "label" }, t("ntRhythmHint"))), bars)));
+    // top posts
+    const tp = el("div", {});
+    if (!(n.top || []).length) tp.append(el("p", { class: "empty" }, t("ntNoPosts")));
     else {
-      const tb = el("table", { class: "t" }, el("thead", {}, el("tr", {}, ["post", "reach", "saves", "shares", "follows"].map((h, i) => el("th", { style: i ? "text-align:end" : "" }, t(h))))));
+      const tb = el("table", { class: "t" }, el("thead", {}, el("tr", {}, ["post", "ntImpr", "ntReach", "ntEng", "ntER"].map((h, i) => el("th", { style: i ? "text-align:end" : "" }, t(h))))));
       const body = el("tbody");
-      posts.forEach((p) => body.append(el("tr", {},
-        el("td", {}, el("div", { class: "cap" }, (p.caption || "").split("\n")[0]), el("div", { class: "label" }, `${p.platform} · ${(p.publishedAt || "").slice(0, 10)}`)),
-        el("td", { class: "n" }, fmt(p.metrics.reach)), el("td", { class: "n" }, fmt(p.metrics.saves)),
-        el("td", { class: "n" }, fmt(p.metrics.shares)), el("td", { class: "n" }, fmt(p.metrics.follows)))));
+      n.top.forEach((p) => body.append(el("tr", {},
+        el("td", {}, el("div", { class: "cap", style: "unicode-bidi:plaintext" }, (p.caption || "").split("\n")[0] || "—"),
+          el("div", { class: "label tp-meta" }, (n.aggregate && p.account ? handle(p.account) + " · " : "") + (p.publishedAt || "").slice(0, 10), p.url ? el("a", { href: p.url, target: "_blank", rel: "noopener" }, " · " + t("ntOpen") + " ↗") : null, viewBtn(rowFor(p.url)))),
+        el("td", { class: "n" }, fmt(p.metrics.impressions)), el("td", { class: "n" }, fmt(p.metrics.reach)),
+        el("td", { class: "n" }, fmt(["likes", "comments", "shares", "saves"].reduce((a, x) => a + (p.metrics[x] || 0), 0))),
+        el("td", { class: "n" }, p.metrics.engagementRate != null ? p.metrics.engagementRate + "%" : "–"))));
       tb.append(body); tp.append(el("div", { class: "hscroll" }, tb));
     }
+    host.append(el("div", { class: "card" }, el("header", {}, el("h2", {}, t("ntTop")), el("span", { class: "label" }, t("ntTopHint"))), tp));
+  }
 
+  // Heatmap shade by rank, not by raw value: one viral hour must not wash every other hour out to the faintest step.
+  function heatLevels(grid) {
+    const vals = (grid || []).flat().filter((v) => v > 0).sort((a, b) => a - b);
+    return (v) => {
+      if (!(v > 0) || !vals.length) return 0;
+      if (vals.length === 1) return 5;
+      let lo = 0; while (lo < vals.length - 1 && vals[lo] < v) lo++;   // first index of this value
+      return Math.min(5, 1 + Math.floor((lo / (vals.length - 1)) * 4.999));   // 5 clear steps
+    };
+  }
+
+  // The Plan tab's heatmap: drawn on its own, so a network picked in Growth can't leave it empty.
+  function renderHeat() {
+    const z = state.z || {};
     const bt = z.besttime || {};
     const heat = $("#heat"); heat.innerHTML = "";
     $("#heatTz").textContent = (bt.tz || "") + (bt.sample ? ` · n=${bt.sample}` : "");
@@ -1098,7 +1273,7 @@
       const flat = bt.grid.flat().filter((v) => v > 0), mx = Math.max(...flat, 0) || 1;
       const top = (bt.slots || []).slice(0, 3);
       const rank = new Map(top.map((s, i) => [s.day + ":" + s.hour, i + 1]));
-      const level = (v) => (v <= 0 ? 0 : Math.min(5, 1 + Math.floor((v / mx) * 4.999)));   // 5 clear steps
+      const level = heatLevels(bt.grid);   // 5 steps by rank
       const hh = (h) => hourLabel(h);
       const g = el("div", { class: "heat" }, el("span"));
       for (let h = 0; h < 24; h++) g.append(el("span", { class: "h" }, h % 3 === 0 ? hourLabel(h, true) : ""));
@@ -1142,6 +1317,54 @@
       heat.append(peaksByDay(bt), audienceStrip(z.audience, bt));
       if (bt.note) heat.append(el("p", { class: "empty" }, bt.note));
     } else heat.innerHTML = `<p class="empty">${esc(bt.note || t("noData"))}</p>`;
+  }
+
+  function renderGrowth() {
+    const z = state.z;
+    renderHeat();
+    renderNetTabs();
+    const net = state.net !== "all" && netView();
+    $("#netDash").hidden = !net; $("#growthAll").hidden = !!net;
+    if (net) { renderNetDash(net); return; }
+    const k = $("#kpis"); k.innerHTML = "";
+    if (!z || !z.ok) {
+      k.append(el("div", { class: "card", style: "grid-column:1/-1" }, el("p", { class: "empty" }, z && z.error ? z.error : t("zernioOff"))));
+      return;
+    }
+    const kp = z.kpis || {};
+    [["reach7", "reach"], ["views7", "views"], ["eng7", "engagement"], ["follows7", "follows"]].forEach(([lbl, key], i) => {
+      const d = delta(kp[key], kp[key + "_prev"]);
+      k.append(el("div", { class: "card kpi" + (state.kpiShown ? "" : " stagger"), style: `animation-delay:${i * 60}ms` },
+        el("div", { class: "label" }, t(lbl)), (() => { const v = el("div", { class: "v" }, state.counted ? fmt(kp[key]) : "0"); if (!state.counted) countUp(v, kp[key]); return v; })(),
+        el("div", { class: "d " + (d == null ? "" : d >= 0 ? "up" : "down") }, d == null ? " " : (d >= 0 ? "+" : "") + d + "%")));
+    });
+    state.counted = true; state.kpiShown = true;
+    lineChart($("#folChart"), (z.followers || {}).series);
+
+    const goal = (state.data.config || {}).goal || {};
+    const cur = (z.followers || {}).current;
+    if (goal.followers && cur != null) { ring($("#goalRing"), cur, goal.followers, "goal"); $("#goalLabel").textContent = `${fmt(goal.followers)} ${t("followers")}`; }
+    else { $("#goalRing").innerHTML = `<p class="empty">${esc(t("noData"))}</p>`; $("#goalRing").dataset.key = ""; }
+    renderGoalInfo(goal.followers, cur);
+    const sg = $("#streakGrid"); sg.innerHTML = "";
+    ((z.streak || {}).days || []).forEach((on) => sg.append(el("i", { class: on ? "on" : "" })));
+
+    const tp = $("#topPosts"); tp.innerHTML = "";
+    const tph = tp.closest(".card").querySelector("header");
+    if (tph && !tph.querySelector(".rc-open")) tph.append(el("button", { class: "btn sm rc-open", type: "button", onclick: () => openRecycle() }, "♻ " + t("rcOpen")));
+    const posts = (z.posts || []).slice().sort((a, b) => (b.metrics.follows || 0) - (a.metrics.follows || 0) || ((b.metrics.saves || 0) + (b.metrics.shares || 0)) - ((a.metrics.saves || 0) + (a.metrics.shares || 0))).slice(0, 8);
+    if (!posts.length) tp.innerHTML = `<p class="empty">${esc(t("noData"))}</p>`;
+    else {
+      const tb = el("table", { class: "t" }, el("thead", {}, el("tr", {}, ["post", "reach", "saves", "shares", "follows"].map((h, i) => el("th", { style: i ? "text-align:end" : "" }, t(h))))));
+      const body = el("tbody");
+      posts.forEach((p) => body.append(el("tr", {},
+        el("td", {}, el("div", { class: "cap" }, (p.caption || "").split("\n")[0]), el("div", { class: "label tp-meta" }, `${p.platform} · ${(p.publishedAt || "").slice(0, 10)}`, viewBtn(rowFor(p.url)),
+          p.zid && p.platform !== "tiktok" ? el("button", { class: "btn sm rc-row", type: "button", title: t("rcBtn"), onclick: () => openRecycle(p.zid) }, "♻ " + t("rcBtn")) : null)),
+        el("td", { class: "n" }, fmt(p.metrics.reach)), el("td", { class: "n" }, fmt(p.metrics.saves)),
+        el("td", { class: "n" }, fmt(p.metrics.shares)), el("td", { class: "n" }, fmt(p.metrics.follows)))));
+      tb.append(body); tp.append(el("div", { class: "hscroll" }, tb));
+    }
+
 
     const demo = $("#demo"); demo.innerHTML = "";
     const d = z.demographics || {};
@@ -1206,10 +1429,9 @@
     for (let d = 1; d <= days; d++) {
       const key = `${y}-${String(mo + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
       const past = key < today;
-      const cell = el("div", { class: "d click" + (key === today ? " today" : "") + (past ? " past" : ""), role: "button", tabindex: "0", title: t("dayHint") }, el("div", { class: "n" }, d));
+      const cell = el("div", { class: "d click" + (key === today ? " today" : "") + (past ? " past" : "") + (state.clip && !past ? " can-paste" : ""), role: "button", tabindex: "0", title: t("dayHint"), "data-day": key }, el("div", { class: "n" }, d));
       const openIt = (e) => { if (e) e.preventDefault(); openDay(key, events[key] || []); };
       cell.addEventListener("click", () => openIt());
-      cell.addEventListener("contextmenu", openIt);
       cell.addEventListener("dblclick", (e) => { e.preventDefault(); if (!past && !(events[key] || []).length) quickSchedule(key); else openIt(); });
       cell.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") openIt(e); });
       // drop a post here: same time of day, this day
@@ -1228,8 +1450,9 @@
         const evEl = el("div", { class: "ev " + st.cls.replace("st-", "ev-") + (e.movable ? " movable" : ""), draggable: e.movable ? "true" : null,
           title: t(st.key) + " · " + (e.caption || "").split("\n")[0] },
           el("i", { class: "evdot", "aria-hidden": "true" }),
-          net ? el("span", { class: "evnet" }, NET[net.platform] || net.platform) : null,
-          el("span", { class: "evcap" }, (e.caption || "").split("\n")[0] || "—"));
+          netStack(e.row || e),
+          el("span", { class: "evcap" }, (e.caption || "").split("\n")[0] || "—"), evCopyBtn(e));
+        evEl._ev = e;
         if (e.movable) {
           evEl.addEventListener("dragstart", (x) => { state.dragEv = e; x.dataTransfer.effectAllowed = "move"; x.dataTransfer.setData("text/plain", e.id); x.stopPropagation(); });
           evEl.addEventListener("dragend", () => { state.dragEv = null; });
@@ -1249,13 +1472,22 @@
   /* ---------- inbox ---------- */
   function renderInbox() {
     const z = state.z || {};
-    renderComments();
+    renderComments({ auto: true });
     const a = $("#automations"); a.innerHTML = "";
     const au = z.automations || [];
     if (!au.length) a.innerHTML = `<p class="empty">${esc(t("noData"))}</p>`;
-    au.forEach((x) => a.append(el("div", { class: "idea", style: "margin-bottom:8px" },
-      el("h3", {}, `“${x.keyword || (x.keywords || []).join(", ")}”`),
-      el("p", {}, `${x.active === false ? t("off") : t("on")}${x.followGate ? " · " + t("followGated") : ""}${x.postId ? " · " + t("postWord") + " " + x.postId : ""}`))));
+    au.forEach((x) => {
+      const po = (z.commentPosts || {})[x.postId] || {};
+      const zp = (z.zposts || []).find((r) => r.id === x.zPostId) || {};
+      const link = po.permalink || ((zp.platforms || []).find((p) => p.url) || {}).url;
+      const cap = ((po.caption || zp.caption || "").split("\n")[0] || "").slice(0, 60);
+      a.append(el("div", { class: "idea fn-card", style: "margin-bottom:8px" },
+        el("h3", {}, `“${x.keyword || (x.keywords || []).join(", ")}”`),
+        el("p", {}, `${x.active === false ? t("off") : t("on")}${x.followGate ? " · " + t("followGated") : ""}`),
+        cap || link ? el("div", { class: "fn-post" }, cap ? el("span", { class: "fn-cap", dir: "auto" }, cap) : null,
+          link ? el("a", { href: link, target: "_blank", rel: "noopener" }, t("fnPost") + " ↗") : null) : null,
+        funnel(x)));
+    });
     const ib = (z.iceBreakers || []);
     if (ib.length) {
       a.append(el("div", { class: "label", style: "margin:14px 0 6px" }, t("iceBreakers")));
@@ -1263,24 +1495,103 @@
     }
   }
 
+  // A gift automation's funnel from Zernio's own counters: who commented the
+  // keyword, got the follow-first message, followed and tapped, got the gift,
+  // opened the link. Each bar is a share of the first step.
+  function funnel(x) {
+    const s = x.stats || {};
+    const steps = [["fnTriggered", s.triggered], ...(x.followGate ? [["fnGate", s.followGateSent], ["fnPassed", s.followGatePassed]] : []),
+      ["fnSent", s.dmsSent], ["fnClicked", s.uniqueClicks]].filter(([, v]) => v != null);
+    const top = Number(s.triggered) || 0;
+    if (!top) return el("p", { class: "label fn-none" }, t("fnNone"));
+    return el("div", { class: "fn" }, steps.map(([k, v]) => {
+      const pct = Math.max(0, Math.min(100, Math.round((Number(v) || 0) * 100 / top)));
+      return el("div", { class: "fn-row" }, el("span", { class: "fn-l" }, t(k)),
+        el("span", { class: "fn-bar" }, el("i", { style: `width:${pct}%` })),
+        el("b", { class: "fn-n" }, fmt(Number(v) || 0)), el("small", { class: "fn-p" }, pct + "%"));
+    }));
+  }
+
   /* ---------- Inbox: every comment with its post and gift; reply, gift, hide, delete, labels ---------- */
   state.ibx = { filter: "waiting", label: null, open: null, draft: {}, asButton: {}, confirm: null };
   const inboxApi = (body) => post("/api/inbox", body);
-  function renderComments() {
+  // Comment times on the clock of the country the user picks (default: their own timezone)
+  const ibxTz = () => { let v = null; try { v = localStorage.getItem("bps.ibxTz"); } catch (e) {} return v || bTz(); };
+  const regionName = (c) => { try { return new Intl.DisplayNames([loc() || "en"], { type: "region" }).of(c); } catch (e) { return c; } };
+  function ibxTime(iso, full) {
+    const tz = ibxTz(), o = full ? { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", hour12: state.h12, timeZoneName: "short" }
+      : { weekday: "short", day: "numeric", month: "short", hour: "numeric", minute: "2-digit", hour12: state.h12 };
+    if (tz !== "local") o.timeZone = tz;
+    try { return new Date(iso).toLocaleString(loc(), o); } catch (e) { return iso; }
+  }
+  function ibxTzPicker() {
+    const zones = ((state.z || {}).audience || {}).zones || [], mine = bTz(), cur = ibxTz();
+    const zoneLabel = (z) => z.countries.slice(0, 2).map(regionName).join(state.lang === "ar" ? "، " : ", ") + (z.countries.length > 2 ? " +" + (z.countries.length - 2) : "") + (z.share ? ` · ${z.share < 0.005 ? "<1" : Math.round(z.share * 100)}%` : "");
+    const myZone = zones.find((z) => z.tz === mine);
+    const sel = el("select", { class: "ibx-tz", "aria-label": t("ibxTz") });
+    const add = (host, v, lbl) => { const o = el("option", { value: v }, lbl); if (v === cur) o.selected = true; host.append(o); };
+    add(sel, mine, t("ibxTzMine").replace("{c}", myZone ? regionName(myZone.countries[0]) : mine.split("/").pop().replace(/_/g, " ")));
+    const aud = zones.filter((z) => z.tz !== mine);
+    if (aud.length) { const g = el("optgroup", { label: t("ibxTzAud") }); aud.forEach((z) => add(g, z.tz, zoneLabel(z))); sel.append(g); }
+    add(sel, "local", t("ibxTzLocal"));
+    let all = []; try { all = Intl.supportedValuesOf("timeZone"); } catch (e) {}
+    if (all.length) { const g = el("optgroup", { label: t("ibxTzAll") }); all.filter((z) => z !== mine && !aud.some((a) => a.tz === z)).forEach((z) => add(g, z, z.replace(/_/g, " "))); sel.append(g); }
+    if (![...sel.options].some((o) => o.selected)) add(sel, cur, cur);
+    sel.addEventListener("change", () => { try { localStorage.setItem("bps.ibxTz", sel.value); } catch (e) {} renderComments(); });
+    return el("label", { class: "ibx-tzwrap" }, el("span", { class: "label" }, "🕒 " + t("ibxTz")), sel);
+  }
+  function renderComments(opts) {
     const z = state.z || {}, c = $("#comments"); if (!c) return;
+    // A background refresh (every few seconds while Claude works) must not
+    // rebuild the cards while a reply/gift box or a Confirm button is open:
+    // that swallowed clicks and typing. User clicks always redraw.
+    if (opts && opts.auto && (state.ibx.open || state.ibx.confirm || (document.activeElement && document.activeElement.classList.contains("ibx-tz")))) { state.ibx.stale = true; return; }
+    state.ibx.stale = false;
     const S = state.ibx, ib = (state.data && state.data.inbox) || { labels: {}, catalog: [], handled: {} };
     const all = z.comments || [];
-    const handled = (x) => ib.handled[x.id];
+    const auto = z.autoLog || {};
+    const handled = (x) => ib.handled[x.id] || (auto[x.id] && auto[x.id].how !== "auto-failed" ? auto[x.id] : null);
     const waiting = all.filter((x) => !handled(x));
     $("#cmtCount").textContent = waiting.length ? String(waiting.length) : "";
     c.innerHTML = "";
     if (!z.ok && !all.length) { c.append(el("p", { class: "empty" }, t("zernioOff"))); return; }
     const used = [...new Set(Object.values(ib.labels).flat())];
+    const drafts = ib.drafts || {};
+    const needDraft = waiting.filter((x) => !drafts[x.id] && (x.can || {}).reply !== false);
+    const withDraft = waiting.filter((x) => drafts[x.id] && (x.can || {}).reply !== false);
     c.append(el("div", { class: "ibx-bar" },
+      waiting.length ? el("button", { class: "btn sm ibx-draftall", type: "button", onclick: async (e) => {
+        if (!needDraft.length) { toast(t("ibxDraftNone")); return; }
+        e.target.disabled = true;
+        const posts = z.commentPosts || {};
+        try {
+          const r = await inboxApi({ op: "ask_drafts", items: needDraft.map((x) => ({ id: x.id, author: x.author, text: x.text, postId: x.postId, platform: x.platform,
+            post: ((posts[x.postId] || {}).caption || "").split("\n")[0] })) });
+          toast(t("ibxDraftSent").replace("{n}", r.count)); lastSig = ""; load(false);
+        } catch (er) { toast(er.message); e.target.disabled = false; }
+      } }, t("ibxDraftAll")) : null,
+      withDraft.length ? el("button", { class: "btn sm on ibx-sendall", type: "button", onclick: () => { S.open = S.open === "sendall" ? null : "sendall"; S.confirm = null; renderComments(); } },
+        "↩ " + t("ibxSendAll").replace("{n}", withDraft.length)) : null,
       seg([["waiting", t("ibxWaiting") + " " + waiting.length], ["done", t("ibxDone") + " " + (all.length - waiting.length)], ["all", t("ibxAll") + " " + all.length]],
         S.filter, (v) => { S.filter = v; renderComments(); }),
+      ibxTzPicker(),
       used.length ? el("div", { class: "ibx-labels" }, used.map((l) => el("button", { class: "chip" + (S.label === l ? " ok" : ""), type: "button",
         onclick: () => { S.label = S.label === l ? null : l; renderComments(); } }, "# " + l))) : null));
+    if (S.open === "sendall" && withDraft.length) {
+      const box = el("div", { class: "ibx-sendall-box" }, el("b", {}, t("ibxSendAllTitle")),
+        el("ul", {}, withDraft.map((x) => el("li", { style: "unicode-bidi:plaintext" }, el("b", {}, "@" + (x.author || "?") + ": "), drafts[x.id].text))));
+      box.append(el("div", { class: "row2" },
+        el("button", { class: "btn sm on big", type: "button", onclick: async (e) => {
+          e.target.disabled = true; let ok = 0;
+          for (const x of withDraft) {
+            try { await inboxApi({ op: "reply", postId: x.postId, accountId: x.accountId, commentId: x.id, text: drafts[x.id].text }); ok++; }
+            catch (er) { toast(t("ibxSendAllFail").replace("{a}", x.author || "").replace("{e}", er.message)); }
+          }
+          toast(t("ibxSendAllDone").replace("{n}", ok)); S.open = null; lastSig = ""; await load(false); lastZSig = ""; loadZernio(); renderComments();
+        } }, t("ibxSendAllGo").replace("{n}", withDraft.length)),
+        el("button", { class: "btn sm", type: "button", onclick: () => { S.open = null; renderComments(); } }, t("ibxCancel"))));
+      c.append(box);
+    }
     const list = all.filter((x) => (S.filter === "all" || (S.filter === "done" ? handled(x) : !handled(x))) && (!S.label || (ib.labels[x.id] || []).includes(S.label)));
     if (!list.length) { c.append(el("p", { class: "empty" }, t("ibxNone"))); return; }
     list.slice(0, 40).forEach((x) => c.append(commentCard(x, ib)));
@@ -1289,22 +1600,36 @@
     const z = state.z || {}, S = state.ibx;
     const po = (z.commentPosts || {})[x.postId] || {};
     const au = (z.automations || []).find((a) => a.postId === x.postId && a.active !== false);
-    const done = ib.handled[x.id];
+    const am = (z.autoLog || {})[x.id];
+    const done = ib.handled[x.id] || (am && am.how !== "auto-failed" ? am : null);
+    const isAuto = !!(done && am && done === am);
     const labels = ib.labels[x.id] || [];
     const card = el("div", { class: "ibx-card" + (done ? " done" : "") + (x.hidden ? " hid" : "") });
     // the post it's on
     card.append(el("a", { class: "ibx-post", href: po.permalink || "#", target: "_blank", rel: "noopener", title: t("ibxOpenPost") },
       po.thumb ? el("img", { src: po.thumb, alt: "", loading: "lazy", referrerpolicy: "no-referrer" }) : el("span", { class: "ibx-noimg" }, "▢"),
       el("span", { style: "unicode-bidi:plaintext" }, t("ibxOnPost") + ": " + ((po.caption || "").split("\n")[0] || "—").slice(0, 70)), el("small", {}, t("ibxOpenPost") + " ↗")));
+    { const vr = rowFor(po.permalink, x.postId); if (vr) card.append(el("div", { class: "ibx-view" }, viewBtn(vr))); }
     card.append(el("div", { class: "ibx-who" }, el("b", {}, "@" + (x.author || "?")),
-      el("span", { class: "label" }, (x.platform || "") + " · " + (x.createdAt ? ago(Date.parse(x.createdAt) / 1000) : "")),
+      el("span", { class: "label ibx-when", title: x.createdAt ? ibxTime(x.createdAt, true) : "" }, (x.platform || "") + (x.createdAt ? " · " + ibxTime(x.createdAt) + " · " + ago(Date.parse(x.createdAt) / 1000) : "")),
       x.likes ? el("span", { class: "label" }, "♥ " + x.likes) : null, x.hidden ? el("span", { class: "chip bad" }, t("ibxHiddenTag")) : null,
-      done ? el("span", { class: "chip ok" }, t("ibxSt_" + done.how) || done.how) : null),
+      done ? el("span", { class: "chip ok", title: isAuto ? (String(done.how).startsWith("ig-") ? t("ibxIgTip") + (done.text ? " " + t("ibxYouWrote") + ": “" + done.text + "”" : "") : t(done.how === "auto-gated" ? "ibxAutoGatedTip" : "ibxAutoTip")) : "" }, t("ibxSt_" + done.how) || done.how) : null,
+      x.liked && !done ? el("span", { class: "chip" }, t("ibxLiked")) : null,
+      am && am.how === "auto-failed" ? el("span", { class: "chip bad", title: t("ibxAutoFailTip") + (am.error ? " · " + am.error : "") }, t("ibxSt_auto-failed")) : null),
       el("p", { class: "ibx-text", style: "unicode-bidi:plaintext" }, x.text || ""));
     // the post's gift
     card.append(el("div", { class: "ibx-gift" + (au ? "" : " none") }, au
       ? [el("b", {}, "🎁 " + t("ibxGiftOf") + ": “" + (au.keywords || []).join(", ") + "”"), au.message ? el("span", { style: "unicode-bidi:plaintext" }, au.message.replace(/\{\{\s*(first_name|name|username|full_name)\s*\}\}/gi, x.author || "").slice(0, 120)) : null]
       : t("ibxNoGift")));
+    // Claude's reply draft (nothing is sent until the user presses Send reply)
+    const dr = (ib.drafts || {})[x.id];
+    if (dr && !done && S.open !== x.id + ":reply") {
+      card.append(el("div", { class: "ibx-draft" }, el("b", {}, "✨ " + t("ibxDraftOf")),
+        el("p", { style: "unicode-bidi:plaintext" }, dr.text),
+        el("div", { class: "row2" },
+          el("button", { class: "btn sm on", type: "button", onclick: () => { S.draft[x.id + ":reply"] = dr.text; S.open = x.id + ":reply"; S.confirm = null; renderComments(); } }, "↩ " + t("ibxDraftUse")),
+          el("button", { class: "btn sm", type: "button", onclick: async () => { try { const r = await inboxApi({ op: "drop_draft", commentId: x.id }); state.data.inbox = r.inbox; renderComments(); } catch (e) { toast(e.message); } } }, t("ibxDraftNo")))));
+    }
     // labels (this computer only)
     const lab = el("div", { class: "ibx-lab" });
     ((ib.catalog || []).filter((l) => labels.includes(l) || S.open === x.id + ":label")).concat(labels.filter((l) => !(ib.catalog || []).includes(l))).forEach((l) =>
@@ -1318,6 +1643,7 @@
     card.append(lab);
     // actions
     const can = x.can || { reply: true, delete: true, hide: true };
+    if (isAuto) return card;   // Zernio's automation owns it: no local mark to undo, no gift to send
     if (done) {
       card.append(el("div", { class: "row2 ibx-acts" }, el("button", { class: "btn sm", type: "button", onclick: async () => { try { await inboxApi({ op: "unhandle", commentId: x.id }); lastSig = ""; load(false); } catch (e) { toast(e.message); } } }, "↶ " + t("ibxUnmark"))));
       return card;
@@ -1325,11 +1651,12 @@
     const ids = { postId: x.postId, accountId: x.accountId, commentId: x.id };
     card.append(el("div", { class: "row2 ibx-acts" },
       can.reply ? el("button", { class: "btn sm" + (S.open === x.id + ":reply" ? " on" : ""), type: "button", onclick: () => { S.open = S.open === x.id + ":reply" ? null : x.id + ":reply"; S.confirm = null; renderComments(); } }, "↩ " + t("ibxReply")) : null,
-      x.platform === "instagram" || x.platform === "facebook" ? el("button", { class: "btn sm" + (S.open === x.id + ":gift" ? " on" : ""), type: "button",
+      (x.platform === "instagram" || x.platform === "facebook") && !(am && am.consumed) ? el("button", { class: "btn sm" + (S.open === x.id + ":gift" ? " on" : ""), type: "button",
         onclick: () => { S.open = S.open === x.id + ":gift" ? null : x.id + ":gift"; S.confirm = null; renderComments(); } }, "🎁 " + (au ? t("ibxGift") : t("ibxPrivate"))) : null,
       can.hide ? el("button", { class: "btn sm", type: "button", onclick: async () => {
         try { await inboxApi({ op: x.hidden ? "show" : "hide", ...ids }); toast(x.hidden ? t("ibxShown") : t("ibxHidden")); lastZSig = ""; loadZernio(); } catch (e) { toast(e.message); } } }, x.hidden ? t("ibxShow") : t("ibxHide")) : null,
       can.delete ? el("button", { class: "btn sm danger-ghost", type: "button", onclick: () => deleteComment(x, ids) }, t("ibxDelete")) : null));
+    if (am && am.consumed) card.append(el("p", { class: "hint" }, t("ibxAutoUsed")));
     // composers
     if (S.open === x.id + ":reply") {
       const ta = el("textarea", { rows: 2, placeholder: t("ibxReplyPh"), style: "unicode-bidi:plaintext" });
@@ -1575,7 +1902,10 @@
     const z = state.z || {};
     const s = (z.streak || {}).current;
     $("#streakPill").innerHTML = s != null ? `<b>${esc(s)}</b> ${esc(t("streak"))}` : "&nbsp;";
-    $("#versionPill").textContent = "v" + ((state.data && state.data.version) || "");
+    const vb = "v" + ((state.data && state.data.version) || "") + ((state.data && state.data.build) ? " · " + t("buildWord") + " " + state.data.build : "");
+    $("#versionPill").textContent = vb;
+    const fv = $("#footVersion"); if (fv) fv.textContent = vb;
+    const tv = $("#topVersion"); if (tv) tv.textContent = "v" + ((state.data && state.data.version) || "") + ((state.data && state.data.build) ? " · " + state.data.build : "");
     const since = $("#since"); since.innerHTML = "";
     const prev = state.data && state.data.previousVisit;
     const cur = z.followers && z.followers.current;
@@ -1821,11 +2151,12 @@
       try { await post("/api/chat", { op: "reply", id: m.id, text }); done(); closeModal(() => { toast(t("noteSent")); renderQuestion(); }); }
       catch (e) { err.textContent = e.message; }
     };
+    enterSends(ta, () => reply(ta.value));
     const opts = (m.options || []).length ? el("div", { class: "opts" }, ...(m.options || []).map((o) =>
       el("button", { class: "btn opt", type: "button", onclick: () => reply(o) }, o))) : null;
     body.append(el("div", { class: "label kicker claude-kicker" }, el("i", { class: "cdot" }), t("claudeSays")),
       el("div", { class: "claude-say", id: "mTitle", style: "unicode-bidi:plaintext" }, m.text), opts,
-      el("div", { class: "field" }, el("label", { class: "label" }, t(m.expect ? "chatAnswer" : "chatReplyOpt")), ta), err,
+      el("div", { class: "field" }, el("label", { class: "label" }, t(m.expect ? "chatAnswer" : "chatReplyOpt")), ta, el("small", { class: "hint enter-hint" }, t("enterHint"))), err,
       el("div", { class: "actions" },
         el("button", { class: "btn", type: "button", onclick: async () => { try { await post("/api/chat", { op: "seen", id: m.id }); } catch (e) {} done(); closeModal(renderQuestion); } }, t("gotIt")),
         el("button", { class: "btn", type: "button", onclick: () => closeModal(() => openChat()) }, t("chatOpen")),
@@ -1999,9 +2330,9 @@
           ta.value = ""; draw(); toast(t("noteSent"));
         } catch (e) { err.textContent = e.message; }
       };
-      ta.addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) send(ta.value); });
+      enterSends(ta, () => send(ta.value));
       body.append(el("div", { class: "label kicker", style: "color:var(--bps-lime)" }, t("noteKicker")),
-        el("h2", { id: "mTitle" }, t("chatTitle")), el("p", { class: "ctx" }, t("chatHint")), list, ta, err,
+        el("h2", { id: "mTitle" }, t("chatTitle")), el("p", { class: "ctx" }, t("chatHint")), list, ta, el("small", { class: "hint enter-hint" }, t("enterHint")), err,
         el("div", { class: "actions" },
           el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("close")),
           el("button", { class: "btn on big", type: "button", onclick: () => send(ta.value) }, t("send"))));
@@ -2253,7 +2584,7 @@
         : el("button", { class: "btn on big next publish-cta", type: "button", onclick: openPublish }, t("pubBtn"));
     const newBtn = el("button", { class: "btn newpost-btn", type: "button", title: t("newPostKeepShort"), onclick: confirmNewPost }, "+ " + t("newPost"));
     host.append(el("div", { class: "journey-head" }, el("div", {}, el("div", { class: "label" }, t("jTitle")), el("b", { class: "jcount" }, `${done}/${steps.length}`)),
-      el("div", { class: "row2" }, newBtn, cta)), bar, track);
+      el("div", { class: "row2" }, newBtn, el("button", { class: "btn batch-btn post-batch", type: "button", onclick: () => openBatch() }, el("span", { "aria-hidden": "true" }, "▦ "), t("bBtn")), cta)), bar, track);
   }
   async function runStep(id) {
     const p = state.data && state.data.plan;
@@ -2284,6 +2615,15 @@
   }
 
   /* ---------- changes timeline (revert any single choice) ---------- */
+  // "updated 5 hours ago" by the follower count: Zernio refreshes it ~daily.
+  function folFresh() {
+    const z = state.z || {}, host = $("#folRange"); if (!host) return;
+    const ig = (z.accounts || []).find((a) => a.platform === "instagram" && a.followersUpdated) || (z.accounts || []).find((a) => a.followersUpdated);
+    const old = host.parentNode.querySelector(".fol-fresh"); if (old) old.remove();
+    if (!ig) return;
+    const ts = Date.parse(ig.followersUpdated) / 1000; if (!ts) return;
+    host.after(el("span", { class: "label fol-fresh" + (Date.now() / 1000 - ts > 36 * 3600 ? " stale" : "") }, " · " + t("folFresh").replace("{t}", ago(ts))));
+  }
   function ago(ts) {
     const s = Math.max(1, Math.round(Date.now() / 1000 - ts));
     const f = new Intl.RelativeTimeFormat(loc(), { numeric: "auto" });
@@ -2516,7 +2856,7 @@
       catch (err) { msg.className = "err"; msg.textContent = err.message; }
     });
     card.append(el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, t("newPost")),
-      el("h2", {}, t("newPostTitle")),
+      el("div", { class: "np-head" }, el("h2", {}, t("newPostTitle")), el("button", { class: "btn batch-btn post-batch", type: "button", onclick: () => openBatch() }, el("span", { "aria-hidden": "true" }, "▦ "), t("bBtn"))),
       el("div", { class: "np-ways" },
         el("button", { class: "np-way", type: "button", onclick: () => openNewPost() }, el("b", {}, "🖼  " + t("npFromPc")), el("span", { class: "hint" }, t("npFromPcHint"))),
         el("button", { class: "np-way", type: "button", onclick: () => openNewPost({ pick: "mine" }) }, el("b", {}, "✦  " + t("npFromMine")), el("span", { class: "hint" }, t("npFromMineHint"))),
@@ -2722,8 +3062,7 @@
     $("#calTitle").textContent = n === 1 ? day0.toLocaleDateString(loc(), { weekday: "long", day: "numeric", month: "long" })
       : day0.toLocaleDateString(loc(), { day: "numeric", month: "short" }) + " – " + last.toLocaleDateString(loc(), { day: "numeric", month: "short", year: "numeric" });
     const bt = (state.z && state.z.besttime) || {};
-    const mx = Math.max(0, ...((bt.grid || []).flat()));
-    const lvl = (v) => (v <= 0 || !mx ? 0 : Math.min(5, 1 + Math.floor((v / mx) * 4.999)));   // same 5 steps as the heatmap
+    const lvl = heatLevels(bt.grid);   // same 5 steps as the heatmap
     const evs = calEvents();
     const wrap = el("div", { class: "tg" + (n === 1 ? " one" : "") });
     const head = el("div", { class: "tg-head" }, el("div", { class: "tg-gut" }));
@@ -2762,8 +3101,8 @@
       title: t(st.key) + " · " + (e.caption || "").split("\n")[0] + (e.movable ? "" : " · " + t("tgNoChange")), tabindex: "0", role: "button" },
       el("i", { class: "evdot", "aria-hidden": "true" }),
       el("b", {}, d.toLocaleTimeString(loc(), { hour: "numeric", minute: "2-digit", hour12: state.h12 })),
-      net ? el("span", { class: "evnet" }, NET[net.platform] || net.platform) : null,
-      el("span", { class: "evcap" }, (e.caption || "").split("\n")[0] || "—"));
+      netStack(e.row || e),
+      el("span", { class: "evcap" }, (e.caption || "").split("\n")[0] || "—"), evCopyBtn(e));
     b._ev = e;
     b.addEventListener("keydown", (x) => { if (x.key === "Enter") openPostDetail(e.row); });
     return b;
@@ -2878,6 +3217,149 @@
     modal.open ? closeModal(() => showModal("editcap", build)) : showModal("editcap", build);
   }
   // click or drag on an empty time: what goes there?
+  // ---- Copy a post, paste it on another day ----
+  state.clip = null;
+  // a small ⧉ on each calendar post copies it in one click
+  function evCopyBtn(e) {
+    const b = el("span", { class: "ev-copy", role: "button", tabindex: "0", title: t("cpCopy"), "aria-label": t("cpCopy") }, "⧉");
+    const go_ = (x) => { x.preventDefault(); x.stopPropagation(); copyPost(e.row || e); };
+    b.addEventListener("click", go_); b.addEventListener("keydown", (x) => { if (x.key === "Enter" || x.key === " ") go_(x); });
+    ["pointerdown", "mousedown", "dragstart"].forEach((k) => b.addEventListener(k, (x) => x.stopPropagation()));
+    return b;
+  }
+  // right-click menu in Plan: on a post (view, copy, move, edit, cancel) or on a day / hour (paste, plan)
+  function ctxMenu(x, y, items) {
+    document.querySelectorAll(".ctx-menu").forEach((m) => m.remove());
+    const m = el("div", { class: "ctx-menu", role: "menu" }, items.filter(Boolean).map(([label, fn, cls]) =>
+      el("button", { class: "ctx-item" + (cls ? " " + cls : ""), type: "button", role: "menuitem", onclick: () => { m.remove(); fn(); } }, label)));
+    document.body.append(m);
+    const r = m.getBoundingClientRect();
+    m.style.left = Math.max(8, Math.min(x, innerWidth - r.width - 8)) + "px";
+    m.style.top = Math.max(8, Math.min(y, innerHeight - r.height - 8)) + "px";
+    const first = m.querySelector("button"); if (first) first.focus();
+    const close = (ev) => { if (!m.contains(ev.target)) { m.remove(); document.removeEventListener("pointerdown", close, true); } };
+    setTimeout(() => document.addEventListener("pointerdown", close, true), 0);
+    m.addEventListener("keydown", (ev) => { if (ev.key === "Escape") m.remove(); });
+  }
+  document.addEventListener("contextmenu", (e) => {
+    const view = $("#view-plan"); if (!view || !view.contains(e.target)) return;
+    const evEl = e.target.closest(".ev, .tg-ev");
+    if (evEl && evEl._ev) {
+      e.preventDefault();
+      const ev = evEl._ev, r = ev.row || ev, future = ev.at && Date.parse(ev.at) > Date.now();
+      ctxMenu(e.clientX, e.clientY, [
+        ["▶ " + t("vView"), () => openPostDetail(r)],
+        ["⧉ " + t("cpCopy"), () => copyPost(r)],
+        !r.outside ? ["⇆ " + t("nwBtn"), () => openNetEdit(r)] : null,
+        ev.movable ? ["⇄ " + t("pdMove"), () => confirmMove({ ...r, at: ev.at, row: r }, new Date(ev.at))] : null,
+        ev.movable && !r.local ? ["✎ " + t("pdEdit"), () => openEditCaption(r)] : null,
+        (r.local || future || ["failed", "partial"].includes(r.status)) ? [r.local ? t("cDelDraft") : t("cCancelBtn") + "…", () => openCancel(r), "danger"] : null]);
+      return;
+    }
+    const day = e.target.closest("[data-day]");
+    if (!day) return;
+    e.preventDefault();
+    const key = day.dataset.day, past = key < localDay();
+    let hm = null;
+    if (day.classList.contains("tg-col")) { const top = day.getBoundingClientRect().top; const m = Math.max(0, Math.round((e.clientY - top) / HOUR_PX * 60 / 15) * 15);
+      hm = String(Math.min(23, Math.floor(m / 60))).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0"); }
+    ctxMenu(e.clientX, e.clientY, [
+      state.clip && !past ? ["📋 " + t("cpPasteHere") + (hm ? " · " + hm : ""), () => openPaste(key, hm)] : null,
+      ["📅 " + t("dayOpen"), () => { const evs = calEvents().filter((x) => localDay(new Date(x.at)) === key); openDay(key, evs); }],
+      state.clip ? ["✕ " + t("cpClear"), () => { state.clip = null; renderClipBar(); renderCalendar(); }] : null]);
+  });
+  function copyPost(r) {
+    if (!r) return;
+    const when = r.scheduledFor || (r.platforms || []).map((p) => p.publishedAt).filter(Boolean)[0] || null;
+    state.clip = { row: r, at: when };
+    toast(t("cpCopied")); renderClipBar(); renderCalendar();
+  }
+  function renderClipBar() {
+    const host = $("#clipBar"); if (!host) return;
+    host.innerHTML = ""; host.hidden = !state.clip;
+    if (!state.clip) return;
+    const r = state.clip.row;
+    host.append(el("span", { class: "clip-ico", "aria-hidden": "true" }, "📋"),
+      el("span", { class: "clip-txt" }, el("b", {}, t("cpOnClip")), " ", el("span", { dir: "auto" }, ((r.caption || "").split("\n")[0] || "—").slice(0, 60))),
+      el("span", { class: "hint" }, t("cpHow")),
+      el("button", { class: "btn sm", type: "button", "aria-label": t("cpClear"), title: t("cpClear"), onclick: () => { state.clip = null; renderClipBar(); renderCalendar(); } }, "✕"));
+  }
+  function openPaste(dayKey, hm) {
+    const c = state.clip; if (!c) return;
+    const r = c.row, local = !!r.local;
+    const srcTime = c.at ? new Date(c.at) : null;
+    let time0 = hm || (srcTime ? String(srcTime.getHours()).padStart(2, "0") + ":" + String(srcTime.getMinutes()).padStart(2, "0") : "20:00");
+    if (dayKey === localDay() && new Date(`${dayKey}T${time0}`) < new Date(Date.now() + 15 * 60000)) {   // today, already past: the next full hour
+      const n = new Date(Date.now() + 75 * 60000); time0 = String(n.getHours()).padStart(2, "0") + ":00";
+    }
+    const build = (body) => {
+      const err = el("div", { class: "err", role: "alert" });
+      const date = el("input", { type: "date", value: dayKey, min: localDay() });
+      const time = el("input", { type: "time", value: time0, step: "300" });
+      const cap = el("textarea", { rows: 5, dir: "auto" }); cap.value = r.caption || "";
+      const nets = [...new Set((r.platforms || []).map((p) => p.platform))];
+      const picks = {};
+      const netBox = el("div", { class: "cp-nets" }, nets.map((pf) => { const cb = el("input", { type: "checkbox" }); cb.checked = true; picks[pf] = cb;
+        const n = (r.platforms || []).filter((p) => p.platform === pf).length;
+        return el("label", { class: "tg-acc" }, cb, el("span", {}, (NET_NAME[pf] || pf) + (n > 1 ? " ×" + n : ""))); }));
+      let draft = false;
+      // the source post's DM gift (opt-in: unticked until the user ticks it)
+      const gift = local ? null : ((state.z || {}).automations || []).find((a) => a.active !== false && (a.zPostId === r.id || a.postId === r.id));
+      const giftCb = el("input", { type: "checkbox" });
+      const giftRow = gift ? el("label", { class: "tg-acc cp-gift" }, giftCb,
+        el("span", {}, "🎁 " + t("cpGift").replace("{k}", (gift.keywords || [])[0] || ""))) : null;
+      const word = el("input", { type: "text", class: "typed", placeholder: "go", autocomplete: "off", spellcheck: "false" });
+      const wordRow = el("div", { class: "field" }, el("label", { class: "label" }, t("cpTypeGo")), word);
+      const mode = local ? null : seg([["sched", t("cpSchedule")], ["draft", t("cpDraft")]], "sched", (v) => { draft = v === "draft"; wordRow.hidden = draft; go_.textContent = t(draft ? "cpDraftBtn" : "cpPasteBtn");
+        mode.querySelectorAll("button").forEach((b, k) => { const on = (k === 1) === draft; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); }); }, "cp-mode");
+      const go_ = el("button", { class: "btn on big", type: "button", onclick: async () => {
+        err.textContent = "";
+        const platforms = nets.filter((pf) => picks[pf].checked);
+        if (!platforms.length) { err.textContent = t("cpPickNet"); return; }
+        if (!date.value || !time.value) { err.textContent = t("mvPick"); return; }
+        go_.disabled = true;
+        try {
+          const body = { op: "copy", at: `${date.value}T${time.value}`, platforms, draft, confirm: word.value, copyGift: !!(gift && giftCb.checked) };
+          if (cap.value !== (r.caption || "")) body.text = cap.value;
+          if (local) body.planId = r.planId; else body.postId = r.id;
+          const res = await post("/api/zpost", body);
+          closeModal(() => { toast(t(res.local ? "cpDoneLocal" : draft ? "cpDoneDraft" : "cpDone").replace("{t}", atStr(new Date(`${date.value}T${time.value}`))) + (res.gifts ? " · 🎁 " + t("cpGiftDone") : "")); lastSig = ""; lastZSig = ""; load(false); loadZernio(); });
+        } catch (e) { err.textContent = e.message; go_.disabled = false; }
+      } }, t(local ? "cpLocalBtn" : "cpPasteBtn"));
+      word.addEventListener("keydown", (e) => { if (e.key === "Enter") go_.click(); });
+      body.append(el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, t("cpKicker")),
+        el("h2", { id: "mTitle", dir: "auto" }, ((r.caption || "").split("\n")[0] || "—").slice(0, 80)),
+        el("div", { class: "cp-src" }, el("div", { class: "cp-thumb" }, thumbEl(r)), el("p", { class: "hint" }, t(local ? "cpWhatLocal" : "cpWhat"))),
+        el("div", { class: "cp-when" }, el("label", { class: "label" }, t("cpWhen")), el("div", { class: "row2" }, date, time)),
+        el("div", { class: "field" }, el("label", { class: "label" }, t("cpNets")), netBox),
+        el("div", { class: "field" }, el("label", { class: "label" }, t("cpCaption")), cap),
+        giftRow ? el("div", { class: "field" }, giftRow, el("small", { class: "hint" }, t("cpGiftHint"))) : null,
+        mode, local ? null : wordRow, err,
+        el("div", { class: "actions" }, el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("cancel")), go_));
+    };
+    modal.open ? closeModal(() => showModal("paste", build)) : showModal("paste", build);
+  }
+  // Ctrl+C on a post you're pointing at in Plan; Ctrl+V on a day
+  state.hoverEv = null; state.hoverDay = null;
+  document.addEventListener("mouseover", (e) => {
+    const ev = e.target.closest && e.target.closest(".ev, .tg-ev"); state.hoverEv = ev && ev._ev ? ev._ev : null;
+    const day = e.target.closest && e.target.closest("[data-day]");
+    state.hoverDay = day ? { key: day.dataset.day, col: day.classList.contains("tg-col") ? day : null, y: e.clientY } : null;
+  });
+  document.addEventListener("mousemove", (e) => { if (state.hoverDay) state.hoverDay.y = e.clientY; }, { passive: true });
+  document.addEventListener("keydown", (e) => {
+    if (!(e.ctrlKey || e.metaKey) || modal.open) return;
+    const a = document.activeElement;
+    if (a && (a.matches("input, textarea, select, [contenteditable]") || String(window.getSelection() || ""))) return;
+    if (e.key.toLowerCase() === "c" && state.hoverEv) { e.preventDefault(); copyPost(state.hoverEv.row || state.hoverEv); }
+    else if (e.key.toLowerCase() === "v" && state.clip && state.hoverDay) {
+      e.preventDefault();
+      let hm = null;
+      if (state.hoverDay.col) { const top = state.hoverDay.col.getBoundingClientRect().top; const m = Math.max(0, Math.round((state.hoverDay.y - top) / HOUR_PX * 60 / 15) * 15);
+        hm = String(Math.min(23, Math.floor(m / 60))).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0"); }
+      openPaste(state.hoverDay.key, hm);
+    }
+  });
   function openSlotMenu(when) {
     if (when.getTime() < Date.now() + 15 * 60000) { toast(t("mvPast")); return; }
     const at = localIso(when), p = state.data && state.data.plan;
@@ -2890,6 +3372,8 @@
     const build = (body) => {
       body.append(el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, t("tabPlan")), el("h2", { id: "mTitle" }, t("slTitle").replace("{t}", atStr(when))));
       const opts = el("div", { class: "sl-opts" });
+      if (state.clip) opts.append(el("button", { class: "np-way cp-way", type: "button", onclick: () => closeModal(() => openPaste(localDay(when), String(when.getHours()).padStart(2, "0") + ":" + String(when.getMinutes()).padStart(2, "0"))) },
+        el("b", {}, "📋 " + t("cpPasteHere")), el("span", { class: "hint", dir: "auto" }, ((state.clip.row.caption || "").split("\n")[0] || "").slice(0, 80))));
       if (p && editableNow()) opts.append(el("button", { class: "np-way", type: "button", onclick: () => setTime(p.id) },
         el("b", {}, "▶ " + t("slCurrent")), el("span", { class: "hint", style: "unicode-bidi:plaintext" }, (Object.values(p.captions || {})[0] || p.folder || "").split("\n")[0].slice(0, 80))));
       opts.append(el("button", { class: "np-way", type: "button", onclick: () => closeModal(() => { openNewPost(); NP.when = at; }) },
@@ -2917,6 +3401,62 @@
     catch (e) { (state.tt ||= {})[k] = { failed: true }; }
     return state.tt[k];
   }
+  // the poll or repost under the LinkedIn caption, as it will look
+  function liExtraPreview(p) {
+    const ls = (p.settings || {}).linkedin || {}, kind = ls.kind || "post";
+    if (kind === "repost") return el("div", { class: "li-poll-pv li-pv-main" }, el("small", { class: "label" }, "↻ " + t("liRepost")),
+      el("span", { class: "hint", style: "word-break:break-all" }, ls.reshareUrl || "…"));
+    if (kind !== "poll") return null;
+    const poll = ls.poll || {}, filled = (poll.options || []).filter((o) => o.trim());
+    const d = { ONE_DAY: "liD1", THREE_DAYS: "liD3", SEVEN_DAYS: "liD7", FOURTEEN_DAYS: "liD14" }[poll.duration || "SEVEN_DAYS"];
+    return el("div", { class: "li-poll-pv li-pv-main" }, el("small", { class: "label" }, t("liPoll")),
+      el("b", { style: "unicode-bidi:plaintext" }, poll.question || "…"),
+      ...(filled.length ? filled : ["…", "…"]).map((o) => el("span", { class: "li-pv-opt", style: "unicode-bidi:plaintext" }, o)),
+      el("small", { class: "hint" }, t("liPvFoot").replace("{d}", t(d))));
+  }
+  function hasNetSettings(p) { return (p.platforms || []).some((x) => ["tiktok", "snapchat", "facebook", "linkedin"].includes(x)); }
+  // LinkedIn: a normal post, a poll (question + 2-4 choices + how long) or a repost of a LinkedIn post link
+  function liKindCard(p, set) {
+    const ls = (p.settings || {}).linkedin || {};
+    const kind = ls.kind || "post";
+    const liMedia = ((p.types || {}).linkedin || p.type) !== "text";
+    const card = el("div", { class: "ns-card li-kind" }, el("h3", {}, "in · LinkedIn"),
+      el("label", { class: "label" }, t("liKind")),
+      seg([["post", t("liPost")], ["poll", t("liPoll")], ["repost", t("liRepost")]], kind, (v) => v !== kind && set("linkedin.kind", v), "li-kind-seg"));
+    if (kind === "post") { card.append(el("p", { class: "hint" }, t(liMedia ? "liPostHint" : "liPostTextHint"))); return card; }
+    if (liMedia) card.append(el("p", { class: "warn-msg" }, t("liNoMedia")));
+    if (kind === "repost") {
+      const u = el("input", { type: "text", inputmode: "url", class: "li-url", value: ls.reshareUrl || "", placeholder: "https://www.linkedin.com/posts/…", spellcheck: "false" });
+      u.addEventListener("change", () => set("linkedin.reshareUrl", u.value));
+      card.append(el("div", { class: "field" }, el("label", { class: "label" }, t("liUrl")), u), el("p", { class: "hint" }, t("liRepostHint")));
+      return card;
+    }
+    const poll = Object.assign({ question: "", options: ["", ""], duration: "SEVEN_DAYS" }, ls.poll || {});
+    const opts = poll.options.length ? poll.options.slice() : ["", ""];
+    const save = () => set("linkedin.poll", { question: poll.question, options: opts, duration: poll.duration });
+    const count = (inp, max) => { const c = el("small", { class: "hint li-count" }, inp.value.length + " / " + max);
+      inp.addEventListener("input", () => { c.textContent = inp.value.length + " / " + max; c.classList.toggle("over", inp.value.length > max); }); c.classList.toggle("over", inp.value.length > max); return c; };
+    const q = el("input", { type: "text", class: "li-q", value: poll.question, placeholder: t("liQPh") });
+    q.addEventListener("change", () => { poll.question = q.value; save(); });
+    const rows = opts.map((o, i) => {
+      const inp = el("input", { type: "text", value: o, placeholder: t("liOptPh").replace("{n}", i + 1) });
+      inp.addEventListener("change", () => { opts[i] = inp.value; save(); });
+      return el("div", { class: "li-opt" }, inp, count(inp, 30),
+        opts.length > 2 ? el("button", { class: "btn sm danger-ghost", type: "button", "aria-label": t("remove"), onclick: () => { opts.splice(i, 1); save(); } }, "×") : null);
+    });
+    const durs = [["ONE_DAY", t("liD1")], ["THREE_DAYS", t("liD3")], ["SEVEN_DAYS", t("liD7")], ["FOURTEEN_DAYS", t("liD14")]];
+    const filled = opts.filter((o) => o.trim());
+    put(card, el("div", { class: "field" }, el("label", { class: "label" }, t("liQ")), q, count(q, 140)),
+      el("label", { class: "label" }, t("liOpts")), ...rows,
+      opts.length < 4 ? el("button", { class: "btn sm li-add", type: "button", onclick: () => { opts.push(""); save(); } }, "+ " + t("liAddOpt")) : null,
+      el("label", { class: "label" }, t("liDur")), seg(durs, poll.duration, (v) => { poll.duration = v; save(); }),
+      el("div", { class: "li-poll-pv", "aria-label": t("liPreview") }, el("small", { class: "label" }, t("liPreview")),
+        el("b", { style: "unicode-bidi:plaintext" }, poll.question || "…"),
+        ...(filled.length ? filled : ["…", "…"]).map((o) => el("span", { class: "li-pv-opt", style: "unicode-bidi:plaintext" }, o)),
+        el("small", { class: "hint" }, t("liPvFoot").replace("{d}", (durs.find((d) => d[0] === poll.duration) || durs[2])[1]))),
+      el("p", { class: "hint" }, t("liPollHint")));
+    return card;
+  }
   function netSettingsUI(p, redraw) {
     const box = el("div", { class: "ns" });
     const set = async (path, value) => {
@@ -2924,6 +3464,7 @@
       catch (e) { toast(e.message); }
     };
     const plats = p.platforms || [];
+    if (plats.includes("linkedin")) box.append(liKindCard(p, set));
     if (plats.includes("tiktok")) {
       const s = (p.settings || {}).tiktok || {};
       const consentOk = !(p.checks || []).some((c) => c.id === "tiktok.consent");
@@ -3038,7 +3579,7 @@
     box.append(kindChip(r, "zkind"));
     return box;
   }
-  const KIND_ICON = { carousel: "▣", reel: "▶", video: "▶", short: "▶", story: "◔", document: "▤", article: "¶", text: "¶", post: "▢" };
+  const KIND_ICON = { archive: "🗜", carousel: "▣", reel: "▶", video: "▶", short: "▶", story: "◔", document: "▤", article: "¶", text: "¶", post: "▢" };
   function kindLabel(r) {
     const k = r.kind || (r.videoLocal || r.video ? "video" : ((r.count || r.mediaCount || 0) > 1 ? "carousel" : "post"));
     const n = r.count || r.mediaCount || 0;
@@ -3046,12 +3587,175 @@
   }
   function kindChip(r, cls) { const { k, text } = kindLabel(r); return el("span", { class: (cls || "kchip") + " k-" + k }, (KIND_ICON[k] || "▢") + " " + text); }
   const NET = { instagram: "IG", linkedin: "in", facebook: "f", threads: "@", twitter: "X", x: "X", tiktok: "TT", snapchat: "SC", youtube: "YT", pinterest: "P", bluesky: "BS", reddit: "R", telegram: "TG", googlebusiness: "G" };
+  // A post's networks at a glance: the first network's icon, "+N" for the rest.
+  // Click it for each network's account, status, time, link and error.
+  function netStack(r) {
+    const ps = r.platforms || [];
+    if (!ps.length) return null;
+    const b = el("span", { class: "netstack", role: "button", tabindex: "0", title: ps.map((p) => (NET_NAME[p.platform] || p.platform) + (p.account ? " @" + p.account : "")).join(" · ") },
+      el("span", { class: "net n-" + ps[0].platform }, NET[ps[0].platform] || ps[0].platform),
+      ps.length > 1 ? el("span", { class: "netmore" }, t("nsMore").replace("{n}", ps.length - 1)) : null);
+    const open = (e) => { e.preventDefault(); e.stopPropagation(); openNets(r); };
+    b.addEventListener("click", open);
+    b.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") open(e); });
+    ["pointerdown", "mousedown", "dragstart"].forEach((k) => b.addEventListener(k, (e) => e.stopPropagation()));
+    return b;
+  }
+  // Turn networks (and accounts) on or off for one post.
+  // Not published yet: switches, saved with the typed word "edit" (a local draft: no word).
+  // Already published on a network: "Remove from …" (typed "remove"), where the network allows it.
+  const NET_FITS = { instagram: ["reel", "single", "carousel"], tiktok: ["reel", "single", "carousel"], snapchat: ["reel", "single"], facebook: ["reel", "single", "carousel", "text"] };
+  const NO_UNPUBLISH = ["instagram", "tiktok", "snapchat"];
+  function postKind(r) {
+    const k = r.kind || "";
+    return k === "reel" || k === "video" || k === "short" ? "reel" : k === "carousel" ? "carousel" : k === "document" ? "document" : k === "text" || k === "article" ? "text" : "single";
+  }
+  function openNetEdit(r) {
+    const accs = ((state.z || {}).accounts || []).filter((a) => a.active !== false && !a.needsReconnection);
+    const cfgAcc = ((state.data && state.data.config) || {}).accounts || {};
+    const local = !!r.local, kind = postKind(r);
+    const ents = r.platforms || [];
+    const isOn = (a) => ents.some((p) => p.platform === a.platform && (p.accountId ? p.accountId === a.id : (local ? ((cfgAcc[a.platform] || {}).id === a.id) : true)));
+    const pubEnt = (a) => ents.find((p) => p.platform === a.platform && (!p.accountId || p.accountId === a.id) && ["published"].includes(p.status));
+    const editable = local || ZEDIT.includes(r.status);
+    const build = (body) => {
+      const err = el("div", { class: "err", role: "alert" });
+      const boxes = [];
+      const list = el("div", { class: "netsw-list" });
+      [...new Set(accs.map((a) => a.platform))].forEach((pf) => {
+        accs.filter((a) => a.platform === pf).forEach((a) => {
+          const fits = !NET_FITS[pf] || NET_FITS[pf].includes(kind);
+          const pub = pubEnt(a);
+          const row = el("div", { class: "netsw" + (fits ? "" : " off") },
+            el("span", { class: "net n-" + pf }, NET[pf] || pf), el("b", {}, NET_NAME[pf] || pf), el("span", { class: "label", dir: "ltr" }, handle(a.username || "?")));
+          if (pub) {
+            row.append(badge("published"), NO_UNPUBLISH.includes(pf)
+              ? el("small", { class: "hint" }, t("nwAppOnly").replace("{p}", NET_NAME[pf] || pf))
+              : el("button", { class: "btn sm danger-ghost", type: "button", onclick: () => closeModal(() => openRemoveOne(r, pf, a)) }, t("nwRemove").replace("{p}", NET_NAME[pf] || pf)));
+          } else if (editable) {
+            const cb = el("input", { type: "checkbox", class: "switch", disabled: fits ? null : "" }); cb.checked = isOn(a) && fits;
+            boxes.push([a, cb]);
+            if (!fits) row.append(el("small", { class: "hint" }, t("nwCant").replace("{k}", t("kind_" + (kind === "single" ? "post" : kind)))));
+            row.append(el("label", { class: "sw" }, cb, el("span", { class: "sw-track", "aria-hidden": "true" })));
+          } else row.append(isOn(a) ? badge(r.status) : el("small", { class: "hint" }, t("nwNotOn")));
+          list.append(row);
+        });
+      });
+      const word = el("input", { type: "text", class: "typed", placeholder: "edit", autocomplete: "off", spellcheck: "false" });
+      const save = el("button", { class: "btn on big", type: "button", onclick: async () => {
+        err.textContent = "";
+        const wanted = boxes.filter(([, cb]) => cb.checked).map(([a]) => ({ platform: a.platform, accountId: a.id }));
+        if (!wanted.length) { err.textContent = t("nwKeepOne"); return; }
+        save.disabled = true;
+        try {
+          if (local) await post("/api/plan", { op: "networks", planId: r.planId, platforms: wanted });
+          else {
+            const res = await post("/api/zpost", { op: "networks", postId: r.id, platforms: wanted, confirm: word.value });
+            if (res.matches === false) toast(t("nwCheck"));
+          }
+          closeModal(() => { toast(t("nwSaved")); lastSig = ""; lastZSig = ""; load(false); loadZernio(); });
+        } catch (e) { err.textContent = e.message; save.disabled = false; }
+      } }, t("nwSave"));
+      word.addEventListener("keydown", (e) => { if (e.key === "Enter") save.click(); });
+      body.append(el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, t("nwKicker")),
+        el("h2", { id: "mTitle", dir: "auto" }, ((r.caption || "").split("\n")[0] || "—").slice(0, 80)),
+        el("p", { class: "hint" }, t(editable ? (local ? "nwHintLocal" : "nwHint") : "nwHintPub")), list,
+        editable && !local && boxes.length ? el("div", { class: "field" }, el("label", { class: "label" }, t("nwType")), word) : null, err,
+        el("div", { class: "actions" }, el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("cancel")), editable && boxes.length ? save : null));
+    };
+    modal.open ? closeModal(() => showModal("netedit", build)) : showModal("netedit", build);
+  }
+  function openRemoveOne(r, pf, a) {
+    const build = (body) => {
+      const err = el("div", { class: "err", role: "alert" });
+      const word = el("input", { type: "text", class: "typed", placeholder: "remove", autocomplete: "off", spellcheck: "false" });
+      const go_ = el("button", { class: "btn danger big", type: "button", onclick: async () => {
+        err.textContent = ""; go_.disabled = true;
+        try { await post("/api/zpost", { op: "unpublish", postId: r.id, platform: pf, accountId: a.id, confirm: word.value });
+          closeModal(() => { toast(t("nwRemoved").replace("{p}", NET_NAME[pf] || pf)); lastSig = ""; lastZSig = ""; load(false); loadZernio(); }); }
+        catch (e) { err.textContent = e.message; go_.disabled = false; }
+      } }, t("nwRemove").replace("{p}", NET_NAME[pf] || pf));
+      body.append(el("div", { class: "label kicker", style: "color:var(--bps-danger)" }, t("nwKicker")),
+        el("h2", { id: "mTitle" }, t("nwRemoveTitle").replace("{p}", NET_NAME[pf] || pf)),
+        el("p", { class: "hint" }, t("nwRemoveHint")),
+        el("div", { class: "field" }, el("label", { class: "label" }, t("nwTypeRemove")), word), err,
+        el("div", { class: "actions" }, el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("cancel")), go_));
+    };
+    modal.open ? closeModal(() => showModal("netremove", build)) : showModal("netremove", build);
+  }
+  function openNets(r) {
+    const build = (body) => {
+      const postWhen = r.scheduledFor;
+      body.append(el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, t("nsTitle2")),
+        el("h2", { id: "mTitle", style: "unicode-bidi:plaintext" }, ((r.caption || "").split("\n")[0] || "—").slice(0, 90)),
+        el("div", { class: "zrow-head" }, badge(r.status), kindChip(r)));
+      const list = el("div", { class: "nets-list" });
+      (r.platforms || []).forEach((p) => {
+        const when = p.publishedAt || postWhen;
+        list.append(el("div", { class: "nets-row" },
+          el("div", { class: "nets-name" }, el("span", { class: "net n-" + p.platform }, NET[p.platform] || p.platform), el("b", {}, NET_NAME[p.platform] || p.platform),
+            p.trial ? el("small", { class: "conf medium" }, t("trialShort")) : null),
+          el("dl", { class: "nets-facts" },
+            el("dt", {}, t("nsAccount")), el("dd", {}, p.account ? "@" + p.account : "—"),
+            el("dt", {}, t("nsStatusOf")), el("dd", {}, badge(p.status || r.status)),
+            el("dt", {}, t("nsWhen")), el("dd", {}, when ? dtFull(when) : t("nsNoTime"))),
+          p.url ? el("a", { href: p.url, target: "_blank", rel: "noopener" }, t("nsOpen").replace("{p}", NET_NAME[p.platform] || p.platform)) : null,
+          p.error ? el("div", { class: "zerr" }, (p.errorCategory ? p.errorCategory + ": " : "") + p.error) : null));
+      });
+      body.append(list);
+      if (r.local) body.append(el("p", { class: "hint" }, t("nsLocalNote")));
+      body.append(el("div", { class: "actions" },
+        el("button", { class: "btn", type: "button", onclick: () => closeModal(() => openPostDetail(r)) }, t("nsOpenPost")),
+        !r.outside ? el("button", { class: "btn nw-btn", type: "button", onclick: () => openNetEdit(r) }, "⇆ " + t("nwBtn")) : null,
+        el("button", { class: "btn on", type: "button", onclick: () => closeModal(renderQuestion) }, t("close"))));
+    };
+    modal.open ? closeModal(() => showModal("nets", build)) : showModal("nets", build);
+  }
   const netTag = (p) => el("span", { class: "net n-" + p.platform, title: p.platform + (p.account ? " @" + p.account : "") }, NET[p.platform] || p.platform, p.account ? el("small", {}, "@" + p.account) : null);
   /* ---------- post viewer: every slide, the full video, or the PDF ---------- */
   let curViewer = null;
   function viewerItems(r) {
     if (r.local) return (r.mediaList || []).map((m) => ({ type: m.kind, url: planMedia(r.planId, m.file) }));
     return (r.items || []).map((m) => ({ ...m, type: m.type === "document" || /\.pdf($|\?)/i.test(m.url) ? "document" : m.type }));
+  }
+  // find a post's full row (media for the viewer) from its link or platform post id
+  function rowFor(url, platformPostId) {
+    const norm = (u) => String(u || "").replace(/[?#].*$/, "").replace(/\/+$/, "");
+    const rows = postRows();
+    return (url && rows.find((r) => (r.platforms || []).some((p) => p.url && norm(p.url) === norm(url)))) ||
+      (platformPostId && rows.find((r) => (r.platforms || []).some((p) => p.url && p.url.includes(platformPostId)))) || null;
+  }
+  const viewBtn = (row) => row ? el("button", { class: "btn sm view-btn", type: "button", onclick: (e) => { e.stopPropagation(); openPostDetail(row); } }, "▶ " + t("vView")) : null;
+  // Which accounts this post goes to, per network (only shown when a network has
+  // more than one connected account in Zernio). Saved at once; recorded in Changes.
+  function renderTargets(p) {
+    const host = $("#accTargets"); if (!host) return;
+    const accs = ((state.z || {}).accounts || []).filter((a) => a.active !== false && !a.needsReconnection);
+    const cfgAcc = ((state.data && state.data.config) || {}).accounts || {};
+    const multi = (p.platforms || []).filter((pf) => accs.filter((a) => a.platform === pf).length > 1);
+    host.innerHTML = "";
+    if (!multi.length) { host.hidden = true; return; }
+    host.hidden = false;
+    const locked = ["published", "scheduled"].includes(p.status);
+    host.append(el("div", { class: "label" }, t("tgAccounts")));
+    multi.forEach((pf) => {
+      const mine = accs.filter((a) => a.platform === pf);
+      const chosen = ((p.targets || {})[pf] || []).length ? p.targets[pf] : [(cfgAcc[pf] || {}).id].filter(Boolean);
+      const row = el("div", { class: "tg-row" }, el("b", {}, NET_NAME[pf] || pf));
+      mine.forEach((a) => {
+        const cb = el("input", { type: "checkbox", disabled: locked ? "" : null }); cb.checked = chosen.includes(a.id);
+        cb.addEventListener("change", async () => {
+          const next = mine.filter((x) => x.id === a.id ? cb.checked : chosen.includes(x.id)).map((x) => x.id);
+          if (!next.length) { cb.checked = true; toast(t("tgOne")); return; }
+          try { await post("/api/plan", { op: "targets", targets: { [pf]: next } }); toast(t("tgSaved")); lastSig = ""; load(false); }
+          catch (e) { cb.checked = !cb.checked; toast(e.message); }
+        });
+        row.append(el("label", { class: "tg-acc" }, cb, el("span", {}, handle(a.username || "?")),
+          a.followers != null ? el("small", {}, fmt(a.followers)) : null));
+      });
+      host.append(row);
+    });
+    host.append(el("small", { class: "hint" }, t(locked ? "tgLocked" : "tgHint")));
   }
   function postViewer(r) {
     const items = viewerItems(r);
@@ -3131,6 +3835,9 @@
         onclick: () => closeModal(() => sendNote(`Post ${r.id} ${r.status} in Zernio. Explain the error and help me fix and retry it.`)) }, t("zAskFix")));
       if (r.planId) acts.append(el("button", { class: "btn on", type: "button", onclick: () => closeModal(async () => {
         try { await post("/api/plan", { op: "select", id: r.planId }); lastSig = ""; await load(false); go("post"); } catch (e) { toast(e.message); } }) }, r.local ? t("zContinue") : t("zOpenPlan")));
+      if (!r.outside && (r.local || ZEDIT.includes(r.status) || ["published", "partial"].includes(r.status)))
+        acts.append(el("button", { class: "btn nw-btn", type: "button", onclick: () => openNetEdit(r) }, "⇆ " + t("nwBtn")));
+      acts.append(el("button", { class: "btn cp-btn", type: "button", onclick: () => closeModal(() => { copyPost(r); go("plan"); }) }, "⧉ " + t("cpCopy")));
       acts.append(el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("close")));
       body.append(acts);
     };
@@ -3144,7 +3851,8 @@
     if (!z.ok) acc.append(el("p", { class: "empty" }, z.error || t("zernioOff")));
     (z.accounts || []).forEach((a) => acc.append(el("div", { class: "aud-z" + (a.needsReconnection || a.active === false ? " warnz" : " same") },
       el("b", {}, a.platform), el("span", {}, "@" + (a.username || "")),
-      el("small", {}, (a.needsReconnection || a.active === false) ? t("reconnect") : (a.followers != null ? fmt(a.followers) + " " + t("followers") : t("connected"))))));
+      el("small", {}, (a.needsReconnection || a.active === false) ? t("reconnect") : (a.followers != null ? fmt(a.followers) + " " + t("followers") : t("connected"))),
+      a.followersUpdated && Date.parse(a.followersUpdated) ? el("small", { class: "fol-fresh" }, t("folFresh").replace("{t}", ago(Date.parse(a.followersUpdated) / 1000))) : null)));
     acc.append(el("button", { class: "aud-z add-acc", type: "button", onclick: openConnectChooser }, el("b", {}, "+"), el("span", {}, t("accConnectShort"))));
     $("#zSynced").textContent = z.synced_at ? t("synced") + " " + ago(z.synced_at) : "";
     // counts
@@ -3194,7 +3902,7 @@
           el("span", { class: "ztile-badge" }, badge(r.status)),
           el("span", { class: "ztile-body" },
             el("span", { class: "zcap2", style: "unicode-bidi:plaintext" }, (r.caption || "").split("\n")[0] || "—"),
-            el("span", { class: "ztile-meta" }, el("span", { class: "nets" }, (r.platforms || []).map(netTag)),
+            el("span", { class: "ztile-meta" }, netStack(r),
               when ? el("span", { class: "ztile-when", title: dtFull(when) }, dtFull(when)) : null)));
         if (r.outside) card.classList.add("outside");
         if ((r.platforms || []).some((p) => p.status === "failed")) card.classList.add("has-err");
@@ -3222,7 +3930,7 @@
       list.append(el("div", { class: "zrow card" },
         el("div", { class: "zrow-head" }, el("div", { class: "zrow-thumb" }, thumbEl(r)), badge(r.status), kindChip(r),
           el("span", { class: "label" }, r.local ? t("zLocalHint") : r.outside ? t("zOutside") : (r.fromSkill ? t("zFromSkill") : t("zFromZernio"))),
-          when ? el("span", { class: "zwhen" }, dtFull(when)) : null),
+          netStack(r), when ? el("span", { class: "zwhen" }, dtFull(when)) : null),
         el("div", { class: "zcap", style: "unicode-bidi:plaintext" }, (r.caption || "").split("\n")[0] || "—"),
         plats, actions));
     });
@@ -3236,7 +3944,7 @@
 
   /* ---------- connect social accounts (Zernio OAuth; approve on the network's own site) ---------- */
   const NET_NAME = { instagram: "Instagram", linkedin: "LinkedIn", facebook: "Facebook", threads: "Threads", twitter: "X (Twitter)",
-    tiktok: "TikTok", youtube: "YouTube", pinterest: "Pinterest", bluesky: "Bluesky" };
+    tiktok: "TikTok", snapchat: "Snapchat", youtube: "YouTube", pinterest: "Pinterest", bluesky: "Bluesky" };
   function renderAccountsCard(host) {
     host.innerHTML = "";
     const cfg = (state.data && state.data.config) || {};
@@ -3829,6 +4537,145 @@
     return box;
   }
 
+  /* ---------- Recycle your best posts: Zernio re-posts a published post every N weeks/months with new hooks ---------- */
+  const RC = { list: null, pid: "", gap: 1, freq: "month", times: 3, start: "", vs: null, word: "", busy: "", err: "", done: null, asked: 0, timer: 0 };
+  async function rcApi(body) {
+    let r, j = {};
+    try { r = await fetch("/api/recycle", { method: "POST", headers: { "Content-Type": "application/json", "X-BPS-Token": TOKEN }, body: JSON.stringify(body) }); }
+    catch (e) { throw new Error(t("keyNoServer")); }
+    try { j = await r.json(); } catch (e) {}
+    if (!r.ok || !j.ok) throw new Error(j.error || ("HTTP " + r.status));
+    return j;
+  }
+  const rcDay = (d) => { const z = new Date(d); z.setMinutes(z.getMinutes() - z.getTimezoneOffset()); return z.toISOString().slice(0, 10); };
+  function rcDefaultStart() { const d = new Date(); RC.freq === "week" ? d.setDate(d.getDate() + 7 * RC.gap) : d.setMonth(d.getMonth() + RC.gap); return rcDay(d); }
+  const rcEveryTxt = (n, u) => n === 1 ? t(u === "week" ? "rcEveryWeek" : "rcEveryMonth") : t("rcEveryN").replace("{n}", n).replace("{u}", t(u === "week" ? "rcWeeks" : "rcMonths"));
+  function rcStateLine(s) {
+    if (!s || !s.enabled) return "";
+    const every = rcEveryTxt(s.gap || 1, s.gapFreq);
+    const made = s.expireCount ? t("rcMadeOf").replace("{a}", s.recycleCount || 0).replace("{b}", s.expireCount) : t("rcMade").replace("{a}", s.recycleCount || 0);
+    return "♻ " + every + " · " + made + (s.nextRecycleAt ? " · " + t("rcNext") + " " + dt(s.nextRecycleAt) : "");
+  }
+  async function openRecycle(pid) {
+    Object.assign(RC, { pid: pid || "", word: "", busy: "", err: "", done: null, vs: null });
+    const build = (body) => drawRecycle(body);
+    modal.open ? closeModal(() => showModal("recycle", build)) : showModal("recycle", build);
+    try { RC.list = await rcApi({ op: "list", n: 8 }); } catch (e) { RC.err = e.message; }
+    if (RC.pid) await rcLoad();
+    redrawRC();
+  }
+  async function rcLoad() {
+    const row = rcRow();
+    if (!row) return;
+    try { const st = await rcApi({ op: "state", postId: RC.pid }); row.state = { ...(st.recycling || {}), status: st.status }; } catch (e) { RC.err = e.message; }
+    const s = row.state || {};
+    if (s.enabled) Object.assign(RC, { gap: s.gap || 1, freq: s.gapFreq || "month", times: s.expireCount || 0 });
+    RC.vs = (row.draft && row.draft.variations && row.draft.variations.length) ? row.draft.variations.slice() : (s.contentVariations || []).slice();
+    RC.start = rcDefaultStart();
+  }
+  const rcRow = () => ((RC.list || {}).posts || []).find((r) => r.postId === RC.pid);
+  function redrawRC() { if (modal.open === "recycle") { const b = $("#modalBody"), k = b.scrollTop; b.innerHTML = ""; drawRecycle(b); b.scrollTop = k; } }
+  function rcSaveVs() { rcApi({ op: "variations", postId: RC.pid, variations: RC.vs }).catch((e) => toast(e.message)); }
+  function rcWaitHooks() {
+    clearInterval(RC.timer);
+    const since = RC.asked, until = Date.now() + 5 * 60000;
+    RC.timer = setInterval(async () => {
+      if (modal.open !== "recycle" || Date.now() > until) { clearInterval(RC.timer); return; }
+      try {
+        const l = await rcApi({ op: "list", n: 8 }); const r = (l.posts || []).find((x) => x.postId === RC.pid);
+        if (r && r.draft && r.draft.ts * 1000 > since && r.draft.via === "claude") { RC.list = l; RC.vs = r.draft.variations.slice(); RC.asked = 0; clearInterval(RC.timer); redrawRC(); toast(t("rcHooksIn")); }
+      } catch (e) {}
+    }, 4000);
+  }
+  function rcMetrics(m) {
+    return el("div", { class: "rc-metrics" }, ...[["follows", m.follows], ["rcSavesShares", (m.saves || 0) + (m.shares || 0)], ["reach", m.reach]]
+      .map(([k, v]) => el("span", { class: "rc-chip" }, el("b", {}, fmt(v)), " " + t(k))));
+  }
+  function drawRecycle(body) {
+    put(body, el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, "♻ " + t("rcKicker")));
+    const L = RC.list;
+    if (!L) { body.append(el("h2", { id: "mTitle" }, t("rcTitle")), el("p", { class: "hint pulse" }, "…")); return; }
+    if (!RC.pid) return drawRecycleList(body, L);
+    const r = rcRow();
+    if (!r) { RC.pid = ""; return drawRecycleList(body, L); }
+    const s = r.state || {};
+    const on = !!s.enabled;
+    put(body, el("div", { class: "rc-head" }, r.thumb ? el("img", { src: r.thumb, alt: "", referrerpolicy: "no-referrer", loading: "lazy" }) : null,
+        el("div", {}, el("h2", { id: "mTitle", style: "unicode-bidi:plaintext" }, (r.caption || "").split("\n")[0].slice(0, 90) || t("rcTitle")),
+          el("div", { class: "label" }, r.platforms.join(" · ") + " · " + (r.publishedAt || "").slice(0, 10)), rcMetrics(r.metrics))),
+      on ? el("p", { class: "ok-msg rc-on" }, rcStateLine(s)) : null,
+      el("button", { class: "btn sm", type: "button", onclick: () => { RC.pid = ""; redrawRC(); } }, "← " + t("rcAll")));
+    // rhythm
+    const gapSel = el("select", { "aria-label": t("rcEvery") }, ...Array.from({ length: 12 }, (_, i) => el("option", { value: i + 1, selected: RC.gap === i + 1 ? "" : null }, String(i + 1))));
+    gapSel.addEventListener("change", () => { RC.gap = +gapSel.value; RC.start = rcDefaultStart(); redrawRC(); });
+    const timesSel = el("select", { "aria-label": t("rcStopAfter") }, el("option", { value: 0, selected: !RC.times ? "" : null }, t("rcUntilStop")),
+      ...Array.from({ length: 12 }, (_, i) => el("option", { value: i + 1, selected: RC.times === i + 1 ? "" : null }, t("rcTimes").replace("{n}", i + 1))));
+    timesSel.addEventListener("change", () => { RC.times = +timesSel.value; redrawRC(); });
+    const startIn = el("input", { type: "date", value: RC.start, min: rcDay(new Date()) });
+    startIn.addEventListener("change", () => { RC.start = startIn.value; redrawRC(); });
+    put(body, el("h3", {}, t("rcRhythm")),
+      el("div", { class: "rc-rhythm" }, el("span", {}, t("rcEvery")), gapSel, seg([["week", t("rcWeeks")], ["month", t("rcMonths")]], RC.freq, (v) => { RC.freq = v; RC.start = rcDefaultStart(); redrawRC(); }, "rc-freq")),
+      el("div", { class: "rc-rhythm" }, el("span", {}, t("rcStopAfter")), timesSel),
+      el("div", { class: "rc-rhythm" }, el("span", {}, t("rcFirst")), startIn));
+    // versions
+    const vs = RC.vs || [];
+    const rows = vs.map((v, i) => {
+      const ta = el("textarea", { rows: "4", style: "unicode-bidi:plaintext", "aria-label": t("rcVersion").replace("{n}", i + 1) }); ta.value = v;
+      ta.addEventListener("change", () => { vs[i] = ta.value; rcSaveVs(); });
+      return el("div", { class: "rc-v" }, el("div", { class: "row2" }, el("b", {}, t("rcVersion").replace("{n}", i + 1)),
+        el("button", { class: "btn sm danger-ghost", type: "button", "aria-label": t("remove"), onclick: () => { vs.splice(i, 1); rcSaveVs(); redrawRC(); } }, "×")), ta);
+    });
+    const asking = RC.asked && Date.now() - RC.asked < 5 * 60000;
+    put(body, el("h3", {}, t("rcVersions") + (vs.length ? " · " + vs.length : "")),
+      el("p", { class: "hint" }, t("rcVersionsHint")),
+      r.draft && r.draft.note ? el("p", { class: "hint" }, "Claude: " + r.draft.note) : null,
+      ...rows,
+      el("div", { class: "row2 rc-vbtns" },
+        el("button", { class: "btn sm rc-ask", type: "button", disabled: asking ? "" : null, onclick: async (e) => {
+          try { await rcApi({ op: "ask_hooks", postId: RC.pid }); flyToClaude(e.target); RC.asked = Date.now(); rcWaitHooks(); redrawRC(); } catch (x) { toast(x.message); } } },
+          asking ? t("rcAsking") : "✨ " + t("rcAsk")),
+        vs.length < 20 ? el("button", { class: "btn sm", type: "button", onclick: () => { vs.push(""); RC.vs = vs; redrawRC(); } }, "+ " + t("rcAdd")) : null),
+      vs.filter((v) => v.trim()).length === 1 ? el("p", { class: "warn-msg" }, t("rcNeedTwo")) : null);
+    // summary + go
+    const nv = vs.filter((v) => v.trim()).length;
+    const sentence = t("rcSentence").replace("{every}", rcEveryTxt(RC.gap, RC.freq))
+      .replace("{times}", RC.times ? t("rcTimes").replace("{n}", RC.times) : t("rcUntilStop").toLowerCase())
+      .replace("{what}", nv >= 2 ? t("rcWithN").replace("{n}", nv) : t("rcSame")).replace("{d}", RC.start || "…");
+    const word = el("input", { type: "text", class: "rc-word", value: RC.word, placeholder: "go", spellcheck: "false", autocomplete: "off" });
+    const goBtn = el("button", { class: "btn on big rc-go", type: "button", disabled: RC.word.trim().toLowerCase() !== "go" || RC.busy ? "" : null, onclick: async () => {
+      RC.busy = t("rcStarting"); RC.err = ""; redrawRC();
+      try {
+        const res = await rcApi({ op: "enable", postId: RC.pid, gap: RC.gap, freq: RC.freq, times: RC.times || null, variations: vs.filter((v) => v.trim()), start: RC.start ? new Date(RC.start + "T09:00").toISOString() : "", confirm: RC.word });
+        r.state = { ...(res.recycling || {}), status: res.status }; RC.word = ""; RC.busy = "";
+        toast(res.verified ? t("rcStarted") : t("rcCheck")); RC.list = await rcApi({ op: "list", n: 8 }); redrawRC();
+      } catch (e) { RC.err = e.message; RC.busy = ""; redrawRC(); } } }, RC.busy || (on ? t("rcUpdate") : t("rcStart")));
+    word.addEventListener("input", () => { RC.word = word.value; goBtn.disabled = word.value.trim().toLowerCase() !== "go" || !!RC.busy; });
+    put(body, el("div", { class: "rc-sum" }, el("p", {}, sentence),
+        r.platforms.includes("instagram") ? el("p", { class: "hint" }, t("rcIgNote")) : null,
+        el("p", { class: "hint" }, t("rcLimits"))),
+      el("label", { class: "label" }, t("rcType")), word,
+      RC.err ? el("div", { class: "key-msg bad" }, "✗ " + RC.err) : null,
+      el("div", { class: "actions" },
+        on ? el("button", { class: "btn danger-ghost rc-stop", type: "button", onclick: async () => {
+          try { const res = await rcApi({ op: "disable", postId: RC.pid }); r.state = { ...(res.recycling || {}), status: res.status }; toast(res.verified ? t("rcStopped") : t("rcCheck")); RC.list = await rcApi({ op: "list", n: 8 }); redrawRC(); }
+          catch (e) { RC.err = e.message; redrawRC(); } } }, t("rcStop")) : null,
+        el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("close")), goBtn));
+  }
+  function drawRecycleList(body, L) {
+    put(body, el("h2", { id: "mTitle" }, t("rcTitle")), el("p", { class: "hint" }, t("rcSub")),
+      RC.err ? el("div", { class: "key-msg bad" }, "✗ " + RC.err) : null,
+      !L.posts.length ? el("p", { class: "empty" }, L.note || t("noData")) : null,
+      el("p", { class: "label" }, t("rcActive").replace("{a}", (L.active || []).length).replaceAll("{b}", L.max || 10)),
+      el("ol", { class: "rc-list" }, ...L.posts.map((r, i) => el("li", {},
+        r.thumb ? el("img", { src: r.thumb, alt: "", referrerpolicy: "no-referrer", loading: "lazy" }) : el("div", { class: "np-vid" }, "—"),
+        el("div", { class: "rc-li" }, el("b", { style: "unicode-bidi:plaintext" }, (r.caption || "").split("\n")[0].slice(0, 80)),
+          el("span", { class: "label" }, r.platforms.join(" · ") + " · " + (r.publishedAt || "").slice(0, 10)), rcMetrics(r.metrics),
+          r.state && r.state.enabled ? el("span", { class: "ok-msg" }, rcStateLine(r.state)) : null),
+        el("button", { class: "btn sm on", type: "button", onclick: async () => { RC.pid = r.postId; await rcLoad(); redrawRC(); } }, r.state && r.state.enabled ? t("rcManage") : "♻ " + t("rcBtn"))))),
+      el("p", { class: "hint" }, t("rcRanked")),
+      el("div", { class: "actions" }, el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("close"))));
+  }
+
   /* ---------- New post: from computer files, made images, or a folder (no typing paths) ---------- */
   const NP = { items: [], name: "", caption: "", busy: "", err: "", pick: null, fs: null, step: 1, folder: null, sig: "", when: null };
   const npThumb = (it) => it.image ? "/img?id=" + encodeURIComponent(it.image) : "/upl?p=" + encodeURIComponent(it.path);
@@ -3856,10 +4703,10 @@
   function drawNewPost(body) {
     body.append(npTrack());
     if (NP.step > 1) return drawNpStep(body);
-    const fileIn = el("input", { type: "file", accept: "image/png,image/jpeg,image/webp,video/mp4,video/quicktime,application/pdf", multiple: true, hidden: true });
+    const fileIn = el("input", { type: "file", accept: "image/png,image/jpeg,image/webp,video/mp4,video/quicktime,application/pdf," + ARCHIVE_EXT.join(","), multiple: true, hidden: true });
     fileIn.addEventListener("change", () => npUpload([...fileIn.files]));
     const n = NP.items.length, kinds = NP.items.map((x) => x.kind);
-    const typeLbl = !n ? "" : kinds.includes("video") && n === 1 ? t("npReel") : kinds.includes("document") ? "PDF" : n > 1 ? t("npCarousel").replace("{n}", n) : t("npSingle");
+    const typeLbl = !n ? (NP.caption.trim() ? t("npTextPost") : "") : kinds.includes("archive") ? t("npArchive") : kinds.includes("video") && n === 1 ? t("npReel") : kinds.includes("document") ? "PDF" : n > 1 ? t("npCarousel").replace("{n}", n) : t("npSingle");
     put(body, el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, t("newPost")),
       el("h2", { id: "mTitle" }, t("npTitle")), el("p", { class: "hint" }, t("npSub")), fileIn,
       el("div", { class: "np-ways" },
@@ -3873,7 +4720,7 @@
     const drop = el("div", { class: "np-drop" + (n ? " has" : "") },
       n ? el("ol", { class: "np-items" }, ...NP.items.map((it, i) => el("li", {},
         el("span", { class: "np-n" }, String(i + 1)),
-        it.kind === "video" ? el("div", { class: "np-vid" }, "▶ " + (it.name || "video")) : it.kind === "document" ? el("div", { class: "np-vid" }, "PDF") : el("img", { src: npThumb(it), alt: "" }),
+        it.kind === "archive" ? el("div", { class: "np-vid" }, "🗜 " + (it.name || "archive")) : it.kind === "video" ? el("div", { class: "np-vid" }, "▶ " + (it.name || "video")) : it.kind === "document" ? el("div", { class: "np-vid" }, "PDF") : el("img", { src: npThumb(it), alt: "" }),
         el("div", { class: "np-ctl" },
           el("button", { class: "btn sm", type: "button", disabled: i === 0 ? "" : null, "aria-label": t("npEarlier"), onclick: () => { NP.items.splice(i - 1, 0, NP.items.splice(i, 1)[0]); redrawNP(); } }, "←"),
           el("button", { class: "btn sm", type: "button", disabled: i === n - 1 ? "" : null, "aria-label": t("npLater"), onclick: () => { NP.items.splice(i + 1, 0, NP.items.splice(i, 1)[0]); redrawNP(); } }, "→"),
@@ -3885,10 +4732,12 @@
     const nameIn = el("input", { type: "text", class: "np-name", value: NP.name, spellcheck: "false", "aria-label": t("npName") });
     nameIn.addEventListener("input", () => { NP.name = nameIn.value; });
     const cap = el("textarea", { rows: "4", class: "np-cap", placeholder: t("npCapPh"), "aria-label": t("npCap") });
-    cap.value = NP.caption; cap.addEventListener("input", () => { NP.caption = cap.value; createBtn.textContent = (NP.caption.trim() ? t("npNextCheck") : t("npNextClaude")) + " →"; });
-    const createBtn = el("button", { class: "btn on big", type: "button", disabled: !n || NP.busy ? "" : null, onclick: npCreate },
+    cap.value = NP.caption; cap.addEventListener("input", () => { NP.caption = cap.value; createBtn.textContent = (NP.caption.trim() ? t("npNextCheck") : t("npNextClaude")) + " →";
+      createBtn.disabled = (!n && !NP.caption.trim()) || !!NP.busy; const tl = body.querySelector(".np-typelbl"); if (tl && !n) tl.textContent = NP.caption.trim() ? t("npTextPost") : ""; });
+    const createBtn = el("button", { class: "btn on big", type: "button", disabled: (!n && !NP.caption.trim()) || NP.busy ? "" : null, onclick: npCreate },
       NP.busy || (NP.caption.trim() ? t("npNextCheck") + " →" : t("npNextClaude") + " →"));
-    put(body, el("div", { class: "img-step" }, el("b", {}, t("npMedia")), el("span", { class: "label" }, typeLbl)), drop,
+    put(body, el("div", { class: "img-step" }, el("b", {}, t("npMedia")), el("span", { class: "label np-typelbl" }, typeLbl)), drop,
+      !n ? el("p", { class: "hint np-texthint" }, t("npTextHint")) : null,
       el("div", { class: "np-fields" },
         el("label", { class: "label" }, t("npName")), el("div", {}, nameIn, el("small", { class: "hint" }, t("npWhere").replace("{f}", "my-posts/" + (NP.name || "…")))),
         el("label", { class: "label" }, t("npCap")), el("div", {}, cap, el("small", { class: "hint" }, t("npCapHint")))),
@@ -3907,9 +4756,12 @@
         el("img", { src: "/img?id=" + encodeURIComponent(x.id), alt: "", loading: "lazy" }), on.has(x.id) ? el("i", {}, String(NP.items.findIndex((y) => y.image === x.id) + 1)) : null))));
   }
 
+  const ARCHIVE_EXT = [".zip", ".tar", ".tar.gz", ".tgz", ".tar.bz2", ".tbz2", ".tbz", ".tar.xz", ".txz", ".7z", ".rar", ".iso", ".cab", ".xar", ".lzh", ".cpio"];
   async function npUpload(files) {
-    const ok = files.filter((f) => /^(image\/(png|jpeg|webp)|video\/(mp4|quicktime)|application\/pdf)$/.test(f.type));
+    const isArc = (f) => ARCHIVE_EXT.some((e) => f.name.toLowerCase().endsWith(e));
+    const ok = files.filter((f) => isArc(f) || /^(image\/(png|jpeg|webp)|video\/(mp4|quicktime)|application\/pdf)$/.test(f.type));
     if (!ok.length) { NP.err = t("npBadFile"); redrawNP(); return; }
+    if ((ok.some(isArc) && (ok.length > 1 || NP.items.length)) || NP.items.some((x) => x.kind === "archive")) { NP.err = t("npArchiveAlone"); redrawNP(); return; }
     NP.err = "";
     for (let i = 0; i < ok.length; i++) {
       NP.busy = t("npUploading").replace("{i}", i + 1).replace("{n}", ok.length); redrawNP();
@@ -3923,7 +4775,7 @@
   }
 
   async function npCreate() {
-    if (!NP.items.length || NP.busy) return;
+    if ((!NP.items.length && !NP.caption.trim()) || NP.busy) return;
     NP.busy = t("npCreating"); NP.err = ""; redrawNP();
     try {
       const r = await npPost({ op: "create", files: NP.items.map(npKey), name: NP.name, caption: NP.caption });
@@ -3931,6 +4783,7 @@
     } catch (e) { NP.err = e.message; NP.busy = ""; redrawNP(); }
   }
   async function npDone(r) {
+    if (r.posts && r.posts.length > 1) { NP.busy = ""; toast(t("npArchiveMany").replace("{n}", r.posts.length)); closeModal(() => openBatch()); return; }
     NP.busy = ""; NP.folder = r.folder; NP.step = 2; NP.sig = "";
     lastSig = ""; await load(false);
     redrawNP();
@@ -4024,7 +4877,7 @@
       });
       body.append(el("h3", {}, t("npToFix") + " · " + bad.length), ul);
     } else body.append(el("p", { class: "ok-msg" }, "✓ " + t("npAllGood")));
-    if ((p.platforms || []).some((x) => x === "tiktok" || x === "snapchat" || x === "facebook")) body.append(el("h3", {}, t("nsTitle")), netSettingsUI(p, () => { NP.sig = ""; npLive(); }));
+    if (hasNetSettings(p)) body.append(el("h3", {}, t("nsTitle")), netSettingsUI(p, () => { NP.sig = ""; npLive(); }));
     if (good.length) body.append(el("details", { class: "np-passed" }, el("summary", {}, "✓ " + t("npPassed").replace("{n}", good.length)),
       el("ul", {}, good.map((c) => el("li", {}, (c.platform ? c.platform + ": " : "") + c.msg)))));
     const blocking = (p.checks || []).some((c) => c.status === "fail");
@@ -4120,7 +4973,7 @@
     put(body, el("div", { class: "np-strip" }, (p.media || []).slice(0, 10).map((m) =>
       m.kind === "image" ? el("img", { src: planMedia(p.id, m.file), alt: "" }) : el("div", { class: "np-vid" }, m.kind === "video" ? "▶" : "PDF"))),
       el("div", { class: "np-capview", style: "unicode-bidi:plaintext" }, capOne), sum,
-      (p.platforms || []).some((x) => x === "tiktok" || x === "snapchat" || x === "facebook") ? netSettingsUI(p, () => { NP.sig = ""; npLive(); }) : null,
+      hasNetSettings(p) ? netSettingsUI(p, () => { NP.sig = ""; npLive(); }) : null,
       p.type === "reel" && !p.cover ? el("p", { class: "hint" }, t("npCoverHint")) : null,
       el("div", { class: "row2" }, el("button", { class: "btn sm", type: "button", onclick: () => openGift(() => showModal("np", (b) => drawNewPost(b))) },
         "🎁 " + (p.dm && p.dm.enabled ? t("npGiftEdit") : t("npGiftAdd")))));
@@ -4196,6 +5049,11 @@
       ["Publish one post", [
         "Make one folder per post: <code>caption.txt</code> plus images, one video (Reel) or a PDF. Optional: <code>caption.linkedin.txt</code>, <code>cover.jpg</code>.",
         "Type <code>/200bps-publish posts/my-post</code> in Claude Code, or use the <b>New post</b> card: photos or video from your computer, your images, a post folder, or <b>Create an image</b>.",
+        "<b>Archive (.zip, .7z, .rar…):</b> add it like a photo, or pick a folder that holds it. It's unpacked and opened as the post.",
+        "<b>PDF + photos:</b> LinkedIn gets the PDF; the other networks get the photos.",
+        "<b>Instagram Reels</b> can be up to 15 minutes long.",
+        "<b>Text post, LinkedIn poll or repost:</b> in <b>New post</b>, add no media and just write the caption. In step 2 (or Post tab → Network settings → LinkedIn) pick <b>Poll</b> (a question, 2-4 choices up to 30 characters, open 1 day to 2 weeks) or <b>Repost</b> (paste a LinkedIn post link; your caption becomes your comment). Facebook, if on, gets the caption as a text post.",
+        "<b>Several accounts on one network?</b> Tick them under <b>Post to these accounts</b>. Same caption on each.",
         "<b>New post in 4 steps:</b> pick the media and type a caption (or leave it to Claude), then <b>Check & improve</b> (edit the caption yourself or ask Claude to fix each item; its before/after appears right there), <b>Time</b> (your best slots, any day and minute, or right away) and <b>Review & schedule</b> (add a gift, type <b>go</b>).",
         "Follow the path at the top of the Post tab: <b>Check → Cover → Time → Gift → Go</b>. \"Next step\" always does the next thing.",
         "<b>Check:</b> red items block publishing. Click one and Claude shows a before/after; approve, edit or reject. Your original is kept.",
@@ -4213,7 +5071,7 @@
         "<b>Save to folder</b> and <b>Save as…</b> open your computer's own file manager, so you choose where it goes. <b>Add to post</b> puts it in the open draft.",
         "In <b>New post → Create an image</b>, press <b>Add to new post</b> on the result to drop it into the post you're making."]],
       ["Batch schedule (many posts at once)", [
-        "Open it from <b>Plan → Batch schedule</b>, <b>Posts → Batch schedule</b>, or Ctrl+K.",
+        "Open it from <b>Post</b>, <b>Plan</b> or <b>Posts</b> → <b>Batch schedule</b>, or Ctrl+K.",
         "<b>1 Pick posts:</b> every post folder here appears as a card. Click to select, or \"Select all new\".",
         "<b>Browse…</b> opens your computer's folder window, for folders anywhere. <b>Folder browser</b> does the same inside the dashboard.",
         "<b>2 Set times:</b> choose the start day, how often (every day, every 2 days, or chosen weekdays) and the time (your best times or one fixed time). Days that already have a post are skipped.",
@@ -4225,6 +5083,8 @@
         "‹ and › change month (or week, or day); <b>Today</b> jumps back. Switch <b>Month · Week · Day</b> at the top.",
         "<b>Week and Day</b> show the hours, with your best hours shaded and a red line for now. <b>Drag a post</b> to another time to move it (in Month, drag it to another day). Posts already in Zernio ask you to type <b>move</b>; drafts move at once.",
         "<b>Click or drag on an empty time</b> to plan it: put your open draft or any draft there, start a new post for that time, or have Claude draft one from an idea.",
+        "<b>Copy a post:</b> press <b>⧉</b> on it (or right-click → Copy, or Ctrl+C). Click a day → <b>Paste here</b> (or Ctrl+V). Pick the time and type go, or save it as a Zernio draft. Tick 🎁 to copy its gift too.",
+        "<b>Right-click</b> a post for View, Copy, Move, Edit or Cancel; right-click a day or hour to Paste or plan it.",
         "Click a post for <b>Move…</b>, <b>Edit caption…</b> (type <b>edit</b>) and <b>Cancel…</b> (type <b>cancel</b>). Published posts can't be moved or edited.",
         "Click a day to see its posts or plan it. Double-click an empty future day to schedule the current post at that day's best hour.",
         "<b>When your audience engages:</b> darker cells had more engagement. 1-2-3 mark your best slots; click any cell to schedule there.",
@@ -4232,11 +5092,20 @@
       ["Posts: everything in Zernio", [
         "Every post (scheduled, published, failed) plus local drafts. Filter at the top; switch Grid or List.",
         "Hover a video to see a muted preview. Click any post to see all of it: swipe every carousel slide (arrows, dots or ← →), play the full video with sound, or read the PDF; full screen too. Links, per-platform status and errors are there as well.",
+        "<b>Networks:</b> each post shows its first network's icon and <b>+N</b>. Click it for every network's account, status and time.",
+        "<b>⇆ Networks…</b> (in a post's window, or right-click it in Plan): switch any network on or off. Type edit to save; at least one stays on.",
+        "<b>Copy</b> in a post's window: paste it on another day in Plan.",
         "Failed post? \"Ask Claude to fix\". A draft? \"Continue this post\".",
         "\"Refresh from Zernio\" reloads everything now (it also refreshes every 5 minutes).",
         "<b>Cancel</b> any post: open it and press Cancel post (or use the calendar, the Post tab, or Ctrl+K → Cancel a post), then type <b>cancel</b>. Scheduled posts never go out and the draft stays; Instagram posts that are already live are deleted in the Instagram app."]],
       ["Growth", [
+        "<b>♻ Recycle best posts</b> (Top posts card, a ♻ on each row, or Ctrl+K): Zernio re-posts a published post every few weeks or months. Pick how often, how many times and the first date; add 2 or more new versions (or press <b>✨ Ask Claude for new hooks</b>) and each repost uses the next one. Type <b>go</b> to start; it's read back from Zernio with the next repost date. <b>Stop recycling</b> any time. Up to 10 at once; TikTok posts can't be recycled.",
         "Reach, views, engagement and new follows for 7 days, compared with the 7 days before.",
+        "<b>Tabs = networks</b> (Instagram · 6). Click one with several accounts to pick <b>All accounts</b> or one account.",
+        "<b>All accounts</b> adds them up and lists them side by side; click a column to sort. ☆ pins an account to the top.",
+        "<b>+ Connect</b> adds a network or account through Zernio.",
+        "Each network shows followers, its own goal, the last 30 days, best times, posting rhythm and top posts. <b>▶ View</b> plays a top post here.",
+        "<b>updated …</b> next to followers: when Zernio last refreshed them (about once a day).",
         "<b>Goal:</b> progress from your Zernio follower count, with how many are left. \"How this goal works\" explains it; <b>Change goal</b> sets a new one in two clicks.",
         "Streak (last 14 days), top posts (ranked by follows, then saves + shares) and your audience.",
         "<b>Idea bank:</b> ideas from your best posts. Click one for hook, outline, hashtags and best time; plan it on a day, or <b>✎ Edit</b> it.",
@@ -4245,8 +5114,14 @@
         "<b>Comments waiting:</b> each comment shows the post it's on (click to open it) and that post's gift. Filter Waiting · Handled · All, or by label.",
         "<b>Reply</b> answers publicly under the comment. <b>Send gift</b> sends the post's gift (or any message) privately: one per comment, within 7 days. The link goes in the text; a link button is optional, because Instagram may refuse buttons to non-followers and a refused try uses up the message.",
         "<b>Labels</b> (Question, Lead, Spam… or your own) stay on this computer. <b>Hide</b> keeps a comment from others; <b>Delete</b> removes it for good after you type <b>delete</b>. Handled comments move to Handled; \"Back to waiting\" undoes the mark.",
+        "<b>🕒 Times in:</b> comment times on your clock, an audience country's, or any time zone.",
+        "<b>Auto-handled:</b> comments your DM gift already answered move to Handled by themselves.",
+        "<b>✨ Ask Claude to draft replies</b> → <b>Use it</b> → <b>Send reply</b>, or <b>Send all drafts</b> at once. Nothing sends without your click.",
+        "<b>Gift funnel</b> (DM automations): commented → followed → got the gift → opened the link.",
+        "Answered in the Instagram app (a reply, an @mention or a DM)? It moves to Handled too. <b>▶ View</b> opens the post a comment is on.",
         "Below: your keyword → DM automations and ice breakers."]],
       ["Working with Claude", [
+        "<b>Enter</b> sends your note; <b>Shift+Enter</b> or <b>Ctrl+Enter</b> adds a new line.",
         "The <b>Claude is listening</b> light: green means your clicks reach Claude Code right away.",
         "<b>Note to Claude</b>: tell Claude anything (\"use frame 4\", \"shorter hook\"). Each note shows where Claude is: waiting → Claude got it → working (with the current step) → <b>done</b> or <b>couldn't do it</b>. Claude's answer appears right under your note.",
         "When Claude finishes a note, a <b>notice</b> slides in with the result and the dashboard refreshes itself, so you see the change without reloading.",
@@ -4254,6 +5129,7 @@
         "When Claude needs you, a pop-up asks. Answer there or in the chat; the first answer wins.",
         "<b>Ctrl+K</b> (⌘K): the command bar. Type cover, fix, time, batch, dark, guide…"]],
       ["Look and settings", [
+        "<b>Version and build</b> (top bar, footer, Settings): \"v1.18.0 · build YYYYMMDD.HHMM\", updated by itself with every change. Tell Claude this number when reporting a problem.",
         "English and Arabic look and read the same; switch in Settings → Language.",
         "12h/24h time, light/dark theme, and <b>Hover tips</b> (these explanations) on or off.",
         "<b>Color-blind mode</b> (Settings, or Ctrl+K → color): safer colors plus shapes, so no status relies on color alone. Badges get ✓ → ! ×, calendar dots become ■ ○ ✕ ▲, changes get ▲▼ arrows, and the heatmap turns blue-to-yellow.",
@@ -4281,6 +5157,11 @@
       ["انشر بوست واحد", [
         "سوّ مجلد لكل بوست: <code>caption.txt</code> مع الصور، أو فيديو واحد (ريل)، أو PDF. اختياري: <code>caption.linkedin.txt</code> و<code>cover.jpg</code>.",
         "اكتب <code>/200bps-publish posts/my-post</code> في Claude Code، أو استخدم بطاقة <b>بوست جديد</b>: صور أو فيديو من جهازك، صورك، مجلد بوست، أو <b>سوّ صورة</b>.",
+        "<b>ملف مضغوط (.zip, .7z, .rar…):</b> ضيفه مثل الصورة، أو اختار المجلد اللي فيه. ينفك وينفتح كبوست.",
+        "<b>PDF وصور:</b> LinkedIn ياخذ الـPDF؛ والمنصات الثانية ياخذون الصور.",
+        "<b>ريلز Instagram</b> تقدر توصل لين 15 دقيقة.",
+        "<b>بوست نص، تصويت أو إعادة نشر في LinkedIn:</b> في <b>بوست جديد</b> لا تضيف صور، اكتب الكابشن بس. بالخطوة 2 (أو تبويب البوست ← إعدادات المنصات ← LinkedIn) اختار <b>تصويت</b> (سؤال، و2 إلى 4 خيارات كل واحد لين 30 حرف، مفتوح من يوم لين أسبوعين) أو <b>إعادة نشر</b> (الصق رابط بوست LinkedIn؛ الكابشن مالك يصير تعليقك). وFacebook إذا شغّال ياخذ الكابشن كبوست نص.",
+        "<b>عندك كذا حساب على نفس المنصة؟</b> علّمهم في <b>انشر على هالحسابات</b>. نفس الكابشن على كل واحد.",
         "<b>بوست جديد بـ4 خطوات:</b> اختار الملفات واكتب الكابشن (أو خله على Claude)، بعدين <b>افحص وحسّن</b> (عدّل الكابشن بنفسك أو اطلب من Claude يصلّح كل نقطة؛ قبل/بعد يطلع هني)، <b>الوقت</b> (أفضل أوقاتك، أي يوم ودقيقة، أو على طول) و<b>راجع وجدول</b> (أضف هدية، واكتب <b>go</b>).",
         "امشِ على المسار فوق تبويب البوست: <b>فحص ← غلاف ← وقت ← هدية ← نشر</b>. «التالي» دايماً يسوي الخطوة الجاية.",
         "<b>الفحص:</b> الأحمر يمنع النشر. اضغطه وClaude يوريك قبل/بعد؛ وافق، عدّل أو ارفض. النص الأصلي محفوظ.",
@@ -4298,7 +5179,7 @@
         "<b>احفظ بمجلد</b> و<b>احفظ باسم…</b> يفتحون مدير الملفات بجهازك، فتختار وين تروح. <b>أضفها للبوست</b> تحطها بالمسودة المفتوحة.",
         "في <b>بوست جديد ← سوّ صورة</b>، اضغط <b>أضفها للبوست الجديد</b> على النتيجة عشان تنحط بالبوست اللي تسويه."]],
       ["جدولة مجموعة (بوستات كثيرة مرة وحدة)", [
-        "افتحها من <b>الخطة ← جدولة مجموعة</b>، أو <b>المنشورات ← جدولة مجموعة</b>، أو Ctrl+K.",
+        "افتحها من <b>البوست</b> أو <b>الخطة</b> أو <b>المنشورات</b> ← <b>جدولة مجموعة</b>، أو Ctrl+K.",
         "<b>1 اختار البوستات:</b> كل مجلد بوست هني يطلع كبطاقة. اضغط عشان تختار، أو «اختار كل الجديد».",
         "<b>تصفح…</b> يفتح نافذة المجلدات بجهازك، لمجلدات من أي مكان. <b>متصفح المجلدات</b> نفس الشي داخل اللوحة.",
         "<b>2 حدد الأوقات:</b> اختار يوم البداية، كم مرة (كل يوم، كل يومين، أو أيام تختارها) والوقت (أفضل أوقاتك أو وقت ثابت). الأيام اللي فيها بوست تنتجاهل.",
@@ -4310,6 +5191,8 @@
         "‹ و› يغيرون الشهر (أو الأسبوع أو اليوم)؛ <b>اليوم</b> يرجعك. بدّل <b>شهر · أسبوع · يوم</b> من فوق.",
         "<b>الأسبوع واليوم</b> يعرضون الساعات، مع تظليل أفضل ساعاتك وخط أحمر للحين. <b>اسحب أي بوست</b> لوقت ثاني عشان تنقله (في الشهر اسحبه ليوم ثاني). بوستات Zernio تطلب تكتب <b>move</b>؛ والمسودات تنتقل على طول.",
         "<b>اضغط أو اسحب على وقت فاضي</b> عشان تخطط له: حط المسودة المفتوحة أو أي مسودة، أو ابدأ بوست جديد لهالوقت، أو خل Claude يكتب واحد من فكرة.",
+        "<b>انسخ بوست:</b> اضغط <b>⧉</b> عليه (أو كلك يمين ← انسخ، أو Ctrl+C). اضغط يوم ← <b>الصق هني</b> (أو Ctrl+V). اختار الوقت واكتب go، أو احفظه مسودة في Zernio. علّم 🎁 عشان تنسخ الهدية بعد.",
+        "<b>كلك يمين</b> على بوست: شوفه، انسخ، انقل، عدّل أو ألغِ؛ وعلى يوم أو ساعة: الصق أو خطّط له.",
         "اضغط أي بوست لـ<b>انقل…</b> و<b>عدّل الكابشن…</b> (اكتب <b>edit</b>) و<b>ألغِ…</b> (اكتب <b>cancel</b>). المنشور ما ينقل ولا يتعدّل.",
         "اضغط يوم عشان تشوف بوستاته أو تخطط له. اضغط مرتين على يوم فاضي جاي عشان تجدول البوست الحالي بأفضل ساعة.",
         "<b>متى يتفاعل جمهورك:</b> الأغمق تفاعله أكثر. 1-2-3 أفضل أوقاتك؛ اضغط أي خانة عشان تجدول فيها.",
@@ -4317,11 +5200,20 @@
       ["المنشورات: كل شي في Zernio", [
         "كل البوستات (مجدولة، منشورة، فاشلة) والمسودات المحلية. فلتر من فوق؛ وبدّل بين شبكة وقائمة.",
         "حط الماوس على أي فيديو عشان تشوف معاينة بدون صوت. اضغط أي بوست عشان تشوفه كامل: قلّب كل شرائح الكاروسيل (الأسهم أو النقاط أو ← →)، شغّل الفيديو كامل بالصوت، أو اقرا الـPDF، وبملء الشاشة بعد. والروابط والحالة والأخطاء موجودة هناك.",
+        "<b>المنصات:</b> كل بوست يبين أيقونة أول منصة و<b>+N</b>. اضغطها عشان تشوف حساب كل منصة وحالتها ووقتها.",
+        "<b>⇆ المنصات…</b> (من نافذة البوست، أو كلك يمين في الخطة): شغّل أو طفّ أي منصة. اكتب edit عشان تحفظ؛ ومنصة وحدة لازم تظل.",
+        "<b>انسخ</b> من نافذة البوست: والصقه على يوم ثاني في الخطة.",
         "بوست فشل؟ «اطلب من Claude يصلحه». مسودة؟ «كمّل هالبوست».",
         "«تحديث من Zernio» يجيب كل شي الحين (ويتحدث بروحه كل 5 دقايق).",
         "<b>ألغِ</b> أي بوست: افتحه واضغط «ألغِ البوست» (أو من التقويم، أو تبويب البوست، أو Ctrl+K ← ألغِ بوست)، واكتب <b>cancel</b>. المجدول ما ينزل والمسودة تظل؛ وبوستات Instagram المنشورة تنحذف من تطبيق Instagram."]],
       ["النمو", [
+        "<b>♻ أعد تدوير الأفضل</b> (كرت أفضل البوستات، أو ♻ جنب كل بوست، أو Ctrl+K): Zernio يعيد نشر البوست المنشور كل كم أسبوع أو شهر. اختار كل قد إيش، وكم مرة، وأول تاريخ؛ وأضف نسختين أو أكثر (أو اضغط <b>✨ اطلب من Claude هوكات جديدة</b>) وكل إعادة تاخذ النسخة اللي بعدها. اكتب <b>go</b> عشان يبدأ؛ ونقرا اللي انحفظ في Zernio مع تاريخ الإعادة الجاية. <b>وقّف إعادة التدوير</b> متى ما تبي. لين 10 بوستات مرة وحدة؛ بوستات TikTok ما تنعاد.",
         "الوصول والمشاهدات والتفاعل والمتابعين الجدد لآخر 7 أيام، مقارنة بالأسبوع اللي قبله.",
+        "<b>التبويبات = المنصات</b> (Instagram · 6). اضغط منصة فيها كذا حساب واختار <b>كل الحسابات</b> أو حساب واحد.",
+        "<b>كل الحسابات</b> يجمعهم ويعرضهم جنب بعض؛ اضغط عمود عشان ترتّب. ☆ تثبّت الحساب فوق.",
+        "<b>+ اربط حساب</b> يضيف منصة أو حساب عن طريق Zernio.",
+        "كل منصة تبين متابعينها وهدفها وآخر 30 يوم وأفضل أوقاتها وإيقاع نشرك وأفضل بوستاتها. <b>▶ شوفه</b> يشغّل البوست هني.",
+        "<b>تحدّث …</b> جنب المتابعين: متى آخر مرة Zernio حدّثهم (تقريباً مرة باليوم).",
         "<b>الهدف:</b> تقدمك من عدد متابعينك في Zernio وكم باقي. «شلون يشتغل الهدف» يشرحه؛ و<b>غيّر الهدف</b> بضغطتين.",
         "الأيام المتواصلة (آخر 14 يوم)، أفضل البوستات (حسب المتابعين ثم الحفظ والمشاركة) وجمهورك.",
         "<b>بنك الأفكار:</b> أفكار من أفضل بوستاتك. اضغط وحدة للافتتاحية والمخطط والهاشتاقات وأفضل وقت؛ خطط لها بيوم، أو <b>✎ عدّلها</b>.",
@@ -4330,8 +5222,14 @@
         "<b>تعليقات تنتظر:</b> كل تعليق يوريك البوست اللي عليه (اضغط عشان تفتحه) وهدية البوست. فلتر تنتظر · انتهت · الكل، أو حسب التصنيف.",
         "<b>رد</b> يجاوب علناً تحت التعليق. <b>أرسل الهدية</b> يرسل هدية البوست (أو أي رسالة) بالخاص: وحدة لكل تعليق، خلال 7 أيام. الرابط ينحط في النص؛ والزر اختياري، لأن Instagram ممكن يرفض الأزرار للي ما يتابعونك والمحاولة المرفوضة تستهلك الرسالة.",
         "<b>التصنيفات</b> (سؤال، عميل، سبام… أو تصنيفك) تظل على هالجهاز. <b>اخفِ</b> يخفي التعليق عن الناس؛ <b>احذف</b> يشيله نهائياً بعد ما تكتب <b>delete</b>. اللي خلصت تروح لـ«انتهت»؛ و«رجّعه للانتظار» يلغي العلامة.",
+        "<b>🕒 الوقت حسب:</b> وقت التعليقات على ساعتك، أو دولة من جمهورك، أو أي منطقة زمنية.",
+        "<b>تلقائي:</b> التعليقات اللي ردّت عليها هدية الرسائل تنتقل لـ«انتهت» بروحها.",
+        "<b>✨ خل Claude يكتب الردود</b> ← <b>استخدمها</b> ← <b>أرسل الرد</b>، أو <b>أرسل كل المسودات</b> مرة وحدة. ما ينرسل شي بدون ضغطتك.",
+        "<b>مسار الهدية</b> (الرسائل التلقائية): علّق ← تابع ← وصلته الهدية ← فتح الرابط.",
+        "رديت من تطبيق Instagram (رد، أو منشن، أو بالخاص)؟ ينتقل لـ«انتهت» بعد. <b>▶ شوفه</b> يفتح البوست اللي عليه التعليق.",
         "تحت: الرسائل التلقائية بالكلمات وأسئلة البداية."]],
       ["الشغل مع Claude", [
+        "<b>Enter</b> يرسل رسالتك؛ و<b>Shift+Enter</b> أو <b>Ctrl+Enter</b> لسطر جديد.",
         "ضوء <b>Claude يسمعك</b>: الأخضر يعني ضغطاتك توصل Claude Code فوراً.",
         "<b>رسالة لـClaude</b>: قول له أي شي («استخدم اللقطة 4»، «قصّر الافتتاحية»). كل ملاحظة توريك وين وصل Claude: ينتظر ← وصلت Claude ← قاعد يشتغل (مع الخطوة) ← <b>خلصت</b> أو <b>ما قدر</b>. وجواب Claude يطلع تحت ملاحظتك على طول.",
         "لما Claude يخلّص ملاحظة، يطلع <b>تنبيه</b> فيه النتيجة واللوحة تتحدث بروحها، فتشوف التغيير بدون ما تعيد التحميل.",
@@ -4339,6 +5237,7 @@
         "لما Claude يحتاجك، تطلع نافذة تسألك. جاوب فيها أو بالمحادثة؛ أول جواب يعتمد.",
         "<b>Ctrl+K</b> (⌘K): شريط الأوامر. اكتب غلاف، تصحيح، وقت، جدولة، دليل…"]],
       ["الشكل والإعدادات", [
+        "<b>الإصدار والبِلد</b> (الشريط العلوي، أسفل الصفحة، الإعدادات): \"v1.18.0 · build YYYYMMDD.HHMM\"، يتحدّث بروحه مع كل تعديل. عطه Claude إذا بلّغت عن مشكلة.",
         "العربي والإنجليزي نفس الشكل والمحتوى؛ بدّل من الإعدادات ← اللغة.",
         "12/24 ساعة، فاتح/داكن، و<b>الشروحات</b> (هالتوضيحات) تشغيل أو إطفاء.",
         "<b>وضع عمى الألوان</b> (الإعدادات، أو Ctrl+K ← color): ألوان أوضح مع أشكال، عشان ما تعتمد أي حالة على اللون بس. الشارات تاخذ ✓ → ! ×، ونقاط التقويم تصير ■ ○ ✕ ▲، والتغييرات تاخذ أسهم ▲▼، والخريطة الحرارية تصير من أزرق لأصفر.",
@@ -4390,9 +5289,10 @@
       { k: "newfiles", label: t("npTitle"), hint: t("npPaletteHint"), run: () => openNewPost() },
       { k: "batch", label: t("bBtn"), hint: "Plan", run: () => openBatch() },
       { k: "guide", label: t("guideTitle"), hint: "?", run: () => openGuide() },
-      { k: "tiktok snapchat network settings", label: t("nsTitle"), hint: "TikTok · Snapchat", run: openNetSettings, show: !!(p && (p.platforms || []).some((x) => x === "tiktok" || x === "snapchat" || x === "facebook")) },
+      { k: "linkedin poll repost tiktok snapchat facebook network settings", label: t("nsTitle"), hint: "LinkedIn poll/repost · TikTok · Snapchat · Facebook", run: openNetSettings, show: !!(p && hasNetSettings(p)) },
       { k: "activity notes results bell", label: t("actTitle"), hint: t("actHint"), run: () => setTimeout(() => toggleAct(true), 50) },
       { k: "cancel", label: t("cPickTitle"), hint: "Posts", run: () => openCancelChooser() },
+      { k: "recycle repost best posts again evergreen", label: "♻ " + t("rcOpen"), hint: "Growth", run: () => openRecycle() },
       { k: "growth", label: t("tabGrowth"), hint: "tab", run: () => go("growth") },
       { k: "inbox", label: t("tabInbox"), hint: "tab", run: () => go("inbox") },
       { k: "back", label: t("back"), hint: "Esc", run: () => goBack(), show: !!state.navStack.length },
@@ -4460,6 +5360,7 @@
     const build = (body) => {
       const err = el("div", { class: "err", role: "alert" });
       const note = el("textarea", { rows: 3, placeholder: t("fixNotePh") });
+      enterSends(note, () => note.closest(".modal").querySelector(".actions .btn.on.big").click());
       body.append(el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, t("fixKicker")),
         el("h2", { id: "mTitle" }, c.msg),
         el("div", { class: "chips" }, el("span", { class: "tag " + c.status }, c.status.toUpperCase()), el("span", { class: "chip ok" }, c.platform || state.plat), el("span", { class: "chip" }, c.id)),
@@ -4497,6 +5398,10 @@
     try { await post("/api/slot", { date: key, hour: best.h, action: "plan" }); toast(t("slotPlanned")); load(false); }
     catch (e) { openDay(key, []); }
   }
+  // View + Copy for a post listed in the day window
+  const dayActs = (e) => e.row ? [
+    el("button", { class: "btn", type: "button", onclick: () => closeModal(() => openPostDetail(e.row)) }, "▶ " + t("vView")),
+    el("button", { class: "btn cp-btn", type: "button", onclick: () => closeModal(() => copyPost(e.row)) }, "⧉ " + t("cpCopy"))] : [];
   function openDay(key, evs) {
     const today = localDay();
     const past = key < today;
@@ -4519,6 +5424,8 @@
       body.append(el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, past ? t("dayPast") : t("dayPlan")),
         el("h2", { id: "mTitle" }, date.toLocaleDateString(loc(), { weekday: "long", day: "numeric", month: "long" })));
 
+      if (state.clip && !past) body.append(el("div", { class: "slot-sec" }, el("button", { class: "btn on", type: "button", onclick: () => closeModal(() => openPaste(key)) }, "📋 " + t("cpPasteHere")),
+        el("p", { class: "hint", dir: "auto" }, ((state.clip.row.caption || "").split("\n")[0] || "").slice(0, 80))));
       // posts on this day
       const pub = evs.filter((e) => e.kind === "pub"), sch = evs.filter((e) => e.kind === "sched");
       if (pub.length) {
@@ -4526,13 +5433,15 @@
         pub.forEach((e) => sec.append(el("div", { class: "daypost" },
           el("div", { style: "unicode-bidi:plaintext" }, (e.caption || "").split("\n")[0]),
           el("div", { class: "label" }, `${t("reach")} ${fmt(e.metrics && e.metrics.reach)} · ${t("saves")} ${fmt(e.metrics && e.metrics.saves)} · ${t("shares")} ${fmt(e.metrics && e.metrics.shares)}`),
-          el("button", { class: "btn", type: "button", onclick: () => act({ action: "report", postId: e.id }, t("slotQueued")) }, t("getReport")))));
+          el("div", { class: "row2" }, dayActs(e),
+            el("button", { class: "btn", type: "button", onclick: () => act({ action: "report", postId: e.id }, t("slotQueued")) }, t("getReport"))))));
         body.append(sec);
       }
       if (sch.length) {
         const sec = el("div", { class: "slot-sec" }, el("h3", {}, t("dayScheduled")));
         sch.forEach((e) => sec.append(el("div", { class: "daypost" }, el("div", { style: "unicode-bidi:plaintext" }, (e.caption || "").split("\n")[0]), el("div", { class: "label" }, dt(e.scheduledFor)),
-          e.row ? el("button", { class: "btn danger-ghost cancel-btn", type: "button", onclick: () => openCancel(e.row) }, e.row.local ? t("cDelShort") : t("cCancelShort")) : "")));
+          el("div", { class: "row2" }, dayActs(e),
+            e.row ? el("button", { class: "btn danger-ghost cancel-btn", type: "button", onclick: () => openCancel(e.row) }, e.row.local ? t("cDelShort") : t("cCancelShort")) : null))));
         body.append(sec);
       }
       if (past) {
@@ -4706,7 +5615,7 @@
       setTimeout(npLive, 0);
       setTimeout(watchNotes, 0);
       setTimeout(renderBell, 0);
-      setTimeout(() => { const k = JSON.stringify(d.inbox || {}); if (k !== state.ibxSig) { state.ibxSig = k; renderComments(); } }, 0);
+      setTimeout(() => { const k = JSON.stringify(d.inbox || {}); if (k !== state.ibxSig) { state.ibxSig = k; renderComments({ auto: true }); } }, 0);
       if (first && !state.langChosen && !localStorageLang() && state.data.config && state.data.config.language === "ar") state.lang = "ar";
     } catch (e) { state.data = state.data || { doctor: { checks: [] } }; }
     renderAll();
@@ -4783,7 +5692,7 @@
       calDay: ["Calendar day", "Click: see posts and plan this day. Double-click an empty future day: schedule the current post at its best hour."],
       calEv: ["Post on this day", "Colour = status: lime published, blue scheduled, red needs attention, outline not uploaded."],
       calKey: ["Legend", "The same colours as the Posts tab badges."],
-      heat: ["When your audience engages", "Darker = more engagement in your past posts at that hour. 1-2-3 are your best slots. Click a cell to schedule there."],
+      heat: ["When your audience engages", "Hours are shaded in 5 steps by rank: darker = more engagement in your past posts at that hour. 1-2-3 are your best slots. Click a cell to schedule there."],
       peaks: ["Peak times by day", "Each weekday's two best hours, with lift, number of posts (n) and confidence."],
       kpi: ["Last 7 days", "Compared with the 7 days before (the % below)."],
       followers: ["Followers", "Your follower count over time, from Zernio."],
@@ -4794,9 +5703,38 @@
       audience: ["Audience", "Age, gender, cities and countries of your followers."],
       ideas: ["Idea bank", "Post ideas based on your best posts. Click one for its hook, outline and best time, or edit it. Tick ideas to delete or save them; add your own; load a backup."],
       comments: ["Comments waiting", "Recent comments you haven't answered, each with the post it's on and that post's gift. Reply, send the gift, label, hide or delete."],
-      ns: ["Network settings", "Facebook: feed post, Reel or Story, Reel title, first comment, save as a Facebook draft, which Page. TikTok: who can see it, comments/duets/stitches, promotional label, AI label, send as a draft, and TikTok's required OK (asked again after any change). Snapchat: Story, Saved story or Spotlight."],
+      rcOpen: ["Recycle best posts", "Zernio re-posts your best published posts every few weeks or months, with new hooks Claude writes (you review them). Starts only after you type go."],
+      rcRow: ["Recycle this post", "Open the Recycle window for this post: how often, how many times, and new caption versions."],
+      rcAsk: ["New hooks from Claude", "Claude writes 3-5 new versions of this post: same message, a fresh first line, your voice. They appear here to edit or remove."],
+      rcGo: ["Start recycling", "Type go to turn it on in Zernio. It's read back, so you see what Zernio really has, including the next repost date."],
+      liPreviewMain: ["LinkedIn poll / repost", "How the poll (question, choices, how long it's open) or the reposted link will show under your caption. Change it in Network settings → LinkedIn."],
+      liKind: ["LinkedIn post type", "Normal post (caption + photos, video or PDF), Poll (question, 2-4 choices, open 1 day to 2 weeks) or Repost (a LinkedIn post link; your caption becomes your comment). Polls and reposts can't have media."],
+      npTextPost: ["Text post", "No photos or video needed: write the caption and it becomes a text post for LinkedIn and Facebook. Make it a LinkedIn poll or repost in step 2."],
+      ns: ["Network settings", "LinkedIn: normal post, poll or repost. Facebook: feed post, Reel or Story, Reel title, first comment, save as a Facebook draft, which Page. TikTok: who can see it, comments/duets/stitches, promotional label, AI label, send as a draft, and TikTok's required OK (asked again after any change). Snapchat: Story, Saved story or Spotlight."],
       ibxPost: ["The post", "The post this comment is on. Click to open it on Instagram."],
       ibxGift: ["This post's gift", "The keyword DM set up for this post. Send gift sends it to this person now, as a private message."],
+      cpBtn: ["Copy this post", "Copies it so you can paste it on another day in Plan. Same media, networks, accounts and settings; you pick the time."],
+      clipBar: ["Copied post", "Click a day (or point at one and press Ctrl+V) and choose Paste here. ✕ forgets the copy."],
+      accTargets: ["Post to these accounts", "Shown when a network has more than one account in Zernio. Tick each account this post goes to; it's saved at once and listed in Changes (undo there)."],
+      nwBtn: ["Networks on or off", "Switch each network (or account) on or off for this post. Scheduled posts change in Zernio after you type edit; a published post can be taken off one network where it allows it."],
+      viewBtn: ["View the whole post", "Opens it here: every carousel slide, the full video with sound, or the PDF, with full screen."],
+      netStack: ["Networks for this post", "The first network's icon; +N means it also goes to N more. Click to see each network: account, status, time, link and any error."],
+      postBatch: ["Batch schedule", "Pick several posts and schedule them at once (the same window as in Plan and Posts)."],
+      ibxTz: ["Times in…", "Shows every comment's time on the clock you pick: your own country (default), a country where your audience is, this computer's clock, or any time zone. Remembered on this computer."],
+      ibxWhen: ["When they commented", "Day and time on the clock picked above, then how long ago. Hover for the full date and time zone."],
+      accPick: ["Accounts in this network", "Your accounts on this network in Zernio. All accounts adds them up; pick one for its own dashboard. ☆ pins an account to the top. With many accounts a search box appears."],
+      netAdd: ["Connect", "Add another network or account. It opens Zernio's sign-in for that network; it shows up here once connected."],
+      accTable: ["Accounts side by side", "Each account's followers, change, posts, engagement rate and engagements for the last 30 days. Click a column to sort, a row to open that account."],
+      netTabs: ["One dashboard per network", "All networks shows the overview. Pick a network for its own followers, goal, last 30 days, best times, posting rhythm and top posts."],
+      netKpis: ["Last 30 days", "From this network's own posts and follower count, compared with the 30 days before (the % below). Engagements = likes + comments + shares + saves."],
+      netGoal: ["This network's goal", "Each network has its own follower goal. Set or change it here."],
+      netBest: ["Best times on this network", "From this network's own past posts: lift vs your average, number of posts and confidence."],
+      netRhythm: ["Posting rhythm", "How many posts you published each week (last 8 weeks). Hover a bar for that week's engagements."],
+      ibxDraftAll: ["Ask Claude to draft replies", "Claude writes a reply in your voice for every waiting comment. Nothing is sent: each draft waits on its comment until you press Use it, then Send reply."],
+      ibxSendAll: ["Send all drafts", "Posts every draft as a public reply under its comment. You see the full list first and press Post to confirm."],
+      ibxDraft: ["Claude's draft", "A suggested public reply. Use it opens the reply box with this text (edit it if you like), then Send reply posts it. No thanks drops it."],
+      funnel: ["Gift funnel", "Zernio's own counts for this automation: commented the keyword → got the follow-first message → followed and tapped → got the gift → opened the link. % = share of everyone who commented the keyword."],
+      folFresh: ["When the follower count was updated", "Zernio refreshes follower counts about once a day, so a new follower can take up to a day to show here."],
       ibxLab: ["Labels", "Your own tags (Question, Lead, Spam…), saved on this computer only. Filter by them at the top."],
       ibxActs: ["Answer it", "Reply: a public answer under the comment. Send gift: a private message (one per comment, within 7 days). Hide: only you and them see it. Delete: removes it for good (type delete)."],
       automations: ["DM automations", "Your keyword → DM gifts and ice breakers."],
@@ -4806,7 +5744,7 @@
       imgModel: ["Image model", "Which OpenAI model draws the picture. The ★ one is your default (Settings → Keys → OpenAI)."],
       keys: ["API keys", "Stored only in this folder's .env file, readable by you. Never shown in full and never sent to the chat."],
       lang: ["Language", "Switch between English and Arabic."], clock: ["Time format", "12-hour or 24-hour times."],
-      theme: ["Theme", "Light or dark."], version: ["Version", "The installed version of this skill."],
+      theme: ["Theme", "Light or dark."], version: ["Version", "The installed version of this skill and its build time (updates by itself with every change)."],
       tipsPref: ["Hover tips", "Turn these explanations on or off."],
       cbPref: ["Color-blind mode", "Safer colors for red-green and blue-yellow color blindness, plus shapes and marks so no status relies on color alone."],
       viewer: ["Post viewer", "The whole post: swipe a carousel (‹ › arrows, dots, or ← → keys), play the full video with sound, or read the PDF. The full-screen button opens it large."],
@@ -4905,7 +5843,7 @@
       calDay: ["يوم بالتقويم", "اضغط: تشوف بوستات اليوم وتخطط له. اضغط مرتين على يوم فاضي جاي: يجدول البوست الحالي بأفضل ساعة."],
       calEv: ["بوست بهاليوم", "اللون = الحالة: ليموني منشور، أزرق مجدول، أحمر يحتاج انتباه، إطار بس ما انرفع."],
       calKey: ["دليل الألوان", "نفس ألوان شارات تبويب المنشورات."],
-      heat: ["متى يتفاعل جمهورك", "الأغمق = تفاعل أكثر في بوستاتك السابقة بهالساعة. 1-2-3 أفضل أوقاتك. اضغط أي خانة عشان تجدول فيها."],
+      heat: ["متى يتفاعل جمهورك", "الساعات متدرجة على 5 درجات حسب الترتيب: الأغمق = تفاعل أكثر في بوستاتك السابقة بهالساعة. 1-2-3 أفضل أوقاتك. اضغط أي خانة عشان تجدول فيها."],
       peaks: ["أفضل الأوقات لكل يوم", "أفضل ساعتين لكل يوم، مع الزيادة وعدد البوستات (n) ودرجة الثقة."],
       kpi: ["آخر 7 أيام", "مقارنة بالـ7 أيام اللي قبلها (النسبة تحت)."],
       followers: ["المتابعين", "عدد متابعينك مع الوقت، من Zernio."],
@@ -4916,9 +5854,38 @@
       audience: ["الجمهور", "أعمار متابعينك، الجنس، المدن والدول."],
       ideas: ["بنك الأفكار", "أفكار بوستات مبنية على أفضل بوستاتك. اضغط وحدة للافتتاحية والمخطط وأفضل وقت، أو عدّلها. علّم على الأفكار عشان تحذفها أو تحفظها؛ أضف فكرتك؛ أو حمّل نسخة."],
       comments: ["تعليقات تنتظر رد", "آخر التعليقات اللي ما رديت عليها، كل وحدة مع البوست اللي عليه وهدية البوست. رد، أرسل الهدية، صنّف، اخفِ أو احذف."],
-      ns: ["إعدادات المنصات", "Facebook: بوست عادي أو ريل أو ستوري، عنوان الريل، أول تعليق، حفظه كمسودة في فيسبوك، وأي صفحة. TikTok: منو يشوفه، التعليقات/الدويت/الستيتش، علامة الترويج، علامة الذكاء الاصطناعي، إرساله كمسودة، وموافقة TikTok المطلوبة (تنطلب مرة ثانية بعد أي تغيير). Snapchat: ستوري، ستوري محفوظة، أو سبوتلايت."],
+      rcOpen: ["أعد تدوير الأفضل", "Zernio يعيد نشر أفضل بوستاتك المنشورة كل كم أسبوع أو شهر، بهوكات جديدة يكتبها Claude (وأنت تراجعها). ما يبدأ إلا لما تكتب go."],
+      rcRow: ["أعد تدوير هالبوست", "يفتح نافذة إعادة التدوير لهالبوست: كل قد إيش، كم مرة، ونسخ جديدة من الكابشن."],
+      rcAsk: ["هوكات جديدة من Claude", "Claude يكتب 3-5 نسخ جديدة من البوست: نفس الرسالة، أول سطر جديد، وبأسلوبك. تطلع هني تعدلها أو تشيلها."],
+      rcGo: ["ابدأ إعادة التدوير", "اكتب go عشان يشتغل في Zernio. ونقرا اللي انحفظ فعلياً، فتشوف اللي عند Zernio بالضبط مع تاريخ الإعادة الجاية."],
+      liPreviewMain: ["تصويت / إعادة نشر LinkedIn", "كذا بيطلع التصويت (السؤال والخيارات ومدته) أو رابط إعادة النشر تحت الكابشن. غيّره من إعدادات المنصات ← LinkedIn."],
+      liKind: ["نوع بوست LinkedIn", "بوست عادي (كابشن مع صور أو فيديو أو PDF)، تصويت (سؤال و2 إلى 4 خيارات، مفتوح من يوم لين أسبوعين)، أو إعادة نشر (رابط بوست LinkedIn؛ الكابشن يصير تعليقك). التصويت وإعادة النشر بدون ملفات."],
+      npTextPost: ["بوست نص", "ما تحتاج صور أو فيديو: اكتب الكابشن ويصير بوست نص لـ LinkedIn وFacebook. تقدر تخليه تصويت أو إعادة نشر في LinkedIn بالخطوة 2."],
+      ns: ["إعدادات المنصات", "LinkedIn: بوست عادي أو تصويت أو إعادة نشر. Facebook: بوست عادي أو ريل أو ستوري، عنوان الريل، أول تعليق، حفظه كمسودة في فيسبوك، وأي صفحة. TikTok: منو يشوفه، التعليقات/الدويت/الستيتش، علامة الترويج، علامة الذكاء الاصطناعي، إرساله كمسودة، وموافقة TikTok المطلوبة (تنطلب مرة ثانية بعد أي تغيير). Snapchat: ستوري، ستوري محفوظة، أو سبوتلايت."],
       ibxPost: ["البوست", "البوست اللي عليه التعليق. اضغط عشان تفتحه في Instagram."],
       ibxGift: ["هدية هالبوست", "رسالة الكلمة اللي مسويها لهالبوست. «أرسل الهدية» يرسلها لهالشخص الحين، كرسالة خاصة."],
+      cpBtn: ["انسخ هالبوست", "ينسخه عشان تلصقه على يوم ثاني في الخطة. نفس الملفات والمنصات والحسابات والإعدادات؛ وأنت تختار الوقت."],
+      clipBar: ["بوست منسوخ", "اضغط يوم (أو أشّر عليه واضغط Ctrl+V) واختار «الصق هني». ✕ تنسى النسخة."],
+      accTargets: ["انشر على هالحسابات", "يبين لما يكون للمنصة أكثر من حساب في Zernio. علّم كل حساب ينزل عليه البوست؛ ينحفظ على طول ويبين في التغييرات (تقدر ترجعه من هناك)."],
+      nwBtn: ["شغّل أو طفّ المنصات", "شغّل أو طفّ كل منصة (أو حساب) لهالبوست. المجدول يتغيّر في Zernio بعد ما تكتب edit؛ والمنشور تقدر تشيله من منصة إذا تسمح."],
+      viewBtn: ["شوف البوست كامل", "يفتحه هني: كل شرائح الكاروسيل، أو الفيديو كامل بالصوت، أو الـPDF، مع ملء الشاشة."],
+      netStack: ["منصات هالبوست", "أيقونة أول منصة؛ و+N يعني بينزل على N منصات ثانية بعد. اضغط عشان تشوف كل منصة: الحساب والحالة والوقت والرابط وأي خطأ."],
+      postBatch: ["جدولة جماعية", "اختار كذا بوست وجدولهم مرة وحدة (نفس النافذة اللي في الخطة والمنشورات)."],
+      ibxTz: ["الوقت حسب…", "يعرض وقت كل تعليق على الساعة اللي تختارها: دولتك (الافتراضي)، أو دولة فيها جمهورك، أو ساعة هالجهاز، أو أي منطقة زمنية. ينحفظ على هالجهاز."],
+      ibxWhen: ["متى علّق", "اليوم والساعة حسب الوقت المختار فوق، وبعدها من متى. مرّر الماوس عشان تشوف التاريخ كامل والمنطقة الزمنية."],
+      accPick: ["حسابات هالمنصة", "حساباتك على هالمنصة في Zernio. «كل الحسابات» يجمعهم؛ واختار حساب عشان تشوف لوحته. ☆ تثبّت الحساب فوق. ولما تكثر الحسابات يطلع مربع بحث."],
+      netAdd: ["اربط حساب", "ضيف منصة أو حساب ثاني. يفتح تسجيل الدخول من Zernio لهالمنصة؛ ويبين هني بعد ما ينربط."],
+      accTable: ["الحسابات جنب بعض", "متابعين كل حساب وتغيّره وبوستاته ونسبة تفاعله وتفاعلاته بآخر 30 يوم. اضغط عمود عشان ترتّب، وصف عشان تفتح الحساب."],
+      netTabs: ["لوحة لكل منصة", "«كل المنصات» تعرض الملخص. اختار منصة عشان تشوف متابعينها وهدفها وآخر 30 يوم وأفضل أوقاتها وإيقاع نشرك وأفضل بوستاتها."],
+      netKpis: ["آخر 30 يوم", "من بوستات هالمنصة وعدد متابعينها، مقارنة بالـ30 يوم اللي قبلها (النسبة تحت). التفاعلات = لايكات + تعليقات + مشاركات + حفظ."],
+      netGoal: ["هدف هالمنصة", "كل منصة لها هدف متابعين خاص فيها. حطه أو غيّره من هني."],
+      netBest: ["أفضل الأوقات على هالمنصة", "من بوستاتك السابقة على هالمنصة: الفرق عن متوسطك، وعدد البوستات، ومستوى الثقة."],
+      netRhythm: ["إيقاع النشر", "كم بوست نشرت كل أسبوع (آخر 8 أسابيع). مرّر على العمود عشان تشوف تفاعلات هالأسبوع."],
+      ibxDraftAll: ["خل Claude يكتب الردود", "Claude يكتب رد بأسلوبك لكل تعليق ينتظر. ما ينرسل شي: كل مسودة تنتظر على تعليقها لين تضغط «استخدمها» وبعدين «أرسل الرد»."],
+      ibxSendAll: ["أرسل كل المسودات", "ينشر كل مسودة كرد عام تحت تعليقها. تشوف القائمة كاملة أول وتضغط «انشر» عشان تأكد."],
+      ibxDraft: ["مسودة Claude", "رد عام مقترح. «استخدمها» يفتح خانة الرد بهالنص (عدّله إذا تبي)، وبعدين «أرسل الرد» ينشره. «لا، شكراً» يشيلها."],
+      funnel: ["مسار الهدية", "أرقام Zernio لهالأتمتة: علّق بالكلمة ← وصلته «تابع أول» ← تابع وضغط ← وصلته الهدية ← فتح الرابط. النسبة = من كل اللي علّقوا بالكلمة."],
+      folFresh: ["متى تحدّث عدد المتابعين", "Zernio يحدّث عدد المتابعين تقريباً مرة باليوم، فالمتابع الجديد ممكن ياخذ لين يوم عشان يبين هني."],
       ibxLab: ["التصنيفات", "تصنيفاتك (سؤال، عميل، سبام…)، محفوظة على هالجهاز بس. فلتر فيها من فوق."],
       ibxActs: ["رد عليه", "رد: جواب عام تحت التعليق. أرسل الهدية: رسالة خاصة (وحدة لكل تعليق، خلال 7 أيام). اخفِ: تشوفه أنت وهو بس. احذف: ينشال نهائياً (اكتب delete)."],
       automations: ["رسائل تلقائية", "هدايا الكلمات بالخاص وأسئلة البداية."],
@@ -4928,7 +5895,7 @@
       imgModel: ["موديل الصور", "أي موديل من OpenAI يرسم الصورة. اللي عليه ★ هو الافتراضي (الإعدادات ← المفاتيح ← OpenAI)."],
       keys: ["مفاتيح API", "محفوظة بس في ملف ‎.env‎ بهالمجلد، وأنت بس تقدر تقراه. ما تنعرض كاملة وما تروح للمحادثة."],
       lang: ["اللغة", "بدّل بين العربي والإنجليزي."], clock: ["صيغة الوقت", "12 ساعة أو 24 ساعة."],
-      theme: ["المظهر", "فاتح أو داكن."], version: ["الإصدار", "نسخة السكل المثبتة."],
+      theme: ["المظهر", "فاتح أو داكن."], version: ["الإصدار", "نسخة السكل المثبتة ووقت البِلد (يتحدّث بروحه مع كل تعديل)."],
       tipsPref: ["الشروحات", "شغّل أو طفّي هالشروحات."],
       cbPref: ["وضع عمى الألوان", "ألوان أوضح لعمى الأحمر والأخضر والأزرق والأصفر، مع أشكال وعلامات عشان ما تعتمد أي حالة على اللون بس."],
       viewer: ["عارض البوست", "البوست كامل: قلّب الكاروسيل (الأسهم ‹ › أو النقاط أو ← →)، شغّل الفيديو كامل بالصوت، أو اقرا الـPDF. زر ملء الشاشة يكبّره."],
@@ -4993,7 +5960,7 @@
     [".ann-mask", "annMask"], [".ann-fs", "annFs"], [".ann-result", "annResult"],
     [".ib-all", "ibAll"], [".ib-pick", "ibPick"], [".ib-del", "ibDel"], [".ib-md", "ibMd"], [".ib-json", "ibJson"], [".ib-add", "ibAdd"],
     [".ib-load", "ibLoad"], [".ib-clear", "ibClear"], [".ib-undo", "ibUndo"], [".ib-editone", "ibEditOne"],
-    [".ns", "ns"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
+    [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
     [".steps-track .step[data-step]", (n) => "step_" + n.dataset.step], [".checks li.fixable", "fixable"],
     [".cal .ev", "calEv"], [".cal .d.click", "calDay"], [".cal-key", "calKey"], ["#calPrev", "calPrev"], ["#calNext", "calNext"], ["#calToday", "calToday"],
     [".heat", "heat"], [".toptimes", "peaks"],

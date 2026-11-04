@@ -96,3 +96,88 @@ def edit_caption(post_id: str, text: str, typed: str) -> dict:
     hitl.add_note(f"I edited the caption of post {post_id} from the Plan tab. It's already saved in Zernio.",
                   {"type": "post_edited", "postId": post_id})
     return {"caption": back.get("content"), "status": back.get("status")}
+
+
+# ---------------- networks on/off for one post ----------------
+# What each network can show (same rule as plan.FITS; LinkedIn shows everything)
+FITS = {"instagram": ("reel", "single", "carousel"), "tiktok": ("reel", "single", "carousel"),
+        "snapchat": ("reel", "single"), "facebook": ("reel", "single", "carousel", "text")}
+NO_UNPUBLISH = {"instagram", "tiktok", "snapchat"}
+
+
+def _kind(post: dict) -> str:
+    kinds = [m.get("type") for m in post.get("mediaItems") or []]
+    if not kinds:
+        return "text"
+    if kinds == ["video"]:
+        return "reel"
+    if set(kinds) == {"document"}:
+        return "document"
+    return "single" if len(kinds) == 1 else "carousel"
+
+
+def _acc_id(a) -> str:
+    return a.get("_id") if isinstance(a, dict) else str(a or "")
+
+
+def set_networks(post_id: str, wanted: list[dict], typed: str) -> dict:
+    """Turn networks (and accounts) on or off for a post that isn't published
+    yet. `wanted` is the full list to keep: [{platform, accountId}]. Entries
+    already on keep their own caption, media and settings; a new one uses the
+    post's media. Needs the typed word "edit"; the result is read back."""
+    z = Zernio()
+    p = _check(z, post_id, typed, "edit")
+    want = {(str(w.get("platform")), str(w.get("accountId"))) for w in wanted or [] if w.get("platform") and w.get("accountId")}
+    if not want:
+        raise ValueError("Keep at least one network on. To stop the whole post, use Cancel.")
+    kind = _kind(p)
+    live = {(t.get("platform"), _acc_id(t.get("accountId"))) for t in p.get("platforms") or [] if t.get("status") == "published"}
+    want |= live                             # already published networks always stay on the post
+    for pf, _ in want - live:
+        if pf in FITS and kind not in FITS[pf]:
+            raise ValueError(f"{pf.capitalize()} can't show a {kind} post, so it can't be turned on for this one.")
+    cur = {(t.get("platform"), _acc_id(t.get("accountId"))): t for t in p.get("platforms") or []}
+    out = []
+    for key in sorted(want):
+        t = cur.get(key)
+        e = {"platform": key[0], "accountId": key[1]}
+        if t:                                    # already on: keep its own text, media and settings
+            for f in ("customContent", "customMedia", "platformSpecificData"):
+                if t.get(f):
+                    e[f] = t[f] if f != "customMedia" else [{"type": m.get("type"), "url": m.get("url")} for m in t[f] if m.get("url")]
+        out.append(e)
+    z.update_post(post_id, {"platforms": out})
+    back = _post(z, post_id)
+    now = sorted((t.get("platform"), _acc_id(t.get("accountId"))) for t in back.get("platforms") or [])
+    lp = _local_plan(post_id)
+    if lp:
+        lp["platforms"] = sorted({pf for pf, _ in want})
+        lp["targets"] = {pf: [a for f, a in want if f == pf] for pf in lp["platforms"]}
+        plans.save(lp, via="dashboard", make_current=False)
+    before = sorted(cur)
+    append_log({"ts": int(time.time()), "event": "networks_changed", "postId": post_id, "before": before, "after": now, "via": "dashboard"})
+    (state_dir() / "cache.json").unlink(missing_ok=True)
+    off = [k[0] for k in before if k not in want]
+    on = [k[0] for k in want if k not in cur]
+    hitl.add_note(f"I changed the networks of post {post_id} from the dashboard"
+                  f"{' · off: ' + ', '.join(off) if off else ''}{' · on: ' + ', '.join(on) if on else ''}. It's already done in Zernio.",
+                  {"type": "post_networks", "postId": post_id, "off": off, "on": on})
+    return {"platforms": [{"platform": a, "accountId": b} for a, b in now], "status": back.get("status"),
+            "matches": now == sorted(want)}
+
+
+def remove_published(post_id: str, platform: str, account_id: str, typed: str) -> dict:
+    """Take an already-published post off one network (where the network allows it)."""
+    if (typed or "").strip().lower() != "remove":
+        raise PermissionError("Type remove to confirm.")
+    if platform in NO_UNPUBLISH:
+        raise ValueError(f"{platform.capitalize()} doesn't let apps delete posts. Delete it in the {platform.capitalize()} app.")
+    z = Zernio()
+    z.unpublish_post(post_id, platform, account_id or None)
+    back = _post(z, post_id)
+    append_log({"ts": int(time.time()), "event": "unpublished_one", "postId": post_id, "platform": platform, "via": "dashboard"})
+    (state_dir() / "cache.json").unlink(missing_ok=True)
+    hitl.add_note(f"I removed post {post_id} from {platform} from the dashboard (typed remove). It's already done.",
+                  {"type": "post_networks", "postId": post_id, "off": [platform], "on": [], "published": True})
+    st = next((t.get("status") for t in back.get("platforms") or [] if t.get("platform") == platform), None)
+    return {"platform": platform, "status": st, "post": back.get("status")}

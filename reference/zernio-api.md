@@ -30,4 +30,10 @@ Base URL: `https://zernio.com/api/v1`. Auth header: `Authorization: Bearer sk_�
 - **Instagram:** `trialParams{graduationStrategy}`, `instagramThumbnail`, `locationId`, `firstComment`, `collaborators`, `isAiGenerated`
 - **Facebook:** `contentType:"reel"`, `firstComment`
 - **Threads:** `topic_tag`
-- **LinkedIn:** `firstComment`, `documentTitle`, `organizationUrn`
+- **LinkedIn:** `firstComment`, `documentTitle`, `organizationUrn`, `poll` {question ≤140, options 2-4 ×≤30, duration ONE_DAY|THREE_DAYS|SEVEN_DAYS|FOURTEEN_DAYS}, `reshareUrl` (post link or urn:li:share/ugcPost/groupPost). poll and reshareUrl exclude mediaItems and each other. No long-form articles in the API.
+
+## Recycling (v1.18)
+- `PUT /posts/{id}` with `recycling` {enabled, gap ≥1, gapFreq week|month, startDate, expireCount|null, expireDate|null, contentVariations [] or 2-20}. Published posts accept only this change.
+- Read back: `GET /posts/{id}` → `recycling` {enabled, recycleCount, nextRecycleAt, lastRecycledAt, contentVariationIndex}.
+- Max 10 active per account; TikTok and YouTube excluded. Analytics rows link to the Zernio post via `latePostId`.
+

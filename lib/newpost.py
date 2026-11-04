@@ -17,6 +17,7 @@ import shutil
 import time
 from pathlib import Path
 
+import archive
 import batch
 import hitl
 import media
@@ -53,11 +54,13 @@ def upload_dir() -> Path:
 def save_upload(name: str, stream, length: int) -> dict:
     """Stream one file from the browser into .bps/uploads (no base64)."""
     ext = Path(name or "").suffix.lower()
-    if ext not in MEDIA_EXT:
-        raise ValueError("Use photos (JPG, PNG, WEBP), a video (MP4, MOV) or a PDF.")
+    if archive.is_archive(name or ""):
+        ext = next(e for e in sorted(archive.ARCHIVE_EXT, key=len, reverse=True) if (name or "").lower().endswith(e))
+    elif ext not in MEDIA_EXT:
+        raise ValueError("Use photos (JPG, PNG, WEBP), a video (MP4, MOV), a PDF, or an archive (.zip, .7z, .rar, .tar.gz).")
     if length <= 0 or length > MAX_UPLOAD:
         raise ValueError("Files must be under 1 GB.")
-    stem = _slug(Path(name).stem) or "file"
+    stem = _slug(archive._stem(Path(name)) if archive.is_archive(name) else Path(name).stem) or "file"
     f = upload_dir() / f"{time.strftime('%Y%m%d-%H%M%S')}-{int(time.time() * 1000) % 1000:03d}-{stem}{ext}"
     import jobs
     jid = jobs.start("upload", f"Adding {name}", step=f"{length // (1 << 20)} MB") if length > 8 << 20 else None
@@ -78,7 +81,7 @@ def save_upload(name: str, stream, length: int) -> dict:
         jobs.finish(jid, ok=False, error="The upload was cut off.")
         raise ValueError("The upload was cut off. Try again.")
     jobs.finish(jid, step=f"{length // (1 << 20)} MB added")
-    return {"path": _rel(f), "name": name, "kind": media.kind(f), "size": length}
+    return {"path": _rel(f), "name": name, "kind": "archive" if archive.is_archive(f) else media.kind(f), "size": length}
 
 
 def _source(item: str) -> Path:
@@ -127,10 +130,39 @@ def _open(folder: Path, caption: str, hint: str, via: str) -> dict:
     return {"folder": rel, "opened": False, "note": n["id"]}
 
 
+def _from_archive(item: str, caption: str, via: str) -> dict:
+    """An uploaded archive: unpack it into my-posts/ and open the post inside."""
+    p = (workspace() / item).resolve()
+    if workspace() not in p.parents or not p.is_file():
+        raise ValueError(f"File not found: {item}")
+    posts = archive.extract(p)
+    if upload_dir().resolve() in p.parents:
+        p.unlink(missing_ok=True)                 # the staging copy; the user's own archive is untouched
+    if len(posts) > 1:
+        rels = [_rel(d) for d in posts]
+        n = hitl.add_note(f"I added an archive with {len(posts)} posts: {', '.join(rels)}. They're in Batch schedule now.",
+                          {"type": "archive_posts", "folders": rels})
+        return {"folder": rels[0], "opened": False, "posts": rels, "note": n["id"]}
+    if caption and not batch._has_caption(posts[0]):
+        (posts[0] / "caption.txt").write_text(caption + "\n", encoding="utf-8")
+    return _open(posts[0], caption, "unpacked from an archive", via)
+
+
 def create(files: list[str], name: str = "", caption: str = "", via: str = "dashboard") -> dict:
     """A new post folder from uploaded files and/or made images, in the order given."""
     if not files:
-        raise ValueError("Pick at least one photo, video or PDF.")
+        caption = (caption or "").strip()
+        if not caption:
+            raise ValueError("Pick at least one photo, video or PDF, or write a caption for a text post.")
+        d = _free_folder(name)                 # a text post (LinkedIn/Facebook): poll, repost or plain text
+        d.mkdir(parents=True)
+        (d / "caption.txt").write_text(caption + "\n", encoding="utf-8")
+        return _open(d, caption, "text post", via)
+    arcs = [f for f in files if not f.startswith("image:") and archive.is_archive(f)]
+    if arcs:
+        if len(files) > 1:
+            raise ValueError("Add an archive on its own: it already holds the whole post.")
+        return _from_archive(arcs[0], (caption or "").strip(), via)
     if len(files) > MAX_FILES:
         raise ValueError(f"Up to {MAX_FILES} files per post.")
     srcs = [_source(f) for f in files]
@@ -170,9 +202,21 @@ def create(files: list[str], name: str = "", caption: str = "", via: str = "dash
 def from_folder(path: str, via: str = "dashboard") -> dict:
     """An existing folder picked with Browse… or the built-in browser."""
     p = Path(path).expanduser().resolve()
+    if p.is_file() and archive.is_archive(p):
+        posts = archive.extract(p)
+        if len(posts) > 1:
+            return {"folder": _rel(posts[0]), "opened": False, "posts": [_rel(d) for d in posts]}
+        return _open(posts[0], "", "unpacked from an archive", via)
     if not p.is_dir():
         raise ValueError(f"Folder not found: {path}")
-    if not any(f.suffix.lower() in MEDIA_EXT for f in p.iterdir() if f.is_file()):
-        raise ValueError("That folder has no photos, video or PDF. A post folder holds the media (and caption.txt).")
+    has_media = any(f.suffix.lower() in MEDIA_EXT for f in p.iterdir() if f.is_file())
+    if not has_media and not archive.archives_in(p) and not batch._has_caption(p):
+        raise ValueError("That folder has no photos, video, PDF, archive (.zip…) or caption. A post folder holds the media and caption.txt (a caption alone makes a text post).")
     p = batch.import_folder(p)      # outside the project → copied into my-posts/ (everything stays local)
-    return _open(p, "", "", via)
+    posts = archive.resolve(p)      # a folder holding a .zip: unpacked inside it
+    if len(posts) > 1:
+        rels = [_rel(d) for d in posts]
+        n = hitl.add_note(f"I picked a folder with {len(posts)} posts inside archives: {', '.join(rels)}. They're in Batch schedule now.",
+                          {"type": "archive_posts", "folders": rels})
+        return {"folder": rels[0], "opened": False, "posts": rels, "note": n["id"]}
+    return _open(posts[0], "", "unpacked from an archive" if posts[0] != p else "", via)

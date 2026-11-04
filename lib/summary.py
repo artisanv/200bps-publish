@@ -74,8 +74,12 @@ def _post_row(p: dict) -> dict:
     # GET /v1/analytics list: posts[{_id, content, publishedAt, analytics{...}, platformAnalytics[{platform, platformPostUrl}]}]
     m = p.get("analytics") or p.get("metrics") or p
     pa = (p.get("platformAnalytics") or [{}])[0] or {}
+    ent = next((x for x in p.get("platforms") or [] if x.get("platform") == (p.get("platform") or pa.get("platform"))), None) or {}
     return {
+        "accountId": ent.get("accountId") or p.get("accountId"), "account": ent.get("accountUsername") or p.get("accountUsername"),
         "id": p.get("_id") or p.get("postId") or p.get("id"),
+        "zid": p.get("latePostId"),                  # the Zernio post behind it (recycling needs it)
+        "thumb": p.get("thumbnailUrl") or "",
         "platform": p.get("platform") or pa.get("platform"),
         "caption": p.get("content") or p.get("caption") or "",
         "publishedAt": p.get("publishedAt") or p.get("published_at") or p.get("createdAt"),
@@ -101,6 +105,134 @@ def post_kind(platform, media_type, product, count, item_types, url="") -> str:
     if not count and not item_types:
         return "article" if platform == "linkedin" and "/pulse/" in (url or "") else "text"
     return "post"
+
+
+def _auto_log(z, section, automations: list[dict], post_ids: set) -> dict:
+    """What Zernio's DM automations already did with each comment, so the Inbox
+    doesn't list them as waiting: {commentId: {how, error, at, consumed}}.
+    how: auto-sent (gift delivered), auto-gated (follow-first message sent;
+    the gift follows when they follow), auto-skipped (the automation chose not
+    to send), auto-failed (it tried and failed; stays waiting)."""
+    res: dict = {}
+    for a in automations:
+        if not a.get("id") or a.get("postId") not in post_ids:
+            continue
+        r = section("automation log", lambda aid=a["id"]: z.get(f"/comment-automations/{aid}/logs")) or {}
+        for lg in r.get("logs") or []:
+            cid, st = lg.get("commentId"), (lg.get("status") or "").lower()
+            if not cid or cid in res:
+                continue      # newest first: keep the latest outcome
+            how = {"sent": "auto-sent", "gated": "auto-gated", "failed": "auto-failed", "error": "auto-failed"}.get(st, "auto-skipped")
+            res[cid] = {"how": how, "status": st, "error": lg.get("platformError") or (lg.get("error") if how == "auto-failed" else None),
+                        "at": lg.get("createdAt"), "consumed": bool(lg.get("privateReplyConsumed")) or how in ("auto-sent", "auto-gated"),
+                        "clicked": bool(lg.get("clickCount"))}
+    return res
+
+
+def _dm_answers(z, section, comments: list[dict], log: dict) -> None:
+    """Mark comments you answered by DM in the Instagram/Facebook app: an
+    outgoing message you sent yourself (not an automation) after the comment."""
+    left = [c for c in comments if c["id"] not in log and c.get("platform") in ("instagram", "facebook") and c.get("author")]
+    for aid in {c["accountId"] for c in left}:
+        convs, cursor = [], None
+        for _page in range(4):
+            q = {"accountId": aid, "limit": 50, **({"cursor": cursor} if cursor else {})}
+            r = section("DM conversations", lambda q=q: z.get("/inbox/conversations", **q)) or {}
+            convs += r.get("data") or []
+            pg = r.get("pagination") or {}
+            cursor = pg.get("nextCursor") or pg.get("cursor")
+            if not pg.get("hasMore") or not cursor:
+                break
+        by_user = {(cv.get("participantUsername") or "").lower(): cv for cv in convs if cv.get("participantUsername")}
+        for c in [c for c in left if c["accountId"] == aid]:
+            cv = by_user.get(c["author"].lower())
+            if not cv or (cv.get("updatedTime") or "") < _iso(c.get("createdAt")):
+                continue
+            m = section("DM messages", lambda cv=cv: z.get(f"/inbox/conversations/{cv['id']}/messages", accountId=aid, limit=20)) or {}
+            for msg in m.get("data") or m.get("messages") or []:
+                if (msg.get("direction") == "outgoing" and (msg.get("createdAt") or "") >= _iso(c.get("createdAt"))
+                        and ((msg.get("metadata") or {}).get("sentVia") or "") != "comment_automation"):
+                    log[c["id"]] = {"how": "ig-dm", "at": msg.get("createdAt"), "text": (msg.get("message") or "")[:200]}
+                    break
+
+
+def _iso(t) -> str:
+    """Instagram times look like 2026-11-01T11:50:14+0000; messages use ...Z. Compare as UTC ISO."""
+    try:
+        return datetime.fromisoformat(str(t).replace("Z", "+00:00").replace("+0000", "+00:00")).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
+    except Exception:
+        return str(t or "")
+
+
+def _eng(m: dict) -> float:
+    return sum((m.get(k) or 0) for k in ("likes", "comments", "shares", "saves"))
+
+
+def _networks(z, section, out: dict, tz: str, today, cfg: dict, bt_done: str) -> list[dict]:
+    """One dashboard per connected account: followers (now, 7/30-day change,
+    90-day series), its goal, the last 30 days vs the 30 before from its own
+    posts, best times, top posts and the weekly posting rhythm."""
+    # every connected account (several per network are fine), not only the ones chosen for posting
+    accs = [a for a in out.get("accounts") or [] if a.get("id") and a.get("active") is not False]
+    if not accs:
+        return []
+    d90 = today - timedelta(days=89)
+    st = section("follower stats (all)", lambda: z.follower_stats([a["id"] for a in accs], fromDate=d90.isoformat(),
+                                                                    toDate=today.isoformat(), granularity="daily")) or {}
+    stats = st.get("stats") or {}
+    meta = {a.get("_id"): a for a in st.get("accounts") or []}
+    goals = ((cfg.get("goal") or {}).get("by") or {})
+    res = []
+    for a in accs:
+        pf = a["platform"]
+        series = sorted(({"date": (pt.get("date") or "")[:10], "value": _num(pt.get("followers"))} for pt in stats.get(a["id"], [])
+                         if _num(pt.get("followers")) is not None and pt.get("date")), key=lambda r: r["date"])
+        if pf == "instagram" and len((out.get("followers") or {}).get("series") or []) > len(series):
+            series = out["followers"]["series"]
+        by = {r["date"]: r["value"] for r in series}
+
+        def at(day, by=by):
+            ks = [k for k in by if k <= day.isoformat()]
+            return by[max(ks)] if ks else None
+        m = meta.get(a["id"]) or {}
+        now = _num(m.get("currentFollowers")) or a.get("followers") or (series[-1]["value"] if series else None)
+        c7 = (now - at(today - timedelta(days=7))) if now is not None and at(today - timedelta(days=7)) is not None else None
+        c30 = (now - at(today - timedelta(days=30))) if now is not None and at(today - timedelta(days=30)) is not None else None
+
+        same_pf = sum(1 for x in accs if x["platform"] == pf)
+        posts = [p for p in out.get("posts") or [] if p.get("platform") == pf and p.get("publishedAt")
+                 and (p.get("accountId") == a["id"] or (not p.get("accountId") and same_pf == 1))]
+
+        def window(lo, hi, posts=posts):
+            ps = [p for p in posts if lo.isoformat() <= str(p["publishedAt"])[:10] <= hi.isoformat()]
+            tot = lambda k: sum((p["metrics"].get(k) or 0) for p in ps)
+            ers = [p["metrics"]["engagementRate"] for p in ps if p["metrics"].get("engagementRate") is not None]
+            return {"posts": len(ps), "impressions": tot("impressions"), "reach": tot("reach"), "views": tot("views"),
+                    "engagements": sum(_eng(p["metrics"]) for p in ps), "comments": tot("comments"), "shares": tot("shares"), "saves": tot("saves"),
+                    "er": round(sum(ers) / len(ers), 2) if ers else None}
+        k30 = window(today - timedelta(days=29), today)
+        k30p = window(today - timedelta(days=59), today - timedelta(days=30))
+        k30["followers"], k30p["followers"] = (c30 if c30 is not None else ((now - series[0]["value"]) if series and now is not None else None)), ((at(today - timedelta(days=30)) - at(today - timedelta(days=60)))
+                                                   if at(today - timedelta(days=30)) is not None and at(today - timedelta(days=60)) is not None else None)
+        top = sorted(posts, key=lambda p: (_eng(p["metrics"]), p["metrics"].get("impressions") or 0), reverse=True)[:5]
+        weeks = []
+        for w in range(7, -1, -1):
+            lo, hi = today - timedelta(days=7 * w + 6), today - timedelta(days=7 * w)
+            ps = [p for p in posts if lo.isoformat() <= str(p["publishedAt"])[:10] <= hi.isoformat()]
+            weeks.append({"from": lo.isoformat(), "posts": len(ps), "engagements": sum(_eng(p["metrics"]) for p in ps)})
+        if pf == bt_done:
+            bt = out.get("besttime") or {}
+        else:
+            r = section(f"best time ({pf})", lambda pf=pf, aid=a["id"]: z.best_time(platform=pf, accountId=aid))
+            bt = besttime.compute(r or {}, tz) if r is not None else {"basis": "insufficient"}
+        res.append({"platform": pf, "accountId": a["id"], "username": a.get("username"), "name": m.get("displayName"),
+                    "picture": m.get("profilePicture"), "followers": now, "followersUpdated": a.get("followersUpdated"),
+                    "change7": c7, "change30": c30, "series": series, "selected": bool(a.get("selected")),
+                    "since": series[0]["date"] if series and c30 is None else None,
+                    "changeSince": (now - series[0]["value"]) if series and c30 is None and now is not None else None, "goal": goals.get(a["id"]) or (goals.get(pf) if same_pf == 1 else None) or ((cfg.get("goal") or {}).get("followers") if pf == "instagram" and a.get("selected") else None),
+                    "kpis": k30, "kpisPrev": k30p, "postsTotal": len(posts), "top": top, "weeks": weeks,
+                    "bestTime": {"basis": bt.get("basis"), "slots": (bt.get("slots") or [])[:3], "note": bt.get("note"), "average": bt.get("average")}})
+    return res
 
 
 def _sync_plans(zposts: list[dict]) -> None:
@@ -152,7 +284,7 @@ def _build() -> dict:
 
     def section(name, fn):
         seen[0] += 1
-        jobs.here(step=f"Reading {name}", pct=100 * seen[0] / 18)
+        jobs.here(step=f"Reading {name}", pct=min(97, 100 * seen[0] / 24))
         try:
             return fn()
         except ZernioError as e:
@@ -169,7 +301,7 @@ def _build() -> dict:
     selected_ids = {a.get("id") for a in accts.values() if isinstance(a, dict)}
     out["accounts"] = [
         {"id": a.get("_id"), "platform": a.get("platform"), "username": a.get("username"),
-         "followers": a.get("followersCount"), "active": a.get("isActive"),
+         "followers": a.get("followersCount"), "followersUpdated": a.get("followersLastUpdated") or a.get("updatedAt"), "active": a.get("isActive"),
          "needsReconnection": a.get("needsReconnection"), "selected": a.get("_id") in selected_ids}
         for a in accounts
     ]
@@ -327,6 +459,8 @@ def _build() -> dict:
     bt = section("best time", lambda: z.best_time(platform=bt_platform, accountId=bt_acct))
     out["besttime"] = besttime.compute(bt or {}, tz) if bt is not None else {"basis": "insufficient", "note": "Best-time data unavailable (needs the Zernio Analytics add-on)."}
 
+    out["networks"] = _networks(z, section, out, tz, today, cfg, bt_platform)
+
     # demographics: one call -> {demographics: {age|gender|city|country: [{dimension, value}]}}
     if ig:
         r = section("demographics", lambda: z.ig_demographics(ig, metric="follower_demographics", breakdown="age,gender,city,country", timeframe="this_month")) or {}
@@ -348,25 +482,49 @@ def _build() -> dict:
     # comments waiting
     # list: {data: [{id (post id), accountId, platform, commentCount}]}
     # per post: {comments: [{id, message, createdTime, from{username, isOwner}, replies[{from{isOwner}}]}]}
-    cps = section("comments", lambda: z.comment_posts(since=d7.isoformat(), limit=10)) or {}
-    comments, cposts = [], {}
-    for cp in (cps.get("data") or [])[:5]:
+    # Every post with comments (newest first, up to 10 posts), every page of
+    # comments (up to 100 per post). Zernio lists posts without comments too,
+    # so filter before cutting, or busy posts get skipped.
+    cps = section("comments", lambda: z.comment_posts(since=d7.isoformat(), limit=50)) or {}
+    comments, cposts, done_on = [], {}, {}
+    with_comments = [cp for cp in (cps.get("data") or []) if cp.get("commentCount")]
+    with_comments.sort(key=lambda cp: cp.get("createdTime") or "", reverse=True)
+    for cp in with_comments[:10]:
         pid, aid = cp.get("id"), cp.get("accountId") or ig
-        if not (pid and aid) or not cp.get("commentCount"):
+        if not (pid and aid):
             continue
-        cs = section("comments on post", lambda pid=pid, aid=aid: z.comments(pid, aid, limit=10)) or {}
-        po = cs.get("post") or {}
-        cposts[pid] = {"permalink": po.get("permalink"), "caption": (po.get("text") or "")[:600], "thumb": po.get("thumbnailUrl") or po.get("mediaUrl")}
-        for c in cs.get("comments") or []:
+        rows, cursor, po = [], None, {}
+        for _page in range(10):
+            q = {"limit": 50, **({"cursor": cursor} if cursor else {})}
+            cs = section("comments on post", lambda pid=pid, aid=aid, q=q: z.comments(pid, aid, **q)) or {}
+            po = po or cs.get("post") or {}
+            rows += cs.get("comments") or []
+            pg = cs.get("pagination") or {}
+            cursor = pg.get("nextCursor") or pg.get("cursor")
+            if not pg.get("hasMore") or not cursor or len(rows) >= 100:
+                break
+        cposts[pid] = {"permalink": po.get("permalink") or cp.get("permalink"), "caption": (po.get("text") or cp.get("content") or "")[:600],
+                       "thumb": po.get("thumbnailUrl") or po.get("mediaUrl") or cp.get("picture")}
+        seen_ids = set()
+        # your own comments on the post that @mention someone count as an answer to them
+        own = [(str(c.get("message") or "").lower(), c.get("createdTime") or "") for c in rows if (c.get("from") or {}).get("isOwner")]
+        for c in rows:
+            if c.get("id") in seen_ids:
+                continue
+            seen_ids.add(c.get("id"))
             frm = c.get("from") or {}
             if frm.get("isOwner"):
                 continue
-            if any((rp.get("from") or {}).get("isOwner") for rp in c.get("replies") or []):
-                continue          # already answered
+            user = (frm.get("username") or "").lower()
+            mine = [rp for rp in c.get("replies") or [] if (rp.get("from") or {}).get("isOwner")]
+            if mine:
+                done_on[c.get("id")] = {"how": "ig-replied", "at": mine[-1].get("createdTime"), "text": (mine[-1].get("message") or "")[:200]}
+            elif user and any(("@" + user) in t and at >= (c.get("createdTime") or "") for t, at in own):
+                done_on[c.get("id")] = {"how": "ig-mentioned"}
             comments.append({"id": c.get("id"), "postId": pid, "accountId": aid, "platform": cp.get("platform"),
                              "author": frm.get("username") or frm.get("name"),
                              "text": c.get("message") or "", "createdAt": c.get("createdTime"), "url": c.get("url"),
-                             "hidden": bool(c.get("isHidden")), "likes": c.get("likeCount") or 0,
+                             "hidden": bool(c.get("isHidden")), "likes": c.get("likeCount") or 0, "liked": bool(c.get("isLiked")),
                              "can": {k: bool(c.get("can" + k.capitalize(), True)) for k in ("reply", "delete", "hide")}})
     out["comments"] = comments
     out["commentPosts"] = cposts
@@ -375,9 +533,15 @@ def _build() -> dict:
     out["automations"] = [
         {"id": a.get("id") or a.get("_id"), "name": a.get("name"), "keywords": a.get("keywords", []), "active": a.get("isActive", True),
          "followGate": bool(a.get("followGate")), "postId": a.get("platformPostId") or a.get("postId"),
-         "message": a.get("dmMessage") or "", "buttons": a.get("buttons") or []}
+         "message": a.get("dmMessage") or "", "buttons": a.get("buttons") or [], "stats": a.get("stats") or {}, "zPostId": a.get("postId") if a.get("platformPostId") else None}
         for a in _items(au)
     ]
+    out["autoLog"] = _auto_log(z, section, out["automations"], {c["postId"] for c in comments})
+    # What you did yourself in Instagram (or Facebook): replied under the comment,
+    # @mentioned them in your own comment, or wrote to them in DMs afterwards.
+    for cid, v in done_on.items():
+        out["autoLog"].setdefault(cid, v)
+    _dm_answers(z, section, comments, out["autoLog"])
     if ig:
         ib = section("ice breakers", lambda: z.ice_breakers(ig))
         out["iceBreakers"] = (ib or {}).get("ice_breakers", []) if isinstance(ib, dict) else []

@@ -1,5 +1,49 @@
 # Changelog
 
+## 1.18.0 (2026-11-04)
+- **♻ Recycle your best posts** (Growth → Top posts → ♻, a ♻ on each row, or Ctrl+K): Zernio re-posts a published post every 1-12 weeks or months, up to a set number of times (or until you stop it), from the date you pick. Add 2-20 new caption versions and each repost uses the next one; **✨ Ask Claude for new hooks** writes 3-5 in your voice. Ranked from your own results (follows, then saves + shares, then reach). Starts after a typed **go** and is read back from Zernio (next repost date, how many made); **Stop recycling** any time. Up to 10 at once; TikTok is never recycled.
+- **The poll or repost shows in the Preview card** under the LinkedIn caption, before you schedule it.
+- **Text-only posts no longer show a to-do** on LinkedIn and Facebook (it was an info line you could "fix").
+- Guide: version and build, Instagram Reels up to 15 minutes, heatmap shading by rank. Hover tips for every new control, in English and Arabic.
+- **LinkedIn polls**: Network settings → LinkedIn → Poll. A question (up to 140 characters), 2-4 choices (up to 30 each, with live counters), open for 1 day, 3 days, 1 week or 2 weeks, and a live preview. Checks block a half-filled poll.
+- **LinkedIn reposts**: Network settings → LinkedIn → Repost. Paste a LinkedIn post link; your caption becomes your comment above it.
+- **Text posts**: New post now works with no media; just write the caption. LinkedIn and Facebook take it (the others are skipped with the reason). A folder with only caption.txt also opens.
+
+## 1.17.1 (2026-11-03)
+- **Fixed: "When your audience engages" (Plan tab) could be empty.** It was drawn only with the Growth tab, so picking a network there (Instagram, LinkedIn…) left the Plan heatmap blank. It now draws on its own, whatever network Growth shows.
+- **Fixed: one viral hour washed out the heatmap.** Shades were scaled to the single busiest hour, so every other hour got the faintest step and the map looked empty. Hours are now shaded by rank (5 steps), in the heatmap and the calendar's hour grid; the 1-2-3 best slots are unchanged.
+
+## 1.17.0 (2026-11-01)
+- **Networks on or off for a post** (⇆ Networks… in a post's window, its network icons, or right-click in Plan): one switch per network and account, for any number of networks. A scheduled post changes in Zernio after a typed **edit** (read back); networks already published always stay; at least one stays on. A published post can be taken off one network (typed **remove**) where the network allows it (Instagram, TikTok and Snapchat don't let apps delete posts).
+- **Version and build** shown in the top bar (wide screens), the footer and Settings: "v1.17.0 · build YYYYMMDD.HHMM", updated by itself with every change.
+- **Post to several accounts on one network**: when a network has more than one account in Zernio, the Post tab shows **Post to these accounts**; tick each one. Same caption and settings on each; recorded in Changes, so it can be undone.
+- **Copy and paste right in Plan**: a ⧉ on every calendar post copies it in one click; right-click a post for View, Copy, Move, Edit or Cancel; right-click a day or an hour for Paste here (at that hour). The day window lists View and Copy on each post.
+- **Copy a post to another day**: a post's window → **Copy** (or point at it in Plan and press Ctrl+C), then a day → **Paste here** (or Ctrl+V on a day or hour). Same media, networks, accounts and settings; pick the time, edit the caption if you like. Scheduling the copy needs a typed **go**; "Save as a draft in Zernio" publishes nothing. A local draft is copied as a new local draft. When the post has a DM gift, **🎁 Also copy the gift** (unticked by default) recreates it on the copy.
+- **Guide**: every new feature has a short line in English and Arabic.
+- **Many accounts per network** (Growth): tabs list networks with their account count (Instagram · 6), so the bar never crowds. Click a network with several accounts for a dropdown of its Zernio accounts: **All accounts** (added up, with a sortable accounts-side-by-side table) or one account's own dashboard; ☆ pins favourites to the top; a search box past 8 accounts; **+ Connect** adds another network or account through Zernio. Goals and best times are per account.
+- **Networks per post** (Posts and Plan): the first network's icon and **+N** for the rest; click it for each network's account, status, time, link and error.
+- **▶ View the whole post** from Growth (top posts, every network) and from each Inbox comment: every slide, the full video with sound, or the PDF, full screen.
+- **Batch schedule on the Post tab** too (next to New post, and on the empty New post card).
+- **Notes to Claude: Enter sends**, Shift+Enter or Ctrl+Enter adds a new line (chat, replies to Claude, fix requests).
+- **UI audit (every page and window, English + Arabic, light + dark, desktop to phone): nothing cut off or overlapping.** Fixed: the day window's right column, follower numbers spilling out of their card, chart labels cut ("1,27"), goal ring text, the brand name on phones, the bell badge in Arabic, idea checkboxes over long titles, calendar controls on phones, long links in Activity, and a Growth page wider than the phone screen in Arabic.
+- **Comment times** (Inbox): each comment shows its day and time plus how long ago. **🕒 Times in** picks the clock: your country (default), a country where your audience is (with its share), this computer's clock, or any time zone; remembered on this computer.
+- **One dashboard per network** (Growth): tabs for All networks, Instagram, LinkedIn… Each network shows its followers (this week, 30 days, 90-day chart, "updated …"), its **own goal**, the last 30 days vs the 30 before (posts, impressions, reach, engagements, engagement rate, new followers), best times that beat your average, posting rhythm (8 weeks) and top posts.
+- **Archived posts**: add a .zip (or .7z, .rar, .tar.gz…) as a post. It's unpacked safely into my-posts/ (no files outside it, zip-bomb guard, the same archive reuses its copy); one holding several post folders goes to Batch schedule. Chat: `bps.py analyze post.zip`; `batch prepare` takes archives too. Picking a **folder that holds a zip** works too (New post → A post folder, Batch schedule, chat): it's unpacked inside that folder, and a zip with its own folder inside isn't nested twice.
+- **PDF + photos in one post**: LinkedIn gets the PDF as a document post, Instagram/Facebook/TikTok get the photos (Zernio `customMedia`), in one post.
+- **Fixed: a PDF-only post was blocked by Instagram.** Instagram is now skipped with the reason (like Facebook, TikTok and Snapchat), and the post goes to LinkedIn.
+- **Inbox sees what you did in the Instagram app.** A comment you replied to under it, @mentioned in your own comment, or answered in DMs (sent by you, not an automation) moves to **Handled** by itself: "You replied on Instagram" / "You @mentioned them" / "You answered in DMs"; hover shows what you wrote. Before, replied comments silently vanished from the list. A like alone shows "♥ You liked it" but stays waiting.
+- **✨ Ask Claude to draft replies** (Inbox): Claude writes a reply in your voice for every waiting comment. Each draft shows on its comment; **Use it** opens the reply box with it, **Send reply** posts it; **Send all drafts** shows every draft, then posts them all with one confirm. Nothing is sent without your click. Chat: `bps.py inbox waiting`, `bps.py inbox draft --comment ID --text "…"`.
+- **Gift funnel** (Inbox → DM automations): for each gift, how many commented the keyword → got the follow-first message → followed and tapped → got the gift → opened the link, from Zernio's own counts, with a link to the post.
+- **Follower freshness**: "updated 12 hours ago" by the follower chart and each account (Zernio refreshes follower counts about once a day); it turns amber after 36 hours.
+- **Fixed: the Inbox missed comments.** It read only the first 5 posts in Zernio's list (many with no comments) and 10 comments each, so a busy post could be skipped entirely. It now reads every post with comments (up to 10) and every page of comments (up to 100 per post).
+- **Fixed: Send gift / Reply clicks could be lost.** While Claude worked, the dashboard redrew the Inbox every few seconds, replacing the Confirm button (and the text box) under your mouse. It no longer redraws while a reply or gift box is open. A refused gift is now written to the log too.
+- **Fixed: the Zernio refresh progress could pass 100%.**
+- **Inbox knows what your DM automation already did.** It reads Zernio's automation log, so comments the automation answered move to **Handled** by themselves: "✓ Auto: gift sent", "Auto: gift sends when they follow" (they got the follow-first message) or "Auto: skipped by the automation". Before, they stayed in Waiting and looked unanswered.
+- **No more refused manual gifts.** Send gift is hidden on comments whose one private message is already used (by the automation). If the automation failed, the comment stays in Waiting marked "Auto gift failed", with the reason on hover.
+- Handled comments show what happened: "Marked handled", "Gift sends when they follow", "Not a follower · no gift".
+- **Instagram Reels up to 15 minutes** (was 90 seconds), per Zernio's current docs.
+- Hover tips and a Guide entry ("Automatic gifts") in English and Arabic.
+
 ## 1.16.0 (2026-10-18)
 - **New networks: Facebook, TikTok and Snapchat.** Connect them from Posts → + Connect account. A post goes to every connected network that can show it; the others are skipped with the reason.
   - Facebook (a Page): Feed post, Reel (with title) or Story; first comment, save as a draft in Facebook's Publishing Tools, pick the Page.

@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
 description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram, LinkedIn, Facebook, TikTok and Snapchat through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.16.0
+version: 1.18.0
 ---
 
 # 200BPS Publish
@@ -129,6 +129,12 @@ Then start the dashboard in the background (Step 3) and give the URL.
 
 ## Step 2: publish a post folder
 
+A post can also be an **archive** (.zip, .7z, .rar, .tar.gz…): `bps.py analyze post.zip` unpacks it safely into
+`my-posts/<name>/` (`lib/archive.py`) and analyzes the post inside; an archive with several post folders returns
+their paths for `batch prepare` (which also accepts archives). A folder with a **PDF and photos/video** is split:
+LinkedIn gets the PDF (document post), every other network gets the photos/video (`plan.media_for`, Zernio `customMedia`).
+PDFs never go to Instagram, Facebook, TikTok or Snapchat; a PDF-only post skips them with the reason.
+
 Folder conventions (tell the user if something is missing):
 - `caption.txt` or `caption.md`: the main caption (required)
 - `caption.<platform>.txt`: optional override, e.g. `caption.linkedin.txt`
@@ -248,6 +254,52 @@ Show the user the full list (post, day, time, why that time) and run `batch run
 --confirm` only after they say go to that exact list. If any time or post
 changes afterwards, show the list again and ask again.
 
+## LinkedIn polls, reposts and text posts
+
+A post folder with only a caption (no media) is a **text post**: LinkedIn and Facebook take it; the
+others are skipped. The New post window allows it (write the caption, add no media). On LinkedIn
+the post type can be (`bps.py set linkedin.kind post|poll|repost`, or Network settings → LinkedIn):
+- **poll**: `bps.py set linkedin.poll '{"question":"…","options":["A","B"],"duration":"SEVEN_DAYS"}'`
+  (question ≤140, 2-4 choices ≤30 each, ONE_DAY / THREE_DAYS / SEVEN_DAYS / FOURTEEN_DAYS)
+- **repost**: `bps.py set linkedin.reshareUrl "https://www.linkedin.com/posts/…"`; the caption is the commentary.
+Both go out as Zernio `platformSpecificData.poll` / `reshareUrl` and can't carry media (a blocking check says so).
+Native LinkedIn articles are not possible: neither Zernio nor LinkedIn's API offers them.
+
+## Recycle best posts
+
+Zernio's own `recycling`: a **published** post is re-posted every N weeks/months, rotating new caption
+versions (`contentVariations`, 2-20, round-robin). Candidates come only from the user's results
+(follows, then saves + shares, then reach; `bps.py recycle list`). Max 10 recycling per account;
+TikTok/YouTube are never recycled. Dashboard: Growth → Top posts → ♻ (or Ctrl+K "Recycle").
+- When a `recycle_hooks` request arrives: write 3-5 versions of that post (same message, a fresh first
+  line, the user's voice and language, within the networks' caption limits), save them as a JSON list
+  and run `bps.py recycle hooks --post ID --file f.json --note "<one line why>"`. They appear in the
+  Recycle window. Then `say --to <note> --status done`.
+- Starting is public: `bps.py recycle on --post ID --every N --unit week|month [--times K] [--start DATE] [--file f.json] --confirm`
+  only after the user's go for that exact post and rhythm (the dashboard asks for a typed go itself).
+  `bps.py recycle off --post ID` stops it; reposts already made stay.
+
+## Accounts per post
+
+When a network has several connected accounts in Zernio, the Post tab shows **Post to these accounts**: the user ticks
+each account the post goes to (`/api/plan op=targets`, stored in `plan.targets`, recorded in history). Publishing sends
+one Zernio platform entry per chosen account, same caption and settings. Without a pick, the account from setup is used.
+A DM gift attaches to the setup Instagram account.
+
+## Networks on or off for a post
+
+⇆ Networks… (post window, network icons, or right-click in Plan) switches each network/account on or off.
+Scheduled/draft posts: `/api/zpost op=networks` (typed **edit**, `zedit.set_networks`, read back; published entries
+always kept; at least one stays). Local drafts: `/api/plan op=networks`. Published: `op=unpublish` (typed **remove**)
+per network where allowed. A `post_networks` request arrives through `watch`: it's already done; acknowledge in one line.
+
+## Copy a post to another day
+
+Posts → a post → **Copy**, or Plan → hover a post and press Ctrl+C. Then click a day (or press Ctrl+V on it) →
+**Paste here**: same media, networks, accounts and settings; the user sets the time and may edit the caption.
+Scheduling the copy needs a typed **go**; "Save as a draft in Zernio" publishes nothing. A local draft is copied as a
+new local draft (folder copied into `my-posts/`). If the source has a DM gift, the Paste window offers **Also copy the gift** (unticked; opt-in): ticked, the same automation is created on the new post. From chat, only on the user's explicit yes for that exact copy.
+
 ## Cancelling a post
 
 From the dashboard: the post's details (Posts tab), the calendar day panel, the
@@ -286,7 +338,8 @@ It shows (bilingual, with 12h/24h and light/dark toggles):
 - a pop-up for every pending question, and a "Note to Claude" button
 - readiness
 - the current post: preview, caption per platform, checks, score, plan, best time
-- growth: KPIs, followers, top posts, engagement heatmap, audience
+- growth: KPIs, followers, top posts, engagement heatmap, audience; plus one dashboard per connected network (Growth tabs: followers, its own
+  goal (`/api/goal` with `platform`, stored in `goal.by`), last 30 days vs the 30 before, best times, rhythm, top posts)
 - calendar
 - inbox: comments waiting, DM automations, ice breakers
 - idea bank
@@ -373,6 +426,9 @@ returns the unread requests. For each one:
 | `idea` | Draft caption + media plan for that idea and date; show it; nothing is published |
 | `report` | `bps.py report --plan …` or summarise that post's analytics |
 | `new_post` | The user started a post from the dashboard's **New post** window (files, made images, or a folder). If `opened`, the post is already the current plan: run the step 2 flow from point 3 (report findings, fixes, time, gift). If `needsCaption`, look at the media (and `hint`, the image prompts), write a caption in the user's voice, save it as `caption.txt` in `folder`, show it in chat, then `analyze` that folder and continue step 2 |
+| `reply_drafts` | The user pressed "Ask Claude to draft replies" in the Inbox. `action.comments` lists the waiting comments (id, author, text, post, platform). Write one short public reply per comment in the user's voice and language (match the comment's language), and save each with `bps.py inbox draft --comment ID --text "…"`. Never send them: the user presses Use it → Send reply. Skip spam or comments that need no answer, and say so in the `say --status done` line |
+| `post_copied` | The user copied a post to another day from the dashboard (Copy → Paste). It's **already done** in Zernio (a new scheduled post after typed go, or a Zernio draft). Acknowledge in one line with `say --to <id> --status done`; never repeat it |
+| `recycle_hooks` | The user pressed "Ask Claude for new hooks" in the Recycle window. `action.caption`, `metrics` and `platforms` describe the post. Write 3-5 new versions and save them with `bps.py recycle hooks` (see "Recycle best posts"). Never start recycling yourself |
 | `image_prompt` | The user pressed "Ask Claude to improve it" in the image window. Turn `action.text` (and any guide pictures in `action.refs`) into one clear, specific image prompt in their language, then `bps.py image prompt --prompt "…" --note "…"`. It appears in the window with a "Use this prompt" button. Don't generate the image yourself |
 
 Then run `bps.py notes --mark-read` and start `watch` again **right away**. `--mark-read` marks only the notes you were shown; anything that arrived meanwhile stays unread and the next `watch` returns it at once. Never leave the dashboard open without a `watch` running: notes then wait on "Waiting for Claude…" with no one to answer them.
@@ -440,6 +496,10 @@ a button only if they choose it), **hide/show**, **delete** (typed "delete")
 and add **labels**. Labels and "handled" marks are local (`.bps/inbox.json`).
 When asked to answer comments from chat, draft the replies and let the user
 send them (or send only after their explicit yes per comment).
+`bps.py inbox waiting` lists the comments still waiting (with any draft); `bps.py inbox draft --comment ID --text "…"`
+saves a draft the user sees on that comment. Comments a Zernio DM automation already answered (from its log) move to
+Handled by themselves; each automation shows its gift funnel (Zernio's stats). Comments the user answered in the Instagram app (a reply under it,
+an @mention in their own comment, or a DM they sent afterwards) also move to Handled (`ig-replied` / `ig-mentioned` / `ig-dm`).
 
 ## Background jobs meter
 

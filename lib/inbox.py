@@ -22,7 +22,8 @@ def _path():
 
 def state() -> dict:
     s = read_json(_path(), {}) or {}
-    return {"labels": s.get("labels", {}), "catalog": s.get("catalog") or LABELS, "handled": s.get("handled", {})}
+    return {"labels": s.get("labels", {}), "catalog": s.get("catalog") or LABELS, "handled": s.get("handled", {}),
+            "drafts": s.get("drafts", {})}
 
 
 def _save(s: dict) -> None:
@@ -45,6 +46,7 @@ def reply(post_id: str, account_id: str, comment_id: str, text: str) -> dict:
         raise ValueError("Write the reply first.")
     Zernio().reply_comment(post_id, account_id, comment_id, text[:2200])
     _handled(comment_id, "replied")
+    drop_draft(comment_id)
     append_log({"ts": int(time.time()), "event": "comment_reply", "commentId": comment_id, "via": "dashboard"})
     _drop_cache()
     return {"done": "replied"}
@@ -75,6 +77,7 @@ def gift(post_id: str, account_id: str, comment_id: str, text: str, link: str = 
         if d.get("privateReplyOutcome") == "unknown":
             _handled(comment_id, "gift-unknown")
             raise ValueError("Instagram answered with an error after receiving it; it was probably delivered. Check the DMs before trying again.") from None
+        append_log({"ts": int(time.time()), "event": "comment_gift_failed", "commentId": comment_id, "error": str(e)[:300], "via": "dashboard"})
         raise
     _handled(comment_id, "gift")
     append_log({"ts": int(time.time()), "event": "comment_gift", "commentId": comment_id, "button": bool(buttons), "via": "dashboard"})
@@ -112,6 +115,50 @@ def label(comment_id: str, name: str, on: bool) -> dict:
         s["catalog"] = s["catalog"] + [name]
     _save(s)
     return s
+
+
+def ask_drafts(items: list) -> dict:
+    """The user pressed "Ask Claude to draft replies": hand Claude the waiting
+    comments. Claude saves a draft per comment (save_draft); nothing is sent
+    until the user presses Send reply on it."""
+    rows = []
+    for x in (items or [])[:40]:
+        if isinstance(x, dict) and x.get("id"):
+            rows.append({k: str(x.get(k) or "")[:600] for k in ("id", "author", "text", "postId", "platform", "post")})
+    if not rows:
+        raise ValueError("No waiting comments to draft.")
+    n = hitl.add_note(f"Draft a reply for each of these {len(rows)} waiting comments. Save each with "
+                      "`bps.py inbox draft --comment ID --text \"...\"`; the user sends them.",
+                      {"type": "reply_drafts", "comments": rows})
+    return {"queued": n["id"], "count": len(rows)}
+
+
+def save_draft(comment_id: str, text: str) -> dict:
+    text = (text or "").strip()
+    if not comment_id or not text:
+        raise ValueError("Pass the comment id and the draft text.")
+    s = read_json(_path(), {}) or {}
+    s.setdefault("drafts", {})[comment_id] = {"text": text[:2200], "ts": int(time.time())}
+    _save(s)
+    return {"saved": comment_id}
+
+
+def drop_draft(comment_id: str) -> dict:
+    s = read_json(_path(), {}) or {}
+    (s.get("drafts") or {}).pop(comment_id, None)
+    _save(s)
+    return state()
+
+
+def waiting() -> list:
+    """Comments still waiting (not handled here, not handled by an automation)."""
+    c = read_json(state_dir() / "cache.json", {}) or {}
+    st, auto = state(), c.get("autoLog") or {}
+    posts = c.get("commentPosts") or {}
+    return [{**x, "post": ((posts.get(x.get("postId")) or {}).get("caption") or "").split("\n")[0][:120],
+             "draft": (st["drafts"].get(x["id"]) or {}).get("text")}
+            for x in c.get("comments") or []
+            if x["id"] not in st["handled"] and (x["id"] not in auto or auto[x["id"]].get("how") == "auto-failed")]
 
 
 def unhandle(comment_id: str) -> dict:

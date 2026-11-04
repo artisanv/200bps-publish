@@ -11,7 +11,7 @@ Last verified: 2026-09-27. This release publishes to **Instagram and LinkedIn**;
 | Hashtags (hard check) | **5** | 5 (house rule) | 1 topic tag | 5 (house rule) |
 | Carousel items (via API) | 10 | 10 | 10 | 20 images or 1 PDF |
 | Image aspect | 9:16 to 1.91:1 (4:5 recommended) | – | – | – |
-| Reel | 9:16, 3–90 s, 300 MB | 9:16, 3–60 s | 5 min, 1 GB | 3 s–10 min (personal) |
+| Reel | 9:16, 3 s–15 min, 300 MB | 9:16, 3–60 s | 5 min, 1 GB | 3 s–10 min (personal) |
 | Links clickable in caption | no | yes | yes | yes |
 
 ## Other rules

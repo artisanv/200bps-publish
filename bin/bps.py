@@ -41,6 +41,11 @@
     bps.py batch suggest --count N [--start YYYY-MM-DD] [--every D | --days 0,3,5] [--mode best|fixed] [--hour H]
     bps.py batch run --file ITEMS.json --confirm   schedule [{"plan","at"}] in Zernio. Only after the user says go
     bps.py cancel --post ID --confirm     cancel a scheduled post in Zernio (or unpublish where allowed). Only after the user says yes
+    bps.py recycle list                  your best published posts Zernio can recycle (from your own results)
+    bps.py recycle hooks --post ID --file F.json [--note ".."]   save new caption versions (a JSON list) for the user to review
+    bps.py recycle state --post ID       read the post's recycling from Zernio
+    bps.py recycle on --post ID --every 2 --unit week [--times 4] [--file F.json] --confirm   start (only after the user's go)
+    bps.py recycle off --post ID         stop recycling
     bps.py cancel --draft PLAN_ID        set a never-uploaded draft aside (.bps/trash; the folder is untouched)
     bps.py dashboard [--no-open] [--port N]
     bps.py version
@@ -124,6 +129,10 @@ def main() -> None:
     db = sub.add_parser("dashboard"); db.add_argument("--no-open", action="store_true"); db.add_argument("--port", type=int, default=4217)
     sub.add_parser("version")
     sub.add_parser("jobs")
+    rc = sub.add_parser("recycle"); rc.add_argument("action", choices=["list", "hooks", "state", "on", "off"]); rc.add_argument("--post", default="")
+    rc.add_argument("--file", default=""); rc.add_argument("--note", default=""); rc.add_argument("--every", type=int, default=0)
+    rc.add_argument("--unit", default="week", choices=["week", "month"]); rc.add_argument("--times", type=int, default=0); rc.add_argument("--confirm", action="store_true")
+    rc.add_argument("--start", default="", help="first repost date (ISO); default today")
     cx = sub.add_parser("cancel"); cx.add_argument("--post"); cx.add_argument("--draft"); cx.add_argument("--confirm", action="store_true")
     im = sub.add_parser("image"); im.add_argument("action", choices=["gen", "models", "list", "set", "copy", "prompt"])
     im.add_argument("--prompt", default=""); im.add_argument("--ref", action="append", default=[])
@@ -131,6 +140,8 @@ def main() -> None:
     im.add_argument("--quality", default="", choices=["", "draft", "standard", "best"]); im.add_argument("--n", type=int, default=0)
     im.add_argument("--id", default=""); im.add_argument("--to", default=""); im.add_argument("--note", default="")
     im.add_argument("--edit", default="", help="gen: change this picture (workspace path) as --prompt says")
+    ix = sub.add_parser("inbox", help="Inbox: list waiting comments, save Claude's reply drafts")
+    ix.add_argument("action", choices=["waiting", "draft", "drop"]); ix.add_argument("--comment", default=""); ix.add_argument("--text", default="")
     bt_ = sub.add_parser("batch"); bt_.add_argument("action", choices=["scan", "prepare", "suggest", "run"]); bt_.add_argument("folders", nargs="*")
     bt_.add_argument("--count", type=int, default=0); bt_.add_argument("--start", default=""); bt_.add_argument("--every", type=int, default=1)
     bt_.add_argument("--days", default=""); bt_.add_argument("--mode", default="best", choices=["best", "fixed"]); bt_.add_argument("--hour", type=int, default=20)
@@ -180,6 +191,14 @@ def run(args) -> None:
               "followers": (s.get("followers") or {}).get("current"), "posts": len(s.get("posts") or []),
               "besttime": {k: (s.get("besttime") or {}).get(k) for k in ("basis", "sample", "slots", "note", "next_at")}})
     elif c == "analyze":
+        import archive
+        if archive.is_archive(args.folder) or archive.archives_in(Path(args.folder)):
+            posts = archive.resolve(args.folder)
+            if len(posts) > 1:
+                emit({"ok": True, "archive": args.folder, "posts": [str(d) for d in posts],
+                      "next": "Several posts: run 'batch prepare' with these folders, or analyze one."})
+                return
+            args.folder = str(posts[0])
         rec = acct.reconcile(acct.live(Zernio()) if Zernio().configured else None)
         pl = plans.analyze(args.folder, args.platforms.split(",") if args.platforms else None, connected=rec["connected"])
         out = _brief(pl)
@@ -214,6 +233,26 @@ def run(args) -> None:
         pl["status"] = "awaiting_approval"; plans.save(pl); emit({"ok": True, "status": pl["status"]})
     elif c == "preview":
         pl = need_plan(); emit(plans.build_body(pl, Zernio(), dry=True))
+    elif c == "recycle":
+        import recycle
+        a = args.action
+        vs = json.loads(Path(args.file).read_text(encoding="utf-8")) if args.file else []
+        if a == "list":
+            emit(recycle.best())
+        elif a == "hooks":
+            if not args.post or not vs:
+                raise ValueError("Give --post ID and --file with a JSON list of new caption versions.")
+            d = recycle.save_variations(args.post, vs, args.note, via="claude")
+            hitl.say(f"♻ {len(d['variations'])} new versions are ready in the Recycle window. Review them, then type go to start.")
+            emit({"ok": True, "draft": d, "next": "The user sees them in the dashboard's Recycle window and starts it with a typed go."})
+        elif a == "state":
+            emit(recycle.state(args.post))
+        elif a == "on":
+            if not args.confirm:
+                raise PermissionError("Recycling re-posts publicly: only after the user's go for this exact post and rhythm (--confirm).")
+            emit(recycle.enable(args.post, args.every, args.unit, args.times or None, vs, "go", via="chat", start=args.start))
+        elif a == "off":
+            emit(recycle.disable(args.post, via="chat"))
     elif c == "cancel":
         import cancel
         if args.draft:
@@ -236,6 +275,14 @@ def run(args) -> None:
             emit(images.copy_to(args.id, args.to))
         else:                                   # answer an "Ask Claude for a prompt" request
             emit(images.suggest_prompt(args.prompt, args.note))
+    elif c == "inbox":
+        import inbox
+        if args.action == "waiting":
+            emit(inbox.waiting())
+        elif args.action == "draft":
+            emit({"ok": True, **inbox.save_draft(args.comment, args.text)})
+        else:
+            inbox.drop_draft(args.comment); emit({"ok": True})
     elif c == "batch":
         import batch
         if args.action == "scan":

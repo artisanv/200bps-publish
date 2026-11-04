@@ -13,6 +13,14 @@ your Zernio account.
 
 > Built by Nasser Al-Ostath · [200bps.ai](https://www.200bps.ai) · [Instagram](https://www.instagram.com/200bps.ai/) · [LinkedIn](https://www.linkedin.com/in/nasser-al-ostath/)
 
+## New in v1.18.0
+
+- **LinkedIn polls:** a question, 2-4 choices and how long it stays open, with a live preview. No media needed.
+- **LinkedIn reposts:** paste a LinkedIn post link; your caption becomes your comment above it.
+- **Text posts:** New post works with just a caption (LinkedIn and Facebook).
+- **♻ Recycle your best posts:** Zernio re-posts a top post every few weeks or months with fresh hooks Claude writes. Starts only after a typed go; stop any time.
+- **Since v1.16:** turn networks on or off per post, post to several accounts on one network, copy & paste posts in Plan, one dashboard per network with its own goal, archives (.zip, .7z, .rar) as posts, PDF to LinkedIn + photos to the rest in one post, Claude drafts your comment replies, the gift funnel, Inbox knows what you did in the Instagram app, Reels up to 15 minutes.
+
 ## New in v1.16.0
 
 - **Facebook, TikTok and Snapchat.** Connect them like Instagram and LinkedIn. A post goes to every network that can show it, and the rest are skipped with the reason. Facebook: Feed post, Reel or Story, first comment, save as a Facebook draft, pick the Page. TikTok: who can see it, comments/duets/stitches, promotional and AI labels, send to your TikTok inbox as a draft, and TikTok's required "I previewed it and agree" (yours only, asked again after any change). Snapchat: Story, Saved story or Spotlight.
@@ -142,7 +150,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.16.0.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.18.0.zip -d .claude/skills/
 claude
 ```
 

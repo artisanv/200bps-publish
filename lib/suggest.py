@@ -20,12 +20,12 @@ from store import config
 def _score(plan: dict, platform: str, text: str) -> dict:
     cfg = config()
     tmp = {**plan, "captions": {**plan["captions"], platform: text}}
-    scan = {"media": plan["media"], "cover": plan.get("cover")}
+    scan = {"media": plans.media_for(plan, platform), "cover": plan.get("cover")}
     cc = checks.check_caption(text, platform, cfg) + checks.check_media(scan, platform) + plans._extra_checks(tmp, platform)
     timing = None
     if (plan.get("bestTime") or {}).get("basis") == "data":
         timing = (plan.get("score") or {}).get(platform, {}).get("parts", {}).get("timing")
-    sc = checks.score(cc, plan["type"], timing, bool(cfg.get("keywords")))
+    sc = checks.score(cc, plans.type_for(plan, platform), timing, bool(cfg.get("keywords")))
     return {"value": sc["value"], "failing": sorted({c["id"] for c in cc if c["status"] in ("fail", "warn")})}
 
 

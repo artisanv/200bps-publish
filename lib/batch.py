@@ -169,13 +169,19 @@ def _plans_by_folder() -> dict[str, dict]:
     return out
 
 
+def _only_archive(d: Path) -> bool:
+    """A folder that just holds a zipped post (unpacked when it's picked)."""
+    import archive
+    return bool(archive.archives_in(d))
+
+
 def _walk(base: Path) -> list[Path]:
     """Post folders at or under base (a post folder is not searched further)."""
     found = []
 
     def walk(d: Path, depth: int):
         try:
-            if _has_caption(d) and d != workspace():
+            if d != workspace() and (_has_caption(d) or _only_archive(d)):
                 found.append(d.resolve())
                 return
             kids = sorted(d.iterdir(), key=lambda x: x.name.lower())
@@ -207,8 +213,8 @@ def scan() -> list[dict]:
         cap_file = next((f for f in files if f.suffix.lower() in (".txt", ".md") and f.stem.lower() in media.CAPTION_NAMES), None)
         caption = cap_file.read_text(encoding="utf-8", errors="ignore").strip() if cap_file else ""
         kinds = [media.kind(f) for f in meds]
-        ptype = ("reel" if kinds == ["video"] else "document" if "document" in kinds else
-                 "carousel" if len(meds) > 1 else "single" if meds else "text")
+        ptype = ("reel" if kinds == ["video"] else "document" if set(kinds) == {"document"} else
+                 "carousel" if len(meds) > 1 else "single" if meds else "archive" if _only_archive(d) else "text")
         cover = next((f for f in files if f.stem.lower() in ("cover", "thumbnail", "thumb") and media.kind(f) == "image"), None)
         thumb = cover or next((f for f in meds if media.kind(f) == "image"), None)
         video = next((f for f in meds if media.kind(f) == "video"), None)
@@ -238,6 +244,17 @@ def prepare(folders: list[str]) -> list[dict]:
         raise ValueError("Pick at least one folder.")
     if len(folders) > MAX_BATCH:
         raise ValueError(f"Up to {MAX_BATCH} posts per batch.")
+    import archive
+    expanded = []
+    for rel in folders:                   # an archive becomes its post folder(s)
+        p = Path(rel) if Path(rel).is_absolute() else workspace() / rel
+        if p.is_file() and archive.is_archive(p):
+            expanded += [_rel(d) for d in archive.extract(p)]
+        elif archive.archives_in(p):
+            expanded += [_rel(d) for d in archive.resolve(p)]
+        else:
+            expanded.append(rel)
+    folders = expanded
     out = []
     for rel in folders:
         d = resolve_folder(rel)

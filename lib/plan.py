@@ -23,7 +23,9 @@ from zernio import Zernio, ZernioError
 # the code (RULES, settings, build_body) but switched off; add them back here.
 PLATFORMS = ("instagram", "linkedin", "tiktok", "snapchat", "facebook")
 # which post types each network takes; a post skips a network that can't show it
-FITS = {"tiktok": ("reel", "single", "carousel"), "snapchat": ("reel", "single"), "facebook": ("reel", "single", "carousel", "text")}
+FITS = {"instagram": ("reel", "single", "carousel"), "tiktok": ("reel", "single", "carousel"), "snapchat": ("reel", "single"), "facebook": ("reel", "single", "carousel", "text")}
+LI_KINDS = ("post", "poll", "repost")
+POLL_DURATIONS = ("ONE_DAY", "THREE_DAYS", "SEVEN_DAYS", "FOURTEEN_DAYS")
 TIKTOK_PRIVACY = ("PUBLIC_TO_EVERYONE", "MUTUAL_FOLLOW_FRIENDS", "FOLLOWER_OF_CREATOR", "SELF_ONLY")
 
 
@@ -43,7 +45,7 @@ def load(plan_id: str | None = None) -> dict | None:
 
 TRACKED = {
     "captions": "Caption", "schedule": "Time", "cover": "Cover", "dm": "Gift",
-    "settings": "Settings", "platforms": "Platforms", "media": "Media",
+    "settings": "Settings", "platforms": "Platforms", "media": "Media", "targets": "Accounts",
 }
 
 
@@ -58,6 +60,8 @@ def _label(field: str, v) -> str:
         return f"on · {v.get('keyword')}" if v.get("enabled") else ("off" if v.get("asked") else "not set")
     if field == "platforms":
         return ", ".join(v)
+    if field == "targets":
+        return ", ".join(f"{k} ×{len(x)}" for k, x in v.items())
     if field == "captions":
         return "edited"
     if field == "media":
@@ -170,7 +174,7 @@ def list_plans() -> list[dict]:
 
 SETTABLE = {
     "instagram": {"firstComment": str, "collaborators": list, "trial": bool, "graduation": str, "locationId": str, "locationName": str},
-    "linkedin": {"firstComment": str, "documentTitle": str, "organizationUrn": str},
+    "linkedin": {"firstComment": str, "documentTitle": str, "organizationUrn": str, "kind": str, "poll": dict, "reshareUrl": str},
     "tiktok": {"privacyLevel": str, "allowComment": bool, "allowDuet": bool, "allowStitch": bool, "commercialContentType": str,
                "videoMadeWithAi": bool, "draft": bool, "consent": bool},
     "snapchat": {"contentType": str},
@@ -178,9 +182,86 @@ SETTABLE = {
 }
 
 
+def accounts_for(plan: dict, platform: str) -> list[str]:
+    """The accounts a post goes to on one network: the user's pick for this
+    post (plan["targets"]), else the account chosen in setup."""
+    picked = [a for a in ((plan.get("targets") or {}).get(platform) or []) if a]
+    if picked:
+        return picked
+    acc = ((config().get("accounts") or {}).get(platform) or {}).get("id")
+    return [acc] if acc else []
+
+
+def set_targets(plan: dict, targets: dict, known: list[dict], via: str = "dashboard") -> dict:
+    """Pick the accounts per network for this post. Every id must be a
+    connected account of that network; each network keeps at least one."""
+    ok = {}
+    for pf, ids in (targets or {}).items():
+        if pf not in plan["platforms"]:
+            continue
+        valid = [a["id"] for a in known if a.get("platform") == pf]
+        ids = [str(i) for i in ids if str(i) in valid]
+        if not ids:
+            raise ValueError(f"Pick at least one {pf} account.")
+        ok[pf] = list(dict.fromkeys(ids))
+    plan["targets"] = {**(plan.get("targets") or {}), **ok}
+    if plan.get("status") == "awaiting_approval":
+        plan["status"] = "draft"
+    recheck(plan)
+    save(plan, via=via)                      # recorded in history, so it can be reverted
+    return plan
+
+
+def set_networks(plan: dict, wanted: list[dict], known: list[dict], via: str = "dashboard") -> dict:
+    """A local draft: turn networks / accounts on or off. wanted = [{platform, accountId}]."""
+    by = {}
+    for w in wanted or []:
+        pf, acc = str(w.get("platform") or ""), str(w.get("accountId") or "")
+        if pf in PLATFORMS and any(a.get("id") == acc and a.get("platform") == pf for a in known):
+            by.setdefault(pf, []).append(acc)
+    if not by:
+        raise ValueError("Keep at least one network on.")
+    for pf in by:
+        t = type_for(plan, pf)
+        if pf in FITS and t not in FITS[pf]:
+            raise ValueError(f"{pf.capitalize()} can't show a {t} post.")
+    first = plan["captions"].get((plan.get("platforms") or [None])[0], "") if plan.get("platforms") else ""
+    plan["platforms"] = [pf for pf in PLATFORMS if pf in by]
+    for pf in plan["platforms"]:
+        plan["captions"].setdefault(pf, first)
+    plan["targets"] = by
+    plan["skipped_platforms"] = [pf for pf in plan.get("skipped_platforms", []) if pf not in by]
+    if plan.get("status") == "awaiting_approval":
+        plan["status"] = "draft"
+    recheck(plan)
+    save(plan, via=via, make_current=False)
+    return plan
+
+
+def media_for(plan: dict, platform: str) -> list[dict]:
+    """The media one network gets. A folder with a PDF *and* photos/video is
+    split: LinkedIn gets the PDF (a document post), the others get the rest.
+    Otherwise every network gets the same media."""
+    allm = plan.get("media") or []
+    docs = [m for m in allm if m.get("kind") == "document"]
+    rest = [m for m in allm if m.get("kind") != "document"]
+    if docs and rest:
+        return docs[:1] if platform == "linkedin" else rest
+    return allm
+
+
+def type_for(plan: dict, platform: str) -> str:
+    return checks.post_type(media_for(plan, platform))
+
+
+def is_split(plan: dict) -> bool:
+    kinds = {m.get("kind") for m in plan.get("media") or []}
+    return "document" in kinds and len(kinds) > 1
+
+
 def content_hash(plan: dict, platform: str) -> str:
     """What the user previewed: caption + media. TikTok's consent is for exactly this."""
-    raw = plan["captions"].get(platform, "") + "|" + "|".join(f"{m['file']}:{m.get('bytes')}" for m in plan.get("media") or [])
+    raw = plan["captions"].get(platform, "") + "|" + "|".join(f"{m['file']}:{m.get('bytes')}" for m in media_for(plan, platform))
     return hashlib.sha1(raw.encode()).hexdigest()[:12]
 
 
@@ -193,6 +274,11 @@ def _coerce(kind, raw: str):
         if v in ("false", "no", "off", "0"):
             return False
         raise ValueError("Use true or false.")
+    if kind is dict:
+        v = _j.loads(raw) if raw.strip() not in ("", "null", "none", "off") else None
+        if v is not None and not isinstance(v, dict):
+            raise ValueError("Give a JSON object, e.g. {\"question\": \"...\", \"options\": [\"A\", \"B\"]}.")
+        return v
     if kind is list:
         try:
             v = _j.loads(raw)
@@ -230,10 +316,24 @@ def set_setting(plan: dict, path: str, raw: str, via: str = "chat") -> dict:
         raise ValueError("format is feed, reel or story.")
     if plat == "snapchat" and key == "contentType" and val not in ("story", "saved_story", "spotlight"):
         raise ValueError("contentType is story, saved_story or spotlight.")
+    if plat == "linkedin" and key == "kind" and val not in LI_KINDS:
+        raise ValueError("kind is post, poll or repost.")
+    if plat == "linkedin" and key == "poll" and val is not None:     # kept while typing; checks flag what's missing
+        opts = val.get("options") or []
+        if not isinstance(opts, list) or len(opts) > 4:
+            raise ValueError("A LinkedIn poll has 2 to 4 choices.")
+        dur = str(val.get("duration") or "SEVEN_DAYS")
+        if dur not in POLL_DURATIONS:
+            raise ValueError("duration is " + ", ".join(POLL_DURATIONS))
+        val = {"question": str(val.get("question") or "").strip(), "options": [str(o).strip() for o in opts], "duration": dur}
+    if plat == "linkedin" and key == "reshareUrl":
+        val = val.strip()
     if plat == "tiktok" and key == "consent":           # stored as the exact content it was given for
         key, val = "consentFor", (content_hash(plan, "tiktok") if val else "")
     settings = {k: dict(v) for k, v in plan["settings"].items()}
     settings.setdefault(plat, {})[key] = val
+    if plat == "linkedin" and key == "kind" and val == "poll" and not settings["linkedin"].get("poll"):
+        settings["linkedin"]["poll"] = {"question": "", "options": ["", ""], "duration": "SEVEN_DAYS"}
     plan["settings"] = settings
     if plan.get("status") == "awaiting_approval":
         plan["status"] = "draft"
@@ -289,8 +389,10 @@ def analyze(folder: str, platforms: list[str] | None = None, connected: list[str
     plats = [p for p in wanted if p in connected]
     if not plats:
         raise ValueError("None of " + ", ".join(wanted) + " is connected in Zernio. Connect an account at zernio.com, then run doctor.")
-    ptype = checks.post_type(scan["media"])
-    unfit = {p: ptype for p in plats if p in FITS and ptype not in FITS[p]}      # e.g. a PDF on TikTok
+    tmp = {"media": scan["media"]}
+    rest = [m for m in scan["media"] if m["kind"] != "document"]
+    ptype = checks.post_type(rest) if is_split(tmp) else checks.post_type(scan["media"])   # split: the photo/video side
+    unfit = {p: type_for(tmp, p) for p in plats if p in FITS and type_for(tmp, p) not in FITS[p]}      # e.g. a PDF on TikTok
     plats = [p for p in plats if p not in unfit] or plats
     pid = _slug(Path(folder).name) + "-" + hashlib.sha1(scan["folder"].encode()).hexdigest()[:6]
     old = load(pid) or {}
@@ -349,11 +451,15 @@ def recheck(plan: dict) -> dict:
     if bt.get("basis") == "data":
         timing_ok = bool(sched.get("mode") == "best" or (sched.get("at") and _matches_slot(sched["at"], bt)))
     plan["score"] = {}
+    plan["types"] = {p: type_for(plan, p) for p in plan["platforms"]}
     for p in plan["platforms"]:
-        cc = checks.check_caption(plan["captions"].get(p, ""), p, cfg) + checks.check_media(scan, p)
+        cc = checks.check_caption(plan["captions"].get(p, ""), p, cfg) + checks.check_media({**scan, "media": media_for(plan, p)}, p)
         cc += _extra_checks(plan, p)
+        kind = (plan["settings"].get("linkedin") or {}).get("kind") or "post"
+        if p == "linkedin" and kind != "post":     # no media is exactly right for a poll or repost
+            cc = [{**c, "status": "pass", "msg": f"No media: right for a LinkedIn {kind}."} if c["id"] == "media.none" else c for c in cc]
         all_checks += cc
-        plan["score"][p] = checks.score(cc, plan["type"], timing_ok, bool(cfg.get("keywords")))
+        plan["score"][p] = checks.score(cc, plan["types"][p], timing_ok, bool(cfg.get("keywords")))
     plan["checks"] = all_checks
     plan["blocking"] = [c for c in all_checks if c["status"] == "fail"]
     return plan
@@ -370,13 +476,22 @@ def _matches_slot(at_iso: str, bt: dict) -> bool:
 
 def _extra_checks(plan: dict, p: str) -> list[dict]:
     out = []
-    kinds = {m["kind"] for m in plan["media"]}
+    pm, pt = media_for(plan, p), type_for(plan, p)
+    kinds = {m["kind"] for m in pm}
+    if is_split(plan):
+        doc = next(m["file"] for m in plan["media"] if m["kind"] == "document")
+        n = len([m for m in plan["media"] if m["kind"] != "document"])
+        out.append({"id": "media.split", "platform": p, "status": "pass",
+                    "msg": f"LinkedIn gets the PDF ({doc}) as a document post; the other networks get the {n} photo/video item{'s' if n != 1 else ''}."
+                    if p == "linkedin" else f"Gets the {n} photo/video item{'s' if n != 1 else ''}; the PDF ({doc}) goes to LinkedIn only."})
     if p == "linkedin" and len(kinds) > 1:
         out.append({"id": "media.mixed", "platform": p, "status": "fail", "msg": "LinkedIn cannot mix images, video and documents in one post."})
-    if p == "linkedin" and plan["type"] == "document" and not plan["settings"]["linkedin"].get("documentTitle"):
+    if p == "linkedin" and pt == "document" and not plan["settings"]["linkedin"].get("documentTitle"):
         out.append({"id": "linkedin.document_title", "platform": p, "status": "warn", "msg": "Set a document title for the LinkedIn PDF carousel."})
-    if p == "instagram" and plan["type"] == "carousel":
-        ars = [m.get("aspect") for m in plan["media"] if m.get("aspect")]
+    if p == "linkedin":
+        out += _linkedin_kind_checks(plan, pm)
+    if p == "instagram" and pt == "carousel":
+        ars = [m.get("aspect") for m in pm if m.get("aspect")]
         if ars and any(abs(a - ars[0]) > 0.02 for a in ars):
             out.append({"id": "media.carousel_aspect", "platform": p, "status": "warn", "msg": "Carousel items have different shapes; Instagram crops all to the first item's ratio."})
     if p == "threads":
@@ -392,13 +507,13 @@ def _extra_checks(plan: dict, p: str) -> list[dict]:
                         "msg": "TikTok needs your OK: confirm you previewed this post and agree to post it (asked again after any change)."})
         if s.get("commercialContentType") == "brand_content" and s.get("privacyLevel") == "SELF_ONLY":
             out.append({"id": "tiktok.branded_private", "platform": p, "status": "fail", "msg": "Branded content can't be posted as Only me on TikTok."})
-        if plan["type"] in ("single", "carousel") and len(plan["captions"].get(p, "")) > checks.RULES["tiktok"]["photo_title_max"]:
+        if pt in ("single", "carousel") and len(plan["captions"].get(p, "")) > checks.RULES["tiktok"]["photo_title_max"]:
             out.append({"id": "tiktok.photo_title", "platform": p, "status": "info",
                         "msg": "Photo posts show the first 90 characters as the title; the full caption is sent as the description."})
     if p == "snapchat":
         ct = (plan["settings"].get("snapchat") or {}).get("contentType", "story")
         cap = plan["captions"].get(p, "")
-        if ct == "spotlight" and plan["type"] != "reel":
+        if ct == "spotlight" and pt != "reel":
             out.append({"id": "snapchat.spotlight_video", "platform": p, "status": "fail", "msg": "Snapchat Spotlight takes a video only."})
         if ct == "saved_story" and len(cap) > checks.RULES["snapchat"]["saved_story_max"]:
             out.append({"id": "snapchat.title", "platform": p, "status": "fail", "msg": f"Saved story titles are up to 45 characters ({len(cap)} now)."})
@@ -406,21 +521,20 @@ def _extra_checks(plan: dict, p: str) -> list[dict]:
             out.append({"id": "snapchat.story_caption", "platform": p, "status": "info", "msg": "Snapchat Stories show no caption text; only the photo or video."})
     if p == "facebook":
         fs = plan["settings"].get("facebook") or {}
-        fmt = fs.get("format") or ("reel" if plan["type"] == "reel" else "feed")
-        kinds = {m["kind"] for m in plan["media"]}
+        fmt = fs.get("format") or ("reel" if pt == "reel" else "feed")
         if fmt == "feed" and len(kinds) > 1:
             out.append({"id": "facebook.mixed", "platform": p, "status": "fail", "msg": "A Facebook feed post can't mix photos and video."})
-        if fmt == "reel" and plan["type"] != "reel":
+        if fmt == "reel" and pt != "reel":
             out.append({"id": "facebook.reel_video", "platform": p, "status": "fail", "msg": "A Facebook Reel is one vertical video."})
-        if fmt == "reel" and plan["type"] == "reel":
-            v = plan["media"][0]
+        if fmt == "reel" and pt == "reel":
+            v = pm[0]
             lo, hi = checks.RULES["facebook"]["reel_duration"]
             if v.get("duration") and not lo <= v["duration"] <= hi:
                 out.append({"id": "facebook.reel_duration", "platform": p, "status": "warn", "msg": f"Reel is {v['duration']}s; Meta's guide says {lo}-{hi}s."})
             if v.get("aspect") and abs(v["aspect"] - 9 / 16) > 0.02:
                 out.append({"id": "facebook.reel_vertical", "platform": p, "status": "warn", "msg": "Facebook Reels should be vertical 9:16."})
         if fmt == "story":
-            if len(plan["media"]) != 1:
+            if len(pm) != 1:
                 out.append({"id": "facebook.story_one", "platform": p, "status": "fail", "msg": "A Facebook Story is one photo or one video."})
             if plan["captions"].get(p, "").strip():
                 out.append({"id": "facebook.story_caption", "platform": p, "status": "info", "msg": "Facebook Stories show no caption; only the photo or video."})
@@ -428,6 +542,58 @@ def _extra_checks(plan: dict, p: str) -> list[dict]:
                 out.append({"id": "facebook.story_draft", "platform": p, "status": "fail", "msg": "Stories can't be saved as Facebook drafts."})
     if p == "instagram" and not plan["settings"]["instagram"].get("firstComment"):
         out.append({"id": "engage.first_comment", "platform": p, "status": "info", "msg": "No first comment set. A pinned question invites replies."})
+    return out
+
+
+LI_URL = re.compile(r"^(https://(www\.)?linkedin\.com/\S+|urn:li:(share|ugcPost|groupPost):\S+)$")
+DURATION_WORDS = {"ONE_DAY": "1 day", "THREE_DAYS": "3 days", "SEVEN_DAYS": "1 week", "FOURTEEN_DAYS": "2 weeks"}
+
+
+def _linkedin_kind_checks(plan: dict, pm: list[dict]) -> list[dict]:
+    """A LinkedIn poll or repost: Zernio takes either one, and never with media."""
+    s = plan["settings"].get("linkedin") or {}
+    kind = s.get("kind") or "post"
+    if kind == "post":
+        return []
+    out = []
+
+    def add(id_, status, msg):
+        out.append({"id": id_, "platform": "linkedin", "status": status, "msg": msg})
+
+    what = "poll" if kind == "poll" else "repost"
+    if pm:
+        add("linkedin.kind_media", "fail", f"A LinkedIn {what} can't carry photos, video or a PDF. Remove the media, or switch LinkedIn back to a normal post.")
+    if kind == "poll":
+        poll = s.get("poll") or {}
+        q, opts = (poll.get("question") or "").strip(), [o.strip() for o in poll.get("options") or []]
+        filled = [o for o in opts if o]
+        bad = False
+        if not 1 <= len(q) <= 140:
+            add("linkedin.poll_question", "fail", "Write the poll question (up to 140 characters)." if not q else f"Poll question is {len(q)} characters; LinkedIn allows 140.")
+            bad = True
+        if len(filled) < 2:
+            add("linkedin.poll_options", "fail", "A poll needs at least 2 choices.")
+            bad = True
+        elif len(filled) != len(opts):
+            add("linkedin.poll_options", "fail", "Fill in or remove the empty choice.")
+            bad = True
+        long_ = [o for o in filled if len(o) > 30]
+        if long_:
+            add("linkedin.poll_option_len", "fail", f"Choices are up to 30 characters: “{long_[0][:34]}…” is {len(long_[0])}.")
+            bad = True
+        if len({o.lower() for o in filled}) != len(filled):
+            add("linkedin.poll_dupe", "fail", "Two choices are the same.")
+            bad = True
+        if not bad:
+            add("linkedin.poll", "pass", f"Poll: {len(filled)} choices, open for {DURATION_WORDS.get(poll.get('duration') or 'SEVEN_DAYS')}.")
+    else:
+        url = (s.get("reshareUrl") or "").strip()
+        if not url:
+            add("linkedin.reshare_url", "fail", "Paste the link of the LinkedIn post to repost.")
+        elif not LI_URL.match(url):
+            add("linkedin.reshare_url", "fail", "That isn't a LinkedIn post link. Copy it from the post's ··· menu → Copy link to post.")
+        else:
+            add("linkedin.reshare", "pass", "Repost: your caption shows as your comment above the original post.")
     return out
 
 
@@ -449,22 +615,26 @@ def build_body(plan: dict, z: Zernio, dry: bool = False, make_current: bool = Tr
             save(plan, make_current=make_current)
         return uploads[key]
 
-    items = []
-    for m in plan["media"]:
-        items.append({"type": m["kind"], "url": url_for(m["file"])})
+    def items_of(ms: list[dict]) -> list[dict]:
+        return [{"type": m["kind"], "url": url_for(m["file"])} for m in ms]
+
+    # one upload per file; a split post (PDF + photos) gives LinkedIn the PDF via customMedia
+    base_media = [m for m in plan["media"] if m["kind"] != "document"] if is_split(plan) else plan["media"]
+    items = items_of(base_media)
 
     default = plan["captions"].get(plan["platforms"][0], "")
     platforms = []
     for p in plan["platforms"]:
-        acc = (accts.get(p) or {}).get("id")
-        if not acc:
+        accs = accounts_for(plan, p)
+        if not accs:
             raise ValueError(f"No {p} account selected in setup.")
         s = plan["settings"].get(p, {})
         psd = {}
+        pt = type_for(plan, p)
         if p == "instagram":
-            if plan["type"] == "reel" and s.get("trial"):
+            if pt == "reel" and s.get("trial"):
                 psd["trialParams"] = {"graduationStrategy": s.get("graduation", "SS_PERFORMANCE")}
-            if plan["type"] == "reel" and plan.get("cover"):
+            if pt == "reel" and plan.get("cover"):
                 psd["instagramThumbnail"] = url_for(plan["cover"]["file"], plan["cover"].get("path"))
             if s.get("locationId"):
                 psd["locationId"] = str(s["locationId"])
@@ -475,7 +645,7 @@ def build_body(plan: dict, z: Zernio, dry: bool = False, make_current: bool = Tr
             if cfg.get("label_ai_generated"):
                 psd["isAiGenerated"] = True
         elif p == "facebook":
-            fmt = s.get("format") or ("reel" if plan["type"] == "reel" else "feed")
+            fmt = s.get("format") or ("reel" if pt == "reel" else "feed")
             if fmt in ("reel", "story"):
                 psd["contentType"] = fmt
             if fmt == "reel" and s.get("title"):
@@ -494,7 +664,7 @@ def build_body(plan: dict, z: Zernio, dry: bool = False, make_current: bool = Tr
             psd.update({"privacyLevel": s.get("privacyLevel"), "allowComment": bool(s.get("allowComment", True)),
                         "contentPreviewConfirmed": ok, "expressConsentGiven": ok,
                         "commercialContentType": s.get("commercialContentType") or "none"})
-            if plan["type"] == "reel":
+            if pt == "reel":
                 psd.update({"allowDuet": bool(s.get("allowDuet", True)), "allowStitch": bool(s.get("allowStitch", True))})
                 if plan.get("cover"):
                     psd["videoCoverImageUrl"] = url_for(plan["cover"]["file"], plan["cover"].get("path"))
@@ -513,12 +683,24 @@ def build_body(plan: dict, z: Zernio, dry: bool = False, make_current: bool = Tr
                 psd["documentTitle"] = s["documentTitle"]
             if s.get("organizationUrn"):
                 psd["organizationUrn"] = s["organizationUrn"]
-        entry = {"platform": p, "accountId": acc}
+            kind = s.get("kind") or "post"
+            if kind == "poll" and s.get("poll"):
+                pl = s["poll"]
+                psd["poll"] = {"question": pl["question"].strip(), "options": [o.strip() for o in pl["options"] if o.strip()],
+                               "duration": pl.get("duration") or "SEVEN_DAYS"}
+                psd.pop("documentTitle", None)
+            elif kind == "repost" and s.get("reshareUrl"):
+                psd["reshareUrl"] = s["reshareUrl"].strip()
+                psd.pop("documentTitle", None)
+        entry = {"platform": p}
+        if media_for(plan, p) is not plan["media"] and [m["file"] for m in media_for(plan, p)] != [m["file"] for m in base_media]:
+            entry["customMedia"] = items_of(media_for(plan, p))
         if plan["captions"].get(p, default) != default:
             entry["customContent"] = plan["captions"][p]
         if psd:
             entry["platformSpecificData"] = psd
-        platforms.append(entry)
+        for acc in accs:                     # one entry per chosen account on this network
+            platforms.append({**entry, "accountId": acc})
 
     body = {"content": default, "mediaItems": items, "platforms": platforms}
     sched = plan.get("schedule", {})

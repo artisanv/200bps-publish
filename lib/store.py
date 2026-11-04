@@ -21,6 +21,25 @@ from pathlib import Path
 
 SKILL_DIR = Path(__file__).resolve().parent.parent
 VERSION = (SKILL_DIR / "VERSION").read_text().strip() if (SKILL_DIR / "VERSION").exists() else "0.0.0"
+_BUILD = [0.0, ""]
+
+
+def build_id() -> str:
+    """Build number: the time of the newest change to the skill's own files
+    (YYYYMMDD.HHMM, local time), so every edit shows up as a new build."""
+    import time as _t
+    if _t.time() - _BUILD[0] < 30 and _BUILD[1]:
+        return _BUILD[1]
+    newest = 0.0
+    for sub in ("lib", "ui", "bin", "templates"):
+        for f in (SKILL_DIR / sub).rglob("*"):
+            if f.is_file() and "__pycache__" not in f.parts:
+                newest = max(newest, f.stat().st_mtime)
+    for f in ("SKILL.md", "VERSION"):
+        if (SKILL_DIR / f).exists():
+            newest = max(newest, (SKILL_DIR / f).stat().st_mtime)
+    _BUILD[:] = [_t.time(), _t.strftime("%Y%m%d.%H%M", _t.localtime(newest))]
+    return _BUILD[1]
 
 
 def workspace() -> Path:

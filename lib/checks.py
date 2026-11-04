@@ -19,7 +19,7 @@ RULES = {
         "carousel_max": 10,                    # API limit (the app allows more)
         "image_aspect": (0.5625, 1.91),
         "reel_aspect": 9 / 16,
-        "reel_duration": (3, 90),              # API limit for Reels
+        "reel_duration": (3, 900),             # Reels up to 15 min (docs.zernio.com/platforms/instagram, checked 2026-10-26)
         "links_clickable": False,
         "source": "docs.zernio.com/platforms/instagram; 5-hashtag cap: Instagram announcement, Dec 2025",
     },
@@ -200,7 +200,7 @@ def check_media(scan: dict, platform: str) -> list[dict]:
         out.append({"id": id_, "platform": platform, "status": status, "msg": msg, **kw})
 
     if ptype == "text":
-        add("media.none", "info", "Text-only post." if platform != "instagram" else "Instagram needs at least one image or video.")
+        add("media.none", "pass", "Text-only post: fine here." if platform != "instagram" else "Instagram needs at least one image or video.")
         if platform == "instagram":
             out[-1]["status"] = "fail"
         return out
