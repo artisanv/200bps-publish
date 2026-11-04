@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.20.0 (2026-11-04)
+- **✨ Fit it for every network** (Post tab under the caption, New post step 2, or Ctrl+K; posts with 2+ networks): Claude writes one version of the caption per network, using each network's own rules (hook before "more", tone, length, hashtag cap), same message in your voice. **Review** shows every version next to the current caption with its score change and character count; edit any, **Use this**, **Use all** or **No thanks**. Every change is in Changes, so it can be undone.
+- Guide, hover tips, READMEs in English and Arabic.
+
 ## 1.19.0 (2026-11-04)
 - **🅰🅱 Test two hooks** (Instagram Reel: Post tab → Preview → Test two hooks, or Ctrl+K): version B gets a different first line (write it, or **✨ Ask Claude for hook B**) and optionally a different cover. A typed **go** posts both as Instagram **Trial Reels** at the same time, so only non-followers see them and your followers aren't touched.
 - **Hook tests** (Growth): **Check results** shows A vs B from your own Zernio numbers: views, reach, skip rate, average watch time, likes, shares, saves, follows. A winner only with 100+ views each, 48 hours and a clear gap (skip rate 5+ points, else watch time 10%+); otherwise "too close to call". Then share the winner to followers in the Instagram app (Instagram has no API for it), with a button that opens it.

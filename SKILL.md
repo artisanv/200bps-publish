@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
 description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram, LinkedIn, Facebook, TikTok and Snapchat through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.19.0
+version: 1.20.0
 ---
 
 # 200BPS Publish
@@ -266,6 +266,16 @@ Both go out as Zernio `platformSpecificData.poll` / `reshareUrl` and can't carry
 After scheduling, the poll shows in the post window (Posts/Plan) from the local plan (Zernio does not echo it); vote counts are not available through the API, only on LinkedIn.
 Native LinkedIn articles are not possible: neither Zernio nor LinkedIn's API offers them.
 
+## One post, every network (caption per network)
+
+For a post with 2+ networks the user can press "✨ Fit it for every network". A `rewrite_all` request arrives
+with `action.caption`, `current` (per network) and `rules` per network (`max` length, `hashtags` cap, `hook`
+characters before "more", a `tip`). Write one version per network: same message, the user's voice and
+language, fitted to that network (hook placement, tone, length, hashtag limits; a Snapchat saved-story title
+≤45). Save a JSON object `{"instagram": "...", "linkedin": "..."}` and run
+`bps.py rewrite --file v.json --note "<one line what changed>"`. The user reviews each with its score change
+and uses all, some (editing any) or none; applied captions are backed up in caption_history.
+
 ## Hook A/B test (Instagram Trial Reels)
 
 For an Instagram Reel that isn't scheduled yet: version A is the post, version B gets a different first
@@ -443,6 +453,7 @@ returns the unread requests. For each one:
 | `new_post` | The user started a post from the dashboard's **New post** window (files, made images, or a folder). If `opened`, the post is already the current plan: run the step 2 flow from point 3 (report findings, fixes, time, gift). If `needsCaption`, look at the media (and `hint`, the image prompts), write a caption in the user's voice, save it as `caption.txt` in `folder`, show it in chat, then `analyze` that folder and continue step 2 |
 | `reply_drafts` | The user pressed "Ask Claude to draft replies" in the Inbox. `action.comments` lists the waiting comments (id, author, text, post, platform). Write one short public reply per comment in the user's voice and language (match the comment's language), and save each with `bps.py inbox draft --comment ID --text "…"`. Never send them: the user presses Use it → Send reply. Skip spam or comments that need no answer, and say so in the `say --status done` line |
 | `post_copied` | The user copied a post to another day from the dashboard (Copy → Paste). It's **already done** in Zernio (a new scheduled post after typed go, or a Zernio draft). Acknowledge in one line with `say --to <id> --status done`; never repeat it |
+| `rewrite_all` | The user pressed "Fit it for every network". Write one caption per network and save with `bps.py rewrite` (see "One post, every network"). Never apply them yourself |
 | `ab_hook` | The user pressed "Ask Claude for hook B" in the Hook test window. `action.caption` is version A. Write B and save it with `bps.py abtest hook` (see "Hook A/B test"). Never start the test yourself |
 | `abtest_started` | The user started a hook test from the dashboard. Already done; acknowledge in one line and say results come after 48 hours |
 | `recycle_hooks` | The user pressed "Ask Claude for new hooks" in the Recycle window. `action.caption`, `metrics` and `platforms` describe the post. Write 3-5 new versions and save them with `bps.py recycle hooks` (see "Recycle best posts"). Never start recycling yourself |

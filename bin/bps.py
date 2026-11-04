@@ -46,6 +46,7 @@
     bps.py recycle state --post ID       read the post's recycling from Zernio
     bps.py recycle on --post ID --every 2 --unit week [--times 4] [--file F.json] --confirm   start (only after the user's go)
     bps.py recycle off --post ID         stop recycling
+    bps.py rewrite --file V.json [--note ".."]   one caption per network ({"linkedin": "...", ...}) for the user to review
     bps.py abtest hook --file B.txt [--note ".."]   save hook B (full caption) for the open Reel's A/B test
     bps.py abtest start --confirm        create both Instagram Trial Reels (only after the user's go)
     bps.py abtest list | results --test ID   tests and their results (skip rate, watch time, reach)
@@ -132,6 +133,7 @@ def main() -> None:
     db = sub.add_parser("dashboard"); db.add_argument("--no-open", action="store_true"); db.add_argument("--port", type=int, default=4217)
     sub.add_parser("version")
     sub.add_parser("jobs")
+    rw = sub.add_parser("rewrite"); rw.add_argument("--file", required=True); rw.add_argument("--note", default="")
     ab = sub.add_parser("abtest"); ab.add_argument("action", choices=["hook", "start", "list", "results"])
     ab.add_argument("--file", default=""); ab.add_argument("--note", default=""); ab.add_argument("--test", default=""); ab.add_argument("--confirm", action="store_true")
     rc = sub.add_parser("recycle"); rc.add_argument("action", choices=["list", "hooks", "state", "on", "off"]); rc.add_argument("--post", default="")
@@ -238,6 +240,15 @@ def run(args) -> None:
         pl["status"] = "awaiting_approval"; plans.save(pl); emit({"ok": True, "status": pl["status"]})
     elif c == "preview":
         pl = need_plan(); emit(plans.build_body(pl, Zernio(), dry=True))
+    elif c == "rewrite":
+        import rewrite
+        vs = json.loads(Path(args.file).read_text(encoding="utf-8"))
+        if not isinstance(vs, dict):
+            raise ValueError('Give a JSON object: {"instagram": "...", "linkedin": "..."}.')
+        r = rewrite.save(need_plan(), vs, args.note, via="claude")
+        hitl.say(f"✨ {len(r['rows'])} versions, one per network, are ready. Review them in the Post tab (Versions per network).")
+        emit({"ok": True, "rows": [{k: x[k] for k in ("platform", "scoreBefore", "scoreAfter", "chars", "max", "newIssues")} for x in r["rows"]],
+              "next": "The user uses all, some or none in the dashboard."})
     elif c == "abtest":
         import abtest
         a = args.action

@@ -313,6 +313,20 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 raise ValueError("Unknown action.")
             if path == "/api/slot":
                 return self._json(self._slot(data))
+            if path == "/api/rewrite":          # one post, every network: Claude's version per network, the user picks
+                import rewrite
+                p = plans.load()
+                if not p:
+                    raise ValueError("No post open.")
+                op = str(data.get("op", ""))
+                if op == "ask":
+                    return self._json({"ok": True, **rewrite.ask(p)})
+                if op == "apply":
+                    return self._json({"ok": True, **rewrite.apply(p, [str(x) for x in (data.get("platforms") or [])] or None,
+                                                                    {str(k): str(v) for k, v in (data.get("edited") or {}).items()})})
+                if op == "drop":
+                    return self._json({"ok": True, "rewrite": rewrite.drop(p)})
+                raise ValueError("Unknown action.")
             if path == "/api/abtest":           # hook A/B test with two Instagram Trial Reels (typed go)
                 import abtest
                 op = str(data.get("op", ""))

@@ -2129,3 +2129,10 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 .ab-hooks p { margin: 2px 0; }
 .ab-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--bps-line); }
 @media (max-width: 640px) { .ab-cols { grid-template-columns: 1fr; } }
+/* Every-network rewrite (v1.20) */
+.rw-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; padding: 8px 10px; border: 1px dashed var(--bps-line-strong); }
+.rw-bar.ready { border-style: solid; border-color: var(--bps-lime); }
+.rw-row { display: grid; gap: 6px; margin: 12px 0; padding: 10px; background: var(--bps-slate); }
+.rw-row.done { opacity: .75; }
+.rw-row .row2 { gap: 8px; align-items: center; }
+.rw-ta { width: 100%; }

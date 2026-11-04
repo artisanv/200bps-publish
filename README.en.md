@@ -13,6 +13,10 @@ your Zernio account.
 
 > Built by Nasser Al-Ostath · [200bps.ai](https://www.200bps.ai) · [Instagram](https://www.instagram.com/200bps.ai/) · [LinkedIn](https://www.linkedin.com/in/nasser-al-ostath/)
 
+## New in v1.20.0
+
+- **✨ Fit it for every network:** one click, and Claude writes a version of your caption for each network (Instagram, LinkedIn, Facebook, TikTok, Snapchat) with its own limits and tone. Review the score change, use all, some or none.
+
 ## New in v1.19.0
 
 - **🅰🅱 Test two hooks:** one Reel, two first lines (or covers), posted as Instagram Trial Reels to non-followers only. After 48 hours, compare skip rate and watch time and share the winner to your followers.
@@ -155,7 +159,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.19.0.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.20.0.zip -d .claude/skills/
 claude
 ```
 
