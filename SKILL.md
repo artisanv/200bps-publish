@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
 description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram, LinkedIn, Facebook, TikTok and Snapchat through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.18.0
+version: 1.18.1
 ---
 
 # 200BPS Publish
@@ -263,6 +263,7 @@ the post type can be (`bps.py set linkedin.kind post|poll|repost`, or Network se
   (question ≤140, 2-4 choices ≤30 each, ONE_DAY / THREE_DAYS / SEVEN_DAYS / FOURTEEN_DAYS)
 - **repost**: `bps.py set linkedin.reshareUrl "https://www.linkedin.com/posts/…"`; the caption is the commentary.
 Both go out as Zernio `platformSpecificData.poll` / `reshareUrl` and can't carry media (a blocking check says so).
+After scheduling, the poll shows in the post window (Posts/Plan) from the local plan (Zernio does not echo it); vote counts are not available through the API, only on LinkedIn.
 Native LinkedIn articles are not possible: neither Zernio nor LinkedIn's API offers them.
 
 ## Recycle best posts

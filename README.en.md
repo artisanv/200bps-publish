@@ -18,6 +18,7 @@ your Zernio account.
 - **LinkedIn polls:** a question, 2-4 choices and how long it stays open, with a live preview. No media needed.
 - **LinkedIn reposts:** paste a LinkedIn post link; your caption becomes your comment above it.
 - **Text posts:** New post works with just a caption (LinkedIn and Facebook).
+- **See your poll** before scheduling (Preview) and after (Posts / Plan): the poll card, time left, LinkedIn's numbers, and a link to the votes.
 - **♻ Recycle your best posts:** Zernio re-posts a top post every few weeks or months with fresh hooks Claude writes. Starts only after a typed go; stop any time.
 - **Since v1.16:** turn networks on or off per post, post to several accounts on one network, copy & paste posts in Plan, one dashboard per network with its own goal, archives (.zip, .7z, .rar) as posts, PDF to LinkedIn + photos to the rest in one post, Claude drafts your comment replies, the gift funnel, Inbox knows what you did in the Instagram app, Reels up to 15 minutes.
 

@@ -43,7 +43,7 @@
       ideaOpen: "Open details", ideaKicker: "Idea", ideaHook: "Hook", ideaWhy: "Why it should work", ideaOutline: "Outline", ideaCta: "Call to action",
       ideaTags: "Hashtags", ideaWhen: "Suggested time", ideaBased: "Inspired by", ideaDrop: "Not for me", ideaPlan: "Plan it on a day", ideaPickDay: "Pick a day in the calendar",
       kind_carousel: "Carousel", kind_reel: "Reel", kind_video: "Video", kind_short: "Short", kind_story: "Story", kind_document: "Document", kind_archive: "Zipped post",
-      kind_article: "Article", kind_text: "Text", kind_post: "Post", zOutside: "posted outside Zernio", zAccounts: "Accounts", zAllAccounts: "All accounts",
+      kind_article: "Article", kind_text: "Text", kind_post: "Post", kind_poll: "Poll", pollOpensWhen: "Opens when it's posted · open for {d}", pollLeft: "Open · {l} left · closes {c}", pollClosed: "Closed {c}", pollVotes: "See the votes on LinkedIn", pollNoVotes: "LinkedIn doesn't share poll votes with apps, so the votes are on LinkedIn itself.", pollStatImpr: "impressions", pollStatReact: "reactions", pollStatCom: "comments", pollStatShare: "reposts", pollDays: "{n} days", pollHours: "{n} hours", zOutside: "posted outside Zernio", zAccounts: "Accounts", zAllAccounts: "All accounts",
       accKicker: "Accounts", accTitle: "Connect a social account", accHint: "Sign in on the network's own site and approve. Zernio keeps the connection; this skill never sees your password.",
       accNotConnected: "Not connected", accConnect: "Connect", accReconnect: "Reconnect", accAddAnother: "Add another", accSoon: "Coming soon", accConnectShort: "Connect account",
       accWaiting: "Waiting for {n}…", accW1: "Opened the secure sign-in page", accW2: "Approve access on {n} (in the new tab)", accW3: "Saved and ready to post",
@@ -230,7 +230,7 @@
       ideaOpen: "التفاصيل", ideaKicker: "فكرة", ideaHook: "الافتتاحية", ideaWhy: "ليش بتنجح", ideaOutline: "المخطط", ideaCta: "الدعوة للتفاعل",
       ideaTags: "الهاشتاقات", ideaWhen: "الوقت المقترح", ideaBased: "مستوحاة من", ideaDrop: "مو لي", ideaPlan: "خطط لها بيوم", ideaPickDay: "اختار يوم من التقويم",
       kind_carousel: "كاروسيل", kind_reel: "ريل", kind_video: "فيديو", kind_short: "شورت", kind_story: "ستوري", kind_document: "مستند", kind_archive: "بوست مضغوط",
-      kind_article: "مقال", kind_text: "نص", kind_post: "بوست", zOutside: "انتشر برا Zernio", zAccounts: "الحسابات", zAllAccounts: "كل الحسابات",
+      kind_article: "مقال", kind_text: "نص", kind_post: "بوست", kind_poll: "تصويت", pollOpensWhen: "يفتح لما ينتشر · مفتوح {d}", pollLeft: "مفتوح · باقي {l} · يسكّر {c}", pollClosed: "سكّر {c}", pollVotes: "شوف التصويت في LinkedIn", pollNoVotes: "LinkedIn ما يعطي نتايج التصويت للتطبيقات، فالأصوات تشوفها في LinkedIn نفسه.", pollStatImpr: "مشاهدة", pollStatReact: "تفاعل", pollStatCom: "تعليق", pollStatShare: "إعادة نشر", pollDays: "{n} أيام", pollHours: "{n} ساعات", zOutside: "انتشر برا Zernio", zAccounts: "الحسابات", zAllAccounts: "كل الحسابات",
       accKicker: "الحسابات", accTitle: "اربط حساب سوشال ميديا", accHint: "سجّل دخول في موقع الشبكة نفسها ووافق. Zernio يحفظ الربط، والسكل ما يشوف كلمة السر أبداً.",
       accNotConnected: "مو مربوط", accConnect: "اربط", accReconnect: "أعد الربط", accAddAnother: "أضف حساب ثاني", accSoon: "قريباً", accConnectShort: "اربط حساب",
       accWaiting: "بانتظار {n}…", accW1: "انفتحت صفحة الدخول الآمنة", accW2: "وافق على الصلاحية في {n} (بالتبويب الجديد)", accW3: "انحفظ وجاهز للنشر",
@@ -984,7 +984,7 @@
     renderTargets(p);
     const cap = (p.captions || {})[state.plat] ?? (p.captions || {}).default ?? "";
     $("#captionBox").innerHTML = highlight(cap);
-    document.querySelectorAll(".li-pv-main").forEach((x) => x.remove());
+    $("#captionBox").parentNode.querySelectorAll(":scope > .li-pv-main").forEach((x) => x.remove());
     if (state.plat === "linkedin") { const lx = liExtraPreview(p); if (lx) $("#captionBox").after(lx); }
 
     const list = $("#checkList"); list.innerHTML = "";
@@ -3414,6 +3414,33 @@
       ...(filled.length ? filled : ["…", "…"]).map((o) => el("span", { class: "li-pv-opt", style: "unicode-bidi:plaintext" }, o)),
       el("small", { class: "hint" }, t("liPvFoot").replace("{d}", t(d))));
   }
+  // A poll or repost already in Zernio (scheduled or live): the card, how long it's open, LinkedIn's numbers
+  function liPostedCard(r) {
+    const li = r.li || {};
+    const card = liExtraPreview({ settings: { linkedin: { kind: li.kind, poll: li.poll, reshareUrl: li.reshareUrl } } });
+    if (!card) return null;
+    card.classList.add("li-posted");
+    const lp = (r.platforms || []).find((p) => p.platform === "linkedin") || {};
+    if (li.kind === "poll") {
+      const days = { ONE_DAY: 1, THREE_DAYS: 3, SEVEN_DAYS: 7, FOURTEEN_DAYS: 14 }[(li.poll || {}).duration || "SEVEN_DAYS"];
+      const d = t({ 1: "liD1", 3: "liD3", 7: "liD7", 14: "liD14" }[days]);
+      const start = lp.status === "published" ? Date.parse(lp.publishedAt || r.scheduledFor || r.createdAt) : NaN;
+      let line;
+      if (isNaN(start)) line = t("pollOpensWhen").replace("{d}", d);
+      else {
+        const end = start + days * 864e5, left = end - Date.now();
+        const lt = left > 864e5 ? t("pollDays").replace("{n}", Math.ceil(left / 864e5)) : t("pollHours").replace("{n}", Math.max(1, Math.ceil(left / 36e5)));
+        line = left > 0 ? t("pollLeft").replace("{l}", lt).replace("{c}", dt(new Date(end).toISOString())) : t("pollClosed").replace("{c}", dt(new Date(end).toISOString()));
+      }
+      put(card, el("p", { class: "li-poll-when" }, "⏱ " + line));
+    }
+    const st = r.liStats;
+    if (st) put(card, el("div", { class: "rc-metrics" }, ...[["impressions", "pollStatImpr"], ["likes", "pollStatReact"], ["comments", "pollStatCom"], ["shares", "pollStatShare"]]
+      .map(([k, l]) => el("span", { class: "rc-chip" }, el("b", {}, fmt(st[k] || 0)), " " + t(l)))));
+    if (li.kind === "poll") put(card, lp.url ? el("a", { class: "btn sm on", href: lp.url, target: "_blank", rel: "noopener" }, t("pollVotes") + " ↗") : null,
+      el("small", { class: "hint" }, t("pollNoVotes")));
+    return card;
+  }
   function hasNetSettings(p) { return (p.platforms || []).some((x) => ["tiktok", "snapchat", "facebook", "linkedin"].includes(x)); }
   // LinkedIn: a normal post, a poll (question + 2-4 choices + how long) or a repost of a LinkedIn post link
   function liKindCard(p, set) {
@@ -3579,7 +3606,7 @@
     box.append(kindChip(r, "zkind"));
     return box;
   }
-  const KIND_ICON = { archive: "🗜", carousel: "▣", reel: "▶", video: "▶", short: "▶", story: "◔", document: "▤", article: "¶", text: "¶", post: "▢" };
+  const KIND_ICON = { poll: "☰", archive: "🗜", carousel: "▣", reel: "▶", video: "▶", short: "▶", story: "◔", document: "▤", article: "¶", text: "¶", post: "▢" };
   function kindLabel(r) {
     const k = r.kind || (r.videoLocal || r.video ? "video" : ((r.count || r.mediaCount || 0) > 1 ? "carousel" : "post"));
     const n = r.count || r.mediaCount || 0;
@@ -3810,10 +3837,12 @@
   });
   function openPostDetail(r) {
     const build = (body) => {
-      body.append(el("div", { class: "zdetail" }, postViewer(r),
+      const pollLeft = r.li && !(r.items || []).length && !r.media;     // a text poll/repost: the poll is the picture
+      body.append(el("div", { class: "zdetail" }, pollLeft ? liPostedCard(r) : postViewer(r),
         el("div", {}, el("div", { class: "zrow-head" }, badge(r.status), kindChip(r),
             el("span", { class: "label" }, r.local ? t("zLocalHint") : r.outside ? t("zOutside") : (r.fromSkill ? t("zFromSkill") : t("zFromZernio")))),
           el("div", { class: "zfullcap", style: "unicode-bidi:plaintext" }, r.caption || "—"),
+          r.li && !pollLeft ? liPostedCard(r) : null,
           (r.scheduledFor || (r.platforms || [])[0]) ? el("p", { class: "hint" }, r.scheduledFor ? t("scheduled") + " " + dt(r.scheduledFor) : "") : null)));
       const plats = el("div", { class: "zplats" });
       (r.platforms || []).forEach((p) => plats.append(el("div", { class: "zplat" }, el("b", {}, p.platform), badge(p.status),
@@ -5053,6 +5082,7 @@
         "<b>PDF + photos:</b> LinkedIn gets the PDF; the other networks get the photos.",
         "<b>Instagram Reels</b> can be up to 15 minutes long.",
         "<b>Text post, LinkedIn poll or repost:</b> in <b>New post</b>, add no media and just write the caption. In step 2 (or Post tab → Network settings → LinkedIn) pick <b>Poll</b> (a question, 2-4 choices up to 30 characters, open 1 day to 2 weeks) or <b>Repost</b> (paste a LinkedIn post link; your caption becomes your comment). Facebook, if on, gets the caption as a text post.",
+        "<b>See your poll any time:</b> before scheduling, in the Post tab's Preview; after scheduling or posting, open it in Posts or Plan: the poll card, how long it's open (time left once live), LinkedIn's impressions, reactions and comments, and <b>See the votes on LinkedIn ↗</b> (LinkedIn doesn't share votes with apps).",
         "<b>Several accounts on one network?</b> Tick them under <b>Post to these accounts</b>. Same caption on each.",
         "<b>New post in 4 steps:</b> pick the media and type a caption (or leave it to Claude), then <b>Check & improve</b> (edit the caption yourself or ask Claude to fix each item; its before/after appears right there), <b>Time</b> (your best slots, any day and minute, or right away) and <b>Review & schedule</b> (add a gift, type <b>go</b>).",
         "Follow the path at the top of the Post tab: <b>Check → Cover → Time → Gift → Go</b>. \"Next step\" always does the next thing.",
@@ -5161,6 +5191,7 @@
         "<b>PDF وصور:</b> LinkedIn ياخذ الـPDF؛ والمنصات الثانية ياخذون الصور.",
         "<b>ريلز Instagram</b> تقدر توصل لين 15 دقيقة.",
         "<b>بوست نص، تصويت أو إعادة نشر في LinkedIn:</b> في <b>بوست جديد</b> لا تضيف صور، اكتب الكابشن بس. بالخطوة 2 (أو تبويب البوست ← إعدادات المنصات ← LinkedIn) اختار <b>تصويت</b> (سؤال، و2 إلى 4 خيارات كل واحد لين 30 حرف، مفتوح من يوم لين أسبوعين) أو <b>إعادة نشر</b> (الصق رابط بوست LinkedIn؛ الكابشن مالك يصير تعليقك). وFacebook إذا شغّال ياخذ الكابشن كبوست نص.",
+         "<b>شوف تصويتك أي وقت:</b> قبل الجدولة في معاينة تبويب البوست؛ وبعد الجدولة أو النشر افتحه من المنشورات أو الخطة: كرت التصويت، وكم يظل مفتوح (والوقت الباقي لما ينتشر)، ومشاهدات وتفاعل وتعليقات LinkedIn، وزر <b>شوف التصويت في LinkedIn ↗</b> (LinkedIn ما يعطي الأصوات للتطبيقات).",
         "<b>عندك كذا حساب على نفس المنصة؟</b> علّمهم في <b>انشر على هالحسابات</b>. نفس الكابشن على كل واحد.",
         "<b>بوست جديد بـ4 خطوات:</b> اختار الملفات واكتب الكابشن (أو خله على Claude)، بعدين <b>افحص وحسّن</b> (عدّل الكابشن بنفسك أو اطلب من Claude يصلّح كل نقطة؛ قبل/بعد يطلع هني)، <b>الوقت</b> (أفضل أوقاتك، أي يوم ودقيقة، أو على طول) و<b>راجع وجدول</b> (أضف هدية، واكتب <b>go</b>).",
         "امشِ على المسار فوق تبويب البوست: <b>فحص ← غلاف ← وقت ← هدية ← نشر</b>. «التالي» دايماً يسوي الخطوة الجاية.",
@@ -5707,6 +5738,7 @@
       rcRow: ["Recycle this post", "Open the Recycle window for this post: how often, how many times, and new caption versions."],
       rcAsk: ["New hooks from Claude", "Claude writes 3-5 new versions of this post: same message, a fresh first line, your voice. They appear here to edit or remove."],
       rcGo: ["Start recycling", "Type go to turn it on in Zernio. It's read back, so you see what Zernio really has, including the next repost date."],
+      liPosted: ["Your LinkedIn poll", "The poll as it goes out: question, choices, how long it's open (time left once it's live), and LinkedIn's impressions, reactions and comments. The votes themselves are on LinkedIn."],
       liPreviewMain: ["LinkedIn poll / repost", "How the poll (question, choices, how long it's open) or the reposted link will show under your caption. Change it in Network settings → LinkedIn."],
       liKind: ["LinkedIn post type", "Normal post (caption + photos, video or PDF), Poll (question, 2-4 choices, open 1 day to 2 weeks) or Repost (a LinkedIn post link; your caption becomes your comment). Polls and reposts can't have media."],
       npTextPost: ["Text post", "No photos or video needed: write the caption and it becomes a text post for LinkedIn and Facebook. Make it a LinkedIn poll or repost in step 2."],
@@ -5858,6 +5890,7 @@
       rcRow: ["أعد تدوير هالبوست", "يفتح نافذة إعادة التدوير لهالبوست: كل قد إيش، كم مرة، ونسخ جديدة من الكابشن."],
       rcAsk: ["هوكات جديدة من Claude", "Claude يكتب 3-5 نسخ جديدة من البوست: نفس الرسالة، أول سطر جديد، وبأسلوبك. تطلع هني تعدلها أو تشيلها."],
       rcGo: ["ابدأ إعادة التدوير", "اكتب go عشان يشتغل في Zernio. ونقرا اللي انحفظ فعلياً، فتشوف اللي عند Zernio بالضبط مع تاريخ الإعادة الجاية."],
+      liPosted: ["تصويتك في LinkedIn", "التصويت مثل ما بينشر: السؤال والخيارات وكم يظل مفتوح (والوقت الباقي لما ينتشر)، ومشاهدات وتفاعل وتعليقات LinkedIn. الأصوات نفسها تشوفها في LinkedIn."],
       liPreviewMain: ["تصويت / إعادة نشر LinkedIn", "كذا بيطلع التصويت (السؤال والخيارات ومدته) أو رابط إعادة النشر تحت الكابشن. غيّره من إعدادات المنصات ← LinkedIn."],
       liKind: ["نوع بوست LinkedIn", "بوست عادي (كابشن مع صور أو فيديو أو PDF)، تصويت (سؤال و2 إلى 4 خيارات، مفتوح من يوم لين أسبوعين)، أو إعادة نشر (رابط بوست LinkedIn؛ الكابشن يصير تعليقك). التصويت وإعادة النشر بدون ملفات."],
       npTextPost: ["بوست نص", "ما تحتاج صور أو فيديو: اكتب الكابشن ويصير بوست نص لـ LinkedIn وFacebook. تقدر تخليه تصويت أو إعادة نشر في LinkedIn بالخطوة 2."],
@@ -5960,7 +5993,7 @@
     [".ann-mask", "annMask"], [".ann-fs", "annFs"], [".ann-result", "annResult"],
     [".ib-all", "ibAll"], [".ib-pick", "ibPick"], [".ib-del", "ibDel"], [".ib-md", "ibMd"], [".ib-json", "ibJson"], [".ib-add", "ibAdd"],
     [".ib-load", "ibLoad"], [".ib-clear", "ibClear"], [".ib-undo", "ibUndo"], [".ib-editone", "ibEditOne"],
-    [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
+    [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-posted", "liPosted"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
     [".steps-track .step[data-step]", (n) => "step_" + n.dataset.step], [".checks li.fixable", "fixable"],
     [".cal .ev", "calEv"], [".cal .d.click", "calDay"], [".cal-key", "calKey"], ["#calPrev", "calPrev"], ["#calNext", "calNext"], ["#calToday", "calToday"],
     [".heat", "heat"], [".toptimes", "peaks"],

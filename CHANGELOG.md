@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.18.1 (2026-11-04)
+- **See your LinkedIn poll after scheduling and after it's live**: open the post in Posts or Plan for the poll card (question, choices), "Opens when it's posted · open for 1 week", then "Open · 3 days left · closes …" or "Closed …", LinkedIn's impressions, reactions, comments and reposts, and **See the votes on LinkedIn ↗**. LinkedIn doesn't share poll votes with apps, so the vote split stays on LinkedIn. Polls get a ☰ Poll label in Posts and Plan; reposts show their link.
+
 ## 1.18.0 (2026-11-04)
 - **♻ Recycle your best posts** (Growth → Top posts → ♻, a ♻ on each row, or Ctrl+K): Zernio re-posts a published post every 1-12 weeks or months, up to a set number of times (or until you stop it), from the date you pick. Add 2-20 new caption versions and each repost uses the next one; **✨ Ask Claude for new hooks** writes 3-5 in your voice. Ranked from your own results (follows, then saves + shares, then reach). Starts after a typed **go** and is read back from Zernio (next repost date, how many made); **Stop recycling** any time. Up to 10 at once; TikTok is never recycled.
 - **The poll or repost shows in the Preview card** under the LinkedIn caption, before you schedule it.

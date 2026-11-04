@@ -383,6 +383,14 @@ def _build() -> dict:
         (ana_by_late.__setitem__(a["latePostId"], a) if a.get("latePostId") else outside.append(a))
     acc_by_id = {a.get("_id"): a for a in (accounts or [])}
 
+    # LinkedIn polls/reposts made here: Zernio doesn't echo platformSpecificData, so take them from our plans
+    li_local = {}
+    for f in (state_dir() / "plans").glob("*.json"):
+        pl = read_json(f) or {}
+        pid, ls = (pl.get("result") or {}).get("postId"), (pl.get("settings") or {}).get("linkedin") or {}
+        if pid and ls.get("kind") in ("poll", "repost"):
+            li_local[pid] = {"kind": ls["kind"], "poll": ls.get("poll") if ls["kind"] == "poll" else None,
+                             "reshareUrl": ls.get("reshareUrl") if ls["kind"] == "repost" else None}
     out["zposts"] = []
     for p in _items(allp):
         mi = p.get("mediaItems") or []
@@ -409,7 +417,12 @@ def _build() -> dict:
                               [x.get("type") for x in mi], url0),
             "count": n, "scheduledFor": p.get("scheduledFor"), "createdAt": p.get("createdAt"), "updatedAt": p.get("updatedAt"),
             "media": len(mi), "items": _media_items(mi) or _media_items(a.get("mediaItems")),
-            "platforms": plats, "fromSkill": p.get("_id") in mine})
+            "platforms": plats, "fromSkill": p.get("_id") in mine,
+            "li": li_local.get(p.get("_id")),
+            "liStats": {k: _num((a.get("analytics") or {}).get(k)) for k in ("impressions", "likes", "comments", "shares")}
+                       if a.get("platform") == "linkedin" and a.get("analytics") else None})
+        if li_local.get(p.get("_id"), {}).get("kind") == "poll":
+            out["zposts"][-1]["kind"] = "poll"
     only = {}                                           # platform -> its only connected account
     for x in accounts or []:
         only.setdefault(x.get("platform"), []).append(x)
