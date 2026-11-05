@@ -576,3 +576,12 @@ footer.credit .verbs b { color: var(--accent-ink); font-weight: 500; }
 .msg-av { width: 96px; height: 84px; }
 .notice-av { width: 34px; height: 30px; }
 #noteFab .dock-av { width: 68px; height: 52px; margin: -18px -4px 0 -6px; }
+
+/* the lockup: 200BPS.ai|Publish (Publish in italic) */
+.brand .name { display: inline-flex; align-items: baseline; }
+.brand .nm-pipe { color: var(--bps-line-strong); font-weight: 300; margin: 0 7px; }
+.brand .name .nm2 { font: italic 500 0.86em var(--bps-font-display); color: var(--bps-text); letter-spacing: -.02em; border: 0; padding: 0; }
+@media (max-width: 700px) { .brand .nm-pipe { display: none; } }
+.sp-name { display: inline-flex; align-items: baseline; }
+.sp-pipe { color: #2E3639; font-weight: 300; margin: 0 .14em; }
+.sp-name em { font-style: italic; font-weight: 500; color: #F4F5F2; font-size: .62em; margin: 0; letter-spacing: -.03em; }
