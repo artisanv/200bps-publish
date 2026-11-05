@@ -2,8 +2,8 @@
 
 The 200BPS.ai name, the lime mark (`ui/assets/200bps-mark.webp`) and the
 200BPS visual identity used in `ui/` (colour tokens, slope, type pairing) are
-© Nasser Al-Ostath / 200BPS.ai, and so is the BIPS robot character
-(`ui/assets/bips/`). They are **not** covered by the MIT license.
+© Nasser Al-Ostath / 200BPS.ai, and so is the PIX mascot
+(`ui/assets/pix/`). They are **not** covered by the MIT license.
 
 You may use them unchanged, as part of this skill, to run and share it. Please:
 - keep the "Built by 200BPS.ai" footer and its links

@@ -546,7 +546,7 @@
     }
     if (host.dataset.hvAuto) { delete host.dataset.hvAuto; host.pause(); try { host.currentTime = 0.5; } catch (e) {} }
   }
-  const hvHost = (n) => n && n.closest && (n.closest("[data-hv]") || n.closest("video"));
+  const hvHost = (n) => n && n.closest && (n.closest("[data-hv]") || n.closest("video:not([controls])"));
   // mouse or pen only: on touch screens a tap opens the post as before
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     document.addEventListener("pointerover", (e) => { if (e.pointerType === "touch") return; const h = hvHost(e.target); if (h && !h.contains(e.relatedTarget)) hvStart(h); });
@@ -1999,6 +1999,7 @@
     const vb = "v" + ((state.data && state.data.version) || "") + ((state.data && state.data.build) ? " · " + t("buildWord") + " " + state.data.build : "");
     $("#versionPill").textContent = vb;
     const fv = $("#footVersion"); if (fv) fv.textContent = vb;
+    const spv = $("#spVer"); if (spv && state.data && state.data.version) spv.textContent = "v" + state.data.version;
     const tv = $("#topVersion"); if (tv) tv.textContent = "v" + ((state.data && state.data.version) || "") + ((state.data && state.data.build) ? " · " + state.data.build : "");
     renderTicker(z);
     const since = $("#since"); since.innerHTML = "";
@@ -2304,7 +2305,7 @@
     const cm = state.data && state.data.claudeMsg;
     if (!q && cm && !cm.status && !state.dismissed["m:" + cm.id]) {
       const ask = cm.expect || (cm.options || []).length;
-      if (!ask) { state.dismissed["m:" + cm.id] = true; dockSay(cm); }      // a reply: BIPS says it, no window
+      if (!ask) { state.dismissed["m:" + cm.id] = true; dockSay(cm); }      // a reply: PIX says it, no window
       else if (!modal.open) { state.dismissed["m:" + cm.id] = true; showModal("m:" + cm.id, (body) => claudeMsgUI(cm, body)); }
     }
     if (!q) {
@@ -2340,7 +2341,7 @@
   function showNotice(n) {
     const ok = n.status === "done";
     const card = el("div", { class: "notice " + (ok ? "ok" : "bad") },
-      el("div", { class: "notice-head" }, bips(ok ? "done" : "think", "notice-av"), el("b", {}, (ok ? "✓ " : "✗ ") + (ok ? t("ntDone") : t("ntFailed"))),
+      el("div", { class: "notice-head" }, bips(ok ? "party" : "fail", "notice-av"), el("b", {}, (ok ? "✓ " : "✗ ") + (ok ? t("ntDone") : t("ntFailed"))),
         el("button", { class: "x", type: "button", "aria-label": t("close"), onclick: () => card.remove() }, "×")),
       el("div", { class: "notice-note", style: "unicode-bidi:plaintext" }, t("ntYour") + ": “" + (n.text || "").slice(0, 90) + ((n.text || "").length > 90 ? "…" : "") + "”"),
       n.result ? el("div", { class: "notice-res", style: "unicode-bidi:plaintext" }, n.result) : null,
@@ -2360,7 +2361,7 @@
     if (!before) return;                                           // first load: no old news
     const finished = thr.filter((m) => m.from === "you" && ["done", "failed"].includes(now[m.id]) && before[m.id] !== now[m.id]);
     if (!finished.length) return;
-    dockPose(finished.some((m) => now[m.id] === "done") ? "done" : "think", 4000);
+    dockPose(finished.some((m) => now[m.id] === "done") ? "party" : "fail", 4000);
     finished.forEach((m) => {
       showNotice(m);
       thr.filter((r) => r.from === "claude" && r.to === m.id && !r.seen).forEach((r) => { r.seen = true; post("/api/chat", { op: "seen", id: r.id }).catch(() => {}); });
@@ -2437,7 +2438,7 @@
         const bubble = (m, reply) => {
           const mine = m.from === "you";
           const b_ = el("div", { class: "chat-msg " + (mine ? "me" : "claude") + (reply ? " reply" : "") },
-            mine ? null : bips(reply ? "talk" : "point", "chat-av"),
+            mine ? null : bips(reply ? "happy" : "focus", "chat-av"),
             el("div", { class: "chat-who" }, mine ? t("chatYou") : "Claude", el("span", {}, " · " + ago(m.ts))),
             el("div", { class: "chat-text", style: "unicode-bidi:plaintext" }, m.text));
           if (!mine && (m.options || []).length && !m.answered) b_.append(el("div", { class: "opts" }, ...m.options.map((o) =>
@@ -3967,12 +3968,17 @@
       stage.innerHTML = "";
       let node;
       const fail = () => { node.remove(); stage.append(el("div", { class: "pv-none" }, t("vNoMedia"))); };
-      if (m.type === "video") node = el("video", { src: m.url, controls: true, playsinline: true, preload: "metadata", poster: m.thumb || null });
+      if (m.type === "video") {
+        node = el("video", { src: m.url, controls: true, playsinline: true, preload: "auto", poster: m.thumb || null });
+        node.muted = false; node.volume = 1;
+        node.addEventListener("volumechange", () => { if (!node.muted) stage.classList.remove("needs-sound"); });
+      }
       else if (m.type === "document") node = el("div", { class: "pv-doc" }, el("iframe", { src: m.url, title: "PDF" }),
         el("a", { class: "btn", href: m.url, target: "_blank", rel: "noopener" }, t("vOpenDoc") + " ↗"));
       else node = el("img", { src: m.url, alt: "", referrerpolicy: "no-referrer" });
       if (node.tagName === "IMG" || node.tagName === "VIDEO") node.addEventListener("error", () => {
         if (m.thumb && node.src !== m.thumb && node.tagName === "IMG") node.src = m.thumb; else fail(); });
+      stage.classList.toggle("vid", m.type === "video");
       stage.append(node);
       count.textContent = items.length > 1 ? `${i + 1} / ${items.length}` : "";
       dots.querySelectorAll("button").forEach((d, k) => d.classList.toggle("on", k === i));
@@ -4003,9 +4009,22 @@
     if (e.key === "ArrowRight") { e.preventDefault(); curViewer.step(1); }
     if (e.key === "ArrowLeft") { e.preventDefault(); curViewer.step(-1); }
   });
+  // play a post's video with sound; if the browser blocks it, one big button does it
+  function playWithSound(v) {
+    if (!v) return;
+    v.muted = false; v.volume = 1;
+    const st = v.closest(".pv-stage");
+    const btn = () => {
+      if (!st || st.querySelector(".pv-sound")) return;
+      st.append(el("button", { class: "pv-sound", type: "button", onclick: (e) => { e.currentTarget.remove(); v.muted = false; v.volume = 1; v.currentTime = 0; v.play().catch(() => {}); } },
+        el("i", { "aria-hidden": "true" }), t("pdPlay")));
+    };
+    v.play().then(() => { if (v.muted) btn(); }).catch(btn);
+  }
   function openPostDetail(r, opt) {
     const build = (body) => {
       const pollLeft = r.li && !(r.items || []).length && !r.media;     // a text poll/repost: the poll is the picture
+      setTimeout(() => { const md = $("#modal .modal"); if (md) md.classList.add("wide"); });
       body.append(el("div", { class: "zdetail" }, pollLeft ? liPostedCard(r) : postViewer(r),
         el("div", {}, el("div", { class: "zrow-head" }, badge(r.status), kindChip(r),
             el("span", { class: "label" }, r.local ? t("zLocalHint") : r.outside ? t("zOutside") : (r.fromSkill ? t("zFromSkill") : t("zFromZernio")))),
@@ -4019,7 +4038,7 @@
         p.error ? el("div", { class: "zerr" }, (p.errorCategory ? p.errorCategory + ": " : "") + p.error) : null)));
       body.append(plats);
       const ps_ = postStats(r); if (ps_) body.append(ps_);
-      if (opt && opt.play) setTimeout(() => { const v = $("#modalBody video"); if (v) { v.muted = false; v.play().catch(() => {}); } }, 380);
+      if (opt && opt.play) setTimeout(() => playWithSound($("#modalBody .pv video")), 300);
       const acts = el("div", { class: "actions" });
       if (r.local || PENDING.includes(r.status) || r.status === "published")
         acts.append(el("button", { class: "btn danger-ghost cancel-btn", type: "button", onclick: () => openCancel(r) },
@@ -5509,7 +5528,7 @@
       ["Get started", [
         "Open Claude Code in your posts folder and type <code>/200bps-publish set me up</code>. This dashboard opens by itself.",
         "<b>The top of the dashboard</b>: the curve is your growth (lime is steady work, the red dot is the breakthrough). The strip under it rolls your own numbers from Zernio: followers, streak, 7-day reach, engagement, follows, the post score and your best slot (hover to pause). A post score of 100 gets the red breakthrough dot. Move the mouse to light up the grid.",
-        "<b>BIPS, your Claude</b>: the robot in the bottom corner is always there. Click it or press <b>N</b> to write to Claude. <b>Drop files anywhere</b> on the page (or <b>📎 Attach</b>, or paste) to send them with the note. Claude's replies pop up next to BIPS; questions still open a window. Anything running can be stopped: <b>■ Stop</b> in the jobs list or under your note.",
+        "<b>PIX, your Claude</b>: PIX (the 200bps screen mascot) in the bottom corner is always there. Click it or press <b>N</b> to write to Claude. <b>Drop files anywhere</b> on the page (or <b>📎 Attach</b>, or paste) to send them with the note. Claude's replies pop up next to PIX; questions still open a window. Anything running can be stopped: <b>■ Stop</b> in the jobs list or under your note. A short splash plays when you open the dashboard; click it to skip.",
         "<b>Post to</b> (Post tab): tap a network to switch it on or off for this post. <b>Posts</b>: ▶ on a video plays it with sound inside the dashboard, with its results (reach, likes, saves…). <b>Inbox</b>: <b>⊘ Ignore</b> a comment that needs no reply (or <b>Ignore all</b>); Undo is right there.",
         "<b>Heatmap verdict</b>: point at any hour for a small card: <b>Good / OK / Weak time</b> compared with a typical hour, and how carousels, videos and photos did there, per network. From your own posts only.",
         "<b>Quick moves</b>: press <b>1-5</b> to switch tabs (Post, Posts, Plan, Growth, Inbox); click any number in the strip to jump to it. In <b>Checks</b>, passed checks fold into one line so what needs you stands out. In the <b>heatmap</b>, the two lines on top say what it means; point at an hour to read its numbers.",
@@ -5627,7 +5646,7 @@
       ["البداية", [
         "افتح Claude Code في مجلد البوستات واكتب <code>/200bps-publish set me up</code>. هاللوحة تنفتح بروحها.",
         "<b>أعلى اللوحة</b>: المنحنى هو نموك (الأخضر شغل ثابت، والنقطة الحمرا هي الاختراق). والشريط تحته يمشي بأرقامك الحقيقية من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت (وقّف عليه بالماوس عشان يوقف). وتقييم 100 ياخذ نقطة الاختراق الحمرا. حرّك الماوس عشان تنور الشبكة.",
-        "<b>BIPS، Claude مالك</b>: الروبوت اللي بالزاوية تحت دايماً موجود. اضغط عليه أو اضغط <b>N</b> عشان تكتب لـClaude. <b>اسحب ملفات لأي مكان</b> بالصفحة (أو <b>📎 أرفق</b>، أو الصق) عشان ترسلها مع الرسالة. ردود Claude تطلع جنب BIPS؛ والأسئلة تفتح نافذة. وأي شي قاعد يشتغل تقدر توقفه: <b>■ وقّف</b> بقائمة الشغل أو تحت رسالتك.",
+        "<b>PIX، Claude مالك</b>: PIX اللي بالزاوية تحت دايماً موجود. اضغط عليه أو اضغط <b>N</b> عشان تكتب لـClaude. <b>اسحب ملفات لأي مكان</b> بالصفحة (أو <b>📎 أرفق</b>، أو الصق) عشان ترسلها مع الرسالة. ردود Claude تطلع جنب PIX؛ والأسئلة تفتح نافذة. وأي شي قاعد يشتغل تقدر توقفه: <b>■ وقّف</b> بقائمة الشغل أو تحت رسالتك. ولما تفتح اللوحة تطلع شاشة افتتاحية قصيرة؛ اضغط عليها عشان تتخطاها.",
         "<b>انشر على</b> (تبويب البوست): اضغط على منصة عشان تشغّلها أو تطفيها لهالبوست. <b>المنشورات</b>: ▶ على الفيديو يشغّله بالصوت داخل اللوحة، مع نتايجه (الوصول، اللايكات، الحفظ…). <b>الرسائل</b>: <b>⊘ تجاهل</b> التعليق اللي ما يحتاج رد (أو <b>تجاهل الكل</b>)؛ والتراجع موجود.",
         "<b>حكم خريطة التفاعل</b>: أشّر على أي ساعة وتطلع بطاقة صغيرة: <b>وقت حلو / عادي / ضعيف</b> مقارنة بساعة عادية، وشلون سوّت الكاروسيل والفيديو والصور فيها، لكل منصة. من بوستاتك بس.",
         "<b>حركات سريعة</b>: اضغط <b>1-5</b> عشان تبدّل التبويبات (البوست، المنشورات، الخطة، النمو، الرسائل)؛ واضغط أي رقم بالشريط عشان تروح له. في <b>الفحوصات</b>، اللي نجحت تنطوي بسطر واحد عشان اللي يحتاجك يبين. وفي <b>خريطة التفاعل</b>، السطرين فوق يشرحون معناها؛ وأشّر على أي ساعة عشان تقرا أرقامها.",
@@ -6097,7 +6116,7 @@
       const r = await fetch("/api/state" + (first ? "?visit=1" : ""), { cache: "no-store" });
       const d = await r.json();
       if (d.boot) {
-        if (state.boot && state.boot !== d.boot) { location.reload(); return; }   // dashboard restarted: load the new version
+        if (state.boot && state.boot !== d.boot) { try { sessionStorage.setItem("bps.quiet", "1"); } catch (e) {} location.reload(); return; }   // dashboard restarted: load the new version
         state.boot = d.boot;
       }
       const sig = JSON.stringify({ ...d, previousVisit: undefined });
@@ -6154,9 +6173,9 @@
       listen: ["Claude is listening", "Green: anything you click here reaches Claude Code right away. Grey: Claude Code is closed, and your requests wait until it opens."],
       decision: ["A decision is waiting", "Claude asked you something. Click to answer here, or answer in the chat. The first answer wins."],
       streak: ["Posting streak", "Days in a row with at least one post. Keep it going to stay visible."],
-      note: ["Note to Claude", "BIPS, bottom corner, is always there: click it or press N from anywhere. Drop files anywhere on the page (or 📎 Attach, or paste) to send them with your note. Claude's replies pop up next to BIPS."],
+      note: ["Note to Claude", "PIX, bottom corner, is always there: click it or press N from anywhere. Drop files anywhere on the page (or 📎 Attach, or paste) to send them with your note. Claude's replies pop up next to PIX."],
       postTo: ["Post to", "Switch each network on or off for this post with one tap. A post already in Zernio opens its networks window instead."],
-      zplay: ["Play", "Plays the whole video with sound right here, with the post's results. No trip to Zernio."],
+      zplay: ["Play", "Opens the post and plays the whole video with sound, with its results. If your browser blocks sound, press the big ▶ Play with sound."],
       ibxIgnore: ["Ignore", "No reply needed: moves the comment to Handled on this computer only. Nothing is posted or deleted. Undo is in the message that pops up."],
       jobStop: ["Stop", "Stops this job or withdraws a note Claude hasn't finished. Publishing and batch scheduling can't stop halfway, so they don't have this button."],
       chatAttach: ["Attach", "Photos, a video, a PDF or a zip, sent to Claude with your note. You can also paste them or drop them anywhere on the page."],
@@ -6324,7 +6343,7 @@
       listen: ["Claude يسمعك", "أخضر: أي شي تضغطه هني يوصل Claude Code فوراً. رمادي: Claude Code مسكّر، وطلباتك تنتظر لين ينفتح."],
       decision: ["في قرار ينتظرك", "Claude سألك شي. اضغط عشان تجاوب هني، أو جاوب بالمحادثة. أول جواب يعتمد."],
       streak: ["أيام النشر المتواصلة", "عدد الأيام ورا بعض اللي نشرت فيها. كمّل عشان تظل ظاهر."],
-      note: ["رسالة لـClaude", "BIPS تحت بالزاوية دايماً موجود: اضغط عليه أو اضغط N من أي مكان. اسحب ملفات لأي مكان بالصفحة (أو 📎 أرفق، أو الصق) عشان ترسلها مع رسالتك. ردود Claude تطلع جنب BIPS."],
+      note: ["رسالة لـClaude", "PIX تحت بالزاوية دايماً موجود: اضغط عليه أو اضغط N من أي مكان. اسحب ملفات لأي مكان بالصفحة (أو 📎 أرفق، أو الصق) عشان ترسلها مع رسالتك. ردود Claude تطلع جنب PIX."],
       postTo: ["انشر على", "شغّل أو طفّ كل منصة لهالبوست بضغطة. البوست اللي صار في Zernio يفتح نافذة منصاته."],
       zplay: ["تشغيل", "يشغّل الفيديو كامل بالصوت هني، مع نتايج البوست. بدون ما تروح Zernio."],
       ibxIgnore: ["تجاهل", "ما يحتاج رد: ينقل التعليق لـ«انتهت» على هالجهاز بس. ما ينشر ولا ينحذف شي. التراجع موجود بالرسالة اللي تطلع."],
@@ -6609,28 +6628,31 @@
   })();
 
   /* =====================================================================
-     v1.20 life layer: BIPS (the 200bps robot) is Claude's face in the
+     v1.20 life layer: PIX (the 200bps robot) is Claude's face in the
      dashboard; the dock is always there; files can be dropped anywhere;
      everything that runs can be stopped.
      ===================================================================== */
   const DOCK = { att: [], pose: "listen", base: "listen", timer: 0, drawAtts: null };
+  // PIX, the 200bps screen mascot, is Claude's face here. Each moment has its own emotion.
+  const PIX_MOOD = { listen: "hands", work: "work", away: "sleepy", hover: "wave", talk: "present", point: "point", done: "thumbsup", party: "done",
+    think: "think", fail: "shrug", happy: "happy", drop: "wave", upload: "work", uploaded: "clap", idea: "idea", focus: "focused", wow: "surprised" };
   function bips(pose, cls) {
-    return el("img", { class: "bips " + (cls || ""), src: "assets/bips/" + pose + ".png", alt: "", "aria-hidden": "true", draggable: "false",
-      onerror: (e) => { if (!e.target.dataset.fb) { e.target.dataset.fb = "1"; e.target.src = "assets/bips/idle.png"; } } });
+    return el("img", { class: "bips pix " + (cls || ""), src: "assets/pix/" + (PIX_MOOD[pose] || pose) + ".png", alt: "", "aria-hidden": "true", draggable: "false",
+      onerror: (e) => { if (!e.target.dataset.fb) { e.target.dataset.fb = "1"; e.target.src = "assets/pix/idle.png"; } } });
   }
   const dockImg = () => $("#noteFab .dock-av");
-  function dockSet(pose) { const im = dockImg(); if (im && DOCK.pose !== pose) { DOCK.pose = pose; im.classList.remove("swap"); void im.offsetWidth; im.classList.add("swap"); im.src = "assets/bips/" + pose + ".png"; } }
+  function dockSet(pose) { const im = dockImg(); if (im && DOCK.pose !== pose) { DOCK.pose = pose; im.classList.remove("swap"); void im.offsetWidth; im.classList.add("swap"); im.src = "assets/pix/" + (PIX_MOOD[pose] || pose) + ".png"; } }
   function dockPose(pose, ms) { clearTimeout(DOCK.timer); dockSet(pose); if (ms) DOCK.timer = setTimeout(() => dockSet(DOCK.base), ms); }
-  function dockPresence(pres) { const b = pres === "listening" ? "listen" : pres === "working" ? "work" : "idle"; if (DOCK.base !== b) { DOCK.base = b; if (!DOCK.timer || DOCK.pose === DOCK.base) dockSet(b); } }
+  function dockPresence(pres) { const b = pres === "listening" ? "listen" : pres === "working" ? "work" : "away"; if (DOCK.base !== b) { DOCK.base = b; if (!DOCK.timer || DOCK.pose === DOCK.base) dockSet(b); } }
   (function buildDock() {
     const fab = $("#noteFab"); if (!fab) return;
     fab.innerHTML = "";
     fab.append(bips("listen", "dock-av"), el("span", { class: "dock-lbl", "data-i18n": "noteFab" }, t("noteFab")), el("kbd", { class: "dock-kbd" }, "N"));
     fab.title = t("dockHint");
-    fab.addEventListener("pointerenter", () => { if (!DOCK.timer) dockSet("wave"); });
+    fab.addEventListener("pointerenter", () => { if (!DOCK.timer) dockSet("hover"); });
     fab.addEventListener("pointerleave", () => { if (!DOCK.timer) dockSet(DOCK.base); });
   })();
-  // Claude's replies: BIPS says them in a small bubble by the dock (questions still open a window)
+  // Claude's replies: PIX says them in a small bubble by the dock (questions still open a window)
   function dockSay(m) {
     document.querySelectorAll(".dock-say").forEach((x) => x.remove());
     const txt = String(m.text || "");
@@ -6671,7 +6693,7 @@
   async function addAttachments(files) {
     files = files.filter((f) => f && f.size);
     if (!files.length) return;
-    dockPose("work"); toast(t("attUploading").replace("{n}", files.length));
+    dockPose("upload"); toast(t("attUploading").replace("{n}", files.length));
     for (const f of files) {
       try {
         const r = await fetch("/api/upload", { method: "POST", headers: { "Content-Type": "application/octet-stream", "X-BPS-Token": TOKEN, "X-File-Name": encodeURIComponent(f.name) }, body: f }).then((x) => x.json());
@@ -6679,11 +6701,11 @@
         DOCK.att.push({ path: r.path, name: r.name, kind: r.kind });
       } catch (e) { toast(f.name + ": " + e.message); }
     }
-    dockPose("done", 1800);
+    dockPose("uploaded", 1800);
     if (modal.open === "note" && DOCK.drawAtts) DOCK.drawAtts(); else openChat();
   }
   (function dropAnywhere() {
-    const ov = el("div", { class: "drop-ov", hidden: true }, el("div", { class: "drop-card" }, bips("wave", "drop-av"), el("b", {}, t("dropTitle")), el("p", {}, t("dropHint"))));
+    const ov = el("div", { class: "drop-ov", hidden: true }, el("div", { class: "drop-card" }, bips("drop", "drop-av"), el("b", {}, t("dropTitle")), el("p", {}, t("dropHint"))));
     document.body.append(ov);
     let depth = 0;
     const files = (e) => e.dataTransfer && [...(e.dataTransfer.types || [])].includes("Files");
@@ -6809,16 +6831,15 @@
   }
   addEventListener("scroll", () => { vcard.hidden = true; }, { passive: true });
 
-  // the opening: a lime flood rises, the mark lands, then the dashboard (once per visit)
-  (function bumper() {
-    let seen = false; try { seen = sessionStorage.getItem("bps.bumped") === "1"; sessionStorage.setItem("bps.bumped", "1"); } catch (e) {}
-    if (seen || reduced) return;
-    const b = el("div", { class: "bumper", "aria-hidden": "true" }, el("div", { class: "bp-in" }, el("img", { src: "assets/200bps-mark.webp", alt: "" }),
-      el("span", { class: "bp-name" }, "200bps", el("b", {}, ".ai")), el("span", { class: "bp-sub" }, "Publish")));
-    document.body.append(b);
-    const end = () => { b.classList.add("out"); setTimeout(() => b.remove(), 420); };
-    b.addEventListener("click", end);
-    setTimeout(end, 1150);
+  // the splash (1.5 s): the curve draws, PIX waves hello, the name lands; click to skip
+  (function splash() {
+    const sp = $("#splash"); if (!sp) return;
+    if (document.documentElement.classList.contains("no-splash")) { sp.remove(); return; }
+    const ar = (localStorage.getItem("bps.lang") || "") === "ar";
+    if (ar) { sp.querySelector(".sp-kick").lastChild.textContent = " 200 اختراق في الثانية"; sp.querySelector(".sp-line").innerHTML = "انشر بذكاء. <b>وانمُ أسرع.</b>"; sp.setAttribute("dir", "rtl"); }
+    const end = () => { if (sp.classList.contains("out")) return; sp.classList.add("out"); setTimeout(() => sp.remove(), 520); };
+    sp.addEventListener("click", end);
+    setTimeout(end, 1500);
   })();
   // a press lands: a ring from the point you pressed (primary actions and tabs)
   document.addEventListener("pointerdown", (e) => {

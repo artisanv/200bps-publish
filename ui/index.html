@@ -16,9 +16,27 @@
   try { var t = localStorage.getItem("bps.theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
         document.documentElement.setAttribute("data-theme", t); } catch (e) { document.documentElement.setAttribute("data-theme", "dark"); }
   try { if (localStorage.getItem("bps.cb") === "1") document.documentElement.setAttribute("data-cb", "on"); } catch (e) {}
+  // the splash: every time the dashboard is opened, not when it reloads itself after an update
+  try { if (sessionStorage.getItem("bps.quiet") === "1") { sessionStorage.removeItem("bps.quiet"); document.documentElement.classList.add("no-splash"); } } catch (e) {}
 </script>
 </head>
 <body>
+<div class="splash" id="splash" aria-hidden="true">
+  <svg class="sp-curve" viewBox="0 0 1000 360" preserveAspectRatio="none">
+    <defs><linearGradient id="spSpec" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0">
+      <stop offset=".668" stop-color="#CCFF33"/><stop offset=".79" stop-color="#FF3B2F"/></linearGradient></defs>
+    <path pathLength="100" d="M0 330 C 618 330, 854 200, 1000 -10"/>
+  </svg>
+  <div class="sp-in">
+    <img class="sp-pix" src="assets/pix/wave.png" alt="" onerror="this.style.display='none'">
+    <div class="sp-txt">
+      <div class="sp-kick"><span>./</span> 200 breakthroughs per second</div>
+      <div class="sp-name">200bps<b>.ai</b> <em>Publish</em></div>
+      <div class="sp-line">Post smarter. <b>Grow faster.</b></div>
+      <div class="sp-ver" id="spVer"></div>
+    </div>
+  </div>
+</div>
 <canvas id="bgfx" aria-hidden="true"></canvas>
 
 <div class="topbar">

@@ -18,7 +18,7 @@ your Zernio account.
 - **✨ Fit it for every network:** one click, and Claude writes a version of your caption for each network (Instagram, LinkedIn, Facebook, TikTok, Snapchat) with its own limits and tone. Review the score change, use all, some or none.
 - **A new look: 200bps Brand System v2.** A self-drawing φ-curve hero, a live ticker of your real numbers, a segmented tab bar, soft geometry and purposeful motion. A score of 100 is a "breakthrough", with a red dot.
 - **✦ Claude designs it:** a second way to make images. Claude builds the design in code (carousel slides, quote cards, charts) at the exact post size and in your brand. Free, no OpenAI key needed.
-- **BIPS, your Claude:** the robot is always in the corner. Press N or drop files anywhere to send them to Claude; replies pop up next to it.
+- **PIX, your Claude:** PIX is always in the corner. Press N or drop files anywhere to send them to Claude; replies pop up next to it.
 - **■ Stop anything running**, **⊘ Ignore** comments, **Post to** toggles per network, and ▶ **play videos with sound** inside the dashboard with their results.
 - **Heatmap verdict:** point at any hour to see if it's a good or weak time, and for which format and network.
 - **New OpenAI models show up by themselves:** the list refreshes once a day, and a new model gets a notice: try it, or make it your default.

@@ -528,3 +528,51 @@ footer.credit .verbs b { color: var(--accent-ink); font-weight: 500; }
 @media (prefers-reduced-motion: reduce) { .bumper, .rpl { display: none !important; } .chart .line { stroke-dashoffset: 0; } }
 .vc-sub { font: 500 11.5px var(--bps-font-mono); color: var(--bps-mute); margin-top: -2px; }
 [dir="rtl"] .vc-sub { font-family: var(--bps-font-body); }
+/* the post window: a real player, sound on */
+.zdetail { grid-template-columns: minmax(0, 400px) minmax(0, 1fr); }
+.pv { border-radius: var(--r-card); overflow: hidden; }
+.pv-stage.vid { aspect-ratio: 9 / 16; max-height: 74vh; }
+.pv-stage { position: relative; }
+.pv-sound { position: absolute; inset: auto 50% 50% auto; transform: translate(50%, 50%); z-index: 3; display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px; border-radius: 999px; border: 0; background: var(--bps-lime); color: #08090A; font: 700 15px var(--bps-font-body); cursor: pointer; }
+.pv-sound i { width: 0; height: 0; border-style: solid; border-width: 8px 0 8px 13px; border-color: transparent transparent transparent #08090A; }
+@media (max-width: 760px) { .zdetail { grid-template-columns: minmax(0, 1fr); } }
+
+/* =====================================================================
+   The splash: 1.5 s, every time the dashboard is opened
+   ===================================================================== */
+.splash { position: fixed; inset: 0; z-index: 300; background: #08090A; color: #F4F5F2; display: grid; place-items: center; overflow: hidden; cursor: pointer;
+  animation: spAuto 0s linear 2.6s forwards; }            /* safety: gone even if scripts never run */
+@keyframes spAuto { to { visibility: hidden; opacity: 0; } }
+.no-splash .splash { display: none; }
+.splash.out { animation: spOut 500ms cubic-bezier(.65, 0, .35, 1) forwards; }
+@keyframes spOut { 0% { clip-path: inset(0 0 0 0); } 100% { clip-path: inset(0 0 100% 0); } }
+.sp-curve { position: absolute; left: 0; right: 0; bottom: 8%; width: 100%; height: 62%; }
+.sp-curve path { fill: none; stroke: url(#spSpec); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100;
+  animation: curveDraw 1.1s cubic-bezier(.65, 0, .35, 1) forwards 100ms; }
+.sp-in { position: relative; display: flex; align-items: center; gap: 28px; padding: 0 24px; }
+.sp-pix { width: clamp(110px, 16vw, 190px); height: auto; animation: pixIn 520ms cubic-bezier(.16, 1, .3, 1) both 180ms; }
+@keyframes pixIn { from { opacity: 0; transform: translate(-24px, 40px) scale(.86); } to { opacity: 1; transform: none; } }
+.sp-txt { display: grid; gap: 8px; }
+.sp-kick { font: 500 13px 'JetBrains Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #CCFF33; animation: bpsRise 240ms var(--bps-ease) both 300ms; }
+.sp-kick span { background: #CCFF33; color: #08090A; padding: 1px 6px; border-radius: 5px; margin-inline-end: 6px; letter-spacing: 0; }
+.sp-name { font: 700 clamp(44px, 7vw, 84px)/1 'Space Grotesk', sans-serif; letter-spacing: -.05em; animation: bpsWipe 380ms var(--bps-ease) both 420ms; }
+.sp-name b { color: #CCFF33; font-weight: 700; }
+.sp-name em { font-style: normal; font-weight: 500; color: #97A0A6; font-size: .42em; letter-spacing: -.02em; margin-inline-start: 8px; }
+.sp-line { font: 500 clamp(17px, 2vw, 22px) 'IBM Plex Sans Arabic', sans-serif; color: #97A0A6; animation: bpsRise 240ms var(--bps-ease) both 700ms; }
+.sp-line b { color: #F4F5F2; font-weight: 600; }
+.sp-ver { font: 500 11px 'JetBrains Mono', monospace; letter-spacing: .2em; color: #5A625C; animation: bpsRise 240ms var(--bps-ease) both 820ms; }
+.splash[dir="rtl"] .sp-curve { transform: scaleX(-1); }
+.splash[dir="rtl"] .sp-kick { letter-spacing: 0; text-transform: none; font-family: 'IBM Plex Sans Arabic', sans-serif; }
+.splash[dir="rtl"] .sp-name { direction: ltr; text-align: right; }
+@media (max-width: 600px) { .sp-in { flex-direction: column; text-align: center; gap: 16px; } .sp-txt { justify-items: center; } }
+@media (prefers-reduced-motion: reduce) { .splash * { animation: none !important; } .sp-curve path { stroke-dashoffset: 0; } }
+/* PIX is a wide screen with floating hands: give it room */
+#noteFab .dock-av { width: 58px; height: 48px; object-fit: contain; object-position: center; margin: -16px 0 0 -2px; }
+.chat-msg .chat-av { width: 40px; height: 36px; object-fit: contain; }
+.dock-say { grid-template-columns: 78px 1fr; }
+.dock-say .say-av { width: 78px; height: 72px; object-fit: contain; align-self: center; }
+.drop-card .drop-av { width: 150px; height: 120px; }
+.msg-av { width: 96px; height: 84px; }
+.notice-av { width: 34px; height: 30px; }
+#noteFab .dock-av { width: 68px; height: 52px; margin: -18px -4px 0 -6px; }
