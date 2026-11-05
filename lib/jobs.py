@@ -200,7 +200,7 @@ def _claude() -> list[dict]:
         a = n.get("action") or {}
         typ = a.get("type") or "note"
         label = labels.get(typ, "Reading your note")
-        out.append({"id": "n-" + n["id"], "kind": "claude", "stoppable": True, "label": "Claude: " + label,
+        out.append({"id": "n-" + n["id"], "kind": "claude", "stoppable": True, "label": "PIX: " + label,
                     "step": n.get("step") or ("Working on it…" if listening else "Waiting for Claude to start listening"),
                     "state": "running", "pct": None, "indeterminate": True, "started": n["ts"],
                     "secs": round(now - n["ts"]), "text": (n.get("text") or "")[:160]})

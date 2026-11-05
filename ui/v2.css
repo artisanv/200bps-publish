@@ -604,3 +604,32 @@ footer.credit .verbs b { color: var(--accent-ink); font-weight: 500; }
 }
 #noteFab.has-3d .dock-3d { width: 156px; height: 132px; inset-inline-start: -38px; bottom: 4px; }
 #noteFab.has-3d { padding-inline-start: 104px; }
+
+/* =====================================================================
+   PIX everywhere: chat, reply bubbles, questions, splash, drop screen
+   ===================================================================== */
+.pixhost { position: relative; display: inline-block; flex: 0 0 auto; }
+.pixhost .pix3d-canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; display: block; }
+.pixhost .pix-fb { width: 100%; height: 100%; object-fit: contain; }
+.pixhost.is-3d .pix-fb { display: none; }
+.chat-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.chat-head .chat-pix { width: 150px; height: 118px; margin: -18px -10px -14px 0; }
+[dir="rtl"] .chat-head .chat-pix { margin: -18px 0 -14px -10px; }
+.dock-say .say-av { width: 86px; height: 80px; align-self: center; }
+.pixhost.msg-av { width: 128px; height: 104px; float: inline-end; margin: -10px -6px 0 12px; }
+.drop-card .drop-av { width: 190px; height: 150px; }
+.sp-pix3 { position: relative; display: block; width: clamp(150px, 20vw, 240px); aspect-ratio: 1.25; animation: pixIn 520ms cubic-bezier(.16, 1, .3, 1) both 120ms; }
+.sp-pix3 .pix3d-canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+/* the note flying into PIX */
+.note-fly { position: fixed; left: 0; top: 0; z-index: 400; width: 28px; height: 20px; pointer-events: none; border-radius: 5px; background: var(--bps-lime);
+  box-shadow: 0 0 0 2px #08090A inset; }
+.note-fly i { position: absolute; inset: 3px 4px auto 4px; height: 8px; border: 2px solid #08090A; border-top: 0; border-radius: 0 0 6px 6px; }
+@media (max-width: 600px) { .chat-head .chat-pix { width: 110px; height: 88px; } }
+.chat-head .chat-pix { cursor: pointer; }
+.chat-msg .chat-av { transition: transform 200ms var(--bps-ease-curve); }
+.chat-msg:hover .chat-av { transform: translateY(-3px) rotate(-6deg) scale(1.12); }
+/* chat bubbles: no sliced accent line; a full soft outline instead, and room for PIX */
+.chat-msg.claude.reply, [dir="rtl"] .chat-msg.claude.reply { box-shadow: none !important; border-color: color-mix(in srgb, var(--bps-lime) 38%, var(--bps-line)); }
+.chat-msg.claude { padding-inline-start: 60px !important; min-height: 56px; }
+.chat-msg .chat-av { inset-inline-start: 11px; bottom: 9px; width: 40px; height: 36px; }
+.chat-list > * { flex-shrink: 0; }            /* bubbles never squeeze: the whole message always shows */

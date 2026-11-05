@@ -514,7 +514,7 @@ def ask_claude(prompt: str, shape: str = "tall", n: int = 1, refs: list[str] | N
         src = row
         shape = row.get("shape") or shape
     w, h = CLAUDE_SIZES[shape]
-    jid = jobs.start("image", ("Claude is changing a design" if src else f"Claude is designing {n} image{'s' if n > 1 else ''}"),
+    jid = jobs.start("image", ("PIX is changing a design" if src else f"PIX is designing {n} image{'s' if n > 1 else ''}"),
                      estimate=90 * n, step="Waiting for Claude Code…")
     action = {"type": "claude_image", "prompt": prompt[:4000], "shape": shape, "width": w, "height": h, "n": n,
               "refs": refs, "job": jid, "template": "templates/claude-image.html"}

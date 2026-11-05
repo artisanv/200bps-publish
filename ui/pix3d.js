@@ -46,6 +46,7 @@ function drawFace(c, f) {
   // eyes
   const lx = W * .33 + f.lookX * 26, rx = W * .67 + f.lookX * 26, ey = H * .52 + f.lookY * 18, open = f.blink;
   g.save(); g.shadowColor = LIME; g.shadowBlur = 26; g.strokeStyle = g.fillStyle = LIME; g.lineCap = "round"; g.lineJoin = "round";
+  FACE_T = f.t || 0;
   const E = EYES[f.eyes] || EYES.neutral;
   E(g, lx, ey, -1, open); E(g, rx, ey, 1, open);
   if (f.eyes === "error") { g.lineWidth = 9; g.beginPath(); const mx = W / 2 + f.lookX * 26, my = H * .72; g.moveTo(mx - 46, my);
@@ -56,7 +57,19 @@ const arch = (g, x, y, w, h, t, open) => {           // the sheet's eye: a thick
   const hh = h * Math.max(.08, open), cy = y + h * .5;
   g.beginPath(); g.ellipse(x, cy, w + t * .5, hh + t * .62, 0, Math.PI, 0); g.ellipse(x, cy + t * .1, w - t * .5, Math.max(1, hh - t * .38), 0, 0, Math.PI, true); g.closePath(); g.fill();
   g.beginPath(); g.arc(x - w, cy, t * .5, 0, Math.PI * 2); g.arc(x + w, cy, t * .5, 0, Math.PI * 2); g.fill(); };
+let FACE_T = 0;                                   // time, for eyes that move on the screen
 const EYES = {
+  embarrassed: (g, x, y, s, o) => { arch(g, x, y - 8, 58, 48, 44, o); g.lineWidth = 9; g.globalAlpha = .85;       // the sheet's blush strokes
+    for (let i = 0; i < 3; i++) { g.beginPath(); g.moveTo(x - 30 + i * 22, y + 62); g.lineTo(x - 42 + i * 22, y + 84); g.stroke(); } g.globalAlpha = 1; },
+  starry: (g, x, y, s, o) => { arch(g, x, y - 10, 64, 64, 50, o); const k = (Math.sin(FACE_T * 8 + s) + 1) / 2;       // excited, with a twinkle
+    g.save(); g.translate(x + s * 78, y - 70); g.rotate(FACE_T * 2); g.globalAlpha = .4 + k * .6; g.beginPath();
+    for (let i = 0; i < 4; i++) { g.rotate(Math.PI / 2); g.moveTo(0, 0); g.quadraticCurveTo(3, 3, 0, 20 + k * 6); g.quadraticCurveTo(-3, 3, 0, 0); } g.fill(); g.restore(); g.globalAlpha = 1; },
+  dots: (g, x, y, s, o) => { if (s > 0) return; const W = FACE_W; for (let i = 0; i < 3; i++) {     // "…" while Claude thinks
+    const k = (Math.sin(FACE_T * 6 - i * .9) + 1) / 2; g.globalAlpha = .35 + .65 * k; g.beginPath(); g.arc(W * .38 + i * W * .12, y + 6 - k * 16, 22, 0, Math.PI * 2); g.fill(); } g.globalAlpha = 1; },
+  wink: (g, x, y, s, o) => { if (s < 0) arch(g, x, y - 6, 62, 54, 48, 1); else { g.lineWidth = 26; g.beginPath(); g.moveTo(x - 50, y + 12); g.quadraticCurveTo(x, y + 30, x + 50, y + 12); g.stroke(); } },
+  determined: (g, x, y, s, o) => { g.beginPath(); g.moveTo(x - 60, y - 22 * s * -1 - 6); g.lineTo(x + 60, y + 22 * s * -1 - 6); g.lineTo(x + 54, y + 30 * Math.max(.2, o)); g.lineTo(x - 54, y + 30 * Math.max(.2, o)); g.closePath(); g.fill(); },
+  suspicious: (g, x, y, s, o) => { g.beginPath(); g.moveTo(x - 62, y - 4 + s * 10); g.lineTo(x + 62, y - 4 - s * 10); g.quadraticCurveTo(x, y + 34 * Math.max(.2, o), x - 62, y - 4 + s * 10); g.fill(); },
+  playful: (g, x, y, s, o) => { if (s < 0) arch(g, x, y - 4, 60, 50, 46, o); else { g.lineWidth = 26; g.beginPath(); g.moveTo(x + 34, y - 30); g.lineTo(x - 26, y); g.lineTo(x + 34, y + 30); g.stroke(); } },
   neutral: (g, x, y, s, o) => arch(g, x, y, 60, 44, 46, o),
   happy: (g, x, y, s, o) => arch(g, x, y - 6, 62, 54, 48, o),
   excited: (g, x, y, s, o) => arch(g, x, y - 12, 66, 68, 52, o),
@@ -121,37 +134,72 @@ function stepHand(hand, k) {
 
 /* ---------------- moods: face + hands + motion, all from the sheets ---------------- */
 const MOODS = {
-  listen:   { eyes: "neutral",  L: ["relax", -0.9, -.32, .2, 0], R: ["relax", 0.9, -.32, .2, 0], anim: "float" },
-  hover:    { eyes: "happy",    L: ["relax", -0.9, -.34, .2, 0], R: ["open", 0.9, .2, .25, -.3], anim: "wave" },
-  talk:     { eyes: "happy",    L: ["relax", -0.9, -.34, .2, 0], R: ["open", 0.9, -.08, .3, -1.2], anim: "present" },
-  point:    { eyes: "happy",    L: ["fist", -0.9, -.3, .25, .2], R: ["point", 0.9, .14, .3, -.9], anim: "float" },
-  think:    { eyes: "thinking", L: ["relax", -0.9, -.36, .2, 0], R: ["fist", .7, -.5, .6, .3], anim: "tilt" },
-  work:     { eyes: "focused",  L: ["relax", -0.42, -.66, .5, 1.3], R: ["relax", 0.42, -.66, .5, 1.3], anim: "type" },
+  listen:   { eyes: "neutral",  L: ["relax", -.9, -.32, .2, 0], R: ["relax", .9, -.32, .2, 0], anim: "float" },
+  hover:    { eyes: "happy",    L: ["relax", -.9, -.34, .2, 0], R: ["open", .9, .2, .25, -.3], anim: "wave" },
+  talk:     { eyes: "happy",    L: ["relax", -.9, -.34, .2, 0], R: ["open", .9, -.08, .3, -1.2], anim: "present" },
+  reply:    { eyes: "happy",    L: ["relax", -.9, -.34, .2, 0], R: ["open", .95, -.02, .35, -1.3], anim: "present" },
+  point:    { eyes: "happy",    L: ["fist", -.9, -.3, .25, .2], R: ["point", .9, .14, .3, -.9], anim: "float" },
+  think:    { eyes: "thinking", L: ["relax", -.9, -.36, .2, 0], R: ["fist", .7, -.5, .6, .3], anim: "tilt" },
+  wait:     { eyes: "dots",     L: ["relax", -.9, -.36, .2, 0], R: ["fist", .7, -.5, .6, .3], anim: "tilt" },
+  work:     { eyes: "focused",  L: ["relax", -.42, -.66, .5, 1.3], R: ["relax", .42, -.66, .5, 1.3], anim: "type" },
   done:     { eyes: "happy",    L: ["relax", -.9, -.34, .2, 0], R: ["thumb", .98, -.1, .3, 1.35], anim: "nod" },
-  party:    { eyes: "excited",  L: ["fist", -0.9, .5, .2, 0], R: ["fist", 0.9, .5, .2, 0], anim: "bounce" },
-  fail:     { eyes: "error",    L: ["open", -0.9, -.24, .25, 1.4], R: ["open", 0.9, -.24, .25, -1.4], anim: "shrug" },
-  away:     { eyes: "sleepy",   L: ["relax", -0.9, -.5, .15, .2], R: ["relax", 0.9, -.5, .15, -.2], anim: "sleep" },
-  happy:    { eyes: "happy",    L: ["relax", -0.9, -.32, .2, 0], R: ["relax", 0.9, -.32, .2, 0], anim: "float" },
-  wow:      { eyes: "surprised", L: ["open", -0.9, .28, .25, .2], R: ["open", 0.9, .28, .25, -.2], anim: "pop" },
-  drop:     { eyes: "surprised", L: ["open", -0.9, .28, .25, .2], R: ["open", 0.9, .28, .25, -.2], anim: "pop" },
-  upload:   { eyes: "focused",  L: ["relax", -0.42, -.66, .5, 1.3], R: ["relax", 0.42, -.66, .5, 1.3], anim: "type" },
-  uploaded: { eyes: "excited",  L: ["open", -0.36, -.25, .4, 1.4], R: ["open", 0.36, -.25, .4, -1.4], anim: "clap" },
-  focus:    { eyes: "focused",  L: ["relax", -0.9, -.32, .2, 0], R: ["relax", 0.9, -.32, .2, 0], anim: "float" },
-  idea:     { eyes: "happy",    L: ["relax", -0.9, -.34, .2, 0], R: ["point", 0.9, .36, .25, -.2], anim: "nod" },
-  victory:  { eyes: "excited",  L: ["peace", -0.9, .3, .22, .2], R: ["peace", 0.9, .3, .22, -.2], anim: "bounce" },
-  sad:      { eyes: "sad",      L: ["relax", -0.9, -.5, .15, .2], R: ["relax", 0.9, -.5, .15, -.2], anim: "sleep" },
-  mischief: { eyes: "mischievous", L: ["relax", -0.9, -.32, .2, 0], R: ["point", 0.9, .14, .3, -.9], anim: "tilt" },
+  party:    { eyes: "excited",  L: ["fist", -.9, .5, .2, 0], R: ["fist", .9, .5, .2, 0], anim: "bounce" },
+  fail:     { eyes: "error",    L: ["open", -.9, -.24, .25, 1.4], R: ["open", .9, -.24, .25, -1.4], anim: "shrug" },
+  away:     { eyes: "sleepy",   L: ["relax", -.9, -.5, .15, .2], R: ["relax", .9, -.5, .15, -.2], anim: "sleep" },
+  happy:    { eyes: "happy",    L: ["relax", -.9, -.32, .2, 0], R: ["relax", .9, -.32, .2, 0], anim: "float" },
+  curious:  { eyes: "curious",  L: ["relax", -.9, -.32, .2, 0], R: ["relax", .9, -.32, .2, 0], anim: "tilt" },
+  receive:  { eyes: "surprised", L: ["open", -.5, -.12, .75, .5], R: ["open", .5, -.12, .75, -.5], anim: "pop" },
+  wow:      { eyes: "surprised", L: ["open", -.9, .28, .25, .2], R: ["open", .9, .28, .25, -.2], anim: "pop" },
+  drop:     { eyes: "surprised", L: ["open", -.9, .28, .25, .2], R: ["open", .9, .28, .25, -.2], anim: "pop" },
+  upload:   { eyes: "focused",  L: ["relax", -.42, -.66, .5, 1.3], R: ["relax", .42, -.66, .5, 1.3], anim: "type" },
+  uploaded: { eyes: "excited",  L: ["open", -.36, -.25, .4, 1.4], R: ["open", .36, -.25, .4, -1.4], anim: "clap" },
+  focus:    { eyes: "focused",  L: ["relax", -.9, -.32, .2, 0], R: ["relax", .9, -.32, .2, 0], anim: "float" },
+  idea:     { eyes: "happy",    L: ["relax", -.9, -.34, .2, 0], R: ["point", .9, .36, .25, -.2], anim: "nod" },
+  victory:  { eyes: "excited",  L: ["peace", -.9, .3, .22, .2], R: ["peace", .9, .3, .22, -.2], anim: "bounce" },
+  sad:      { eyes: "sad",      L: ["relax", -.9, -.5, .15, .2], R: ["relax", .9, -.5, .15, -.2], anim: "sleep" },
+  wink:     { eyes: "wink",     L: ["relax", -.9, -.32, .2, 0], R: ["point", .8, -.05, .6, -.4], anim: "nod" },
+  playful:  { eyes: "playful",  L: ["peace", -.9, .2, .22, .2], R: ["relax", .9, -.32, .2, 0], anim: "bounce" },
+  mischief: { eyes: "mischievous", L: ["relax", -.9, -.32, .2, 0], R: ["point", .9, .14, .3, -.9], anim: "tilt" },
+  determined: { eyes: "determined", L: ["fist", -.9, -.2, .3, .2], R: ["fist", .9, -.2, .3, -.2], anim: "nod" },
+  peekaboo: { eyes: "happy",    L: ["open", -.3, .02, .78, .15], R: ["open", .3, .02, .78, -.15], anim: "float" },
+  highfive: { eyes: "starry",   L: ["relax", -.9, -.34, .2, 0], R: ["open", .62, .12, 1.05, -.1], anim: "pop" },
+  scratch:  { eyes: "thinking", L: ["relax", -.9, -.34, .2, 0], R: ["relax", .58, .62, .25, .7], anim: "scratch" },
+  shy:      { eyes: "embarrassed", L: ["open", -.62, -.28, .5, .9], R: ["open", .62, -.28, .5, -.9], anim: "sway" },
+  cheer:    { eyes: "starry",   L: ["open", -.9, .55, .2, .3], R: ["open", .9, .55, .2, -.3], anim: "bounce" },
+  hello:    { eyes: "starry",   L: ["relax", -.9, -.34, .2, 0], R: ["open", .9, .28, .3, -.3], anim: "wave" },
+  suspicious: { eyes: "suspicious", L: ["relax", -.9, -.32, .2, 0], R: ["fist", .7, -.5, .6, .3], anim: "tilt" },
 };
+const IDLE = ["listen", "happy", "focus", "curious"];
+// what PIX does when the mouse comes over it: a different trick each time
+const HOVER_TRICKS = [
+  [["hello", 1500]], [["peekaboo", 700], ["wow", 600], ["happy", 500]], [["highfive", 1300]], [["wink", 1100]],
+  [["victory", 1300]], [["spin", 0]], [["playful", 1200]], [["scratch", 1300]], [["cheer", 1200]],
+];
 
-function mount(host) {
+/* ---------------- shared attention: every PIX looks where things happen ---------------- */
+const ALL = new Set();
+const MOUSE = { x: innerWidth / 2, y: innerHeight / 2, t: 0 };
+const GAZE = { x: 0, y: 0, until: 0 };
+addEventListener("pointermove", (e) => { MOUSE.x = e.clientX; MOUSE.y = e.clientY; MOUSE.t = performance.now(); ALL.forEach((i) => i.kick()); }, { passive: true });
+function lookAt(x, y, ms = 1400) { GAZE.x = x; GAZE.y = y; GAZE.until = performance.now() + ms; ALL.forEach((i) => i.kick()); }
+function lookAtEl(el, ms) { if (!el || !el.getBoundingClientRect) return; const r = el.getBoundingClientRect(); lookAt(r.left + r.width / 2, r.top + r.height / 2, ms); }
+
+function shadowTexture() {
+  const c = document.createElement("canvas"); c.width = c.height = 128; const g = c.getContext("2d");
+  const rg = g.createRadialGradient(64, 64, 4, 64, 64, 62); rg.addColorStop(0, "rgba(0,0,0,.55)"); rg.addColorStop(1, "rgba(0,0,0,0)");
+  g.fillStyle = rg; g.fillRect(0, 0, 128, 128); const t = new THREE.CanvasTexture(c); return t;
+}
+
+function mount(host, opts = {}) {
   let gl;
   try { gl = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" }); } catch (e) { return null; }
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   gl.setPixelRatio(Math.min(2, devicePixelRatio || 1));
   gl.outputColorSpace = THREE.SRGBColorSpace;
+  gl.domElement.className = "pix3d-canvas";
   host.append(gl.domElement);
   const scene = new THREE.Scene();
-  const cam = new THREE.PerspectiveCamera(26, 1, .1, 50); cam.position.set(0, .05, 7.4);
+  const cam = new THREE.PerspectiveCamera(26, 1, .1, 50); cam.position.set(0, .55, 7.6); cam.lookAt(0, -.08, 0);
   scene.add(new THREE.HemisphereLight(0xffffff, 0x30343a, 1.25));
   const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(-2.5, 3, 4); scene.add(key);
   const rim = new THREE.DirectionalLight(0xbff7ff, 1.1); rim.position.set(3, 1, -2); scene.add(rim);
@@ -159,56 +207,92 @@ function mount(host) {
   const pix = new THREE.Group(); scene.add(pix);
   const bodyGeo = new THREE.ExtrudeGeometry(roundedRect(BW - .06, BH - .06, BR), { depth: BD - .06, bevelEnabled: true, bevelThickness: .03, bevelSize: .03, bevelSegments: 5, curveSegments: 12 });
   bodyGeo.translate(0, 0, -(BD - .06) / 2);
-  const body = outline(new THREE.Mesh(bodyGeo, new THREE.MeshPhongMaterial({ color: INK, specular: 0x555a60, shininess: 70 })), 1.025);
-  pix.add(body);
-  // front: the screen
+  pix.add(outline(new THREE.Mesh(bodyGeo, new THREE.MeshPhongMaterial({ color: INK, specular: 0x555a60, shininess: 70 })), 1.025));
   const faceC = document.createElement("canvas"); faceC.width = FACE_W; faceC.height = FACE_H;
   const faceT = new THREE.CanvasTexture(faceC); faceT.colorSpace = THREE.SRGBColorSpace; faceT.anisotropy = 4;
   const scr = new THREE.ShapeGeometry(roundedRect(BW - .04, BH - .04, BR - .01), 12);
   const uv = scr.attributes.uv, pos = scr.attributes.position;
   for (let i = 0; i < uv.count; i++) uv.setXY(i, pos.getX(i) / (BW - .04) + .5, pos.getY(i) / (BH - .04) + .5);
   const front = new THREE.Mesh(scr, new THREE.MeshBasicMaterial({ map: faceT })); front.position.z = BD / 2 + .004; pix.add(front);
-  // back: screws, slash, 200BPS.AI
   const backC = document.createElement("canvas"); backC.width = FACE_W; backC.height = FACE_H;
   const backT = new THREE.CanvasTexture(backC); backT.colorSpace = THREE.SRGBColorSpace;
   const back = new THREE.Mesh(scr.clone(), new THREE.MeshLambertMaterial({ map: backT })); back.position.z = -BD / 2 - .004; back.rotation.y = Math.PI; pix.add(back);
   const paintBack = () => { drawBack(backC); backT.needsUpdate = true; };
   paintBack(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(paintBack);
-  // gloves
   const ramp = toonRamp();
   const glove = new THREE.MeshToonMaterial({ color: 0xffffff, gradientMap: ramp });
   const cuff = new THREE.MeshToonMaterial({ color: 0x15171a, gradientMap: ramp });
   const L = makeHand(glove, cuff), R = makeHand(glove, cuff); L.scale.setScalar(1.18); R.scale.set(-1.18, 1.18, 1.18);
   scene.add(L, R);
+  // a soft shadow on the "floor": it shrinks and fades as PIX rises, which reads as depth
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(1.9, .7), new THREE.MeshBasicMaterial({ map: shadowTexture(), transparent: true, depthWrite: false }));
+  shadow.rotation.x = -Math.PI / 2; shadow.position.y = -1.05; if (opts.shadow !== false) scene.add(shadow);
 
-  const st = { mood: "listen", t: 0, mx: 0, my: 0, lx: 0, ly: 0, blink: 1, nextBlink: 2, poke: 0, face: "" };
-  function mood(m) { st.mood = MOODS[m] ? m : "listen"; const M = MOODS[st.mood]; setCurl(L, M.L[0]); setCurl(R, M.R[0]); }
-  mood("listen");
+  const st = { mood: "listen", base: "listen", t: 0, mx: 0, my: 0, lx: 0, ly: 0, blink: 1, nextBlink: 2, poke: 0, face: "", hover: 0, wantHover: 0,
+    seq: [], seqUntil: 0, idleAt: 6, idle: null, idleUntil: 0, spin: null, zoom: opts.zoom || 1,
+    inside: false, trick: Math.floor(Math.random() * 9), spinT: -1, flips: [], lastDir: 0, lastX: 0, near: false };
+  function setMood(m) { st.mood = MOODS[m] ? m : "listen"; const M = MOODS[st.mood]; setCurl(L, M.L[0]); setCurl(R, M.R[0]); }
+  setMood(opts.mood || "listen"); st.base = st.mood;
   function size() { const w = host.clientWidth || 120, h = host.clientHeight || 100; gl.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); }
   size(); const ro = new ResizeObserver(size); ro.observe(host);
-  const onMove = (e) => { const r = host.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    st.mx = Math.max(-1, Math.min(1, (e.clientX - cx) / (innerWidth * .45))); st.my = Math.max(-1, Math.min(1, (e.clientY - cy) / (innerHeight * .45))); };
-  addEventListener("pointermove", onMove, { passive: true });
 
   let DT = 1 / 60;
-  const lerp = (a, b, k) => a + (b - a) * (1 - Math.pow(1 - k, DT * 60));     // smooth at any frame rate
+  const lerp = (a, b, k) => a + (b - a) * (1 - Math.pow(1 - k, DT * 60));
   const place = (H, spec, t, side) => {
     const [, x, y, z, rz] = spec; let ox = 0, oy = Math.sin(t * 2.1 + side) * .03, orz = 0;
     const a = MOODS[st.mood].anim;
     if (a === "wave" && side > 0) orz = Math.sin(t * 9) * .45;
-    if (a === "type") { oy = Math.abs(Math.sin(t * 14 + side * 1.7)) * .06; }
+    if (a === "type") oy = Math.abs(Math.sin(t * 14 + side * 1.7)) * .06;
     if (a === "clap") ox = -side * (Math.sin(t * 11) * .5 + .5) * .16;
     if (a === "bounce") oy = Math.abs(Math.sin(t * 7)) * .12;
     if (a === "shrug") oy = Math.sin(t * 3) * .05 + .03;
-    H.position.x = lerp(H.position.x, x + ox, .16); H.position.y = lerp(H.position.y, y + oy + pix.position.y * .8, .16); H.position.z = lerp(H.position.z, z, .16);
+    if (a === "scratch" && side > 0) { orz = Math.sin(t * 16) * .25; oy = Math.sin(t * 16) * .03; }
+    if (a === "sway") ox = Math.sin(t * 4) * .04 * side;
+    const hz = st.hover * .35;
+    H.position.x = lerp(H.position.x, (x + ox) * (1 + st.hover * .08), .16); H.position.y = lerp(H.position.y, y + oy + pix.position.y * .8, .16); H.position.z = lerp(H.position.z, z + hz + pix.position.z, .16);
     H.rotation.z = lerp(H.rotation.z, rz + orz, .16); H.rotation.y = lerp(H.rotation.y, pix.rotation.y * .6, .1);
   };
   let raf = 0, last = performance.now(), alive = true;
+  const api = {};
   function frame(now) {
     raf = 0; if (!alive) return;
-    const dt = Math.min(.1, (now - last) / 1000); last = now; st.t += dt; DT = dt;
+    if (!host.isConnected) { api.destroy(); return; }
+    const dt = Math.max(0, Math.min(.1, (now - last) / 1000)); last = Math.max(last, now); st.t += dt; DT = dt;   // never a negative step (rAF time can trail the mount time)
+    // a sequence ([mood, ms], …), then back to the base mood
+    if (st.seq.length && now > st.seqUntil) { const [m, ms] = st.seq.shift();
+      if (m === "spin") { st.spinT = 0; setMood("starry" in MOODS ? "cheer" : "happy"); st.seqUntil = now + 1100; }
+      else { setMood(m); st.seqUntil = ms ? now + ms : Infinity; if (!ms) st.base = m; } }
+    else if (!st.seq.length && st.seqUntil !== Infinity && st.seqUntil && now > st.seqUntil) { st.seqUntil = 0; setMood(st.base); }
     const M = MOODS[st.mood], a = M.anim, t = st.t;
-    // body: float, follow the mouse, mood motion
+    // where to look: something that just happened, else the mouse; when the mouse rests, PIX looks around on its own
+    const r = host.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    if (opts.interactive !== false) {                                 // the mouse over PIX: depth, a trick, and petting
+      const pad = 6, inn = MOUSE.x > r.left - pad && MOUSE.x < r.right + pad && MOUSE.y > r.top - pad && MOUSE.y < r.bottom + pad && now - MOUSE.t < 4000;
+      if (inn && !st.inside) { st.inside = true; st.wantHover = 1; if (!st.seq.length || st.seqUntil === Infinity) { st.seq = HOVER_TRICKS[st.trick++ % HOVER_TRICKS.length].slice(); st.seqUntil = 0; } }
+      if (!inn && st.inside) { st.inside = false; st.wantHover = opts.hoverStay ? st.wantHover : 0; st.flips = []; }
+      if (inn) { const dx = MOUSE.x - st.lastX, dir = Math.sign(dx);
+        if (Math.abs(dx) > 3 && dir && dir !== st.lastDir) { st.flips.push(now); st.lastDir = dir; }
+        st.flips = st.flips.filter((x) => now - x < 1300);
+        if (st.flips.length >= 5) { st.flips = []; st.seq = [["shy", 1700], ["happy", 600]]; st.seqUntil = 0; } }
+      st.lastX = MOUSE.x;
+      const d = Math.hypot(Math.max(r.left - MOUSE.x, 0, MOUSE.x - r.right), Math.max(r.top - MOUSE.y, 0, MOUSE.y - r.bottom));
+      const nearNow = !inn && d < 110 && now - MOUSE.t < 1500;
+      if (nearNow && !st.near && IDLE.includes(st.mood) && !st.seq.length) { st.seq = [["curious", 900]]; st.seqUntil = 0; }
+      st.near = nearNow;
+    }
+    let tx = MOUSE.x, ty = MOUSE.y;
+    if (now < GAZE.until) { tx = GAZE.x; ty = GAZE.y; }
+    let tmx = Math.max(-1, Math.min(1, (tx - cx) / (innerWidth * .45))), tmy = Math.max(-1, Math.min(1, (ty - cy) / (innerHeight * .45)));
+    const resting = now - MOUSE.t > 5000 && now >= GAZE.until && IDLE.includes(st.mood) && !st.seq.length;
+    if (resting && st.t > st.idleAt) {                                  // little life of its own: glance 3/4 left or right, look at you, wink
+      const pick = ["left", "right", "you", "wink", "you"][Math.floor(Math.random() * 5)];
+      st.idle = pick; st.idleUntil = st.t + (pick === "wink" ? .9 : 1.6); st.idleAt = st.t + 4 + Math.random() * 4;
+      if (pick === "wink") { st.seq = [["wink", 900]]; }
+    }
+    if (st.idle && st.t < st.idleUntil && resting) { if (st.idle === "left") { tmx = -1.4; tmy = .1; } else if (st.idle === "right") { tmx = 1.4; tmy = .1; } else { tmx = 0; tmy = 0; } }
+    st.mx = lerp(st.mx, tmx, .1); st.my = lerp(st.my, tmy, .1);
+    // body: float, turn toward what it's looking at (up to a 3/4 view), mood motion, hover depth
+    st.hover = lerp(st.hover, st.wantHover, .14);
     let by = Math.sin(t * 1.6) * .06, brz = 0, brx = 0;
     if (a === "bounce" || a === "pop") by = Math.abs(Math.sin(t * 7)) * .14;
     if (a === "nod") brx = Math.sin(t * 5) * .12;
@@ -216,32 +300,52 @@ function mount(host) {
     if (a === "sleep") { by = Math.sin(t * .9) * .04 - .05; brz = .08; }
     if (a === "present") brz = -.06;
     if (st.poke > 0) { st.poke -= dt; by += Math.sin(st.poke * 18) * .08 * st.poke; }
-    pix.position.y = lerp(pix.position.y, by, .2);
-    pix.rotation.y = lerp(pix.rotation.y, st.spin != null ? st.spin : st.mx * .55, st.spin != null ? .5 : .08);
-    pix.rotation.x = lerp(pix.rotation.x, st.my * .28 + brx, .08);
-    pix.rotation.z = lerp(pix.rotation.z, brz, .08);
+    pix.position.y = lerp(pix.position.y, by + st.hover * .12, .2);
+    pix.position.z = lerp(pix.position.z, st.hover * .9, .14);
+    const amp = 1 + st.hover * .6;
+    let spinAdd = 0;
+    if (st.spinT >= 0) { st.spinT += dt / 1.05; const e = st.spinT >= 1 ? 1 : 1 - Math.pow(1 - st.spinT, 3); spinAdd = e * Math.PI * 2; if (st.spinT >= 1) st.spinT = -1; }
+    const ry = (st.spin != null ? st.spin : st.mx * .62 * amp);
+    pix.rotation.y = st.spinT >= 0 ? ry + spinAdd : lerp(pix.rotation.y % (Math.PI * 2), ry, st.spin != null ? .5 : .1);
+    pix.rotation.x = lerp(pix.rotation.x, st.my * .3 * amp + brx - st.hover * .08, .1);
+    pix.rotation.z = lerp(pix.rotation.z, brz + st.mx * -.05, .1);
+    const sc = st.zoom * (1 + st.hover * .14);
+    let sq = 0;                                                         // squash and stretch on bounces and pokes
+    if (a === "bounce" || a === "pop") sq = Math.cos(t * 14) * .06;
+    if (st.poke > 0) sq += Math.sin(st.poke * 22) * .1 * st.poke;
+    const base = lerp(pix.scale.x / (1 - sq * .5 || 1), sc, .15);
+    pix.scale.set(base * (1 - sq * .5), base * (1 + sq), base * (1 - sq * .5));
+    const lift = pix.position.y + 1.05; shadow.scale.setScalar(Math.max(.4, 1.1 - lift * .25) * sc); shadow.material.opacity = Math.max(.15, .85 - lift * .35);
     place(L, M.L, t, -1); place(R, M.R, t, 1); stepHand(L, 1 - Math.pow(.82, dt * 60)); stepHand(R, 1 - Math.pow(.82, dt * 60));
-    // eyes: look, blink
-    st.lx = lerp(st.lx, st.mx, .12); st.ly = lerp(st.ly, st.my, .12);
-    if (t > st.nextBlink) { st.blink = 0; st.nextBlink = t + 2.4 + Math.random() * 3; }
+    // eyes follow too; blink now and then
+    st.lx = lerp(st.lx, st.mx, .14); st.ly = lerp(st.ly, st.my, .14);
+    if (t > st.nextBlink) { st.blink = 0; st.nextBlink = t + 2.4 + Math.random() * 3; if (Math.random() < .25) st.nextBlink = t + .35; }
     st.blink = Math.min(1, st.blink + dt * 9);
     const blink = a === "sleep" ? 1 : Math.max(.08, Math.min(1, Math.abs(st.blink * 2 - 1) * 1.4));
-    const sig = M.eyes + (st.lx * 40 | 0) + "," + (st.ly * 40 | 0) + "," + (blink * 10 | 0);
-    if (sig !== st.face) { st.face = sig; drawFace(faceC, { eyes: M.eyes, lookX: st.lx, lookY: st.ly, blink }); faceT.needsUpdate = true; }
+    const sig = M.eyes + (Math.max(-1.2, Math.min(1.2, st.lx)) * 40 | 0) + "," + (st.ly * 40 | 0) + "," + (blink * 10 | 0) + (M.eyes === "dots" ? "," + (t * 20 | 0) : "");
+    if (sig !== st.face) { st.face = sig; drawFace(faceC, { eyes: M.eyes, lookX: Math.max(-1, Math.min(1, st.lx)), lookY: st.ly, blink, t }); faceT.needsUpdate = true; }
     gl.render(scene, cam);
     if (!still && !document.hidden) raf = requestAnimationFrame(frame);
   }
   const kick = () => { if (!raf && alive) raf = requestAnimationFrame(frame); };
   document.addEventListener("visibilitychange", kick);
+  Object.assign(api, {
+    kick,
+    mood: (m) => { st.seq = []; st.seqUntil = 0; setMood(m); st.base = st.mood; kick(); },
+    play: (steps) => { st.seq = steps.slice(); st.seqUntil = 0; kick(); },          // [[mood, ms], …]; ms 0 = stay
+    hover: (on) => { st.wantHover = on ? 1 : 0; kick(); },
+    poke: () => { st.poke = .9; kick(); },
+    react: () => { st.poke = .9; const fun = [[["spin", 0]], [["cheer", 1200]], [["highfive", 1200]], [["victory", 1200]], [["shy", 1400]], [["playful", 1100]]];
+      st.seq = fun[Math.floor(Math.random() * fun.length)].slice(); st.seqUntil = 0; kick(); },
+    turn: (ry) => { st.spin = ry; kick(); },
+    _debug: () => ({ rot: [pix.rotation.x, pix.rotation.y, pix.rotation.z], sc: [pix.scale.x, pix.scale.y], pos: [pix.position.y, pix.position.z], mood: st.mood, seq: st.seq.length, spinT: st.spinT, mx: st.mx, my: st.my }),
+    destroy: () => { if (!alive) return; alive = false; ALL.delete(api); ro.disconnect(); gl.dispose(); gl.domElement.remove(); },
+  });
+  ALL.add(api);
   kick();
   if (still) setTimeout(() => frame(performance.now()), 50);
-  return {
-    mood: (m) => { mood(m); kick(); },
-    poke: () => { st.poke = .9; kick(); },
-    turn: (ry) => { st.spin = ry; kick(); },      // turn to an angle (null = follow the mouse again)
-    destroy: () => { alive = false; ro.disconnect(); removeEventListener("pointermove", onMove); gl.dispose(); gl.domElement.remove(); },
-  };
+  return api;
 }
 
-window.PIX3D = { mount, moods: Object.keys(MOODS) };
+window.PIX3D = { mount, lookAt, lookAtEl, moods: Object.keys(MOODS), all: ALL };
 window.dispatchEvent(new Event("pix3d-ready"));

@@ -50,50 +50,50 @@
       accPrivacy: "Your password goes only to the network. Keep this window open; it updates by itself when you're done.", accOpenAgain: "Open the sign-in page again",
       accDone: "Connected: {a}. It's ready to post.",
       zGrid: "Grid", zList: "List", zViewLabel: "View", ideaGet: "Get ideas", ideaMore: "More ideas", ideaTopicPh: "Optional topic, e.g. AI Agents for beginners",
-      ideaEmptyTitle: "No ideas yet", ideaEmptyHint: "Claude studies your best posts in Zernio (follows, saves, shares) and suggests 5 posts with a hook, outline and best time. It refills after every publish.",
-      ideaComing: "Claude is on it. Ideas will appear here shortly.", ideaQueued: "Sent. Ideas will appear when Claude Code is open.",
+      ideaEmptyTitle: "No ideas yet", ideaEmptyHint: "PIX studies your best posts in Zernio (follows, saves, shares) and suggests 5 posts with a hook, outline and best time. It refills after every publish.",
+      ideaComing: "PIX is on it. Ideas will appear here shortly.", ideaQueued: "Sent. Ideas will appear when Claude Code is open.",
       ideaSt_drafted: "Drafted", ibAll: "Select all", ibSel: "{n} selected", ibDel: "Delete", ibSaveMd: "Save as document (.md)", ibSaveJson: "Save backup (.json)", ibSaveHint: "Saves the selected ideas, or all of them if none are selected", ibAdd: "Add an idea", ibLoad: "Load ideas from a file", ibLoadHint: "Load a backup saved with Save backup (.json)", ibClear: "Clear all", ibClearAsk: "Delete all {n} ideas? You can undo right after.", ibDeleted: "{n} idea(s) deleted.", ibUndo: "Undo", ibRestored: "{n} idea(s) back.", ibSaved: "Saved: {f}", ibLoaded: "{a} idea(s) added, {s} already in the bank.", ibEdit: "Edit", ibEditTitle: "Edit idea", ibNewTitle: "New idea", ibSave: "Save idea", ibTitle: "Title", ibFormat: "Format", ibOutlineHint: "one step per line", ibTagsHint: "separated by spaces", ibSelectHint: "Select this idea", ideaSt_posted: "Posted", ideaTopicsBasis: "Not based on results yet",
       pubTitle: "Publish this post?", pubHint: "It's uploaded to Zernio, which posts it at the time below. Then we read it back from Zernio to prove it's there.",
       pubNow: "Right away", pubBlocked: "Fix these first:", pubBtn: "Publish", pubWorking: "Publishing…", pubS1: "Uploading media", pubS2: "Checking with Zernio",
       pubS3: "Creating the post", pubS4: "Verifying in Zernio", pubDontClose: "Keep this window open for a moment.", pubFailed: "Not published",
-      pubFailedHint: "Nothing went live. Fix the issue and publish again, or ask Claude to help.", pubDoneSched: "Uploaded to Zernio and scheduled",
+      pubFailedHint: "Nothing went live. Fix the issue and publish again, or ask PIX to help.", pubDoneSched: "Uploaded to Zernio and scheduled",
       pubDonePub: "Uploaded to Zernio and published", pubVerified: "Verified: we read this post back from your Zernio account.",
       pubNotVerified: "Created in Zernio, but reading it back failed. Check the Posts tab in a moment.", zPostId: "Zernio post", zStatus: "Status in Zernio",
       pubGiftOn: "DM gift is live: comment “{k}”.", pubGiftFail: "The post is up, but the DM gift failed:", openZernio: "Open Zernio", seeInPosts: "See it in Posts",
       newPost: "New post", newPostQ: "Start a new post?", newPostKeep: "This post is set aside, not deleted. You'll find it in Posts → Not uploaded, and can continue it anytime.",
       newPostKeepShort: "start fresh; nothing is deleted", newPostGo: "Start fresh", newPostDone: "Ready for a new post", newPostTitle: "Start a new post",
-      newPostHow: "Make a folder with your image or video and a caption.txt, then send the folder name to Claude (or type /200bps-publish and the folder in the chat).",
-      newPostSend: "Send to Claude", newPostNeedFolder: "Type the folder name first.", newPostDrafts: "You have {n} draft(s) not uploaded yet.",
+      newPostHow: "Make a folder with your image or video and a caption.txt, then send the folder name to PIX (or type /200bps-publish and the folder in the chat).",
+      newPostSend: "Send to PIX", newPostNeedFolder: "Type the folder name first.", newPostDrafts: "You have {n} draft(s) not uploaded yet.",
       tabPosts: "Posts", zTitle: "Your Zernio account", zRefresh: "Refresh from Zernio", zRefreshing: "Refreshing…", zUpdated: "Updated from Zernio", synced: "synced",
       zAll: "All", zNotUploaded: "Not uploaded yet", zAttention: "Needs attention", zNone: "Nothing here.", reconnect: "Reconnect in Zernio",
       stLocal: "Not uploaded", stAwaiting: "Waiting for go", stDraft: "Draft in Zernio", stScheduled: "Scheduled", stPublishing: "Publishing", stPublished: "Published",
       stPartial: "Partly published", stFailed: "Failed", stCancelled: "Cancelled", stPending: "Pending",
-      openPost: "Open", vPrev: "Previous", vNext: "Next", vFull: "Full screen", vOpenDoc: "Open the PDF", vNoMedia: "This media can't be shown here. Open the post to see it.", zContinue: "Continue this post", zOpenPlan: "Open plan", zAskFix: "Ask Claude to fix", zLocalHint: "local draft, only on this computer",
+      openPost: "Open", vPrev: "Previous", vNext: "Next", vFull: "Full screen", vOpenDoc: "Open the PDF", vNoMedia: "This media can't be shown here. Open the post to see it.", zContinue: "Continue this post", zOpenPlan: "Open plan", zAskFix: "Ask PIX to fix", zLocalHint: "local draft, only on this computer",
       zFromSkill: "sent by this skill", zFromZernio: "in your Zernio account",
-      fixInProgress: "Claude is already working on this fix", fixInProgressHint: "You'll get a before/after to approve as soon as it's ready. No need to ask again.", ok: "OK",
+      fixInProgress: "PIX is already working on this fix", fixInProgressHint: "You'll get a before/after to approve as soon as it's ready. No need to ask again.", ok: "OK",
       keysTitle: "API keys", keysLocal: "stored on this computer only", keyName: "Key name", keyValue: "Paste the key", show: "Show", hide: "Hide", showKey: "Show or hide the key",
       saveKey: "Save", saving: "Saving…", keySaved: "Key saved", keyOk: "Connected: {a}", accountsWord: "accounts", required: "Required", connected: "OK", check: "CHECK", missing: "MISSING",
       replace: "Replace", addKey: "Add key", test: "Test", remove: "Remove", removed: "Key removed", removeConfirm: "Remove {k} from this computer?", whereKey: "Get it at", addOther: "Add another API key",
       keysSafe: "Keys are saved in the .env file in this folder, readable only by you. They never go into the chat and are never shown in full again.",
-      npStep1: "Media & caption", npStep2: "Check & improve", npStep3: "Time", npStep4: "Review & schedule", npStepOf: "Step {n} of 4", npNextCheck: "Next: check it", npNextClaude: "Next: Claude writes the caption", npNextTime: "Next: pick a time", npNextReview: "Next: review", npBack: "Back", npCloseKeep: "Close (the draft is kept)", npWriting: "Claude is writing your caption…", npWritingHint: "It appears here as soon as it's ready (Claude Code must be open). You can close this window; the post also opens in the Post tab.", npChecking: "Checking your post…", npCaptionAll: "Caption (all platforms)", npCaptionFor: "Caption for {p}", npSaveCheck: "Save and check again", npSavedCheck: "Saved and checked again", npPassed: "{n} checks passed", npToFix: "To fix", npAskFix: "Ask Claude to fix", npFixing: "Claude is on it…", npSugReady: "Claude's suggestion", npApprove: "Use it", npEditSug: "Edit", npReject: "No thanks", npSugSent: "Sent. Claude applies it and the checks update here.", npBlockedNext: "Red items must be fixed before you can schedule.", npAllGood: "All checks pass.", npBest: "Your best times", npBestHint: "From your own posts: lift vs your average, and how many posts back it.", npPickAny: "Or pick any day and time", npNow: "Post right after I confirm", npWhen: "When", npNoTime: "Pick a time first.", npGiftAdd: "Add a gift (optional)", npGiftEdit: "Change the gift", npCoverHint: "Reels: Instagram uses the first frame unless you set a cover in the Post tab.", npSchedule: "Schedule it", npPublishNow: "Publish now", npOpenPost: "Open in the Post tab", npNoBest: "Not enough of your own data yet to suggest a time. Pick one below.", npTitle: "New post", npSub: "Pick what goes in it. One photo = single post, several = carousel, one video = Reel.", npPaletteHint: "files · images · folder",
+      npStep1: "Media & caption", npStep2: "Check & improve", npStep3: "Time", npStep4: "Review & schedule", npStepOf: "Step {n} of 4", npNextCheck: "Next: check it", npNextClaude: "Next: PIX writes the caption", npNextTime: "Next: pick a time", npNextReview: "Next: review", npBack: "Back", npCloseKeep: "Close (the draft is kept)", npWriting: "PIX is writing your caption…", npWritingHint: "It appears here as soon as it's ready (Claude Code must be open). You can close this window; the post also opens in the Post tab.", npChecking: "Checking your post…", npCaptionAll: "Caption (all platforms)", npCaptionFor: "Caption for {p}", npSaveCheck: "Save and check again", npSavedCheck: "Saved and checked again", npPassed: "{n} checks passed", npToFix: "To fix", npAskFix: "Ask PIX to fix", npFixing: "PIX is on it…", npSugReady: "PIX's suggestion", npApprove: "Use it", npEditSug: "Edit", npReject: "No thanks", npSugSent: "Sent. PIX applies it and the checks update here.", npBlockedNext: "Red items must be fixed before you can schedule.", npAllGood: "All checks pass.", npBest: "Your best times", npBestHint: "From your own posts: lift vs your average, and how many posts back it.", npPickAny: "Or pick any day and time", npNow: "Post right after I confirm", npWhen: "When", npNoTime: "Pick a time first.", npGiftAdd: "Add a gift (optional)", npGiftEdit: "Change the gift", npCoverHint: "Reels: Instagram uses the first frame unless you set a cover in the Post tab.", npSchedule: "Schedule it", npPublishNow: "Publish now", npOpenPost: "Open in the Post tab", npNoBest: "Not enough of your own data yet to suggest a time. Pick one below.", npTitle: "New post", npSub: "Pick what goes in it. One photo = single post, several = carousel, one video = Reel.", npPaletteHint: "files · images · folder",
       npFromPc: "Photos or video", npFromPcHint: "photos, video, PDF or a .zip from your computer", npArchive: "Archive", npArchiveAlone: "An archive already holds the whole post, so add it on its own.", npArchiveMany: "That archive holds {n} posts. They're in Batch schedule now.", npFromMine: "My images", npFromMineHint: "made in Create an image", npFromFolder: "A post folder", npFromFolderHint: "already has the files",
       npFromImage: "New post", npFromImageHint: "Start a new post with this image", npCarouselFromMine: "Make a post or carousel from these",
-      npMedia: "In this post", rwAsk: "Fit it for every network", rwAsking: "Claude is writing a version per network…", rwHint: "Claude writes one version per network (length, hashtags, tone). You pick.", rwHintShort: "a caption per network", rwSent: "Sent to Claude: a version per network", rwReady: "{n} versions per network are ready", rwReview: "Review", rwKicker: "Every network", rwTitle: "A version for each network", rwNone: "No versions yet.", rwUse: "Use this", rwUsed: "Used", rwNew: "New issues:", rwNow: "Current caption", rwUndo: "Each change is saved in Changes, so you can undo it.", rwNo: "No thanks", rwUseAll: "Use all {n}", rwApplied: "Caption updated: {p}", abOpen: "Test two hooks", abKicker: "Hook test", abTitle: "Test two hooks", abSub: "Both versions go out as Instagram Trial Reels at the same time: only people who don't follow you see them, so your followers aren't touched. After 2 days, compare them and share the winner to your followers.", abYours: "your post", abOther: "another hook", abFullCap: "Full caption", abCoverB: "Cover for B", abSameCover: "Same as A", abNoCovers: "Same cover as A (make more covers in the Cover step to test a different one).", abCapB: "B's caption (change the first line)", abAsk: "Ask Claude for hook B", abAsking: "Claude is writing… (it appears here)", abHookIn: "Hook B from Claude is in", abSame: "B is the same as A. Change the first line or the cover.", abWhen: "Both go out {t}.", abNow: "right away", abHow: "Instagram shows trials to non-followers first. After 48 hours, Check results compares skip rate, watch time and reach from your own numbers.", abOthers: "The test is Instagram only: {n} in this post won't be posted by it.", abType: "Type “go” to start the test", abStart: "Start the test", abStarting: "Creating both Reels…", abStarted: "Hook test started", abResults: "Hook test results", abChecking: "Reading both Reels from Zernio…", abViews: "Views", abLikes: "Likes", abSkip: "skip rate (lower is better)", abWatch: "avg watch time", abShareWin: "Share version {l} with your followers", abShareHow: "Instagram doesn't let apps do this: open it in the Instagram app → ··· → Share to followers. The other one stays a trial (non-followers only).", abOpenWin: "Open version {l}", abRule: "The rule: at least 100 views each and 48 hours. Skip rate decides first (5 points or more apart), then average watch time (10% or more). Otherwise it's too close to call.", abCheckAgain: "Check again", abCheck: "Check results", abTests: "Hook tests", abWinner: "{l} won", abNoWinner: "no winner yet", abRunning: "running", abNotReel: "Hook tests need an Instagram Reel that isn't scheduled yet.", rcKicker: "Recycle", rcTitle: "Recycle your best posts", rcOpen: "Recycle best posts", rcBtn: "Recycle", rcManage: "Manage", rcAll: "All best posts", rcSub: "Zernio re-posts a published post every few weeks or months, with a fresh hook each time. Ranked from your own results.", rcRanked: "Ranked by follows, then saves + shares, then reach. TikTok posts can't be recycled.", rcActive: "{a} of {b} recycling now (Zernio allows {b})", rcSavesShares: "saves + shares", rcRhythm: "How often", rcEvery: "Every", rcWeeks: "weeks", rcMonths: "months", rcEveryN: "every {n} {u}", rcEveryWeek: "every week", rcEveryMonth: "every month", rcStopAfter: "Stop after", rcTimes: "{n} reposts", rcUntilStop: "Until I stop it", rcFirst: "First repost", rcVersions: "New versions", rcVersionsHint: "Each repost uses the next version, in turn. Leave none to repost the same caption. Use 2 or more.", rcVersion: "Version {n}", rcAsk: "Ask Claude for new hooks", rcAsking: "Claude is writing… (they appear here)", rcHooksIn: "New versions from Claude are in", rcAdd: "Add a version", rcNeedTwo: "Add one more version, or remove it: Zernio needs 2 or more (or none).", rcSentence: "Zernio will re-post this {every}, {times}, {what}, starting {d}.", rcWithN: "rotating {n} new versions", rcSame: "with the same caption", rcIgNote: "Instagram shows each repost as a new post.", rcLimits: "Up to 10 posts can recycle at once. Stop it any time; reposts already made stay.", rcType: "Type “go” to start", rcStart: "Start recycling", rcUpdate: "Save changes", rcStarting: "Telling Zernio…", rcStarted: "Recycling is on in Zernio", rcCheck: "Saved, but Zernio shows something different. Check the post.", rcStop: "Stop recycling", rcStopped: "Recycling stopped", rcNext: "next", rcMade: "{a} made", rcMadeOf: "{a} of {b} made", npTextPost: "Text post", npTextHint: "No media? Just write the caption: it becomes a text post for LinkedIn and Facebook. Make it a LinkedIn poll or repost in step 2.", liKind: "Post type", liPost: "Normal post", liPoll: "Poll", liRepost: "Repost", liPostHint: "Your caption with the photos, video or PDF, as usual.", liPostTextHint: "Your caption as a text post. Or make it a poll or a repost.", liNoMedia: "LinkedIn polls and reposts can't have photos, video or a PDF. Remove the media, or pick Normal post.", liUrl: "Link of the LinkedIn post to repost", liRepostHint: "Your caption shows as your comment above the original post. Get the link from the post's ··· menu → Copy link to post.", liQ: "Question", liQPh: "Ask something your followers can answer in one tap", liOpts: "Choices (2 to 4)", liOptPh: "Choice {n}", liAddOpt: "Add a choice", liDur: "Open for", liD1: "1 day", liD3: "3 days", liD7: "1 week", liD14: "2 weeks", liPreview: "Preview", liPvFoot: "Poll · open for {d}", liPollHint: "Your caption shows above the poll. Only LinkedIn gets the poll; Facebook (if on) gets the caption as a text post.", npDrop: "Nothing yet. Drop files here or use the buttons above.", npSingle: "Single image", npCarousel: "Carousel · {n} slides", npReel: "Reel",
+      npMedia: "In this post", rwAsk: "Fit it for every network", rwAsking: "PIX is writing a version per network…", rwHint: "PIX writes one version per network (length, hashtags, tone). You pick.", rwHintShort: "a caption per network", rwSent: "Sent to PIX: a version per network", rwReady: "{n} versions per network are ready", rwReview: "Review", rwKicker: "Every network", rwTitle: "A version for each network", rwNone: "No versions yet.", rwUse: "Use this", rwUsed: "Used", rwNew: "New issues:", rwNow: "Current caption", rwUndo: "Each change is saved in Changes, so you can undo it.", rwNo: "No thanks", rwUseAll: "Use all {n}", rwApplied: "Caption updated: {p}", abOpen: "Test two hooks", abKicker: "Hook test", abTitle: "Test two hooks", abSub: "Both versions go out as Instagram Trial Reels at the same time: only people who don't follow you see them, so your followers aren't touched. After 2 days, compare them and share the winner to your followers.", abYours: "your post", abOther: "another hook", abFullCap: "Full caption", abCoverB: "Cover for B", abSameCover: "Same as A", abNoCovers: "Same cover as A (make more covers in the Cover step to test a different one).", abCapB: "B's caption (change the first line)", abAsk: "Ask PIX for hook B", abAsking: "PIX is writing… (it appears here)", abHookIn: "Hook B from PIX is in", abSame: "B is the same as A. Change the first line or the cover.", abWhen: "Both go out {t}.", abNow: "right away", abHow: "Instagram shows trials to non-followers first. After 48 hours, Check results compares skip rate, watch time and reach from your own numbers.", abOthers: "The test is Instagram only: {n} in this post won't be posted by it.", abType: "Type “go” to start the test", abStart: "Start the test", abStarting: "Creating both Reels…", abStarted: "Hook test started", abResults: "Hook test results", abChecking: "Reading both Reels from Zernio…", abViews: "Views", abLikes: "Likes", abSkip: "skip rate (lower is better)", abWatch: "avg watch time", abShareWin: "Share version {l} with your followers", abShareHow: "Instagram doesn't let apps do this: open it in the Instagram app → ··· → Share to followers. The other one stays a trial (non-followers only).", abOpenWin: "Open version {l}", abRule: "The rule: at least 100 views each and 48 hours. Skip rate decides first (5 points or more apart), then average watch time (10% or more). Otherwise it's too close to call.", abCheckAgain: "Check again", abCheck: "Check results", abTests: "Hook tests", abWinner: "{l} won", abNoWinner: "no winner yet", abRunning: "running", abNotReel: "Hook tests need an Instagram Reel that isn't scheduled yet.", rcKicker: "Recycle", rcTitle: "Recycle your best posts", rcOpen: "Recycle best posts", rcBtn: "Recycle", rcManage: "Manage", rcAll: "All best posts", rcSub: "Zernio re-posts a published post every few weeks or months, with a fresh hook each time. Ranked from your own results.", rcRanked: "Ranked by follows, then saves + shares, then reach. TikTok posts can't be recycled.", rcActive: "{a} of {b} recycling now (Zernio allows {b})", rcSavesShares: "saves + shares", rcRhythm: "How often", rcEvery: "Every", rcWeeks: "weeks", rcMonths: "months", rcEveryN: "every {n} {u}", rcEveryWeek: "every week", rcEveryMonth: "every month", rcStopAfter: "Stop after", rcTimes: "{n} reposts", rcUntilStop: "Until I stop it", rcFirst: "First repost", rcVersions: "New versions", rcVersionsHint: "Each repost uses the next version, in turn. Leave none to repost the same caption. Use 2 or more.", rcVersion: "Version {n}", rcAsk: "Ask PIX for new hooks", rcAsking: "PIX is writing… (they appear here)", rcHooksIn: "New versions from PIX are in", rcAdd: "Add a version", rcNeedTwo: "Add one more version, or remove it: Zernio needs 2 or more (or none).", rcSentence: "Zernio will re-post this {every}, {times}, {what}, starting {d}.", rcWithN: "rotating {n} new versions", rcSame: "with the same caption", rcIgNote: "Instagram shows each repost as a new post.", rcLimits: "Up to 10 posts can recycle at once. Stop it any time; reposts already made stay.", rcType: "Type “go” to start", rcStart: "Start recycling", rcUpdate: "Save changes", rcStarting: "Telling Zernio…", rcStarted: "Recycling is on in Zernio", rcCheck: "Saved, but Zernio shows something different. Check the post.", rcStop: "Stop recycling", rcStopped: "Recycling stopped", rcNext: "next", rcMade: "{a} made", rcMadeOf: "{a} of {b} made", npTextPost: "Text post", npTextHint: "No media? Just write the caption: it becomes a text post for LinkedIn and Facebook. Make it a LinkedIn poll or repost in step 2.", liKind: "Post type", liPost: "Normal post", liPoll: "Poll", liRepost: "Repost", liPostHint: "Your caption with the photos, video or PDF, as usual.", liPostTextHint: "Your caption as a text post. Or make it a poll or a repost.", liNoMedia: "LinkedIn polls and reposts can't have photos, video or a PDF. Remove the media, or pick Normal post.", liUrl: "Link of the LinkedIn post to repost", liRepostHint: "Your caption shows as your comment above the original post. Get the link from the post's ··· menu → Copy link to post.", liQ: "Question", liQPh: "Ask something your followers can answer in one tap", liOpts: "Choices (2 to 4)", liOptPh: "Choice {n}", liAddOpt: "Add a choice", liDur: "Open for", liD1: "1 day", liD3: "3 days", liD7: "1 week", liD14: "2 weeks", liPreview: "Preview", liPvFoot: "Poll · open for {d}", liPollHint: "Your caption shows above the poll. Only LinkedIn gets the poll; Facebook (if on) gets the caption as a text post.", npDrop: "Nothing yet. Drop files here or use the buttons above.", npSingle: "Single image", npCarousel: "Carousel · {n} slides", npReel: "Reel",
       npEarlier: "Move earlier", npLater: "Move later", npName: "Post name", npWhere: "Saved in {f}", npCap: "Caption",
-      npCapPh: "Optional. Leave empty and Claude writes it in your voice.", npCapHint: "With a caption the post opens right away; without one, Claude writes it first.",
-      npCreateOpen: "Create post", npCreateClaude: "Create post · Claude writes the caption", npCreating: "Creating…", npUploading: "Uploading {i} of {n}…",
+      npCapPh: "Optional. Leave empty and PIX writes it in your voice.", npCapHint: "With a caption the post opens right away; without one, PIX writes it first.",
+      npCreateOpen: "Create post", npCreateClaude: "Create post · PIX writes the caption", npCreating: "Creating…", npUploading: "Uploading {i} of {n}…",
       npBadFile: "Use photos (JPG, PNG, WEBP), a video (MP4, MOV), a PDF, or an archive (.zip, .7z, .rar, .tar.gz).", npMineHint: "Click images in the order you want them",
-      npOpened: "Post opened: {f}", npClaudeWrites: "Folder {f} is ready. Claude is writing the caption…", npUseFolder: "Use this folder",
-      npChat: "You can also just tell Claude in the chat, e.g. \"make a post from my-posts/robot\".", npOrType: "Or type a folder path:",
+      npOpened: "Post opened: {f}", npClaudeWrites: "Folder {f} is ready. PIX is writing the caption…", npUseFolder: "Use this folder",
+      npChat: "You can also just tell PIX in the chat, e.g. \"make a post from my-posts/robot\".", npOrType: "Or type a folder path:",
       imgTitle: "Create an image", imgSub: "Describe it, add pictures to guide it if you like, press Create. Images stay on this computer until you add them to a post.",
       jobsTitle: "Background jobs", jobsSub: "What's working behind the scenes, and how far along it is.", jobsRunning: "{n} running",
       jobsDoneShort: "Done", jobsNone: "Nothing running right now. Making images, publishing, uploads, key tests and Zernio refreshes show here while they work.",
       jobsFailed: "Didn't finish", jobsLost: "Stopped", jobsWorking: "working…", jobsFinished: "finished",
       jk_image: "Making images", jk_publish: "Publishing your post", jk_batch: "Scheduling posts", jk_upload: "Adding a file", jk_keytest: "Testing a key",
-      jk_sync: "Refreshing from Zernio", jk_newpost: "Making a post folder", jk_claude: "Claude is working",
+      jk_sync: "Refreshing from Zernio", jk_newpost: "Making a post folder", jk_claude: "PIX is working",
       imgShort: "Image", imgOpen: "Create image", imgNoKey: "Add your OpenAI key to create images", imgNoKeyHint: "Paste it below and press Save. It's tested right away.",
       imgStep1: "Describe the image", imgPh: "e.g. A lime-green paper airplane on a dark desk, soft light, minimal, room for a headline at the top",
-      dockKey: "N", dockHint: "Note to Claude (N) · drop files anywhere to send them", dropTitle: "Drop to send to Claude", dropHint: "Photos, a video, a PDF or a zip. Added to your note.",
+      dockKey: "N", dockHint: "Note to PIX (N) · drop files anywhere to send them", dropTitle: "Drop to send to PIX", dropHint: "Photos, a video, a PDF or a zip. Added to your note.",
       attach: "Attach", attachHint: "Photos, video, PDF or zip. Or paste or drop them here.", attUploading: "Adding {n}…", attWord: "Attached",
       chatStop: "Stop", chatStopped: "Stopped", jobsStop: "Stop", jobsStopped: "Stopped", jobsStopDone: "Stopped", jobsStopNo: "Can't stop this one",
       ibxIgnore: "Ignore", ibxIgnored: "Ignored", ibxUndo: "Undo", ibxIgnoreAll: "Ignore all ({n})", ibxIgnoreAllQ: "Ignore {n} waiting comments? They move to Handled. Nothing is posted or deleted.", "ibxSt_ignored": "Ignored",
@@ -106,16 +106,16 @@
       keyEmpty: "no posts yet", heatScale: "engagement per post", heatMore: "More detail: peaks by day and your audience's clocks",
       passSum: "{n} checks passed", passShow: "show", passHide: "hide", kbTabs: "Keys 1-5 switch tabs",
       engOpenAI: "OpenAI image", engOpenAISub: "Photos and illustrations, drawn by gpt-image. Uses your OpenAI credit.",
-      engClaude: "Claude designs it", engClaudeSub: "Typography, carousel slides, quote cards, charts. Built in code at the exact post size. Free.",
-      shapeStory: "Story", qDesign: "design", clGo: "Ask Claude to design it", clGoEdit: "Ask Claude to change it",
-      clWaiting: "Claude is designing…", clWaitHint: "It appears here when ready. Claude Code must be open (/200bps-publish).",
-      clReady: "Claude's designs are ready", clChange: "Ask Claude to change", clEditing: "Changing this Claude design. Say what to change:",
-      clCancelEdit: "Cancel", clShapeHint: "Rendered at {w}×{h} px, the size the network shows.", clNoKeyOk: "No OpenAI key needed for Claude designs.",
+      engClaude: "PIX designs it", engClaudeSub: "Typography, carousel slides, quote cards, charts. Built in code at the exact post size. Free.",
+      shapeStory: "Story", qDesign: "design", clGo: "Ask PIX to design it", clGoEdit: "Ask PIX to change it",
+      clWaiting: "PIX is designing…", clWaitHint: "It appears here when ready. Claude Code must be open (/200bps-publish).",
+      clReady: "PIX's designs are ready", clChange: "Ask PIX to change", clEditing: "Changing this PIX design. Say what to change:",
+      clCancelEdit: "Cancel", clShapeHint: "Rendered at {w}×{h} px, the size the network shows.", clNoKeyOk: "No OpenAI key needed for PIX designs.",
       nmTitle: "New from OpenAI", nmTry: "Try it", nmDefault: "Make it my default", nmGotIt: "Got it",
       mdChecked: "Model list checked {t}", mdCheckNow: "Check now", mdChecking: "Checking…", mdNever: "not yet", mdFound: "{n} new model(s) found", mdNone: "No new models",
       tkFollowers: "followers", tkStreak: "day streak", tkReach: "reach · 7 days", tkEng: "engagement · 7 days", tkFollows: "new follows · 7 days", tkScore: "post score", tkBest: "best slot vs your average",
-      imgAsk: "Ask Claude to improve it", imgAsking: "Claude is writing a better prompt… it will appear here.", imgSuggested: "Claude suggests", imgUseIt: "Use this prompt",
-      imgAskNeed: "Write a few words first, then Claude can turn them into a full prompt.", imgSugArrived: "Claude's prompt is ready",
+      imgAsk: "Ask PIX to improve it", imgAsking: "PIX is writing a better prompt… it will appear here.", imgSuggested: "PIX suggests", imgUseIt: "Use this prompt",
+      imgAskNeed: "Write a few words first, then PIX can turn them into a full prompt.", imgSugArrived: "PIX's prompt is ready",
       imgStep2: "Guide pictures", imgDrop: "Drop or paste pictures here, or click to pick. The new image will follow their style, people or products.",
       imgFromPc: "From computer", imgFromPost: "From this post", imgFromMine: "From my images", imgPickHint: "Click pictures to add or remove them", imgPickDone: "Done",
       imgStep3: "Options", imgShape: "Shape", shapeSquare: "Square", shapeTall: "Tall", shapeWide: "Wide",
@@ -140,7 +140,7 @@
       step1: "Step 1 of setup", connectTitle: "Connect Zernio", connectHint: "Paste your Zernio API key here to connect Instagram and LinkedIn. Don't paste it in the chat.",
       connect1: "Sign in at", connect2: "Open Settings → API keys and create a key.", connect3: "Paste it below and press Save. We test it right away.", zernioKey: "Zernio API key",
       back: "Back", changes: "Changes", undo: "Undo", undone: "Undone", saved: "Saved", revert: "Revert", reverted: "Reverted",
-      viaYou: "you, here", viaChat: "you, in chat", liveNoRevert: "This post is scheduled or live. Ask Claude to change it.",
+      viaYou: "you, here", viaChat: "you, in chat", liveNoRevert: "This post is scheduled or live. Ask PIX to change it.",
       ch_captions: "Caption", ch_schedule: "Time", ch_cover: "Cover", ch_dm: "Gift", ch_settings: "Settings", ch_platforms: "Platforms",
       gsHow: "How it works", gsWhen: "When it starts", gsWhenText: "Saving does nothing yet. The gift switches on together with the post, when you publish or schedule it (typing go). It runs on Instagram only; LinkedIn has no DMs.", gsNoIg: "This post isn't going to Instagram, so the gift won't run.", gsMatch: "Any comment that contains the word counts, in upper or lower case, small typos too.", gsSentence: "When someone comments “{k}” on this post, they get your DM{l}{g}.", gsWithLink: " with a button to your link", gsGated: ", but only after they follow you", gs1: "1 · They comment", gs2: "2 · You reply under it", gs3: "3 · Follow first", gs4: "4 · Your gift arrives", gs3Not: "If they tap before following:", gsSomeone: "someone", gsYou: "you", gsInDm: "in their DMs", gsOnPost: "on your post", gsGateMsg: "Message to people who don't follow yet", gsGateBtn: "Their button", gsNotMsg: "If they tap before following", gsEditGate: "Change these messages", gsDefGate: "Follow the account first, then tap the button.", gsDefBtn: "I'm following", gsDefNot: "Looks like you're not following yet. Follow, then tap again.", gsStep1: "The word to comment", gsStep2: "Your DM", gsStep3: "Options", gsOffHint: "Off: nothing happens when people comment.", giftTitle: "DM gift for this post", giftHint: "People who comment the keyword get your gift in their DMs. It goes live only after you publish and say yes.",
       giftOn: "On", giftOff: "Off", giftKeyword: "Keyword they comment", giftMessage: "DM message", giftMsgPh: "Here's your gift…",
@@ -158,28 +158,28 @@
       jGiftNote: "Ask me whether to add a DM gift to this post.", jGoNote: "I'm ready. Ask me to publish (I'll type go).",
       cNext: "Do the next step", cFix: "Fix the checks", cCover: "Choose a cover", cTime: "Pick a time", cGift: "Add a DM gift", cGo: "Publish (type go)",
       cTheme: "Switch light / dark", cClock: "Switch 12h / 24h", cLang: "Switch language", cPh: "Type a command… (cover, fix, time, dark)", noMatch: "No match",
-      clickToFix: "Click to ask Claude for a fix", fixIt: "Fix", fixAsked: "Asked", fixKicker: "Fix this check", fixNotePh: "e.g. keep my tone, only change the first line",
-      fixHow: "Claude will write a fix and show you a before/after. You can approve it, edit it, or reject it.", askFix: "Ask Claude for a fix",
-      fixSent: "Claude is writing a fix", listening: "Claude is listening", away: "Claude Code is closed", working: "Claude is working",
+      clickToFix: "Click to ask PIX for a fix", fixIt: "Fix", fixAsked: "Asked", fixKicker: "Fix this check", fixNotePh: "e.g. keep my tone, only change the first line",
+      fixHow: "PIX will write a fix and show you a before/after. You can approve it, edit it, or reject it.", askFix: "Ask PIX for a fix",
+      fixSent: "PIX is writing a fix", listening: "PIX is listening", away: "Claude Code is closed", working: "PIX is working",
       workingHint: "Claude Code is open and busy with a request. New requests are picked up as soon as it finishes.",
-      claudeSays: "Claude says", chatReplyPh: "Type your answer…", chatAnswer: "Your answer", chatReplyOpt: "Reply (optional)", gotIt: "Got it", chatOpen: "Open chat",
-      chatTitle: "Chat with Claude", chatHint: "Ask, give instructions, or answer Claude. Replies show up here and as a pop-up.", chatEmpty: "No messages yet. Write the first one below.",
-      chatYou: "You", chatSeen: "✓ Claude got it", chatWaiting: "Waiting for Claude…", chatWorking: "Working: {s}", chatWorkingNo: "Working on it…", chatDone: "✓ Done", chatFailed: "✗ Couldn't do it", chatHandled: "✓ Handled", chatResult: "Result", ntDone: "Claude finished", ntFailed: "Claude couldn't do it", ntView: "View", ntYour: "Your note", ntUpdated: "The dashboard is up to date.", actTitle: "Activity", actHint: "Your notes and requests to Claude, and what came of them.", actAll: "All", actOpen: "In progress", actDone: "Done", actFailed: "Couldn't", actEmpty: "Nothing here yet. Send Claude a note.", actNew: "new", actOpenChat: "Open in the chat",
-      listeningHint: "Requests from this page reach Claude right away.", awayHint: "Claude Code isn't running. Your requests are saved and wait until you open Claude Code here and run /200bps-publish.",
+      claudeSays: "PIX says", chatReplyPh: "Type your answer…", chatAnswer: "Your answer", chatReplyOpt: "Reply (optional)", gotIt: "Got it", chatOpen: "Open chat",
+      chatTitle: "Chat with PIX", chatHint: "Ask, give instructions, or answer PIX. Replies show up here and as a pop-up.", chatEmpty: "No messages yet. Write the first one below.",
+      chatYou: "You", chatSeen: "✓ PIX got it", chatWaiting: "Waiting for PIX…", chatWorking: "Working: {s}", chatWorkingNo: "Working on it…", chatDone: "✓ Done", chatFailed: "✗ Couldn't do it", chatHandled: "✓ Handled", chatResult: "Result", ntDone: "PIX finished", ntFailed: "PIX couldn't do it", ntView: "View", ntYour: "Your note", ntUpdated: "The dashboard is up to date.", actTitle: "Activity", actHint: "Your notes and requests to PIX, and what came of them.", actAll: "All", actOpen: "In progress", actDone: "Done", actFailed: "Couldn't", actEmpty: "Nothing here yet. Send PIX a note.", actNew: "new", actOpenChat: "Open in the chat",
+      listeningHint: "Requests from this page reach PIX right away.", awayHint: "Claude Code isn't running. Your requests are saved and wait until you open Claude Code here and run /200bps-publish.",
       dayHint: "Click, double-click or right-click", dayPast: "Past day", dayPlan: "Plan this day", dayPublished: "Published", dayScheduled: "Scheduled",
       dayNothing: "Nothing was published this day.", getReport: "Get full report", pickTime: "Pick a time", anyHour: "Any hour…", pickHour: "Pick a time first.",
-      choosePost: "Choose a scheduled post", chooseIdea: "Choose an idea", dayIdea: "Plan a post from an idea", dayIdeaBtn: "Ask Claude to draft it",
+      choosePost: "Choose a scheduled post", chooseIdea: "Choose an idea", dayIdea: "Plan a post from an idea", dayIdeaBtn: "Ask PIX to draft it",
       keySched: "scheduled post", keyPlan: "this post", keyClick: "Click any slot to schedule", slotKicker: "Time slot", ofBest: "of your best slot",
       noHistory: "no history yet", nextOn: "Next:", slotPlan: "Schedule this post here", slotPlanBtn: "Use this slot", slotPlanned: "Scheduled. Type go to publish.",
-      slotNoPlan: "No unpublished post is loaded.", slotMove: "Move a scheduled post here", slotMoveBtn: "Ask Claude to move it", slotNoSched: "No scheduled posts.",
-      slotAssign: "Assign a post folder to this slot", slotAssignBtn: "Send to Claude", slotQueued: "Sent to Claude", toDark: "Dark mode", toLight: "Light mode",
+      slotNoPlan: "No unpublished post is loaded.", slotMove: "Move a scheduled post here", slotMoveBtn: "Ask PIX to move it", slotNoSched: "No scheduled posts.",
+      slotAssign: "Assign a post folder to this slot", slotAssignBtn: "Send to PIX", slotQueued: "Sent to PIX", toDark: "Dark mode", toLight: "Light mode",
       low: "Low", high: "High", bestSlot: "best time", best: "Best", second: "2nd best", third: "3rd best",
-      cover: "Cover", gridView: "Grid view", noCover: "No cover yet", candidates: "Options", noCands: "Ask Claude for frames or a design.",
-      needsYou: "Claude needs your decision", later: "Later", send: "Send", anythingElse: "Anything else?", notePh: "Optional: extra instructions for Claude",
+      cover: "Cover", gridView: "Grid view", noCover: "No cover yet", candidates: "Options", noCands: "Ask PIX for frames or a design.",
+      needsYou: "PIX needs your decision", later: "Later", send: "Send", anythingElse: "Anything else?", notePh: "Optional: extra instructions for PIX",
       typeAnswer: "Type your answer", orType: "Or type your own", yourAnswer: "Your answer", pickOne: "Pick an option or type an answer.",
-      sent: "Sent to Claude", decisionWaiting: "1 decision waiting", publishNow: "Publish", typeGo: "Type “{w}” to confirm",
+      sent: "Sent to PIX", decisionWaiting: "1 decision waiting", publishNow: "Publish", typeGo: "Type “{w}” to confirm",
       before: "Before", after: "After", approve: "Approve", reject: "Reject", edit: "Edit", saveEdit: "Use my edit",
-      noteFab: "Note to Claude", noteShort: "Note", noteKicker: "Message", noteTitle: "Note to Claude", noteHint: "Anything you want Claude to change or know. It reads this before the next step.",
+      noteFab: "Note to PIX", noteShort: "Note", noteKicker: "Message", noteTitle: "Note to PIX", noteHint: "Anything you want PIX to change or know. It reads this before the next step.",
       notePh2: "e.g. use frame 4, make the headline shorter, post on LinkedIn too", enterHint: "Enter sends · Shift+Enter or Ctrl+Enter for a new line", noteSent: "Note sent", cancel: "Cancel",
       tabAbout: "About", aboutKicker: "About this tool", aboutTitle: "200BPS.ai | Publish",
       aboutMade: "Vibe-coded by Nasser Al-Ostath with Claude Code.",
@@ -193,7 +193,7 @@
       ages: "Age", gender: "Gender", cities: "Top cities", countries: "Top countries", male: "Male", female: "Female", unknown: "Unknown",
       milestone: "Milestone reached", days: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
       daysN: "{n} days", followGated: "follow-gated", iceBreakers: "Ice breakers", postWord: "post", trialShort: "Trial",
-      cvMonth: "Month", cvWeek: "Week", cvDay: "Day", cvPrevWeek: "Previous", cvNextWeek: "Next", mvTitle: "Move this post?", mvFrom: "From", mvTo: "To", mvType: "Type “move” to change it in Zernio", mvBtn: "Move it", mvDone: "Moved to {t}", mvLocal: "Draft moved to {t}", mvNotAll: "Zernio kept the old time on: {p}. Check it in Zernio.", mvPast: "Pick a time at least 15 minutes from now.", mvPick: "New day and time", edTitle: "Edit the caption", edType: "Type “edit” to save it in Zernio", edBtn: "Save caption", edDone: "Caption saved in Zernio", slTitle: "Schedule at {t}", slCurrent: "Put my open draft here", slDrafts: "Or one of my drafts", slNoDrafts: "No drafts waiting.", slNew: "Start a new post for this time", slIdea: "Draft one from an idea", slIdeaSent: "Sent to Claude: a draft for {t}", slSet: "Scheduled for {t}. Publish it with go when it's ready.", pdMove: "Move…", pdEdit: "Edit caption…", tgDrag: "Drag a post to move it · click or drag on an empty time to plan one", tgNoChange: "Published posts can't be moved or edited.", ibxAll: "All", ibxWaiting: "Waiting", ibxDone: "Handled", ibxReply: "Reply", ibxGift: "Send gift", ibxPrivate: "Private message", ibxHide: "Hide", ibxShow: "Show", ibxDelete: "Delete…", ibxOpenPost: "Open post", ibxOnPost: "On", ibxGiftOf: "This post's gift", ibxNoGift: "No gift on this post", ibxReplyPh: "Write your public reply…", ibxSend: "Send reply", ibxGiftHint: "Sent to their DMs. One private message per comment, within 7 days of the comment.", ibxAsButton: "Send the link as a button", ibxBtnWarn: "Instagram may refuse buttons to people who don't follow you, and a refused try still uses up this comment's one message. The link in the text always works.", ibxConfirm: "Confirm: send to @{a}", ibxSent: "Reply sent", ibxGiftSent: "Gift sent to @{a}", ibxHidden: "Comment hidden", ibxShown: "Comment shown", ibxDelTitle: "Delete this comment?", ibxDelType: "Type “delete” to remove it from the post (can't be undone)", ibxDelBtn: "Delete comment", ibxDeleted: "Comment deleted", ibxSt_replied: "✓ Replied", ibxSt_gift: "✓ Gift sent", "ibxSt_gift-used": "Gift already used", "ibxSt_gift-unknown": "Gift probably sent", ibxSt_deleted: "✓ Deleted", ibxSt_marked: "✓ Marked handled", ibxSt_gated: "Gift sends when they follow", ibxSt_notfollower: "Not a follower · no gift", "ibxSt_auto-sent": "✓ Auto: gift sent", "ibxSt_auto-gated": "Auto: gift sends when they follow", "ibxSt_auto-skipped": "Auto: skipped by the automation", "ibxSt_auto-failed": "Auto gift failed", ibxAutoTip: "Zernio's DM automation already handled this comment. Nothing to do here; it moved to Handled by itself.", ibxAutoGatedTip: "Zernio sent them the follow-first message. When they follow and tap the button, the gift goes out by itself.", ibxAutoFailTip: "Zernio's automation tried and failed, so it stays in Waiting. You can send the gift yourself if the comment's one private message isn't used up.", ibxAutoUsed: "This comment's one private message is already used, so no gift can be sent by hand.", ibxDraftAll: "✨ Ask Claude to draft replies", ntAll: "All networks", nwBtn: "Networks…", nwKicker: "Networks for this post", nwHint: "Switch each network on or off. The post stays scheduled on the ones left on.", nwHintLocal: "Switch each network on or off for this draft.", nwHintPub: "Already published. You can take it off a network where the network allows it.", nwType: "Type “edit” to change it in Zernio", nwSave: "Save networks", nwKeepOne: "Keep at least one network on. To stop the whole post, use Cancel.", nwSaved: "Networks updated", nwCheck: "Saved, but Zernio shows something different. Check the post.", nwCant: "can't show a {k}", nwNotOn: "not on this post", nwRemove: "Remove from {p}…", nwRemoveTitle: "Remove it from {p}?", nwRemoveHint: "The post is deleted from that network only; the others stay. This can't be undone.", nwTypeRemove: "Type “remove” to confirm", nwRemoved: "Removed from {p}", nwAppOnly: "{p} doesn't let apps delete posts: delete it in the {p} app.", cpGift: "Also copy the gift (“{k}”)", cpGiftHint: "Same keyword, message, link and reply, on the copy. It works once the copy is published.", cpGiftDone: "gift copied", dayOpen: "Open this day", buildWord: "build", cpCopy: "Copy", cpCopied: "Copied. Click a day in Plan, then Paste here (or point at a day and press Ctrl+V).", cpOnClip: "Copied:", cpHow: "click a day → Paste here · or Ctrl+V on a day", cpClear: "Forget the copy", cpKicker: "Paste a copy", cpWhat: "Same photos or video, networks, accounts and settings. Pick the time; change the caption if you like.", cpWhatLocal: "A new local draft with the same files and settings. Nothing goes to Zernio until you publish it with go.", cpWhen: "Day and time", cpNets: "Networks", cpCaption: "Caption", cpSchedule: "Schedule it", cpDraft: "Save as a draft in Zernio", cpTypeGo: "Type “go” to schedule the copy", cpPasteBtn: "Schedule the copy", cpDraftBtn: "Save the draft", cpLocalBtn: "Make the copy", cpPickNet: "Pick at least one network.", cpDone: "Copy scheduled for {t}", cpDoneDraft: "Copy saved as a draft in Zernio for {t}", cpDoneLocal: "Copy made as a draft for {t}", cpPasteHere: "Paste here", tgAccounts: "Post to these accounts", tgHint: "Tick every account this post should go to. Same caption and settings on each.", tgLocked: "This post is already in Zernio; its accounts can't change now.", tgOne: "Keep at least one account.", tgSaved: "Accounts saved", vView: "View", ntPickNet: "Network", ntConnect: "Connect", ntAllAcc: "All {p} accounts ({n})", ntPin: "Pin to the top", ntUnpin: "Unpin", ntFind: "Find an account…", ntAccount: "Account", ntCh7: "7 days", ntCh30: "30 days", ntCompare: "Accounts side by side", ntCompareHint: "last 30 days · click a column to sort, a row to open", ntGoalPerAcc: "Goals are per account: open one account to set its goal.", ntBestPick: "Best times are per account: open one account to see its best times.", nsTitle2: "Where this post goes", nsWhen: "When", nsAccount: "Account", nsStatusOf: "Status", nsMore: "+{n}", nsOpen: "Open on {p} ↗", nsNoTime: "No time set yet", nsLocalNote: "Not uploaded to Zernio yet: it goes to these networks when you publish it with go.", nsOpenPost: "Open the post", ntSince: "{n} since {d}", ntSinceTip: "Zernio has follower history for this network only since that day, so a 30-day change isn't possible yet.", ibxTz: "Times in", ibxTzMine: "{c} (my time)", ibxTzLocal: "This computer's clock", ibxTzAud: "Where your audience is", ibxTzAll: "Every time zone", ntPosts: "Posts", ntImpr: "Impressions", ntReach: "Reach", ntEng: "Engagements", ntER: "Avg engagement rate", ntNewF: "New followers", ntLast30: "last 30 days vs the 30 before", ntWeek: "{n} this week", ntMonth: "{n} in 30 days", ntGoal: "Goal", ntSetGoal: "Set a goal", ntNoGoal: "No goal for this network yet.", ntBest: "Best times", ntBestNone: "No time stands out yet on this network (none beats your average). Every post improves this.", ntLift: "{l}% vs your average", ntRhythm: "Posting rhythm", ntRhythmHint: "posts per week · last 8 weeks", ntTop: "Top posts", ntTopHint: "most engagements · last 90 days", ntOpen: "Open", ntNoPosts: "No posts from the last 90 days on this network.", ntFollowers: "Followers", ntConf_high: "high confidence", ntConf_medium: "medium confidence", ntConf_low: "low confidence", ntN: "{n} posts", "ibxSt_ig-replied": "✓ You replied on Instagram", "ibxSt_ig-mentioned": "✓ You @mentioned them", "ibxSt_ig-dm": "✓ You answered in DMs", ibxIgTip: "You handled this in the Instagram app, so it moved to Handled by itself.", ibxYouWrote: "You wrote", ibxLiked: "♥ You liked it", ibxDraftSent: "Sent to Claude: drafts for {n} comments", ibxDraftNone: "Every waiting comment already has a draft.", ibxDraftOf: "Claude's draft", ibxSendAll: "Send all drafts ({n})", ibxSendAllTitle: "These replies will be posted publicly:", ibxSendAllGo: "✓ Post {n} replies", ibxSendAllDone: "{n} replies sent", ibxSendAllFail: "Couldn't send to @{a}: {e}", ibxCancel: "Cancel", ibxDraftUse: "Use it", ibxDraftNo: "No thanks", fnTriggered: "Commented the keyword", fnGate: "Got follow-first", fnPassed: "Followed + tapped", fnSent: "Gift DM sent", fnClicked: "Opened the link", fnNone: "No one has triggered it yet.", fnPost: "Open post", folFresh: "updated {t}", folFreshTip: "Zernio refreshes follower counts about once a day, so a new follower can take up to a day to show.", ibxUnmark: "Back to waiting", ibxAddLabel: "+ label", ibxLabelPh: "New label", ibxNone: "No comments waiting. Nice.", ibxLikes: "likes", ibxHiddenTag: "hidden", nsTitle: "Network settings", nsFB: "Facebook", nsFormat: "Format", nsFeed: "Feed post", nsReel: "Reel", nsFbStory: "Story", nsFeedHint: "Text, one photo, up to 10 photos, or a video. No mixing photos and video.", nsReelHint: "One vertical video (9:16), 3-90 seconds.", nsFbStoryHint: "One photo or video, gone after 24 hours. No caption.", nsReelTitle: "Reel title (optional)", nsFirst: "First comment (optional)", nsFbDraft: "Save as a draft in Facebook's Publishing Tools instead of posting", nsPage: "Facebook Page", nsDefaultPage: "My default Page", nsTT: "TikTok", nsSC: "Snapchat", nsWho: "Who can see it", nsComments: "Comments", nsDuet: "Duets", nsStitch: "Stitches", nsDisclose: "Promotional content", nsNone: "Not promotional", nsOwnBrand: "Your own brand", nsBranded: "Branded content (paid partnership)", nsAi: "Made with AI (label it on TikTok)", nsDraft: "Send to my TikTok inbox as a draft; I finish it in the app", nsConsent: "I previewed this post and agree to post it on TikTok", nsConsentHint: "TikTok requires this. If you change the caption or media, it asks again.", nsLimit: "TikTok says this account can't post more right now. Try later.", nsLoading: "Loading your TikTok choices…", nsStory: "Story", nsSaved: "Saved story", nsSpot: "Spotlight", nsStoryHint: "Disappears after 24 hours. Shows no caption.", nsSavedHint: "Stays on your Public Profile. Title up to 45 characters.", nsSpotHint: "The public video feed. Video only, caption up to 160 characters.", nsSkipped: "Skipped", nsChange: "Change…", nsPriv_PUBLIC_TO_EVERYONE: "Everyone", nsPriv_MUTUAL_FOLLOW_FRIENDS: "Friends", nsPriv_FOLLOWER_OF_CREATOR: "Followers", nsPriv_SELF_ONLY: "Only me", nsPick: "Choose…", calPrev: "Previous month", calNext: "Next month", calToday: "Today", calMore: "+{n} more",
+      cvMonth: "Month", cvWeek: "Week", cvDay: "Day", cvPrevWeek: "Previous", cvNextWeek: "Next", mvTitle: "Move this post?", mvFrom: "From", mvTo: "To", mvType: "Type “move” to change it in Zernio", mvBtn: "Move it", mvDone: "Moved to {t}", mvLocal: "Draft moved to {t}", mvNotAll: "Zernio kept the old time on: {p}. Check it in Zernio.", mvPast: "Pick a time at least 15 minutes from now.", mvPick: "New day and time", edTitle: "Edit the caption", edType: "Type “edit” to save it in Zernio", edBtn: "Save caption", edDone: "Caption saved in Zernio", slTitle: "Schedule at {t}", slCurrent: "Put my open draft here", slDrafts: "Or one of my drafts", slNoDrafts: "No drafts waiting.", slNew: "Start a new post for this time", slIdea: "Draft one from an idea", slIdeaSent: "Sent to PIX: a draft for {t}", slSet: "Scheduled for {t}. Publish it with go when it's ready.", pdMove: "Move…", pdEdit: "Edit caption…", tgDrag: "Drag a post to move it · click or drag on an empty time to plan one", tgNoChange: "Published posts can't be moved or edited.", ibxAll: "All", ibxWaiting: "Waiting", ibxDone: "Handled", ibxReply: "Reply", ibxGift: "Send gift", ibxPrivate: "Private message", ibxHide: "Hide", ibxShow: "Show", ibxDelete: "Delete…", ibxOpenPost: "Open post", ibxOnPost: "On", ibxGiftOf: "This post's gift", ibxNoGift: "No gift on this post", ibxReplyPh: "Write your public reply…", ibxSend: "Send reply", ibxGiftHint: "Sent to their DMs. One private message per comment, within 7 days of the comment.", ibxAsButton: "Send the link as a button", ibxBtnWarn: "Instagram may refuse buttons to people who don't follow you, and a refused try still uses up this comment's one message. The link in the text always works.", ibxConfirm: "Confirm: send to @{a}", ibxSent: "Reply sent", ibxGiftSent: "Gift sent to @{a}", ibxHidden: "Comment hidden", ibxShown: "Comment shown", ibxDelTitle: "Delete this comment?", ibxDelType: "Type “delete” to remove it from the post (can't be undone)", ibxDelBtn: "Delete comment", ibxDeleted: "Comment deleted", ibxSt_replied: "✓ Replied", ibxSt_gift: "✓ Gift sent", "ibxSt_gift-used": "Gift already used", "ibxSt_gift-unknown": "Gift probably sent", ibxSt_deleted: "✓ Deleted", ibxSt_marked: "✓ Marked handled", ibxSt_gated: "Gift sends when they follow", ibxSt_notfollower: "Not a follower · no gift", "ibxSt_auto-sent": "✓ Auto: gift sent", "ibxSt_auto-gated": "Auto: gift sends when they follow", "ibxSt_auto-skipped": "Auto: skipped by the automation", "ibxSt_auto-failed": "Auto gift failed", ibxAutoTip: "Zernio's DM automation already handled this comment. Nothing to do here; it moved to Handled by itself.", ibxAutoGatedTip: "Zernio sent them the follow-first message. When they follow and tap the button, the gift goes out by itself.", ibxAutoFailTip: "Zernio's automation tried and failed, so it stays in Waiting. You can send the gift yourself if the comment's one private message isn't used up.", ibxAutoUsed: "This comment's one private message is already used, so no gift can be sent by hand.", ibxDraftAll: "✨ Ask PIX to draft replies", ntAll: "All networks", nwBtn: "Networks…", nwKicker: "Networks for this post", nwHint: "Switch each network on or off. The post stays scheduled on the ones left on.", nwHintLocal: "Switch each network on or off for this draft.", nwHintPub: "Already published. You can take it off a network where the network allows it.", nwType: "Type “edit” to change it in Zernio", nwSave: "Save networks", nwKeepOne: "Keep at least one network on. To stop the whole post, use Cancel.", nwSaved: "Networks updated", nwCheck: "Saved, but Zernio shows something different. Check the post.", nwCant: "can't show a {k}", nwNotOn: "not on this post", nwRemove: "Remove from {p}…", nwRemoveTitle: "Remove it from {p}?", nwRemoveHint: "The post is deleted from that network only; the others stay. This can't be undone.", nwTypeRemove: "Type “remove” to confirm", nwRemoved: "Removed from {p}", nwAppOnly: "{p} doesn't let apps delete posts: delete it in the {p} app.", cpGift: "Also copy the gift (“{k}”)", cpGiftHint: "Same keyword, message, link and reply, on the copy. It works once the copy is published.", cpGiftDone: "gift copied", dayOpen: "Open this day", buildWord: "build", cpCopy: "Copy", cpCopied: "Copied. Click a day in Plan, then Paste here (or point at a day and press Ctrl+V).", cpOnClip: "Copied:", cpHow: "click a day → Paste here · or Ctrl+V on a day", cpClear: "Forget the copy", cpKicker: "Paste a copy", cpWhat: "Same photos or video, networks, accounts and settings. Pick the time; change the caption if you like.", cpWhatLocal: "A new local draft with the same files and settings. Nothing goes to Zernio until you publish it with go.", cpWhen: "Day and time", cpNets: "Networks", cpCaption: "Caption", cpSchedule: "Schedule it", cpDraft: "Save as a draft in Zernio", cpTypeGo: "Type “go” to schedule the copy", cpPasteBtn: "Schedule the copy", cpDraftBtn: "Save the draft", cpLocalBtn: "Make the copy", cpPickNet: "Pick at least one network.", cpDone: "Copy scheduled for {t}", cpDoneDraft: "Copy saved as a draft in Zernio for {t}", cpDoneLocal: "Copy made as a draft for {t}", cpPasteHere: "Paste here", tgAccounts: "Post to these accounts", tgHint: "Tick every account this post should go to. Same caption and settings on each.", tgLocked: "This post is already in Zernio; its accounts can't change now.", tgOne: "Keep at least one account.", tgSaved: "Accounts saved", vView: "View", ntPickNet: "Network", ntConnect: "Connect", ntAllAcc: "All {p} accounts ({n})", ntPin: "Pin to the top", ntUnpin: "Unpin", ntFind: "Find an account…", ntAccount: "Account", ntCh7: "7 days", ntCh30: "30 days", ntCompare: "Accounts side by side", ntCompareHint: "last 30 days · click a column to sort, a row to open", ntGoalPerAcc: "Goals are per account: open one account to set its goal.", ntBestPick: "Best times are per account: open one account to see its best times.", nsTitle2: "Where this post goes", nsWhen: "When", nsAccount: "Account", nsStatusOf: "Status", nsMore: "+{n}", nsOpen: "Open on {p} ↗", nsNoTime: "No time set yet", nsLocalNote: "Not uploaded to Zernio yet: it goes to these networks when you publish it with go.", nsOpenPost: "Open the post", ntSince: "{n} since {d}", ntSinceTip: "Zernio has follower history for this network only since that day, so a 30-day change isn't possible yet.", ibxTz: "Times in", ibxTzMine: "{c} (my time)", ibxTzLocal: "This computer's clock", ibxTzAud: "Where your audience is", ibxTzAll: "Every time zone", ntPosts: "Posts", ntImpr: "Impressions", ntReach: "Reach", ntEng: "Engagements", ntER: "Avg engagement rate", ntNewF: "New followers", ntLast30: "last 30 days vs the 30 before", ntWeek: "{n} this week", ntMonth: "{n} in 30 days", ntGoal: "Goal", ntSetGoal: "Set a goal", ntNoGoal: "No goal for this network yet.", ntBest: "Best times", ntBestNone: "No time stands out yet on this network (none beats your average). Every post improves this.", ntLift: "{l}% vs your average", ntRhythm: "Posting rhythm", ntRhythmHint: "posts per week · last 8 weeks", ntTop: "Top posts", ntTopHint: "most engagements · last 90 days", ntOpen: "Open", ntNoPosts: "No posts from the last 90 days on this network.", ntFollowers: "Followers", ntConf_high: "high confidence", ntConf_medium: "medium confidence", ntConf_low: "low confidence", ntN: "{n} posts", "ibxSt_ig-replied": "✓ You replied on Instagram", "ibxSt_ig-mentioned": "✓ You @mentioned them", "ibxSt_ig-dm": "✓ You answered in DMs", ibxIgTip: "You handled this in the Instagram app, so it moved to Handled by itself.", ibxYouWrote: "You wrote", ibxLiked: "♥ You liked it", ibxDraftSent: "Sent to PIX: drafts for {n} comments", ibxDraftNone: "Every waiting comment already has a draft.", ibxDraftOf: "PIX's draft", ibxSendAll: "Send all drafts ({n})", ibxSendAllTitle: "These replies will be posted publicly:", ibxSendAllGo: "✓ Post {n} replies", ibxSendAllDone: "{n} replies sent", ibxSendAllFail: "Couldn't send to @{a}: {e}", ibxCancel: "Cancel", ibxDraftUse: "Use it", ibxDraftNo: "No thanks", fnTriggered: "Commented the keyword", fnGate: "Got follow-first", fnPassed: "Followed + tapped", fnSent: "Gift DM sent", fnClicked: "Opened the link", fnNone: "No one has triggered it yet.", fnPost: "Open post", folFresh: "updated {t}", folFreshTip: "Zernio refreshes follower counts about once a day, so a new follower can take up to a day to show.", ibxUnmark: "Back to waiting", ibxAddLabel: "+ label", ibxLabelPh: "New label", ibxNone: "No comments waiting. Nice.", ibxLikes: "likes", ibxHiddenTag: "hidden", nsTitle: "Network settings", nsFB: "Facebook", nsFormat: "Format", nsFeed: "Feed post", nsReel: "Reel", nsFbStory: "Story", nsFeedHint: "Text, one photo, up to 10 photos, or a video. No mixing photos and video.", nsReelHint: "One vertical video (9:16), 3-90 seconds.", nsFbStoryHint: "One photo or video, gone after 24 hours. No caption.", nsReelTitle: "Reel title (optional)", nsFirst: "First comment (optional)", nsFbDraft: "Save as a draft in Facebook's Publishing Tools instead of posting", nsPage: "Facebook Page", nsDefaultPage: "My default Page", nsTT: "TikTok", nsSC: "Snapchat", nsWho: "Who can see it", nsComments: "Comments", nsDuet: "Duets", nsStitch: "Stitches", nsDisclose: "Promotional content", nsNone: "Not promotional", nsOwnBrand: "Your own brand", nsBranded: "Branded content (paid partnership)", nsAi: "Made with AI (label it on TikTok)", nsDraft: "Send to my TikTok inbox as a draft; I finish it in the app", nsConsent: "I previewed this post and agree to post it on TikTok", nsConsentHint: "TikTok requires this. If you change the caption or media, it asks again.", nsLimit: "TikTok says this account can't post more right now. Try later.", nsLoading: "Loading your TikTok choices…", nsStory: "Story", nsSaved: "Saved story", nsSpot: "Spotlight", nsStoryHint: "Disappears after 24 hours. Shows no caption.", nsSavedHint: "Stays on your Public Profile. Title up to 45 characters.", nsSpotHint: "The public video feed. Video only, caption up to 160 characters.", nsSkipped: "Skipped", nsChange: "Change…", nsPriv_PUBLIC_TO_EVERYONE: "Everyone", nsPriv_MUTUAL_FOLLOW_FRIENDS: "Friends", nsPriv_FOLLOWER_OF_CREATOR: "Followers", nsPriv_SELF_ONLY: "Only me", nsPick: "Choose…", calPrev: "Previous month", calNext: "Next month", calToday: "Today", calMore: "+{n} more",
       goalHow: "How this goal works", goalSet: "Your goal: {g} followers.", goalSrc: "You set it during setup. Change it anytime.",
       goalNow: "{c} now · {r} to go", goalReached: "Goal reached. Pick the next one.", goalLive: "Progress comes from your follower count in Zernio and updates with every refresh.",
       goalEdit: "Change goal", goalPh: "e.g. 1000", goalQuick: "Quick picks", goalSaved: "Goal updated", goalBad: "Enter a number above your current followers.",
@@ -207,7 +207,7 @@
       bStart: "Start", bRhythm: "How often", bEvery1: "Every day", bEvery2: "Every 2 days", bDays: "Pick days", bTime: "Time",
       bBest: "My best times", bFixed: "Same time", bSkip: "Skip days that already have a post", bTz: "Times are in {tz}",
       bBasisBest: "best {d} · +{l}% · n={n}", bBasisOverall: "your best overall slot · +{l}%", bBasisFixed: "your chosen time",
-      bBasisEdited: "set by you", bLow: "low confidence", bRemove: "Remove", bFixAsk: "Ask Claude to fix",
+      bBasisEdited: "set by you", bLow: "low confidence", bRemove: "Remove", bFixAsk: "Ask PIX to fix",
       bBlocked: "Can't be scheduled yet:", bNoSlots: "Not enough free days in that range. Pick more days or turn off skipping.",
       bReviewTitle: "Schedule {n} posts?", bReviewHint: "Each post is created in Zernio as scheduled. Nothing goes out now, and you can move or cancel any of them later in Zernio.",
       bGo: "Schedule {n} posts", bWorking: "Scheduling…", bQueued: "waiting", bSending: "uploading", bDone: "scheduled", bFailed: "failed",
@@ -258,50 +258,50 @@
       accPrivacy: "كلمة السر تروح للشبكة بس. خل هالنافذة مفتوحة؛ بتتحدث بروحها أول ما تخلص.", accOpenAgain: "افتح صفحة الدخول مرة ثانية",
       accDone: "انربط: {a}. جاهز للنشر.",
       zGrid: "شبكة", zList: "قائمة", zViewLabel: "العرض", ideaGet: "اطلب أفكار", ideaMore: "أفكار أكثر", ideaTopicPh: "موضوع اختياري، مثلاً: AI Agents للمبتدئين",
-      ideaEmptyTitle: "ما في أفكار للحين", ideaEmptyHint: "Claude يدرس أفضل بوستاتك في Zernio (المتابعات، الحفظ، المشاركة) ويقترح 5 بوستات مع افتتاحية ومخطط وأفضل وقت. وتتجدد بعد كل نشر.",
-      ideaComing: "Claude قاعد يشتغل عليها. بتطلع الأفكار هني بعد شوي.", ideaQueued: "انرسلت. بتطلع الأفكار أول ما تفتح Claude Code.",
+      ideaEmptyTitle: "ما في أفكار للحين", ideaEmptyHint: "PIX يدرس أفضل بوستاتك في Zernio (المتابعات، الحفظ، المشاركة) ويقترح 5 بوستات مع افتتاحية ومخطط وأفضل وقت. وتتجدد بعد كل نشر.",
+      ideaComing: "PIX قاعد يشتغل عليها. بتطلع الأفكار هني بعد شوي.", ideaQueued: "انرسلت. بتطلع الأفكار أول ما تفتح Claude Code.",
       ideaSt_drafted: "انكتبت", ibAll: "اختار الكل", ibSel: "{n} مختارة", ibDel: "احذف", ibSaveMd: "احفظ كمستند (.md)", ibSaveJson: "احفظ نسخة احتياطية (.json)", ibSaveHint: "يحفظ الأفكار المختارة، أو كلها إذا ما اخترت شي", ibAdd: "أضف فكرة", ibLoad: "حمّل أفكار من ملف", ibLoadHint: "حمّل نسخة انحفظت من احفظ نسخة احتياطية (.json)", ibClear: "امسح الكل", ibClearAsk: "تحذف كل الأفكار ({n})؟ تقدر تتراجع على طول.", ibDeleted: "انحذفت {n} فكرة.", ibUndo: "تراجع", ibRestored: "رجعت {n} فكرة.", ibSaved: "انحفظت: {f}", ibLoaded: "انضافت {a} فكرة، و{s} موجودة أصلاً.", ibEdit: "عدّل", ibEditTitle: "عدّل الفكرة", ibNewTitle: "فكرة جديدة", ibSave: "احفظ الفكرة", ibTitle: "العنوان", ibFormat: "النوع", ibOutlineHint: "كل خطوة بسطر", ibTagsHint: "بينها مسافة", ibSelectHint: "اختار هالفكرة", ideaSt_posted: "انتشرت", ideaTopicsBasis: "مو مبنية على نتائج للحين",
       pubTitle: "تنشر هالبوست؟", pubHint: "بيترفع على Zernio وهو ينشره بالموعد تحت. بعدها نقراه من Zernio عشان نتأكد إنه موجود.",
       pubNow: "الحين", pubBlocked: "صلّح هذي أول:", pubBtn: "انشر", pubWorking: "قاعد ينشر…", pubS1: "رفع الصور/الفيديو", pubS2: "فحص مع Zernio",
       pubS3: "إنشاء البوست", pubS4: "التأكد من Zernio", pubDontClose: "خل النافذة مفتوحة لحظة.", pubFailed: "ما انتشر",
-      pubFailedHint: "ما انتشر شي. صلّح المشكلة وانشر مرة ثانية، أو اطلب مساعدة Claude.", pubDoneSched: "انرفع على Zernio وانجدول",
+      pubFailedHint: "ما انتشر شي. صلّح المشكلة وانشر مرة ثانية، أو اطلب مساعدة PIX.", pubDoneSched: "انرفع على Zernio وانجدول",
       pubDonePub: "انرفع على Zernio وانتشر", pubVerified: "تم التأكد: قرينا البوست من حسابك في Zernio.",
       pubNotVerified: "انسوى في Zernio بس ما قدرنا نقراه. شيّك تبويب المنشورات بعد شوي.", zPostId: "بوست Zernio", zStatus: "الحالة في Zernio",
       pubGiftOn: "الهدية شغّالة: علّق «{k}».", pubGiftFail: "البوست نزل بس الهدية فشلت:", openZernio: "افتح Zernio", seeInPosts: "شوفه في المنشورات",
       newPost: "بوست جديد", newPostQ: "تبدأ بوست جديد؟", newPostKeep: "هالبوست بينحط على جنب، ما بينحذف. تلقاه في المنشورات ← ما انرفع، وتقدر تكمّله أي وقت.",
       newPostKeepShort: "بداية جديدة؛ ما ينحذف شي", newPostGo: "ابدأ من جديد", newPostDone: "جاهز لبوست جديد", newPostTitle: "ابدأ بوست جديد",
-      newPostHow: "سوّ مجلد فيه الصورة أو الفيديو وملف caption.txt، وبعدين أرسل اسم المجلد لـClaude (أو اكتب ‎/200bps-publish‎ واسم المجلد بالمحادثة).",
-      newPostSend: "أرسل لـClaude", newPostNeedFolder: "اكتب اسم المجلد أول.", newPostDrafts: "عندك {n} مسودة ما انرفعت للحين.",
+      newPostHow: "سوّ مجلد فيه الصورة أو الفيديو وملف caption.txt، وبعدين أرسل اسم المجلد لـPIX (أو اكتب ‎/200bps-publish‎ واسم المجلد بالمحادثة).",
+      newPostSend: "أرسل لـPIX", newPostNeedFolder: "اكتب اسم المجلد أول.", newPostDrafts: "عندك {n} مسودة ما انرفعت للحين.",
       tabPosts: "المنشورات", zTitle: "حسابك في Zernio", zRefresh: "تحديث من Zernio", zRefreshing: "قاعد يحدّث…", zUpdated: "انحدّث من Zernio", synced: "آخر تحديث",
       zAll: "الكل", zNotUploaded: "ما انرفع للحين", zAttention: "يحتاج انتباه", zNone: "ما في شي هني.", reconnect: "أعد الربط في Zernio",
       stLocal: "ما انرفع", stAwaiting: "ينتظر go", stDraft: "مسودة في Zernio", stScheduled: "مجدول", stPublishing: "قاعد ينشر", stPublished: "منشور",
       stPartial: "منشور جزئياً", stFailed: "فشل", stCancelled: "ملغي", stPending: "بالانتظار",
-      openPost: "افتح", vPrev: "السابق", vNext: "التالي", vFull: "ملء الشاشة", vOpenDoc: "افتح الـPDF", vNoMedia: "ما نقدر نعرض هالملف هني. افتح البوست عشان تشوفه.", zContinue: "كمّل هالبوست", zOpenPlan: "افتح الخطة", zAskFix: "اطلب من Claude يصلحه", zLocalHint: "مسودة محلية، على هالجهاز بس",
+      openPost: "افتح", vPrev: "السابق", vNext: "التالي", vFull: "ملء الشاشة", vOpenDoc: "افتح الـPDF", vNoMedia: "ما نقدر نعرض هالملف هني. افتح البوست عشان تشوفه.", zContinue: "كمّل هالبوست", zOpenPlan: "افتح الخطة", zAskFix: "اطلب من PIX يصلحه", zLocalHint: "مسودة محلية، على هالجهاز بس",
       zFromSkill: "انرسل من السكل", zFromZernio: "في حسابك بـZernio",
-      fixInProgress: "Claude قاعد يشتغل على هالتصحيح", fixInProgressHint: "بيوصلك قبل/بعد توافق عليه أول ما يجهز. لا تطلبه مرة ثانية.", ok: "تمام",
+      fixInProgress: "PIX قاعد يشتغل على هالتصحيح", fixInProgressHint: "بيوصلك قبل/بعد توافق عليه أول ما يجهز. لا تطلبه مرة ثانية.", ok: "تمام",
       keysTitle: "مفاتيح API", keysLocal: "محفوظة على هالجهاز بس", keyName: "اسم المفتاح", keyValue: "الصق المفتاح", show: "إظهار", hide: "إخفاء", showKey: "إظهار أو إخفاء المفتاح",
       saveKey: "حفظ", saving: "قاعد يحفظ…", keySaved: "انحفظ المفتاح", keyOk: "متصل: {a}", accountsWord: "حسابات", required: "مطلوب", connected: "تمام", check: "راجع", missing: "ناقص",
       replace: "استبدال", addKey: "أضف مفتاح", test: "اختبار", remove: "حذف", removed: "انحذف المفتاح", removeConfirm: "تحذف {k} من هالجهاز؟", whereKey: "تحصله من", addOther: "أضف مفتاح API ثاني",
       keysSafe: "المفاتيح تنحفظ في ملف ‎.env‎ بهالمجلد، وأنت بس تقدر تقراه. ما تروح للمحادثة وما تنعرض كاملة مرة ثانية.",
-      npStep1: "الملفات والكابشن", npStep2: "افحص وحسّن", npStep3: "الوقت", npStep4: "راجع وجدول", npStepOf: "الخطوة {n} من 4", npNextCheck: "التالي: افحصه", npNextClaude: "التالي: Claude يكتب الكابشن", npNextTime: "التالي: اختار الوقت", npNextReview: "التالي: راجع", npBack: "رجوع", npCloseKeep: "سكّر (المسودة محفوظة)", npWriting: "Claude قاعد يكتب الكابشن…", npWritingHint: "يطلع هني أول ما يخلص (لازم Claude Code يكون مفتوح). تقدر تسكّر هالنافذة؛ والبوست بعد ينفتح في تبويب البوست.", npChecking: "قاعد نفحص البوست…", npCaptionAll: "الكابشن (كل المنصات)", npCaptionFor: "الكابشن لـ{p}", npSaveCheck: "احفظ وافحص من جديد", npSavedCheck: "انحفظ وانفحص من جديد", npPassed: "{n} فحص ناجح", npToFix: "يحتاج تصليح", npAskFix: "اطلب من Claude يصلحه", npFixing: "Claude قاعد يشتغل عليه…", npSugReady: "اقتراح Claude", npApprove: "استخدمه", npEditSug: "عدّل", npReject: "لا شكراً", npSugSent: "انرسل. Claude يطبّقه والفحص يتحدث هني.", npBlockedNext: "لازم تصلّح الأحمر قبل لا تجدول.", npAllGood: "كل الفحوصات ناجحة.", npBest: "أفضل أوقاتك", npBestHint: "من بوستاتك: الزيادة عن معدلك، وكم بوست وراها.", npPickAny: "أو اختار أي يوم ووقت", npNow: "انشره أول ما أأكد", npWhen: "متى", npNoTime: "اختار وقت أول.", npGiftAdd: "أضف هدية (اختياري)", npGiftEdit: "غيّر الهدية", npCoverHint: "الريلز: Instagram ياخذ أول لقطة إلا إذا حطيت غلاف من تبويب البوست.", npSchedule: "جدوله", npPublishNow: "انشر الحين", npOpenPost: "افتح في تبويب البوست", npNoBest: "ما في بيانات كافية من بوستاتك عشان نقترح وقت. اختار واحد تحت.", npTitle: "بوست جديد", npSub: "اختار شنو فيه. صورة وحدة = بوست عادي، كم صورة = كاروسيل، فيديو واحد = ريل.", npPaletteHint: "ملفات · صور · مجلد",
+      npStep1: "الملفات والكابشن", npStep2: "افحص وحسّن", npStep3: "الوقت", npStep4: "راجع وجدول", npStepOf: "الخطوة {n} من 4", npNextCheck: "التالي: افحصه", npNextClaude: "التالي: PIX يكتب الكابشن", npNextTime: "التالي: اختار الوقت", npNextReview: "التالي: راجع", npBack: "رجوع", npCloseKeep: "سكّر (المسودة محفوظة)", npWriting: "PIX قاعد يكتب الكابشن…", npWritingHint: "يطلع هني أول ما يخلص (لازم Claude Code يكون مفتوح). تقدر تسكّر هالنافذة؛ والبوست بعد ينفتح في تبويب البوست.", npChecking: "قاعد نفحص البوست…", npCaptionAll: "الكابشن (كل المنصات)", npCaptionFor: "الكابشن لـ{p}", npSaveCheck: "احفظ وافحص من جديد", npSavedCheck: "انحفظ وانفحص من جديد", npPassed: "{n} فحص ناجح", npToFix: "يحتاج تصليح", npAskFix: "اطلب من PIX يصلحه", npFixing: "PIX قاعد يشتغل عليه…", npSugReady: "اقتراح PIX", npApprove: "استخدمه", npEditSug: "عدّل", npReject: "لا شكراً", npSugSent: "انرسل. PIX يطبّقه والفحص يتحدث هني.", npBlockedNext: "لازم تصلّح الأحمر قبل لا تجدول.", npAllGood: "كل الفحوصات ناجحة.", npBest: "أفضل أوقاتك", npBestHint: "من بوستاتك: الزيادة عن معدلك، وكم بوست وراها.", npPickAny: "أو اختار أي يوم ووقت", npNow: "انشره أول ما أأكد", npWhen: "متى", npNoTime: "اختار وقت أول.", npGiftAdd: "أضف هدية (اختياري)", npGiftEdit: "غيّر الهدية", npCoverHint: "الريلز: Instagram ياخذ أول لقطة إلا إذا حطيت غلاف من تبويب البوست.", npSchedule: "جدوله", npPublishNow: "انشر الحين", npOpenPost: "افتح في تبويب البوست", npNoBest: "ما في بيانات كافية من بوستاتك عشان نقترح وقت. اختار واحد تحت.", npTitle: "بوست جديد", npSub: "اختار شنو فيه. صورة وحدة = بوست عادي، كم صورة = كاروسيل، فيديو واحد = ريل.", npPaletteHint: "ملفات · صور · مجلد",
       npFromPc: "صور أو فيديو", npFromPcHint: "صور أو فيديو أو PDF أو ملف .zip من جهازك", npArchive: "ملف مضغوط", npArchiveAlone: "الملف المضغوط فيه البوست كامل، فضيفه بروحه.", npArchiveMany: "هالملف المضغوط فيه {n} بوستات. تلقاهم في الجدولة الجماعية.", npFromMine: "صوري", npFromMineHint: "اللي سويتها في سوّ صورة", npFromFolder: "مجلد بوست", npFromFolderHint: "فيه الملفات أصلاً",
       npFromImage: "بوست جديد", npFromImageHint: "ابدأ بوست جديد بهالصورة", npCarouselFromMine: "سوّ بوست أو كاروسيل منها",
-      npMedia: "في هالبوست", rwAsk: "فصّله لكل منصة", rwAsking: "Claude قاعد يكتب نسخة لكل منصة…", rwHint: "Claude يكتب نسخة لكل منصة (الطول، الهاشتاقات، الأسلوب). وأنت تختار.", rwHintShort: "كابشن لكل منصة", rwSent: "انرسل لـ Claude: نسخة لكل منصة", rwReady: "جاهزة {n} نسخ لكل منصة", rwReview: "راجعها", rwKicker: "كل المنصات", rwTitle: "نسخة لكل منصة", rwNone: "ما في نسخ للحين.", rwUse: "استخدم هذي", rwUsed: "انستخدمت", rwNew: "مشاكل جديدة:", rwNow: "الكابشن الحالي", rwUndo: "كل تغيير ينحفظ في التغييرات، فتقدر تتراجع عنه.", rwNo: "لا شكراً", rwUseAll: "استخدم الكل ({n})", rwApplied: "انحدث الكابشن: {p}", abOpen: "جرّب هوكين", abKicker: "تجربة الهوك", abTitle: "جرّب هوكين", abSub: "النسختين ينزلون كـ Trial Reels بانستقرام بنفس الوقت: يشوفهم بس اللي ما يتابعونك، فمتابعينك ما يتأثرون. بعد يومين قارن بينهم وشارك الفايز مع متابعينك.", abYours: "بوستك", abOther: "هوك ثاني", abFullCap: "الكابشن كامل", abCoverB: "كفر النسخة B", abSameCover: "نفس A", abNoCovers: "نفس كفر A (سوّ كفرات أكثر بخطوة الكفر إذا تبي تجرب كفر ثاني).", abCapB: "كابشن B (غيّر أول سطر)", abAsk: "اطلب من Claude هوك B", abAsking: "Claude قاعد يكتب… (بيطلع هني)", abHookIn: "وصل هوك B من Claude", abSame: "B نفس A. غيّر أول سطر أو الكفر.", abWhen: "النسختين ينزلون {t}.", abNow: "على طول", abHow: "انستقرام يعرض التجارب لغير المتابعين أول. بعد 48 ساعة، «شوف النتايج» يقارن نسبة التخطي ووقت المشاهدة والوصول من أرقامك أنت.", abOthers: "التجربة لانستقرام بس: {n} بهالبوست ما راح تنشر منها.", abType: "اكتب «go» عشان تبدأ التجربة", abStart: "ابدأ التجربة", abStarting: "قاعد يسوي الريلين…", abStarted: "بدت تجربة الهوك", abResults: "نتايج تجربة الهوك", abChecking: "قاعد يقرا الريلين من Zernio…", abViews: "مشاهدات", abLikes: "لايكات", abSkip: "نسبة التخطي (الأقل أحسن)", abWatch: "متوسط المشاهدة", abShareWin: "شارك النسخة {l} مع متابعينك", abShareHow: "انستقرام ما يسمح للتطبيقات بهالشي: افتحها بتطبيق انستقرام ← ··· ← Share to followers. والثانية تظل تجربة (لغير المتابعين بس).", abOpenWin: "افتح النسخة {l}", abRule: "القاعدة: 100 مشاهدة على الأقل لكل وحدة و48 ساعة. نسبة التخطي تحسم أول (فرق 5 نقاط أو أكثر)، بعدين متوسط المشاهدة (10% أو أكثر). غير جذي متقاربين وما نقدر نحكم.", abCheckAgain: "شيّك مرة ثانية", abCheck: "شوف النتايج", abTests: "تجارب الهوك", abWinner: "فاز {l}", abNoWinner: "ما في فايز للحين", abRunning: "شغالة", abNotReel: "تجربة الهوك تبي ريل انستقرام مو مجدول للحين.", rcKicker: "إعادة تدوير", rcTitle: "أعد تدوير أفضل بوستاتك", rcOpen: "أعد تدوير الأفضل", rcBtn: "أعد تدويره", rcManage: "إدارة", rcAll: "كل أفضل البوستات", rcSub: "Zernio يعيد نشر البوست المنشور كل كم أسبوع أو شهر، بهوك جديد كل مرة. الترتيب من نتايجك أنت.", rcRanked: "الترتيب حسب المتابعين الجدد، بعدين الحفظ + المشاركة، بعدين الوصول. بوستات TikTok ما تنعاد.", rcActive: "{a} من {b} قاعدة تنعاد الحين (Zernio يسمح بـ {b})", rcSavesShares: "حفظ + مشاركة", rcRhythm: "كل قد إيش", rcEvery: "كل", rcWeeks: "أسابيع", rcMonths: "شهور", rcEveryN: "كل {n} {u}", rcEveryWeek: "كل أسبوع", rcEveryMonth: "كل شهر", rcStopAfter: "وقّف بعد", rcTimes: "{n} مرات", rcUntilStop: "لين أوقفه", rcFirst: "أول إعادة", rcVersions: "نسخ جديدة", rcVersionsHint: "كل إعادة تاخذ النسخة اللي بعدها بالدور. إذا ما حطيت نسخ ينعاد نفس الكابشن. حط 2 أو أكثر.", rcVersion: "نسخة {n}", rcAsk: "اطلب من Claude هوكات جديدة", rcAsking: "Claude قاعد يكتب… (بتطلع هني)", rcHooksIn: "وصلت النسخ الجديدة من Claude", rcAdd: "أضف نسخة", rcNeedTwo: "أضف نسخة ثانية أو شيلها: Zernio يبي 2 أو أكثر (أو ولا وحدة).", rcSentence: "Zernio بيعيد نشره {every}، {times}، {what}، من {d}.", rcWithN: "ويدوّر بين {n} نسخ جديدة", rcSame: "بنفس الكابشن", rcIgNote: "Instagram يطلّع كل إعادة كبوست جديد.", rcLimits: "لين 10 بوستات تنعاد بنفس الوقت. توقفه متى ما تبي؛ اللي انعاد يظل.", rcType: "اكتب «go» عشان تبدأ", rcStart: "ابدأ إعادة التدوير", rcUpdate: "احفظ التعديلات", rcStarting: "قاعد أبلغ Zernio…", rcStarted: "إعادة التدوير شغالة في Zernio", rcCheck: "انحفظ، بس Zernio يبيّن شي ثاني. شيّك البوست.", rcStop: "وقّف إعادة التدوير", rcStopped: "وقفت إعادة التدوير", rcNext: "الجاية", rcMade: "{a} انعادت", rcMadeOf: "{a} من {b} انعادت", npTextPost: "بوست نص", npTextHint: "ما عندك صور أو فيديو؟ اكتب الكابشن بس: يصير بوست نص لـ LinkedIn وFacebook. تقدر تخليه تصويت أو إعادة نشر في LinkedIn بالخطوة 2.", liKind: "نوع البوست", liPost: "بوست عادي", liPoll: "تصويت", liRepost: "إعادة نشر", liPostHint: "الكابشن مع الصور أو الفيديو أو الـ PDF، مثل العادة.", liPostTextHint: "الكابشن كبوست نص. أو خلّه تصويت أو إعادة نشر.", liNoMedia: "التصويت وإعادة النشر في LinkedIn ما ينفع معاهم صور أو فيديو أو PDF. شيل الملفات، أو اختار بوست عادي.", liUrl: "رابط بوست LinkedIn اللي تبي تعيد نشره", liRepostHint: "الكابشن مالك يطلع كتعليقك فوق البوست الأصلي. خذ الرابط من قائمة ··· في البوست ← Copy link to post.", liQ: "السؤال", liQPh: "اسأل شي يجاوبون عليه بضغطة وحدة", liOpts: "الخيارات (من 2 إلى 4)", liOptPh: "خيار {n}", liAddOpt: "أضف خيار", liDur: "مفتوح لمدة", liD1: "يوم", liD3: "3 أيام", liD7: "أسبوع", liD14: "أسبوعين", liPreview: "معاينة", liPvFoot: "تصويت · مفتوح {d}", liPollHint: "الكابشن يطلع فوق التصويت. التصويت بس في LinkedIn؛ وFacebook (إذا شغّال) ياخذ الكابشن كبوست نص.", npDrop: "ما في شي للحين. اسحب الملفات هني أو استخدم الأزرار فوق.", npSingle: "صورة وحدة", npCarousel: "كاروسيل · {n} شرائح", npReel: "ريل",
+      npMedia: "في هالبوست", rwAsk: "فصّله لكل منصة", rwAsking: "PIX قاعد يكتب نسخة لكل منصة…", rwHint: "PIX يكتب نسخة لكل منصة (الطول، الهاشتاقات، الأسلوب). وأنت تختار.", rwHintShort: "كابشن لكل منصة", rwSent: "انرسل لـ PIX: نسخة لكل منصة", rwReady: "جاهزة {n} نسخ لكل منصة", rwReview: "راجعها", rwKicker: "كل المنصات", rwTitle: "نسخة لكل منصة", rwNone: "ما في نسخ للحين.", rwUse: "استخدم هذي", rwUsed: "انستخدمت", rwNew: "مشاكل جديدة:", rwNow: "الكابشن الحالي", rwUndo: "كل تغيير ينحفظ في التغييرات، فتقدر تتراجع عنه.", rwNo: "لا شكراً", rwUseAll: "استخدم الكل ({n})", rwApplied: "انحدث الكابشن: {p}", abOpen: "جرّب هوكين", abKicker: "تجربة الهوك", abTitle: "جرّب هوكين", abSub: "النسختين ينزلون كـ Trial Reels بانستقرام بنفس الوقت: يشوفهم بس اللي ما يتابعونك، فمتابعينك ما يتأثرون. بعد يومين قارن بينهم وشارك الفايز مع متابعينك.", abYours: "بوستك", abOther: "هوك ثاني", abFullCap: "الكابشن كامل", abCoverB: "كفر النسخة B", abSameCover: "نفس A", abNoCovers: "نفس كفر A (سوّ كفرات أكثر بخطوة الكفر إذا تبي تجرب كفر ثاني).", abCapB: "كابشن B (غيّر أول سطر)", abAsk: "اطلب من PIX هوك B", abAsking: "PIX قاعد يكتب… (بيطلع هني)", abHookIn: "وصل هوك B من PIX", abSame: "B نفس A. غيّر أول سطر أو الكفر.", abWhen: "النسختين ينزلون {t}.", abNow: "على طول", abHow: "انستقرام يعرض التجارب لغير المتابعين أول. بعد 48 ساعة، «شوف النتايج» يقارن نسبة التخطي ووقت المشاهدة والوصول من أرقامك أنت.", abOthers: "التجربة لانستقرام بس: {n} بهالبوست ما راح تنشر منها.", abType: "اكتب «go» عشان تبدأ التجربة", abStart: "ابدأ التجربة", abStarting: "قاعد يسوي الريلين…", abStarted: "بدت تجربة الهوك", abResults: "نتايج تجربة الهوك", abChecking: "قاعد يقرا الريلين من Zernio…", abViews: "مشاهدات", abLikes: "لايكات", abSkip: "نسبة التخطي (الأقل أحسن)", abWatch: "متوسط المشاهدة", abShareWin: "شارك النسخة {l} مع متابعينك", abShareHow: "انستقرام ما يسمح للتطبيقات بهالشي: افتحها بتطبيق انستقرام ← ··· ← Share to followers. والثانية تظل تجربة (لغير المتابعين بس).", abOpenWin: "افتح النسخة {l}", abRule: "القاعدة: 100 مشاهدة على الأقل لكل وحدة و48 ساعة. نسبة التخطي تحسم أول (فرق 5 نقاط أو أكثر)، بعدين متوسط المشاهدة (10% أو أكثر). غير جذي متقاربين وما نقدر نحكم.", abCheckAgain: "شيّك مرة ثانية", abCheck: "شوف النتايج", abTests: "تجارب الهوك", abWinner: "فاز {l}", abNoWinner: "ما في فايز للحين", abRunning: "شغالة", abNotReel: "تجربة الهوك تبي ريل انستقرام مو مجدول للحين.", rcKicker: "إعادة تدوير", rcTitle: "أعد تدوير أفضل بوستاتك", rcOpen: "أعد تدوير الأفضل", rcBtn: "أعد تدويره", rcManage: "إدارة", rcAll: "كل أفضل البوستات", rcSub: "Zernio يعيد نشر البوست المنشور كل كم أسبوع أو شهر، بهوك جديد كل مرة. الترتيب من نتايجك أنت.", rcRanked: "الترتيب حسب المتابعين الجدد، بعدين الحفظ + المشاركة، بعدين الوصول. بوستات TikTok ما تنعاد.", rcActive: "{a} من {b} قاعدة تنعاد الحين (Zernio يسمح بـ {b})", rcSavesShares: "حفظ + مشاركة", rcRhythm: "كل قد إيش", rcEvery: "كل", rcWeeks: "أسابيع", rcMonths: "شهور", rcEveryN: "كل {n} {u}", rcEveryWeek: "كل أسبوع", rcEveryMonth: "كل شهر", rcStopAfter: "وقّف بعد", rcTimes: "{n} مرات", rcUntilStop: "لين أوقفه", rcFirst: "أول إعادة", rcVersions: "نسخ جديدة", rcVersionsHint: "كل إعادة تاخذ النسخة اللي بعدها بالدور. إذا ما حطيت نسخ ينعاد نفس الكابشن. حط 2 أو أكثر.", rcVersion: "نسخة {n}", rcAsk: "اطلب من PIX هوكات جديدة", rcAsking: "PIX قاعد يكتب… (بتطلع هني)", rcHooksIn: "وصلت النسخ الجديدة من PIX", rcAdd: "أضف نسخة", rcNeedTwo: "أضف نسخة ثانية أو شيلها: Zernio يبي 2 أو أكثر (أو ولا وحدة).", rcSentence: "Zernio بيعيد نشره {every}، {times}، {what}، من {d}.", rcWithN: "ويدوّر بين {n} نسخ جديدة", rcSame: "بنفس الكابشن", rcIgNote: "Instagram يطلّع كل إعادة كبوست جديد.", rcLimits: "لين 10 بوستات تنعاد بنفس الوقت. توقفه متى ما تبي؛ اللي انعاد يظل.", rcType: "اكتب «go» عشان تبدأ", rcStart: "ابدأ إعادة التدوير", rcUpdate: "احفظ التعديلات", rcStarting: "قاعد أبلغ Zernio…", rcStarted: "إعادة التدوير شغالة في Zernio", rcCheck: "انحفظ، بس Zernio يبيّن شي ثاني. شيّك البوست.", rcStop: "وقّف إعادة التدوير", rcStopped: "وقفت إعادة التدوير", rcNext: "الجاية", rcMade: "{a} انعادت", rcMadeOf: "{a} من {b} انعادت", npTextPost: "بوست نص", npTextHint: "ما عندك صور أو فيديو؟ اكتب الكابشن بس: يصير بوست نص لـ LinkedIn وFacebook. تقدر تخليه تصويت أو إعادة نشر في LinkedIn بالخطوة 2.", liKind: "نوع البوست", liPost: "بوست عادي", liPoll: "تصويت", liRepost: "إعادة نشر", liPostHint: "الكابشن مع الصور أو الفيديو أو الـ PDF، مثل العادة.", liPostTextHint: "الكابشن كبوست نص. أو خلّه تصويت أو إعادة نشر.", liNoMedia: "التصويت وإعادة النشر في LinkedIn ما ينفع معاهم صور أو فيديو أو PDF. شيل الملفات، أو اختار بوست عادي.", liUrl: "رابط بوست LinkedIn اللي تبي تعيد نشره", liRepostHint: "الكابشن مالك يطلع كتعليقك فوق البوست الأصلي. خذ الرابط من قائمة ··· في البوست ← Copy link to post.", liQ: "السؤال", liQPh: "اسأل شي يجاوبون عليه بضغطة وحدة", liOpts: "الخيارات (من 2 إلى 4)", liOptPh: "خيار {n}", liAddOpt: "أضف خيار", liDur: "مفتوح لمدة", liD1: "يوم", liD3: "3 أيام", liD7: "أسبوع", liD14: "أسبوعين", liPreview: "معاينة", liPvFoot: "تصويت · مفتوح {d}", liPollHint: "الكابشن يطلع فوق التصويت. التصويت بس في LinkedIn؛ وFacebook (إذا شغّال) ياخذ الكابشن كبوست نص.", npDrop: "ما في شي للحين. اسحب الملفات هني أو استخدم الأزرار فوق.", npSingle: "صورة وحدة", npCarousel: "كاروسيل · {n} شرائح", npReel: "ريل",
       npEarlier: "قدّمها", npLater: "أخّرها", npName: "اسم البوست", npWhere: "ينحفظ في {f}", npCap: "الكابشن",
-      npCapPh: "اختياري. خله فاضي وClaude يكتبه بأسلوبك.", npCapHint: "إذا فيه كابشن البوست ينفتح على طول، وإذا لا Claude يكتبه أول.",
-      npCreateOpen: "سوّ البوست", npCreateClaude: "سوّ البوست · Claude يكتب الكابشن", npCreating: "قاعد يسوي…", npUploading: "قاعد يرفع {i} من {n}…",
+      npCapPh: "اختياري. خله فاضي وPIX يكتبه بأسلوبك.", npCapHint: "إذا فيه كابشن البوست ينفتح على طول، وإذا لا PIX يكتبه أول.",
+      npCreateOpen: "سوّ البوست", npCreateClaude: "سوّ البوست · PIX يكتب الكابشن", npCreating: "قاعد يسوي…", npUploading: "قاعد يرفع {i} من {n}…",
       npBadFile: "استخدم صور (JPG, PNG, WEBP) أو فيديو (MP4, MOV) أو PDF أو ملف مضغوط (.zip, .7z, .rar, .tar.gz).", npMineHint: "اضغط الصور بالترتيب اللي تبيه",
-      npOpened: "انفتح البوست: {f}", npClaudeWrites: "المجلد {f} جاهز. Claude قاعد يكتب الكابشن…", npUseFolder: "استخدم هالمجلد",
-      npChat: "تقدر بعد تقول لClaude بالمحادثة، مثلاً: «سوّ بوست من my-posts/robot».", npOrType: "أو اكتب مسار المجلد:",
+      npOpened: "انفتح البوست: {f}", npClaudeWrites: "المجلد {f} جاهز. PIX قاعد يكتب الكابشن…", npUseFolder: "استخدم هالمجلد",
+      npChat: "تقدر بعد تقول لPIX بالمحادثة، مثلاً: «سوّ بوست من my-posts/robot».", npOrType: "أو اكتب مسار المجلد:",
       imgTitle: "سوّ صورة", imgSub: "اوصفها، وإذا تبي حط صور ترشدها، واضغط سوّ. الصور تبقى بجهازك لين تضيفها لبوست.",
       jobsTitle: "الشغل بالخلفية", jobsSub: "شنو قاعد يشتغل ورا الكواليس، ووين وصل.", jobsRunning: "{n} شغّال",
       jobsDoneShort: "خلص", jobsNone: "ما في شي شغّال الحين. الصور، النشر، رفع الملفات، فحص المفاتيح وتحديث Zernio يطلعون هني وهم يشتغلون.",
       jobsFailed: "ما كمل", jobsLost: "وقف", jobsWorking: "يشتغل…", jobsFinished: "خلص",
       jk_image: "صنع صور", jk_publish: "نشر البوست", jk_batch: "جدولة بوستات", jk_upload: "إضافة ملف", jk_keytest: "فحص مفتاح",
-      jk_sync: "تحديث من Zernio", jk_newpost: "مجلد بوست جديد", jk_claude: "طلب لـClaude",
+      jk_sync: "تحديث من Zernio", jk_newpost: "مجلد بوست جديد", jk_claude: "طلب لـPIX",
       imgShort: "صورة", imgOpen: "سوّ صورة", imgNoKey: "أضف مفتاح OpenAI عشان تسوي صور", imgNoKeyHint: "الصقه تحت واضغط حفظ. ينختبر على طول.",
       imgStep1: "اوصف الصورة", imgPh: "مثلاً: طيارة ورق لونها ليموني على مكتب غامق، إضاءة ناعمة، بسيطة، وفي مكان للعنوان فوق",
-      dockKey: "N", dockHint: "رسالة لـClaude (N) · اسحب ملفات لأي مكان عشان ترسلها", dropTitle: "أفلت الملفات عشان ترسلها لـClaude", dropHint: "صور، فيديو، PDF أو ملف مضغوط. تنضاف لرسالتك.",
+      dockKey: "N", dockHint: "رسالة لـPIX (N) · اسحب ملفات لأي مكان عشان ترسلها", dropTitle: "أفلت الملفات عشان ترسلها لـPIX", dropHint: "صور، فيديو، PDF أو ملف مضغوط. تنضاف لرسالتك.",
       attach: "أرفق", attachHint: "صور، فيديو، PDF أو ملف مضغوط. أو الصقها أو اسحبها هني.", attUploading: "قاعد يضيف {n}…", attWord: "مرفقات",
       chatStop: "وقّف", chatStopped: "توقّفت", jobsStop: "وقّف", jobsStopped: "توقّف", jobsStopDone: "توقّف", jobsStopNo: "هذي ما تتوقف",
       ibxIgnore: "تجاهل", ibxIgnored: "انتجاهل", ibxUndo: "تراجع", ibxIgnoreAll: "تجاهل الكل ({n})", ibxIgnoreAllQ: "تتجاهل {n} تعليق ينتظر؟ تنتقل لـ«انتهت». ما ينشر ولا ينحذف شي.", "ibxSt_ignored": "انتجاهل",
@@ -314,16 +314,16 @@
       keyEmpty: "ما في بوستات", heatScale: "التفاعل للبوست", heatMore: "تفاصيل أكثر: أفضل وقت لكل يوم وساعات جمهورك",
       passSum: "{n} فحص نجح", passShow: "اعرض", passHide: "اخفِ", kbTabs: "الأزرار 1-5 تبدّل التبويبات",
       engOpenAI: "صورة OpenAI", engOpenAISub: "صور ورسومات يرسمها gpt-image. تستهلك رصيد OpenAI.",
-      engClaude: "Claude يصممها", engClaudeSub: "كتابة وتصاميم، سلايدات كاروسيل، اقتباسات، رسوم بيانية. تنبني بالكود بنفس مقاس البوست. ببلاش.",
-      shapeStory: "ستوري", qDesign: "تصميم", clGo: "خل Claude يصممها", clGoEdit: "خل Claude يعدّلها",
-      clWaiting: "Claude قاعد يصمم…", clWaitHint: "بتطلع هني أول ما تخلص. لازم Claude Code يكون مفتوح (/200bps-publish).",
-      clReady: "تصاميم Claude جاهزة", clChange: "خل Claude يعدّلها", clEditing: "تعديل تصميم Claude. قول شنو يتغيّر:",
-      clCancelEdit: "إلغاء", clShapeHint: "تنرسم بمقاس {w}×{h}، نفس اللي تعرضه المنصة.", clNoKeyOk: "تصاميم Claude ما تحتاج مفتاح OpenAI.",
+      engClaude: "PIX يصممها", engClaudeSub: "كتابة وتصاميم، سلايدات كاروسيل، اقتباسات، رسوم بيانية. تنبني بالكود بنفس مقاس البوست. ببلاش.",
+      shapeStory: "ستوري", qDesign: "تصميم", clGo: "خل PIX يصممها", clGoEdit: "خل PIX يعدّلها",
+      clWaiting: "PIX قاعد يصمم…", clWaitHint: "بتطلع هني أول ما تخلص. لازم Claude Code يكون مفتوح (/200bps-publish).",
+      clReady: "تصاميم PIX جاهزة", clChange: "خل PIX يعدّلها", clEditing: "تعديل تصميم PIX. قول شنو يتغيّر:",
+      clCancelEdit: "إلغاء", clShapeHint: "تنرسم بمقاس {w}×{h}، نفس اللي تعرضه المنصة.", clNoKeyOk: "تصاميم PIX ما تحتاج مفتاح OpenAI.",
       nmTitle: "جديد من OpenAI", nmTry: "جرّبه", nmDefault: "خله الافتراضي", nmGotIt: "تمام",
       mdChecked: "آخر فحص للموديلات {t}", mdCheckNow: "افحص الحين", mdChecking: "قاعد يفحص…", mdNever: "للحين لا", mdFound: "لقينا {n} موديل جديد", mdNone: "ما في موديلات جديدة",
       tkFollowers: "متابع", tkStreak: "يوم متواصل", tkReach: "الوصول · 7 أيام", tkEng: "التفاعل · 7 أيام", tkFollows: "متابعين جدد · 7 أيام", tkScore: "تقييم البوست", tkBest: "أفضل وقت مقارنة بمعدلك",
-      imgAsk: "خل Claude يحسّنه", imgAsking: "Claude قاعد يكتب وصف أحسن… بيطلع هني.", imgSuggested: "اقتراح Claude", imgUseIt: "استخدم هالوصف",
-      imgAskNeed: "اكتب كم كلمة أول، وClaude يحولها لوصف كامل.", imgSugArrived: "وصف Claude جاهز",
+      imgAsk: "خل PIX يحسّنه", imgAsking: "PIX قاعد يكتب وصف أحسن… بيطلع هني.", imgSuggested: "اقتراح PIX", imgUseIt: "استخدم هالوصف",
+      imgAskNeed: "اكتب كم كلمة أول، وPIX يحولها لوصف كامل.", imgSugArrived: "وصف PIX جاهز",
       imgStep2: "صور مرشدة", imgDrop: "اسحب أو الصق الصور هني، أو اضغط عشان تختار. الصورة الجديدة بتمشي على أسلوبها أو الأشخاص أو المنتجات اللي فيها.",
       imgFromPc: "من الجهاز", imgFromPost: "من هالبوست", imgFromMine: "من صوري", imgPickHint: "اضغط على الصور عشان تضيفها أو تشيلها", imgPickDone: "تم",
       imgStep3: "الخيارات", imgShape: "الشكل", shapeSquare: "مربع", shapeTall: "طولي", shapeWide: "عرضي",
@@ -348,7 +348,7 @@
       step1: "الخطوة 1 من الإعداد", connectTitle: "اربط Zernio", connectHint: "الصق مفتاح Zernio هني عشان تربط Instagram وLinkedIn. لا تلصقه بالمحادثة.",
       connect1: "سجّل دخول في", connect2: "افتح Settings ← API keys وسوّ مفتاح.", connect3: "الصقه تحت واضغط حفظ. بنختبره على طول.", zernioKey: "مفتاح Zernio",
       back: "رجوع", changes: "التغييرات", undo: "تراجع", undone: "تم التراجع", saved: "انحفظ", revert: "استرجاع", reverted: "تم الاسترجاع",
-      viaYou: "أنت، هني", viaChat: "أنت، بالمحادثة", liveNoRevert: "البوست مجدول أو منشور. اطلب من Claude يغيّره.",
+      viaYou: "أنت، هني", viaChat: "أنت، بالمحادثة", liveNoRevert: "البوست مجدول أو منشور. اطلب من PIX يغيّره.",
       ch_captions: "الكابشن", ch_schedule: "الوقت", ch_cover: "الغلاف", ch_dm: "الهدية", ch_settings: "الإعدادات", ch_platforms: "المنصات",
       gsHow: "شلون تشتغل", gsWhen: "متى تبدأ", gsWhenText: "الحفظ ما يسوي شي للحين. الهدية تشتغل مع البوست نفسه، لما تنشره أو تجدوله (لما تكتب go). تشتغل على Instagram بس؛ LinkedIn ما فيه رسائل خاصة.", gsNoIg: "هالبوست مو رايح Instagram، فالهدية ما راح تشتغل.", gsMatch: "أي تعليق فيه الكلمة ينحسب، كابيتال أو سمول، وحتى لو فيه غلطة إملائية بسيطة.", gsSentence: "لما أحد يعلّق «{k}» على هالبوست، توصله رسالتك بالخاص{l}{g}.", gsWithLink: " مع زر لرابطك", gsGated: "، بس بعد ما يتابعك", gs1: "1 · يعلّق", gs2: "2 · ترد عليه تحت", gs3: "3 · يتابعك أول", gs4: "4 · توصله الهدية", gs3Not: "إذا ضغط قبل لا يتابع:", gsSomeone: "أحد", gsYou: "أنت", gsInDm: "بالخاص", gsOnPost: "على بوستك", gsGateMsg: "رسالة للي ما يتابعونك للحين", gsGateBtn: "الزر اللي يطلع لهم", gsNotMsg: "إذا ضغط قبل لا يتابع", gsEditGate: "غيّر هالرسايل", gsDefGate: "تابع الحساب أول، وبعدين اضغط الزر.", gsDefBtn: "تابعتك", gsDefNot: "شكلك للحين ما تابعت. تابع، وبعدين اضغط مرة ثانية.", gsStep1: "الكلمة اللي يعلقونها", gsStep2: "رسالتك بالخاص", gsStep3: "خيارات", gsOffHint: "مطفي: ما يصير شي لما الناس يعلقون.", giftTitle: "هدية بالخاص لهالبوست", giftHint: "اللي يكتب الكلمة بالتعليقات يوصله هديتك بالخاص. ما تشتغل إلا بعد النشر وموافقتك.",
       giftOn: "شغّال", giftOff: "مطفي", giftKeyword: "الكلمة اللي يكتبونها", giftMessage: "رسالة الخاص", giftMsgPh: "هذي هديتك…",
@@ -366,28 +366,28 @@
       jGiftNote: "اسألني إذا أبي أضيف هدية بالخاص لهالبوست.", jGoNote: "أنا جاهز. اطلب مني النشر (بكتب go).",
       cNext: "سوّ الخطوة الجاية", cFix: "صحّح الفحوصات", cCover: "اختار غلاف", cTime: "اختار وقت", cGift: "أضف هدية بالخاص", cGo: "انشر (اكتب go)",
       cTheme: "بدّل فاتح / داكن", cClock: "بدّل 12 / 24 ساعة", cLang: "بدّل اللغة", cPh: "اكتب أمر… (غلاف، تصحيح، وقت)", noMatch: "ما في نتيجة",
-      clickToFix: "اضغط عشان تطلب تصحيح من Claude", fixIt: "صحّح", fixAsked: "انطلب", fixKicker: "صحّح هذا الفحص", fixNotePh: "مثلاً: خل نفس أسلوبي، غيّر أول سطر بس",
-      fixHow: "Claude بيكتب تصحيح ويوريك قبل وبعد. تقدر توافق، تعدّل، أو ترفض.", askFix: "اطلب تصحيح من Claude",
-      fixSent: "Claude قاعد يكتب التصحيح", listening: "Claude يسمعك", away: "Claude Code مسكّر", working: "Claude قاعد يشتغل",
+      clickToFix: "اضغط عشان تطلب تصحيح من PIX", fixIt: "صحّح", fixAsked: "انطلب", fixKicker: "صحّح هذا الفحص", fixNotePh: "مثلاً: خل نفس أسلوبي، غيّر أول سطر بس",
+      fixHow: "PIX بيكتب تصحيح ويوريك قبل وبعد. تقدر توافق، تعدّل، أو ترفض.", askFix: "اطلب تصحيح من PIX",
+      fixSent: "PIX قاعد يكتب التصحيح", listening: "PIX يسمعك", away: "Claude Code مسكّر", working: "PIX قاعد يشتغل",
       workingHint: "Claude Code مفتوح ومشغول بطلب. الطلبات الجديدة يشوفها أول ما يخلص.",
-      claudeSays: "Claude يقول", chatReplyPh: "اكتب ردك…", chatAnswer: "ردك", chatReplyOpt: "رد (اختياري)", gotIt: "تمام", chatOpen: "افتح المحادثة",
-      chatTitle: "محادثة مع Claude", chatHint: "اسأل، عط تعليمات، أو رد على Claude. ردوده تطلع هني وكنافذة منبثقة.", chatEmpty: "ما فيه رسائل للحين. اكتب أول وحدة تحت.",
-      chatYou: "أنت", chatSeen: "✓ وصلت Claude", chatWaiting: "ينتظر Claude…", chatWorking: "قاعد يشتغل: {s}", chatWorkingNo: "قاعد يشتغل عليها…", chatDone: "✓ خلصت", chatFailed: "✗ ما قدر يسويها", chatHandled: "✓ انتهت", chatResult: "النتيجة", ntDone: "Claude خلّص", ntFailed: "Claude ما قدر يسويها", ntView: "شوف", ntYour: "ملاحظتك", ntUpdated: "اللوحة محدّثة.", actTitle: "النشاط", actHint: "ملاحظاتك وطلباتك لـClaude، وشنو صار فيها.", actAll: "الكل", actOpen: "قيد الشغل", actDone: "خلصت", actFailed: "ما قدر", actEmpty: "ما في شي للحين. أرسل ملاحظة لـClaude.", actNew: "جديد", actOpenChat: "افتح في المحادثة",
-      listeningHint: "أي طلب من هالصفحة يوصل لـClaude فوراً.", awayHint: "Claude Code مو شغّال. طلباتك محفوظة وتنتظر لين تفتح Claude Code هني وتشغّل /200bps-publish.",
+      claudeSays: "PIX يقول", chatReplyPh: "اكتب ردك…", chatAnswer: "ردك", chatReplyOpt: "رد (اختياري)", gotIt: "تمام", chatOpen: "افتح المحادثة",
+      chatTitle: "محادثة مع PIX", chatHint: "اسأل، عط تعليمات، أو رد على PIX. ردوده تطلع هني وكنافذة منبثقة.", chatEmpty: "ما فيه رسائل للحين. اكتب أول وحدة تحت.",
+      chatYou: "أنت", chatSeen: "✓ وصلت PIX", chatWaiting: "ينتظر PIX…", chatWorking: "قاعد يشتغل: {s}", chatWorkingNo: "قاعد يشتغل عليها…", chatDone: "✓ خلصت", chatFailed: "✗ ما قدر يسويها", chatHandled: "✓ انتهت", chatResult: "النتيجة", ntDone: "PIX خلّص", ntFailed: "PIX ما قدر يسويها", ntView: "شوف", ntYour: "ملاحظتك", ntUpdated: "اللوحة محدّثة.", actTitle: "النشاط", actHint: "ملاحظاتك وطلباتك لـPIX، وشنو صار فيها.", actAll: "الكل", actOpen: "قيد الشغل", actDone: "خلصت", actFailed: "ما قدر", actEmpty: "ما في شي للحين. أرسل ملاحظة لـPIX.", actNew: "جديد", actOpenChat: "افتح في المحادثة",
+      listeningHint: "أي طلب من هالصفحة يوصل لـPIX فوراً.", awayHint: "Claude Code مو شغّال. طلباتك محفوظة وتنتظر لين تفتح Claude Code هني وتشغّل /200bps-publish.",
       dayHint: "اضغط، أو اضغط مرتين، أو كليك يمين", dayPast: "يوم سابق", dayPlan: "خطط لهاليوم", dayPublished: "منشور", dayScheduled: "مجدول",
       dayNothing: "ما انتشر شي هاليوم.", getReport: "التقرير الكامل", pickTime: "اختار الوقت", anyHour: "أي ساعة…", pickHour: "اختار الوقت أول.",
-      choosePost: "اختار بوست مجدول", chooseIdea: "اختار فكرة", dayIdea: "خطط بوست من فكرة", dayIdeaBtn: "خل Claude يكتبه",
+      choosePost: "اختار بوست مجدول", chooseIdea: "اختار فكرة", dayIdea: "خطط بوست من فكرة", dayIdeaBtn: "خل PIX يكتبه",
       keySched: "بوست مجدول", keyPlan: "هذا البوست", keyClick: "اضغط على أي خانة للجدولة", slotKicker: "خانة وقت", ofBest: "من أفضل خانة",
       noHistory: "ما في بيانات", nextOn: "القادم:", slotPlan: "جدول هذا البوست هني", slotPlanBtn: "استخدم هالوقت", slotPlanned: "تمت الجدولة. اكتب go للنشر.",
-      slotNoPlan: "ما في بوست غير منشور.", slotMove: "انقل بوست مجدول لهني", slotMoveBtn: "اطلب من Claude ينقله", slotNoSched: "ما في بوستات مجدولة.",
-      slotAssign: "خصص مجلد بوست لهالوقت", slotAssignBtn: "أرسل لـClaude", slotQueued: "وصلت لـClaude", toDark: "الوضع الداكن", toLight: "الوضع الفاتح",
+      slotNoPlan: "ما في بوست غير منشور.", slotMove: "انقل بوست مجدول لهني", slotMoveBtn: "اطلب من PIX ينقله", slotNoSched: "ما في بوستات مجدولة.",
+      slotAssign: "خصص مجلد بوست لهالوقت", slotAssignBtn: "أرسل لـPIX", slotQueued: "وصلت لـPIX", toDark: "الوضع الداكن", toLight: "الوضع الفاتح",
       low: "قليل", high: "عالي", bestSlot: "أفضل وقت", best: "الأفضل", second: "الثاني", third: "الثالث",
-      cover: "الغلاف", gridView: "عرض الشبكة", noCover: "ما في غلاف للحين", candidates: "الخيارات", noCands: "اطلب من Claude لقطات أو تصميم.",
-      needsYou: "Claude يحتاج قرارك", later: "بعدين", send: "إرسال", anythingElse: "أي شي ثاني؟", notePh: "اختياري: تعليمات إضافية لـClaude",
+      cover: "الغلاف", gridView: "عرض الشبكة", noCover: "ما في غلاف للحين", candidates: "الخيارات", noCands: "اطلب من PIX لقطات أو تصميم.",
+      needsYou: "PIX يحتاج قرارك", later: "بعدين", send: "إرسال", anythingElse: "أي شي ثاني؟", notePh: "اختياري: تعليمات إضافية لـPIX",
       typeAnswer: "اكتب جوابك", orType: "أو اكتب جوابك", yourAnswer: "جوابك", pickOne: "اختار خيار أو اكتب جواب.",
-      sent: "وصلت لـClaude", decisionWaiting: "قرار واحد ينتظرك", publishNow: "انشر", typeGo: "اكتب «{w}» للتأكيد",
+      sent: "وصلت لـPIX", decisionWaiting: "قرار واحد ينتظرك", publishNow: "انشر", typeGo: "اكتب «{w}» للتأكيد",
       before: "قبل", after: "بعد", approve: "موافق", reject: "رفض", edit: "تعديل", saveEdit: "استخدم تعديلي",
-      noteFab: "رسالة لـClaude", noteShort: "رسالة", noteKicker: "رسالة", noteTitle: "رسالة لـClaude", noteHint: "أي شي تبي Claude يغيّره أو يعرفه. بيقراه قبل الخطوة الجاية.",
+      noteFab: "رسالة لـPIX", noteShort: "رسالة", noteKicker: "رسالة", noteTitle: "رسالة لـPIX", noteHint: "أي شي تبي PIX يغيّره أو يعرفه. بيقراه قبل الخطوة الجاية.",
       notePh2: "مثلاً: استخدم اللقطة 4، قصّر العنوان، انشر على LinkedIn بعد", enterHint: "Enter يرسل · Shift+Enter أو Ctrl+Enter لسطر جديد", noteSent: "وصلت الرسالة", cancel: "إلغاء",
       tabAbout: "عن الأداة", aboutKicker: "عن هذي الأداة", aboutTitle: "200BPS.ai | Publish",
       aboutMade: "صممها ناصر الأستاذ بأسلوب Vibe Coding مع Claude Code.",
@@ -401,7 +401,7 @@
       ages: "العمر", gender: "الجنس", cities: "أكثر المدن", countries: "أكثر الدول", male: "ذكور", female: "إناث", unknown: "غير محدد",
       milestone: "وصلت لإنجاز جديد", days: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
       daysN: "{n} يوم", followGated: "للمتابعين بس", iceBreakers: "أسئلة البداية", postWord: "بوست", trialShort: "تجريبي",
-      cvMonth: "شهر", cvWeek: "أسبوع", cvDay: "يوم", cvPrevWeek: "السابق", cvNextWeek: "التالي", mvTitle: "تنقل هالبوست؟", mvFrom: "من", mvTo: "إلى", mvType: "اكتب «move» عشان يتغيّر في Zernio", mvBtn: "انقله", mvDone: "انتقل إلى {t}", mvLocal: "المسودة انتقلت إلى {t}", mvNotAll: "Zernio خلّى الوقت القديم على: {p}. شيّك عليه في Zernio.", mvPast: "اختار وقت بعد 15 دقيقة على الأقل.", mvPick: "اليوم والوقت الجديد", edTitle: "عدّل الكابشن", edType: "اكتب «edit» عشان ينحفظ في Zernio", edBtn: "احفظ الكابشن", edDone: "الكابشن انحفظ في Zernio", slTitle: "جدول على {t}", slCurrent: "حط المسودة المفتوحة هني", slDrafts: "أو وحدة من مسوداتي", slNoDrafts: "ما في مسودات تنتظر.", slNew: "ابدأ بوست جديد لهالوقت", slIdea: "خل Claude يكتب واحد من فكرة", slIdeaSent: "انرسلت لـClaude: مسودة لـ{t}", slSet: "انجدول على {t}. انشره بـgo لما يجهز.", pdMove: "انقل…", pdEdit: "عدّل الكابشن…", tgDrag: "اسحب بوست عشان تنقله · اضغط أو اسحب على وقت فاضي عشان تخطط واحد", tgNoChange: "البوستات المنشورة ما تنتقل ولا تتعدّل.", ibxAll: "الكل", ibxWaiting: "تنتظر", ibxDone: "انتهت", ibxReply: "رد", ibxGift: "أرسل الهدية", ibxPrivate: "رسالة خاصة", ibxHide: "اخفِ", ibxShow: "أظهر", ibxDelete: "احذف…", ibxOpenPost: "افتح البوست", ibxOnPost: "على", ibxGiftOf: "هدية هالبوست", ibxNoGift: "ما في هدية على هالبوست", ibxReplyPh: "اكتب ردك العام…", ibxSend: "أرسل الرد", ibxGiftHint: "توصله بالخاص. رسالة خاصة وحدة لكل تعليق، خلال 7 أيام من التعليق.", ibxAsButton: "أرسل الرابط كزر", ibxBtnWarn: "Instagram ممكن يرفض الأزرار للي ما يتابعونك، والمحاولة المرفوضة تستهلك الرسالة الوحيدة لهالتعليق. الرابط داخل النص يشتغل دايماً.", ibxConfirm: "أكّد: أرسل لـ@{a}", ibxSent: "انرسل الرد", ibxGiftSent: "انرسلت الهدية لـ@{a}", ibxHidden: "انخفى التعليق", ibxShown: "ظهر التعليق", ibxDelTitle: "تحذف هالتعليق؟", ibxDelType: "اكتب «delete» عشان ينشال من البوست (ما يرجع)", ibxDelBtn: "احذف التعليق", ibxDeleted: "انحذف التعليق", ibxSt_replied: "✓ انرد عليه", ibxSt_gift: "✓ انرسلت الهدية", "ibxSt_gift-used": "الهدية مستخدمة", "ibxSt_gift-unknown": "الهدية غالباً وصلت", ibxSt_deleted: "✓ انحذف", ibxSt_marked: "✓ تعلّمت منتهية", ibxSt_gated: "الهدية توصله لما يتابع", ibxSt_notfollower: "مو متابع · بدون هدية", "ibxSt_auto-sent": "✓ تلقائي: انرسلت الهدية", "ibxSt_auto-gated": "تلقائي: الهدية توصله لما يتابع", "ibxSt_auto-skipped": "تلقائي: الأتمتة تجاهلته", "ibxSt_auto-failed": "الهدية التلقائية فشلت", ibxAutoTip: "أتمتة الرسائل في Zernio تعاملت مع هالتعليق. ما عليك شي؛ انتقل لـ«انتهت» بروحه.", ibxAutoGatedTip: "Zernio أرسل له رسالة «تابع أول». لما يتابع ويضغط الزر، توصله الهدية بروحها.", ibxAutoFailTip: "الأتمتة حاولت وفشلت، عشان جذي يظل في «تنتظر». تقدر ترسل الهدية بنفسك إذا الرسالة الخاصة الوحيدة لهالتعليق ما انستخدمت.", ibxAutoUsed: "الرسالة الخاصة الوحيدة لهالتعليق انستخدمت، فما تقدر ترسل هدية يدوياً.", ibxDraftAll: "✨ خل Claude يكتب الردود", ntAll: "كل المنصات", nwBtn: "المنصات…", nwKicker: "منصات هالبوست", nwHint: "شغّل أو طفّ كل منصة. البوست يظل مجدول على اللي تظل شغّالة.", nwHintLocal: "شغّل أو طفّ كل منصة لهالمسودة.", nwHintPub: "انشر خلاص. تقدر تشيله من منصة إذا المنصة تسمح.", nwType: "اكتب «edit» عشان يتغيّر في Zernio", nwSave: "احفظ المنصات", nwKeepOne: "خلّ منصة وحدة شغّالة على الأقل. عشان توقف البوست كله، استخدم «ألغِ».", nwSaved: "انحدّثت المنصات", nwCheck: "انحفظ، بس Zernio يبين شي مختلف. شيّك على البوست.", nwCant: "ما تعرض {k}", nwNotOn: "مو على هالبوست", nwRemove: "شيله من {p}…", nwRemoveTitle: "تشيله من {p}؟", nwRemoveHint: "البوست ينحذف من هالمنصة بس؛ والباقي يظل. ما يرجع.", nwTypeRemove: "اكتب «remove» عشان تأكد", nwRemoved: "انشال من {p}", nwAppOnly: "{p} ما يسمح للتطبيقات تحذف البوستات: احذفه من تطبيق {p}.", cpGift: "انسخ الهدية بعد («{k}»)", cpGiftHint: "نفس الكلمة والرسالة والرابط والرد، على النسخة. تشتغل لما تنزل النسخة.", cpGiftDone: "انسخت الهدية", dayOpen: "افتح هاليوم", buildWord: "بناء", cpCopy: "انسخ", cpCopied: "انسخ. اضغط يوم في الخطة، وبعدين «الصق هني» (أو أشّر على يوم واضغط Ctrl+V).", cpOnClip: "منسوخ:", cpHow: "اضغط يوم ← الصق هني · أو Ctrl+V على يوم", cpClear: "انسَ النسخة", cpKicker: "الصق نسخة", cpWhat: "نفس الصور أو الفيديو والمنصات والحسابات والإعدادات. اختار الوقت؛ وعدّل الكابشن إذا تبي.", cpWhatLocal: "مسودة جديدة على جهازك بنفس الملفات والإعدادات. ما يروح شي لـZernio لين تنشره بـgo.", cpWhen: "اليوم والوقت", cpNets: "المنصات", cpCaption: "الكابشن", cpSchedule: "جدوله", cpDraft: "احفظه مسودة في Zernio", cpTypeGo: "اكتب «go» عشان تجدول النسخة", cpPasteBtn: "جدول النسخة", cpDraftBtn: "احفظ المسودة", cpLocalBtn: "سوّ النسخة", cpPickNet: "اختار منصة وحدة على الأقل.", cpDone: "انجدولت النسخة على {t}", cpDoneDraft: "انحفظت النسخة مسودة في Zernio على {t}", cpDoneLocal: "انسوت النسخة كمسودة على {t}", cpPasteHere: "الصق هني", tgAccounts: "انشر على هالحسابات", tgHint: "علّم كل حساب تبي البوست ينزل عليه. نفس الكابشن والإعدادات على كل واحد.", tgLocked: "هالبوست صار في Zernio؛ ما تقدر تغيّر حساباته الحين.", tgOne: "خلّ حساب واحد على الأقل.", tgSaved: "انحفظت الحسابات", vView: "شوفه", ntPickNet: "المنصة", ntConnect: "اربط حساب", ntAllAcc: "كل حسابات {p} ({n})", ntPin: "ثبّته فوق", ntUnpin: "شيل التثبيت", ntFind: "دوّر على حساب…", ntAccount: "الحساب", ntCh7: "7 أيام", ntCh30: "30 يوم", ntCompare: "الحسابات جنب بعض", ntCompareHint: "آخر 30 يوم · اضغط عمود عشان ترتّب، وصف عشان تفتحه", ntGoalPerAcc: "الأهداف لكل حساب: افتح حساب عشان تحط هدفه.", ntBestPick: "أفضل الأوقات لكل حساب: افتح حساب عشان تشوفها.", nsTitle2: "وين ينزل هالبوست", nsWhen: "متى", nsAccount: "الحساب", nsStatusOf: "الحالة", nsMore: "+{n}", nsOpen: "افتحه في {p} ↗", nsNoTime: "ما في وقت للحين", nsLocalNote: "ما انرفع لـZernio للحين: بينزل على هالمنصات لما تنشره بـgo.", nsOpenPost: "افتح البوست", ntSince: "{n} من {d}", ntSinceTip: "Zernio عنده سجل متابعين لهالمنصة بس من هاليوم، فما نقدر نحسب تغيّر 30 يوم للحين.", ibxTz: "الوقت حسب", ibxTzMine: "{c} (وقتي)", ibxTzLocal: "ساعة هالجهاز", ibxTzAud: "وين جمهورك", ibxTzAll: "كل المناطق الزمنية", ntPosts: "البوستات", ntImpr: "الظهور", ntReach: "الوصول", ntEng: "التفاعلات", ntER: "متوسط نسبة التفاعل", ntNewF: "متابعين جدد", ntLast30: "آخر 30 يوم مقارنة بالـ30 اللي قبلها", ntWeek: "{n} هالأسبوع", ntMonth: "{n} خلال 30 يوم", ntGoal: "الهدف", ntSetGoal: "حط هدف", ntNoGoal: "ما في هدف لهالمنصة للحين.", ntBest: "أفضل الأوقات", ntBestNone: "ما في وقت بارز للحين على هالمنصة (ولا وقت أحسن من متوسطك). كل بوست يحسّن هالشي.", ntLift: "{l}% عن متوسطك", ntRhythm: "إيقاع النشر", ntRhythmHint: "بوستات بالأسبوع · آخر 8 أسابيع", ntTop: "أفضل البوستات", ntTopHint: "أكثر تفاعل · آخر 90 يوم", ntOpen: "افتح", ntNoPosts: "ما في بوستات بآخر 90 يوم على هالمنصة.", ntFollowers: "المتابعين", ntConf_high: "ثقة عالية", ntConf_medium: "ثقة متوسطة", ntConf_low: "ثقة قليلة", ntN: "{n} بوستات", "ibxSt_ig-replied": "✓ رديت عليه في Instagram", "ibxSt_ig-mentioned": "✓ منشنته بتعليقك", "ibxSt_ig-dm": "✓ رديت عليه بالخاص", ibxIgTip: "تعاملت معاه من تطبيق Instagram، فانتقل لـ«انتهت» بروحه.", ibxYouWrote: "كتبت", ibxLiked: "♥ عجبك", ibxDraftSent: "انرسلت لـClaude: ردود لـ{n} تعليق", ibxDraftNone: "كل التعليقات اللي تنتظر عندها مسودة.", ibxDraftOf: "مسودة Claude", ibxSendAll: "أرسل كل المسودات ({n})", ibxSendAllTitle: "هالردود بتنتشر للكل:", ibxSendAllGo: "✓ انشر {n} ردود", ibxSendAllDone: "انرسلت {n} ردود", ibxSendAllFail: "ما قدرت أرسل لـ@{a}: {e}", ibxCancel: "إلغاء", ibxDraftUse: "استخدمها", ibxDraftNo: "لا، شكراً", fnTriggered: "علّق بالكلمة", fnGate: "وصلته «تابع أول»", fnPassed: "تابع وضغط", fnSent: "وصلته الهدية", fnClicked: "فتح الرابط", fnNone: "محد استخدمها للحين.", fnPost: "افتح البوست", folFresh: "تحدّث {t}", folFreshTip: "Zernio يحدّث عدد المتابعين تقريباً مرة باليوم، فالمتابع الجديد ممكن ياخذ لين يوم عشان يبين.", ibxUnmark: "رجّعه للانتظار", ibxAddLabel: "+ تصنيف", ibxLabelPh: "تصنيف جديد", ibxNone: "ما في تعليقات تنتظر. حلو.", ibxLikes: "لايك", ibxHiddenTag: "مخفي", nsTitle: "إعدادات المنصات", nsFB: "Facebook", nsFormat: "النوع", nsFeed: "بوست عادي", nsReel: "ريل", nsFbStory: "ستوري", nsFeedHint: "نص، صورة وحدة، لين 10 صور، أو فيديو. بدون خلط صور وفيديو.", nsReelHint: "فيديو واحد عمودي (9:16)، من 3 لين 90 ثانية.", nsFbStoryHint: "صورة أو فيديو واحد، تختفي بعد 24 ساعة. بدون كابشن.", nsReelTitle: "عنوان الريل (اختياري)", nsFirst: "أول تعليق (اختياري)", nsFbDraft: "احفظه كمسودة في أدوات النشر بفيسبوك بدال لا ينشر", nsPage: "صفحة Facebook", nsDefaultPage: "صفحتي الأساسية", nsTT: "TikTok", nsSC: "Snapchat", nsWho: "منو يشوفه", nsComments: "التعليقات", nsDuet: "الدويت", nsStitch: "الستيتش", nsDisclose: "محتوى ترويجي", nsNone: "مو ترويجي", nsOwnBrand: "براندك أنت", nsBranded: "محتوى مدفوع (شراكة)", nsAi: "مسوّى بالذكاء الاصطناعي (علّمه في TikTok)", nsDraft: "أرسله لصندوق TikTok كمسودة؛ وأكمله من التطبيق", nsConsent: "شفت البوست وأوافق أنشره على TikTok", nsConsentHint: "TikTok يطلبها. إذا غيّرت الكابشن أو الملفات، يسأل مرة ثانية.", nsLimit: "TikTok يقول هالحساب ما يقدر ينشر أكثر الحين. جرّب بعدين.", nsLoading: "قاعد نجيب خيارات TikTok مالتك…", nsStory: "ستوري", nsSaved: "ستوري محفوظة", nsSpot: "سبوتلايت", nsStoryHint: "تختفي بعد 24 ساعة. ما تبين الكابشن.", nsSavedHint: "تظل في بروفايلك العام. العنوان لين 45 حرف.", nsSpotHint: "فيد الفيديوهات العام. فيديو بس، والكابشن لين 160 حرف.", nsSkipped: "انتجاهل", nsChange: "غيّر…", nsPriv_PUBLIC_TO_EVERYONE: "الكل", nsPriv_MUTUAL_FOLLOW_FRIENDS: "الأصدقاء", nsPriv_FOLLOWER_OF_CREATOR: "المتابعين", nsPriv_SELF_ONLY: "أنا بس", nsPick: "اختار…", calPrev: "الشهر السابق", calNext: "الشهر الجاي", calToday: "اليوم", calMore: "+{n} ثانية",
+      cvMonth: "شهر", cvWeek: "أسبوع", cvDay: "يوم", cvPrevWeek: "السابق", cvNextWeek: "التالي", mvTitle: "تنقل هالبوست؟", mvFrom: "من", mvTo: "إلى", mvType: "اكتب «move» عشان يتغيّر في Zernio", mvBtn: "انقله", mvDone: "انتقل إلى {t}", mvLocal: "المسودة انتقلت إلى {t}", mvNotAll: "Zernio خلّى الوقت القديم على: {p}. شيّك عليه في Zernio.", mvPast: "اختار وقت بعد 15 دقيقة على الأقل.", mvPick: "اليوم والوقت الجديد", edTitle: "عدّل الكابشن", edType: "اكتب «edit» عشان ينحفظ في Zernio", edBtn: "احفظ الكابشن", edDone: "الكابشن انحفظ في Zernio", slTitle: "جدول على {t}", slCurrent: "حط المسودة المفتوحة هني", slDrafts: "أو وحدة من مسوداتي", slNoDrafts: "ما في مسودات تنتظر.", slNew: "ابدأ بوست جديد لهالوقت", slIdea: "خل PIX يكتب واحد من فكرة", slIdeaSent: "انرسلت لـPIX: مسودة لـ{t}", slSet: "انجدول على {t}. انشره بـgo لما يجهز.", pdMove: "انقل…", pdEdit: "عدّل الكابشن…", tgDrag: "اسحب بوست عشان تنقله · اضغط أو اسحب على وقت فاضي عشان تخطط واحد", tgNoChange: "البوستات المنشورة ما تنتقل ولا تتعدّل.", ibxAll: "الكل", ibxWaiting: "تنتظر", ibxDone: "انتهت", ibxReply: "رد", ibxGift: "أرسل الهدية", ibxPrivate: "رسالة خاصة", ibxHide: "اخفِ", ibxShow: "أظهر", ibxDelete: "احذف…", ibxOpenPost: "افتح البوست", ibxOnPost: "على", ibxGiftOf: "هدية هالبوست", ibxNoGift: "ما في هدية على هالبوست", ibxReplyPh: "اكتب ردك العام…", ibxSend: "أرسل الرد", ibxGiftHint: "توصله بالخاص. رسالة خاصة وحدة لكل تعليق، خلال 7 أيام من التعليق.", ibxAsButton: "أرسل الرابط كزر", ibxBtnWarn: "Instagram ممكن يرفض الأزرار للي ما يتابعونك، والمحاولة المرفوضة تستهلك الرسالة الوحيدة لهالتعليق. الرابط داخل النص يشتغل دايماً.", ibxConfirm: "أكّد: أرسل لـ@{a}", ibxSent: "انرسل الرد", ibxGiftSent: "انرسلت الهدية لـ@{a}", ibxHidden: "انخفى التعليق", ibxShown: "ظهر التعليق", ibxDelTitle: "تحذف هالتعليق؟", ibxDelType: "اكتب «delete» عشان ينشال من البوست (ما يرجع)", ibxDelBtn: "احذف التعليق", ibxDeleted: "انحذف التعليق", ibxSt_replied: "✓ انرد عليه", ibxSt_gift: "✓ انرسلت الهدية", "ibxSt_gift-used": "الهدية مستخدمة", "ibxSt_gift-unknown": "الهدية غالباً وصلت", ibxSt_deleted: "✓ انحذف", ibxSt_marked: "✓ تعلّمت منتهية", ibxSt_gated: "الهدية توصله لما يتابع", ibxSt_notfollower: "مو متابع · بدون هدية", "ibxSt_auto-sent": "✓ تلقائي: انرسلت الهدية", "ibxSt_auto-gated": "تلقائي: الهدية توصله لما يتابع", "ibxSt_auto-skipped": "تلقائي: الأتمتة تجاهلته", "ibxSt_auto-failed": "الهدية التلقائية فشلت", ibxAutoTip: "أتمتة الرسائل في Zernio تعاملت مع هالتعليق. ما عليك شي؛ انتقل لـ«انتهت» بروحه.", ibxAutoGatedTip: "Zernio أرسل له رسالة «تابع أول». لما يتابع ويضغط الزر، توصله الهدية بروحها.", ibxAutoFailTip: "الأتمتة حاولت وفشلت، عشان جذي يظل في «تنتظر». تقدر ترسل الهدية بنفسك إذا الرسالة الخاصة الوحيدة لهالتعليق ما انستخدمت.", ibxAutoUsed: "الرسالة الخاصة الوحيدة لهالتعليق انستخدمت، فما تقدر ترسل هدية يدوياً.", ibxDraftAll: "✨ خل PIX يكتب الردود", ntAll: "كل المنصات", nwBtn: "المنصات…", nwKicker: "منصات هالبوست", nwHint: "شغّل أو طفّ كل منصة. البوست يظل مجدول على اللي تظل شغّالة.", nwHintLocal: "شغّل أو طفّ كل منصة لهالمسودة.", nwHintPub: "انشر خلاص. تقدر تشيله من منصة إذا المنصة تسمح.", nwType: "اكتب «edit» عشان يتغيّر في Zernio", nwSave: "احفظ المنصات", nwKeepOne: "خلّ منصة وحدة شغّالة على الأقل. عشان توقف البوست كله، استخدم «ألغِ».", nwSaved: "انحدّثت المنصات", nwCheck: "انحفظ، بس Zernio يبين شي مختلف. شيّك على البوست.", nwCant: "ما تعرض {k}", nwNotOn: "مو على هالبوست", nwRemove: "شيله من {p}…", nwRemoveTitle: "تشيله من {p}؟", nwRemoveHint: "البوست ينحذف من هالمنصة بس؛ والباقي يظل. ما يرجع.", nwTypeRemove: "اكتب «remove» عشان تأكد", nwRemoved: "انشال من {p}", nwAppOnly: "{p} ما يسمح للتطبيقات تحذف البوستات: احذفه من تطبيق {p}.", cpGift: "انسخ الهدية بعد («{k}»)", cpGiftHint: "نفس الكلمة والرسالة والرابط والرد، على النسخة. تشتغل لما تنزل النسخة.", cpGiftDone: "انسخت الهدية", dayOpen: "افتح هاليوم", buildWord: "بناء", cpCopy: "انسخ", cpCopied: "انسخ. اضغط يوم في الخطة، وبعدين «الصق هني» (أو أشّر على يوم واضغط Ctrl+V).", cpOnClip: "منسوخ:", cpHow: "اضغط يوم ← الصق هني · أو Ctrl+V على يوم", cpClear: "انسَ النسخة", cpKicker: "الصق نسخة", cpWhat: "نفس الصور أو الفيديو والمنصات والحسابات والإعدادات. اختار الوقت؛ وعدّل الكابشن إذا تبي.", cpWhatLocal: "مسودة جديدة على جهازك بنفس الملفات والإعدادات. ما يروح شي لـZernio لين تنشره بـgo.", cpWhen: "اليوم والوقت", cpNets: "المنصات", cpCaption: "الكابشن", cpSchedule: "جدوله", cpDraft: "احفظه مسودة في Zernio", cpTypeGo: "اكتب «go» عشان تجدول النسخة", cpPasteBtn: "جدول النسخة", cpDraftBtn: "احفظ المسودة", cpLocalBtn: "سوّ النسخة", cpPickNet: "اختار منصة وحدة على الأقل.", cpDone: "انجدولت النسخة على {t}", cpDoneDraft: "انحفظت النسخة مسودة في Zernio على {t}", cpDoneLocal: "انسوت النسخة كمسودة على {t}", cpPasteHere: "الصق هني", tgAccounts: "انشر على هالحسابات", tgHint: "علّم كل حساب تبي البوست ينزل عليه. نفس الكابشن والإعدادات على كل واحد.", tgLocked: "هالبوست صار في Zernio؛ ما تقدر تغيّر حساباته الحين.", tgOne: "خلّ حساب واحد على الأقل.", tgSaved: "انحفظت الحسابات", vView: "شوفه", ntPickNet: "المنصة", ntConnect: "اربط حساب", ntAllAcc: "كل حسابات {p} ({n})", ntPin: "ثبّته فوق", ntUnpin: "شيل التثبيت", ntFind: "دوّر على حساب…", ntAccount: "الحساب", ntCh7: "7 أيام", ntCh30: "30 يوم", ntCompare: "الحسابات جنب بعض", ntCompareHint: "آخر 30 يوم · اضغط عمود عشان ترتّب، وصف عشان تفتحه", ntGoalPerAcc: "الأهداف لكل حساب: افتح حساب عشان تحط هدفه.", ntBestPick: "أفضل الأوقات لكل حساب: افتح حساب عشان تشوفها.", nsTitle2: "وين ينزل هالبوست", nsWhen: "متى", nsAccount: "الحساب", nsStatusOf: "الحالة", nsMore: "+{n}", nsOpen: "افتحه في {p} ↗", nsNoTime: "ما في وقت للحين", nsLocalNote: "ما انرفع لـZernio للحين: بينزل على هالمنصات لما تنشره بـgo.", nsOpenPost: "افتح البوست", ntSince: "{n} من {d}", ntSinceTip: "Zernio عنده سجل متابعين لهالمنصة بس من هاليوم، فما نقدر نحسب تغيّر 30 يوم للحين.", ibxTz: "الوقت حسب", ibxTzMine: "{c} (وقتي)", ibxTzLocal: "ساعة هالجهاز", ibxTzAud: "وين جمهورك", ibxTzAll: "كل المناطق الزمنية", ntPosts: "البوستات", ntImpr: "الظهور", ntReach: "الوصول", ntEng: "التفاعلات", ntER: "متوسط نسبة التفاعل", ntNewF: "متابعين جدد", ntLast30: "آخر 30 يوم مقارنة بالـ30 اللي قبلها", ntWeek: "{n} هالأسبوع", ntMonth: "{n} خلال 30 يوم", ntGoal: "الهدف", ntSetGoal: "حط هدف", ntNoGoal: "ما في هدف لهالمنصة للحين.", ntBest: "أفضل الأوقات", ntBestNone: "ما في وقت بارز للحين على هالمنصة (ولا وقت أحسن من متوسطك). كل بوست يحسّن هالشي.", ntLift: "{l}% عن متوسطك", ntRhythm: "إيقاع النشر", ntRhythmHint: "بوستات بالأسبوع · آخر 8 أسابيع", ntTop: "أفضل البوستات", ntTopHint: "أكثر تفاعل · آخر 90 يوم", ntOpen: "افتح", ntNoPosts: "ما في بوستات بآخر 90 يوم على هالمنصة.", ntFollowers: "المتابعين", ntConf_high: "ثقة عالية", ntConf_medium: "ثقة متوسطة", ntConf_low: "ثقة قليلة", ntN: "{n} بوستات", "ibxSt_ig-replied": "✓ رديت عليه في Instagram", "ibxSt_ig-mentioned": "✓ منشنته بتعليقك", "ibxSt_ig-dm": "✓ رديت عليه بالخاص", ibxIgTip: "تعاملت معاه من تطبيق Instagram، فانتقل لـ«انتهت» بروحه.", ibxYouWrote: "كتبت", ibxLiked: "♥ عجبك", ibxDraftSent: "انرسلت لـPIX: ردود لـ{n} تعليق", ibxDraftNone: "كل التعليقات اللي تنتظر عندها مسودة.", ibxDraftOf: "مسودة PIX", ibxSendAll: "أرسل كل المسودات ({n})", ibxSendAllTitle: "هالردود بتنتشر للكل:", ibxSendAllGo: "✓ انشر {n} ردود", ibxSendAllDone: "انرسلت {n} ردود", ibxSendAllFail: "ما قدرت أرسل لـ@{a}: {e}", ibxCancel: "إلغاء", ibxDraftUse: "استخدمها", ibxDraftNo: "لا، شكراً", fnTriggered: "علّق بالكلمة", fnGate: "وصلته «تابع أول»", fnPassed: "تابع وضغط", fnSent: "وصلته الهدية", fnClicked: "فتح الرابط", fnNone: "محد استخدمها للحين.", fnPost: "افتح البوست", folFresh: "تحدّث {t}", folFreshTip: "Zernio يحدّث عدد المتابعين تقريباً مرة باليوم، فالمتابع الجديد ممكن ياخذ لين يوم عشان يبين.", ibxUnmark: "رجّعه للانتظار", ibxAddLabel: "+ تصنيف", ibxLabelPh: "تصنيف جديد", ibxNone: "ما في تعليقات تنتظر. حلو.", ibxLikes: "لايك", ibxHiddenTag: "مخفي", nsTitle: "إعدادات المنصات", nsFB: "Facebook", nsFormat: "النوع", nsFeed: "بوست عادي", nsReel: "ريل", nsFbStory: "ستوري", nsFeedHint: "نص، صورة وحدة، لين 10 صور، أو فيديو. بدون خلط صور وفيديو.", nsReelHint: "فيديو واحد عمودي (9:16)، من 3 لين 90 ثانية.", nsFbStoryHint: "صورة أو فيديو واحد، تختفي بعد 24 ساعة. بدون كابشن.", nsReelTitle: "عنوان الريل (اختياري)", nsFirst: "أول تعليق (اختياري)", nsFbDraft: "احفظه كمسودة في أدوات النشر بفيسبوك بدال لا ينشر", nsPage: "صفحة Facebook", nsDefaultPage: "صفحتي الأساسية", nsTT: "TikTok", nsSC: "Snapchat", nsWho: "منو يشوفه", nsComments: "التعليقات", nsDuet: "الدويت", nsStitch: "الستيتش", nsDisclose: "محتوى ترويجي", nsNone: "مو ترويجي", nsOwnBrand: "براندك أنت", nsBranded: "محتوى مدفوع (شراكة)", nsAi: "مسوّى بالذكاء الاصطناعي (علّمه في TikTok)", nsDraft: "أرسله لصندوق TikTok كمسودة؛ وأكمله من التطبيق", nsConsent: "شفت البوست وأوافق أنشره على TikTok", nsConsentHint: "TikTok يطلبها. إذا غيّرت الكابشن أو الملفات، يسأل مرة ثانية.", nsLimit: "TikTok يقول هالحساب ما يقدر ينشر أكثر الحين. جرّب بعدين.", nsLoading: "قاعد نجيب خيارات TikTok مالتك…", nsStory: "ستوري", nsSaved: "ستوري محفوظة", nsSpot: "سبوتلايت", nsStoryHint: "تختفي بعد 24 ساعة. ما تبين الكابشن.", nsSavedHint: "تظل في بروفايلك العام. العنوان لين 45 حرف.", nsSpotHint: "فيد الفيديوهات العام. فيديو بس، والكابشن لين 160 حرف.", nsSkipped: "انتجاهل", nsChange: "غيّر…", nsPriv_PUBLIC_TO_EVERYONE: "الكل", nsPriv_MUTUAL_FOLLOW_FRIENDS: "الأصدقاء", nsPriv_FOLLOWER_OF_CREATOR: "المتابعين", nsPriv_SELF_ONLY: "أنا بس", nsPick: "اختار…", calPrev: "الشهر السابق", calNext: "الشهر الجاي", calToday: "اليوم", calMore: "+{n} ثانية",
       goalHow: "شلون يشتغل الهدف", goalSet: "هدفك: {g} متابع.", goalSrc: "حددته وقت الإعداد. تقدر تغيّره أي وقت.",
       goalNow: "{c} الحين · باقي {r}", goalReached: "وصلت للهدف. اختار الهدف الجاي.", goalLive: "التقدم محسوب من عدد متابعينك في Zernio ويتحدث مع كل تحديث.",
       goalEdit: "غيّر الهدف", goalPh: "مثلاً 1000", goalQuick: "اختيارات سريعة", goalSaved: "انحدّث الهدف", goalBad: "اكتب رقم أكبر من عدد متابعينك الحين.",
@@ -415,7 +415,7 @@
       bStart: "البداية", bRhythm: "كم مرة", bEvery1: "كل يوم", bEvery2: "كل يومين", bDays: "اختار الأيام", bTime: "الوقت",
       bBest: "أفضل أوقاتي", bFixed: "نفس الوقت", bSkip: "تجاهل الأيام اللي فيها بوست", bTz: "الأوقات بتوقيت {tz}",
       bBasisBest: "أفضل وقت {d} · +{l}% · n={n}", bBasisOverall: "أفضل وقت عندك بشكل عام · +{l}%", bBasisFixed: "الوقت اللي اخترته",
-      bBasisEdited: "حددته أنت", bLow: "ثقة قليلة", bRemove: "شيل", bFixAsk: "اطلب من Claude يصلحه",
+      bBasisEdited: "حددته أنت", bLow: "ثقة قليلة", bRemove: "شيل", bFixAsk: "اطلب من PIX يصلحه",
       bBlocked: "ما ينفع ينجدول للحين:", bNoSlots: "ما في أيام فاضية كفاية. اختار أيام أكثر أو طفّي التجاهل.",
       bReviewTitle: "تجدول {n} بوستات؟", bReviewHint: "كل بوست ينسوى في Zernio كمجدول. ما ينزل شي الحين، وتقدر تنقل أو تلغي أي واحد بعدين في Zernio.",
       bGo: "جدول {n} بوستات", bWorking: "قاعد يجدول…", bQueued: "ينتظر", bSending: "قاعد يرفع", bDone: "انجدول", bFailed: "فشل",
@@ -471,6 +471,7 @@
 
   function setView(v) {
     if (!["post", "posts", "plan", "growth", "inbox"].includes(v)) v = { calendar: "plan", ideas: "growth" }[v] || "post";
+    if (state.view && state.view !== v && window.PIX3D) window.PIX3D.lookAtEl(document.querySelector(`.tab[data-view="${v}"]`), 900);
     if (state.view && state.view !== v && !matchMedia("(prefers-reduced-motion: reduce)").matches) {   // the aperture cut
       const a = el("div", { class: "aperture", "aria-hidden": "true" }); document.body.append(a);
       a.addEventListener("animationend", () => a.remove()); setTimeout(() => a.remove(), 800);
@@ -2099,7 +2100,7 @@
     if (reduced || !from || !target || !from.getBoundingClientRect) return;
     const a = from.getBoundingClientRect(), b = target.getBoundingClientRect();
     if (!a.width) return;
-    const chip = el("div", { class: "flyer", "aria-hidden": "true" }, el("i"), el("span", {}, "→ Claude"));
+    const chip = el("div", { class: "flyer", "aria-hidden": "true" }, el("i"), el("span", {}, "→ PIX"));
     document.body.append(chip);
     const x0 = a.left + a.width / 2 - 50, y0 = a.top + a.height / 2 - 16;
     const x1 = b.left + b.width / 2 - 50, y1 = b.top + b.height / 2 - 16;
@@ -2120,6 +2121,7 @@
     document.querySelectorAll(".toast").forEach((x) => x.remove());
     const n = el("div", { class: "toast", role: "status" }, el("span", { class: "toast-dot" }), el("span", {}, text));
     document.body.append(n);
+    if (window.PIX3D) { window.PIX3D.lookAtEl(n, 1600); if (DOCK.p3) DOCK.p3.play([["happy", 1400]]); }
     const ms = Math.min(7000, 2600 + String(text).length * 35);
     setTimeout(() => n.classList.add("out"), ms);
     setTimeout(() => n.remove(), ms + 700);
@@ -2290,7 +2292,7 @@
     enterSends(ta, () => reply(ta.value));
     const opts = (m.options || []).length ? el("div", { class: "opts" }, ...(m.options || []).map((o) =>
       el("button", { class: "btn opt", type: "button", onclick: () => reply(o) }, o))) : null;
-    body.append(bips("talk", "msg-av"), el("div", { class: "label kicker claude-kicker" }, el("i", { class: "cdot" }), t("claudeSays")),
+    body.append(pixHere("msg-av", "point", { shadow: false, zoom: 1.25 }), el("div", { class: "label kicker claude-kicker" }, el("i", { class: "cdot" }), t("claudeSays")),
       el("div", { class: "claude-say", id: "mTitle", style: "unicode-bidi:plaintext" }, m.text), opts,
       el("div", { class: "field" }, el("label", { class: "label" }, t(m.expect ? "chatAnswer" : "chatReplyOpt")), ta, el("small", { class: "hint enter-hint" }, t("enterHint"))), err,
       el("div", { class: "actions" },
@@ -2426,7 +2428,7 @@
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && ACT.open) toggleAct(false); });
   window.addEventListener("resize", () => ACT.open && placeAct());
 
-  // "Note to Claude" is a chat: your notes and Claude's replies, newest at the bottom.
+  // "Note to PIX" is a chat: your notes and Claude's replies, newest at the bottom.
   function openChat() {
     const open = () => showModal("note", (body) => {
       const list = el("div", { class: "chat-list", role: "log", "aria-live": "polite" });
@@ -2439,7 +2441,7 @@
           const mine = m.from === "you";
           const b_ = el("div", { class: "chat-msg " + (mine ? "me" : "claude") + (reply ? " reply" : "") },
             mine ? null : bips(reply ? "happy" : "focus", "chat-av"),
-            el("div", { class: "chat-who" }, mine ? t("chatYou") : "Claude", el("span", {}, " · " + ago(m.ts))),
+            el("div", { class: "chat-who" }, mine ? t("chatYou") : "PIX", el("span", {}, " · " + ago(m.ts))),
             el("div", { class: "chat-text", style: "unicode-bidi:plaintext" }, m.text));
           if (!mine && (m.options || []).length && !m.answered) b_.append(el("div", { class: "opts" }, ...m.options.map((o) =>
             el("button", { class: "btn opt", type: "button", onclick: () => send(o, m.id) }, o))));
@@ -2454,12 +2456,27 @@
           if (m.from === "you") rows.filter((r) => r.from === "claude" && r.to === m.id).forEach((r) => list.append(bubble(r, true)));
         });
         setTimeout(() => { list.scrollTop = list.scrollHeight; }, 30);
+        chatPixReact(rows);
         rows.filter((m) => m.from === "claude" && !m.seen).forEach((m) => { m.seen = true; post("/api/chat", { op: "seen", id: m.id }).catch(() => {}); });
         if (state.data) state.data.claudeMsg = null;
         renderHeader();
       };
       const ta = el("textarea", { rows: 3, placeholder: t("notePh2") });
       const err = el("div", { class: "err", role: "alert" });
+      const cpix = pixHere("chat-pix", "listen", { zoom: 1.3 });
+      state.chatPix = cpix;
+      let typeT = 0;
+      ta.addEventListener("input", () => {                       // PIX leans in and reads along while you type
+        if (window.PIX3D) window.PIX3D.lookAtEl(ta, 1200);
+        if (CHAT.waiting) return;
+        const v = ta.value.toLowerCase();
+        const m = /thank|شكر|مشكور|تسلم|love|حب/.test(v) ? "shy" : /\bpix|بيكس/.test(v) ? "hello" : /[?؟]\s*$/.test(v) ? "scratch"
+          : /!\s*$/.test(v) ? "cheer" : /urgent|asap|بسرعة|ضروري/.test(v) ? "determined" : v.length > 80 ? "focus" : "curious";
+        if (m !== CHAT.typeMood) { CHAT.typeMood = m; cpix.mood(m); }
+        clearTimeout(typeT); typeT = setTimeout(() => { if (!CHAT.waiting) { CHAT.typeMood = ""; cpix.mood("listen"); } }, 2200);
+      });
+      cpix.addEventListener("click", () => cpix.pix && cpix.pix.react());
+      list.addEventListener("pointerover", (e) => { const m = e.target.closest && e.target.closest(".chat-msg"); if (m && window.PIX3D) window.PIX3D.lookAtEl(m, 900); });
       const atts = el("div", { class: "chat-atts" });
       const drawAtts = () => { atts.innerHTML = ""; DOCK.att.forEach((a, k) => atts.append(el("span", { class: "chip att" }, "📎 " + a.name,
         el("button", { type: "button", class: "x", "aria-label": t("remove"), onclick: () => { DOCK.att.splice(k, 1); drawAtts(); } }, "×")))); };
@@ -2478,12 +2495,15 @@
           const r = target ? await post("/api/chat", { op: "reply", id: target, text }) : await post("/api/note", { text });
           if (r.thread) state.data.thread = r.thread;
           else state.data.thread = [...(state.data.thread || []), { id: r.note.id, ts: r.note.ts, from: "you", text: r.note.text, read: false }];
-          ta.value = ""; DOCK.att = []; drawAtts(); draw(); toast(t("noteSent")); dockPose("think", 2500);
+          const sentId = (r.note && r.note.id) || to;
+          flyNote(ta, cpix, () => { cpix.play([["receive", 650], ["wait", 0]]); if (DOCK.p3) DOCK.p3.play([["receive", 650], ["wait", 2600]]); });
+          CHAT.waiting = sentId; CHAT.seenReply = null;
+          ta.value = ""; DOCK.att = []; drawAtts(); draw(); toast(t("noteSent"));
         } catch (e) { err.textContent = e.message; }
       };
       enterSends(ta, () => send(ta.value));
       body.append(el("div", { class: "label kicker", style: "color:var(--bps-lime)" }, t("noteKicker")),
-        el("h2", { id: "mTitle" }, t("chatTitle")), el("p", { class: "ctx" }, t("chatHint")), list, atts, ta, fileIn, el("small", { class: "hint enter-hint" }, t("enterHint")), err,
+        el("div", { class: "chat-head" }, el("div", {}, el("h2", { id: "mTitle" }, t("chatTitle")), el("p", { class: "ctx" }, t("chatHint"))), cpix), list, atts, ta, fileIn, el("small", { class: "hint enter-hint" }, t("enterHint")), err,
         el("div", { class: "actions" },
           el("button", { class: "btn chat-attach", type: "button", title: t("attachHint"), onclick: () => fileIn.click() }, "📎 " + t("attach")),
           el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("close")),
@@ -2494,6 +2514,31 @@
     modal.open ? closeModal(open) : open();
   }
   $("#noteFab").addEventListener("click", openChat);
+  // what PIX does in the chat while Claude handles your note
+  const CHAT = { waiting: null, seenReply: null, lastSt: "" };
+  function chatPixReact(rows) {
+    const cp = state.chatPix; if (!cp || !CHAT.waiting) return;
+    const n = rows.find((m) => m.id === CHAT.waiting && m.from === "you"), rep_ = rows.find((m) => m.from === "claude" && m.to === CHAT.waiting && m.text);
+    const st_ = n ? (n.status || (n.read ? "received" : "")) : "";
+    if (rep_ && CHAT.seenReply !== rep_.id) { CHAT.seenReply = rep_.id; cp.play([["reply", 2400], ["happy", 0]]); }
+    if (st_ === CHAT.lastSt) return; CHAT.lastSt = st_;
+    if (st_ === "working") cp.mood("work");
+    else if (st_ === "done") { cp.play([["done", 1800], ["party", 1200], ["happy", 0]]); CHAT.waiting = null; }
+    else if (st_ === "failed" || st_ === "stopped") { cp.play([["fail", 2200], ["listen", 0]]); CHAT.waiting = null; }
+  }
+  // the note flies from the text box into PIX
+  function flyNote(from, to, done) {
+    const a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+    if (reduced || !b.width) { done && done(); return; }
+    const n = el("div", { class: "note-fly", "aria-hidden": "true" }, el("i"));
+    document.body.append(n);
+    const x0 = a.left + a.width / 2, y0 = a.top + a.height / 2, x1 = b.left + b.width / 2, y1 = b.top + b.height * .45;
+    const mx = (x0 + x1) / 2 + (x1 > x0 ? -60 : 60), my = Math.min(y0, y1) - 120;
+    const kf = []; for (let i = 0; i <= 12; i++) { const k = i / 12, u = 1 - k;
+      const x = u * u * x0 + 2 * u * k * mx + k * k * x1, y = u * u * y0 + 2 * u * k * my + k * k * y1;
+      kf.push({ transform: `translate(${x - 14}px, ${y - 10}px) rotate(${-20 + k * 40}deg) scale(${1 - k * .55})`, opacity: k > .92 ? 0 : 1 }); }
+    n.animate(kf, { duration: 720, easing: "cubic-bezier(.4,0,.2,1)" }).onfinish = () => { n.remove(); done && done(); };
+  }
 
   function renderCover() {
     const p = state.data && state.data.plan;
@@ -2812,7 +2857,7 @@
       ol.append(el("li", {},
         el("span", { class: "ch-title" }, t("ch_" + h.field) || h.title),
         el("span", { class: "ch-diff", style: "unicode-bidi:plaintext" }, `${fmtVal(h.field, h.from)} → ${fmtVal(h.field, h.to)}`),
-        el("span", { class: "label" }, `${ago(h.ts)} · ${h.via === "dashboard" ? t("viaYou") : h.via === "chat" ? t("viaChat") : "Claude"}`),
+        el("span", { class: "label" }, `${ago(h.ts)} · ${h.via === "dashboard" ? t("viaYou") : h.via === "chat" ? t("viaChat") : "PIX"}`),
         rb));
     });
     if (!editableNow()) ol.append(el("li", { class: "empty" }, t("liveNoRevert")));
@@ -3039,7 +3084,7 @@
   }
 
   /* ---------- API keys: entered here, saved to .env on this machine ---------- */
-  // key calls stay on this computer, so no "→ Claude" flight; errors come back as text
+  // key calls stay on this computer, so no "→ PIX" flight; errors come back as text
   async function keyPost(body) {
     let r, j = {};
     try { r = await fetch("/api/keys", { method: "POST", headers: { "Content-Type": "application/json", "X-BPS-Token": TOKEN }, body: JSON.stringify(body) }); }
@@ -4626,7 +4671,7 @@
     const st = IMG.st, canPost = st.post && st.post.editable;
     const byClaude = g.engine === "claude";
     const fig = el("figure", { class: "img-tile shape-" + g.shape + (big ? " big" : ""), style: "position:relative" },
-      byClaude ? el("span", { class: "img-badge" }, "Claude") : null,
+      byClaude ? el("span", { class: "img-badge" }, "PIX") : null,
       el("a", { href: imgUrl(g), target: "_blank", rel: "noopener", title: g.prompt }, el("img", { src: imgUrl(g), alt: g.prompt.slice(0, 120), loading: "lazy" })),
       el("figcaption", {}, el("span", { class: "label" }, g.model + " · " + t("q" + g.quality[0].toUpperCase() + g.quality.slice(1)) + (g.refs && g.refs.length ? " · " + g.refs.length + " " + t("imgGuides") : "")),
         el("div", { class: "row2 img-acts" },
@@ -4808,7 +4853,7 @@
         if (c && c.status !== "asked" && (c.answered || 0) >= IMG.clAsked) {
           clearInterval(IMG.clTick); IMG.st = st; IMG.clAsked = 0; IMG.clEdit = "";
           IMG.last = st.gallery.filter((g) => (c.images || []).includes(g.id));
-          if (c.status === "ready") toast(t("clReady")); else IMG.err = (c.errors || [])[0] || "Claude couldn't render it.";
+          if (c.status === "ready") toast(t("clReady")); else IMG.err = (c.errors || [])[0] || "PIX couldn't render it.";
           if (modal.open === "image") redrawImage();
         }
       } catch (e) {}
@@ -4875,7 +4920,7 @@
       const p = state.data.plan, rw = (p && p.rewrite) || {};
       if (!rw.rows) { body.append(el("p", { class: "hint" }, t("rwNone"))); return; }
       put(body, el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, "✨ " + t("rwKicker")), el("h2", { id: "mTitle" }, t("rwTitle")),
-        rw.note ? el("p", { class: "hint" }, "Claude: " + rw.note) : null);
+        rw.note ? el("p", { class: "hint" }, "PIX: " + rw.note) : null);
       rw.rows.forEach((r) => {
         const ta = el("textarea", { rows: "7", class: "rw-ta", style: "unicode-bidi:plaintext", "aria-label": r.platform }); ta.value = edits[r.platform] ?? r.after;
         const cnt = el("small", { class: "hint li-count" }, ta.value.length + (r.max ? " / " + r.max : ""));
@@ -5115,7 +5160,7 @@
     const asking = RC.asked && Date.now() - RC.asked < 5 * 60000;
     put(body, el("h3", {}, t("rcVersions") + (vs.length ? " · " + vs.length : "")),
       el("p", { class: "hint" }, t("rcVersionsHint")),
-      r.draft && r.draft.note ? el("p", { class: "hint" }, "Claude: " + r.draft.note) : null,
+      r.draft && r.draft.note ? el("p", { class: "hint" }, "PIX: " + r.draft.note) : null,
       ...rows,
       el("div", { class: "row2 rc-vbtns" },
         el("button", { class: "btn sm rc-ask", type: "button", disabled: asking ? "" : null, onclick: async (e) => {
@@ -5528,7 +5573,8 @@
       ["Get started", [
         "Open Claude Code in your posts folder and type <code>/200bps-publish set me up</code>. This dashboard opens by itself.",
         "<b>The top of the dashboard</b>: the curve is your growth (lime is steady work, the red dot is the breakthrough). The strip under it rolls your own numbers from Zernio: followers, streak, 7-day reach, engagement, follows, the post score and your best slot (hover to pause). A post score of 100 gets the red breakthrough dot. Move the mouse to light up the grid.",
-        "<b>PIX, your Claude</b>: PIX (the 200bps screen mascot) in the bottom corner is always there. Click it or press <b>N</b> to write to Claude. <b>Drop files anywhere</b> on the page (or <b>📎 Attach</b>, or paste) to send them with the note. PIX is a live 3D figure: it follows your mouse, blinks, bounces when you press it, and shows what Claude is doing (listening, typing, thinking, thumbs-up, shrug). Claude's replies pop up next to PIX; questions still open a window. Anything running can be stopped: <b>■ Stop</b> in the jobs list or under your note. A short splash plays when you open the dashboard; click it to skip.",
+        "<b>PIX, your assistant</b>: PIX (the 200bps screen mascot) in the bottom corner is always there. Click it or press <b>N</b> to write to PIX. <b>Drop files anywhere</b> on the page (or <b>📎 Attach</b>, or paste) to send them with the note. PIX is a live 3D figure: it follows your mouse, blinks, bounces when you press it, and shows what PIX is doing (listening, typing, thinking, thumbs-up, shrug). PIX's replies pop up right next to it; questions still open a window. Anything running can be stopped: <b>■ Stop</b> in the jobs list or under your note. A short splash plays when you open the dashboard; click it to skip.",
+        "<b>Talk to PIX like a person</b>: ask how anything here works (\"how do I recycle a post?\"), or ask it to do things (\"fit this caption for LinkedIn\", \"make a carousel cover\", \"move Friday's post to 7 PM\"). It does them and tells you the result; anything public still waits for your yes or a typed go. Hover PIX for a trick, wiggle the mouse over it, or press it.",
         "<b>Post to</b> (Post tab): tap a network to switch it on or off for this post. <b>Posts</b>: ▶ on a video plays it with sound inside the dashboard, with its results (reach, likes, saves…). <b>Inbox</b>: <b>⊘ Ignore</b> a comment that needs no reply (or <b>Ignore all</b>); Undo is right there.",
         "<b>Heatmap verdict</b>: point at any hour for a small card: <b>Good / OK / Weak time</b> compared with a typical hour, and how carousels, videos and photos did there, per network. From your own posts only.",
         "<b>Quick moves</b>: press <b>1-5</b> to switch tabs (Post, Posts, Plan, Growth, Inbox); click any number in the strip to jump to it. In <b>Checks</b>, passed checks fold into one line so what needs you stands out. In the <b>heatmap</b>, the two lines on top say what it means; point at an hour to read its numbers.",
@@ -5547,21 +5593,21 @@
         "<b>Instagram Reels</b> can be up to 15 minutes long.",
         "<b>Text post, LinkedIn poll or repost:</b> in <b>New post</b>, add no media and just write the caption. In step 2 (or Post tab → Network settings → LinkedIn) pick <b>Poll</b> (a question, 2-4 choices up to 30 characters, open 1 day to 2 weeks) or <b>Repost</b> (paste a LinkedIn post link; your caption becomes your comment). Facebook, if on, gets the caption as a text post.",
         "<b>See your poll any time:</b> before scheduling, in the Post tab's Preview; after scheduling or posting, open it in Posts or Plan: the poll card, how long it's open (time left once live), LinkedIn's impressions, reactions and comments, and <b>See the votes on LinkedIn ↗</b> (LinkedIn doesn't share votes with apps).",
-        "<b>✨ Fit it for every network</b> (Post tab under the caption, New post step 2, or Ctrl+K; a post with 2+ networks): Claude writes one version per network (hook placement, tone, length and hashtag limits), same message in your voice. <b>Review</b> shows each next to the current caption with the score change; edit, <b>Use this</b>, <b>Use all</b> or <b>No thanks</b>. Undo from Changes.",
+        "<b>✨ Fit it for every network</b> (Post tab under the caption, New post step 2, or Ctrl+K; a post with 2+ networks): PIX writes one version per network (hook placement, tone, length and hashtag limits), same message in your voice. <b>Review</b> shows each next to the current caption with the score change; edit, <b>Use this</b>, <b>Use all</b> or <b>No thanks</b>. Undo from Changes.",
         "<b>Several accounts on one network?</b> Tick them under <b>Post to these accounts</b>. Same caption on each.",
-        "<b>New post in 4 steps:</b> pick the media and type a caption (or leave it to Claude), then <b>Check & improve</b> (edit the caption yourself or ask Claude to fix each item; its before/after appears right there), <b>Time</b> (your best slots, any day and minute, or right away) and <b>Review & schedule</b> (add a gift, type <b>go</b>).",
+        "<b>New post in 4 steps:</b> pick the media and type a caption (or leave it to PIX), then <b>Check & improve</b> (edit the caption yourself or ask PIX to fix each item; its before/after appears right there), <b>Time</b> (your best slots, any day and minute, or right away) and <b>Review & schedule</b> (add a gift, type <b>go</b>).",
         "Follow the path at the top of the Post tab: <b>Check → Cover → Time → Gift → Go</b>. \"Next step\" always does the next thing.",
-        "<b>Check:</b> red items block publishing. Click one and Claude shows a before/after; approve, edit or reject. Your original is kept.",
+        "<b>Check:</b> red items block publishing. Click one and PIX shows a before/after; approve, edit or reject. Your original is kept.",
         "<b>Score (0-100):</b> how ready the post is, with the tips that raise it.",
-        "<b>Cover</b> (Reels): a frame, your image, or a design by Claude. \"Grid view\" shows the profile crop.",
+        "<b>Cover</b> (Reels): a frame, your image, or a design by PIX. \"Grid view\" shows the profile crop.",
         "<b>Time:</b> your best time from your own data, or any day/hour you click.",
         "<b>Gift</b> (optional): people who comment a keyword on Instagram get your DM (with a link button if you like), and you can require them to follow you first. The gift window says it in one sentence and shows each scene people will see, live as you type; it starts only when the post goes live.",
         "<b>Go:</b> press Publish and type <b>go</b>. The dashboard uploads to Zernio, then reads the post back to prove it's there."]],
       ["Create and edit images", [
         "Open it from <b>Image</b> at the top, <b>+ Create image</b> in the Post tab, <b>New post → Create an image</b>, or Ctrl+K.",
-        "<b>Two engines:</b> <b>OpenAI image</b> paints photos and illustrations (needs your OpenAI key, uses its credit). <b>Claude designs it</b> builds the picture in code (text, carousel slides, quote cards, charts) at the exact post size (square, tall 4:5, wide or story), free. Claude Code must be open; the design appears in the window by itself. <b>✦ Ask Claude to change</b> edits a Claude design.",
+        "<b>Two engines:</b> <b>OpenAI image</b> paints photos and illustrations (needs your OpenAI key, uses its credit). <b>PIX designs it</b> builds the picture in code (text, carousel slides, quote cards, charts) at the exact post size (square, tall 4:5, wide or story), free. Claude Code must be open; the design appears in the window by itself. <b>✦ Ask PIX to change</b> edits a PIX design.",
         "<b>New models:</b> the OpenAI model list refreshes by itself once a day. A new model shows a notice: <b>Try it</b>, <b>Make it my default</b> or <b>Got it</b>. <b>↻ Check now</b> (in the window and in Settings → Keys → OpenAI) asks OpenAI right away.",
-        "<b>Create:</b> describe the picture (or press \"Ask Claude to improve it\"), add guide pictures to keep a style, face or product, pick shape, quality and how many.",
+        "<b>Create:</b> describe the picture (or press \"Ask PIX to improve it\"), add guide pictures to keep a style, face or product, pick shape, quality and how many.",
         "<b>Edit:</b> press <b>✎ Edit</b> on any image, or <b>Edit a picture from my computer</b>. Mark the picture with <b>Pin / Area</b> (click or drag), <b>Paint</b> (brush S, M, L) or <b>Surround</b> (draw a loop), and write a note for each numbered mark.",
         "<b>Only change the marked spots</b> (on by default): only your marks change, and everything else stays pixel-for-pixel the original. The edit keeps the original's size.",
         "<b>Full screen</b> shows the picture large with your notes beside it. The edited version appears right in the editor; the original is never changed.",
@@ -5574,12 +5620,12 @@
         "<b>2 Set times:</b> choose the start day, how often (every day, every 2 days, or chosen weekdays) and the time (your best times or one fixed time). Days that already have a post are skipped.",
         "Each time shows why it was picked (e.g. \"best Wed · +96% · n=5\"). Drag ⋮⋮ or use ↑↓ to reorder; edit any time directly.",
         "<b>3 Go:</b> review the list, type <b>go</b> once. Every post is created in Zernio as <i>scheduled</i>, with a live tick per post. Nothing goes out now.",
-        "Posts that can't be scheduled yet are listed apart, with \"Ask Claude to fix\"."]],
+        "Posts that can't be scheduled yet are listed apart, with \"Ask PIX to fix\"."]],
       ["Plan: calendar and best hours", [
         "The calendar shows exactly the posts in the Posts tab. Colours: <b>lime</b> published, <b>blue</b> scheduled, <b>red</b> needs attention, <b>outline</b> not uploaded.",
         "‹ and › change month (or week, or day); <b>Today</b> jumps back. Switch <b>Month · Week · Day</b> at the top.",
         "<b>Week and Day</b> show the hours, with your best hours shaded and a red line for now. <b>Drag a post</b> to another time to move it (in Month, drag it to another day). Posts already in Zernio ask you to type <b>move</b>; drafts move at once.",
-        "<b>Click or drag on an empty time</b> to plan it: put your open draft or any draft there, start a new post for that time, or have Claude draft one from an idea.",
+        "<b>Click or drag on an empty time</b> to plan it: put your open draft or any draft there, start a new post for that time, or have PIX draft one from an idea.",
         "<b>Copy a post:</b> press <b>⧉</b> on it (or right-click → Copy, or Ctrl+C). Click a day → <b>Paste here</b> (or Ctrl+V). Pick the time and type go, or save it as a Zernio draft. Tick 🎁 to copy its gift too.",
         "<b>Right-click</b> a post for View, Copy, Move, Edit or Cancel; right-click a day or hour to Paste or plan it.",
         "Click a post for <b>Move…</b>, <b>Edit caption…</b> (type <b>edit</b>) and <b>Cancel…</b> (type <b>cancel</b>). Published posts can't be moved or edited.",
@@ -5592,12 +5638,12 @@
         "<b>Networks:</b> each post shows its first network's icon and <b>+N</b>. Click it for every network's account, status and time.",
         "<b>⇆ Networks…</b> (in a post's window, or right-click it in Plan): switch any network on or off. Type edit to save; at least one stays on.",
         "<b>Copy</b> in a post's window: paste it on another day in Plan.",
-        "Failed post? \"Ask Claude to fix\". A draft? \"Continue this post\".",
+        "Failed post? \"Ask PIX to fix\". A draft? \"Continue this post\".",
         "\"Refresh from Zernio\" reloads everything now (it also refreshes every 5 minutes).",
         "<b>Cancel</b> any post: open it and press Cancel post (or use the calendar, the Post tab, or Ctrl+K → Cancel a post), then type <b>cancel</b>. Scheduled posts never go out and the draft stays; Instagram posts that are already live are deleted in the Instagram app."]],
       ["Growth", [
-        "<b>🅰🅱 Test two hooks</b> (an Instagram Reel, Post tab → Preview → Test two hooks, or Ctrl+K): B gets a different first line (write it, or <b>✨ Ask Claude for hook B</b>) and optionally a different cover. Type <b>go</b>: both go out as Trial Reels at the same time, seen only by non-followers. After 48 hours, Growth → <b>Hook tests</b> → Check results compares views, reach, skip rate and watch time; a winner only with 100+ views each and a clear gap. Share the winner to your followers in the Instagram app (··· → Share to followers).",
-        "<b>♻ Recycle best posts</b> (Top posts card, a ♻ on each row, or Ctrl+K): Zernio re-posts a published post every few weeks or months. Pick how often, how many times and the first date; add 2 or more new versions (or press <b>✨ Ask Claude for new hooks</b>) and each repost uses the next one. Type <b>go</b> to start; it's read back from Zernio with the next repost date. <b>Stop recycling</b> any time. Up to 10 at once; TikTok posts can't be recycled.",
+        "<b>🅰🅱 Test two hooks</b> (an Instagram Reel, Post tab → Preview → Test two hooks, or Ctrl+K): B gets a different first line (write it, or <b>✨ Ask PIX for hook B</b>) and optionally a different cover. Type <b>go</b>: both go out as Trial Reels at the same time, seen only by non-followers. After 48 hours, Growth → <b>Hook tests</b> → Check results compares views, reach, skip rate and watch time; a winner only with 100+ views each and a clear gap. Share the winner to your followers in the Instagram app (··· → Share to followers).",
+        "<b>♻ Recycle best posts</b> (Top posts card, a ♻ on each row, or Ctrl+K): Zernio re-posts a published post every few weeks or months. Pick how often, how many times and the first date; add 2 or more new versions (or press <b>✨ Ask PIX for new hooks</b>) and each repost uses the next one. Type <b>go</b> to start; it's read back from Zernio with the next repost date. <b>Stop recycling</b> any time. Up to 10 at once; TikTok posts can't be recycled.",
         "Reach, views, engagement and new follows for 7 days, compared with the 7 days before.",
         "<b>Tabs = networks</b> (Instagram · 6). Click one with several accounts to pick <b>All accounts</b> or one account.",
         "<b>All accounts</b> adds them up and lists them side by side; click a column to sort. ☆ pins an account to the top.",
@@ -5614,20 +5660,20 @@
         "<b>Labels</b> (Question, Lead, Spam… or your own) stay on this computer. <b>Hide</b> keeps a comment from others; <b>Delete</b> removes it for good after you type <b>delete</b>. Handled comments move to Handled; \"Back to waiting\" undoes the mark.",
         "<b>🕒 Times in:</b> comment times on your clock, an audience country's, or any time zone.",
         "<b>Auto-handled:</b> comments your DM gift already answered move to Handled by themselves.",
-        "<b>✨ Ask Claude to draft replies</b> → <b>Use it</b> → <b>Send reply</b>, or <b>Send all drafts</b> at once. Nothing sends without your click.",
+        "<b>✨ Ask PIX to draft replies</b> → <b>Use it</b> → <b>Send reply</b>, or <b>Send all drafts</b> at once. Nothing sends without your click.",
         "<b>Gift funnel</b> (DM automations): commented → followed → got the gift → opened the link.",
         "Answered in the Instagram app (a reply, an @mention or a DM)? It moves to Handled too. <b>▶ View</b> opens the post a comment is on.",
         "Below: your keyword → DM automations and ice breakers."]],
-      ["Working with Claude", [
+      ["Working with PIX", [
         "<b>Enter</b> sends your note; <b>Shift+Enter</b> or <b>Ctrl+Enter</b> adds a new line.",
-        "The <b>Claude is listening</b> light: green means your clicks reach Claude Code right away.",
-        "<b>Note to Claude</b>: tell Claude anything (\"use frame 4\", \"shorter hook\"). Each note shows where Claude is: waiting → Claude got it → working (with the current step) → <b>done</b> or <b>couldn't do it</b>. Claude's answer appears right under your note.",
-        "When Claude finishes a note, a <b>notice</b> slides in with the result and the dashboard refreshes itself, so you see the change without reloading.",
+        "The <b>PIX is listening</b> light: green means your clicks reach Claude Code right away.",
+        "<b>Note to PIX</b>: tell PIX anything (\"use frame 4\", \"shorter hook\"). Each note shows where PIX is: waiting → PIX got it → working (with the current step) → <b>done</b> or <b>couldn't do it</b>. PIX's answer appears right under your note.",
+        "When PIX finishes a note, a <b>notice</b> slides in with the result and the dashboard refreshes itself, so you see the change without reloading.",
         "The <b>Activity</b> bell (top bar) lists every note and request with its status and result; filter by In progress, Done or Couldn't. Its number counts new results.",
-        "When Claude needs you, a pop-up asks. Answer there or in the chat; the first answer wins.",
+        "When PIX needs you, a pop-up asks. Answer there or in the chat; the first answer wins.",
         "<b>Ctrl+K</b> (⌘K): the command bar. Type cover, fix, time, batch, dark, guide…"]],
       ["Look and settings", [
-        "<b>Version and build</b> (top bar, footer, Settings): \"v1.18.0 · build YYYYMMDD.HHMM\", updated by itself with every change. Tell Claude this number when reporting a problem.",
+        "<b>Version and build</b> (top bar, footer, Settings): \"v1.18.0 · build YYYYMMDD.HHMM\", updated by itself with every change. Tell PIX this number when reporting a problem.",
         "English and Arabic look and read the same; switch in Settings → Language.",
         "12h/24h time, light/dark theme, and <b>Hover tips</b> (these explanations) on or off.",
         "<b>Color-blind mode</b> (Settings, or Ctrl+K → color): safer colors plus shapes, so no status relies on color alone. Badges get ✓ → ! ×, calendar dots become ■ ○ ✕ ▲, changes get ▲▼ arrows, and the heatmap turns blue-to-yellow.",
@@ -5646,7 +5692,8 @@
       ["البداية", [
         "افتح Claude Code في مجلد البوستات واكتب <code>/200bps-publish set me up</code>. هاللوحة تنفتح بروحها.",
         "<b>أعلى اللوحة</b>: المنحنى هو نموك (الأخضر شغل ثابت، والنقطة الحمرا هي الاختراق). والشريط تحته يمشي بأرقامك الحقيقية من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت (وقّف عليه بالماوس عشان يوقف). وتقييم 100 ياخذ نقطة الاختراق الحمرا. حرّك الماوس عشان تنور الشبكة.",
-        "<b>PIX، Claude مالك</b>: PIX اللي بالزاوية تحت دايماً موجود. اضغط عليه أو اضغط <b>N</b> عشان تكتب لـClaude. <b>اسحب ملفات لأي مكان</b> بالصفحة (أو <b>📎 أرفق</b>، أو الصق) عشان ترسلها مع الرسالة. وPIX شكل ثلاثي الأبعاد حي: يلحق الماوس، يرمش، ينط لما تضغط عليه، ويوريك شنو يسوي Claude (يسمع، يكتب، يفكر، 👍، يهز كتوفه). ردود Claude تطلع جنب PIX؛ والأسئلة تفتح نافذة. وأي شي قاعد يشتغل تقدر توقفه: <b>■ وقّف</b> بقائمة الشغل أو تحت رسالتك. ولما تفتح اللوحة تطلع شاشة افتتاحية قصيرة؛ اضغط عليها عشان تتخطاها.",
+        "<b>PIX، مساعدك</b>: PIX اللي بالزاوية تحت دايماً موجود. اضغط عليه أو اضغط <b>N</b> عشان تكتب لـPIX. <b>اسحب ملفات لأي مكان</b> بالصفحة (أو <b>📎 أرفق</b>، أو الصق) عشان ترسلها مع الرسالة. وPIX شكل ثلاثي الأبعاد حي: يلحق الماوس، يرمش، ينط لما تضغط عليه، ويوريك شنو يسوي PIX (يسمع، يكتب، يفكر، 👍، يهز كتوفه). ردوده تطلع جنبه؛ والأسئلة تفتح نافذة. وأي شي قاعد يشتغل تقدر توقفه: <b>■ وقّف</b> بقائمة الشغل أو تحت رسالتك. ولما تفتح اللوحة تطلع شاشة افتتاحية قصيرة؛ اضغط عليها عشان تتخطاها.",
+        "<b>كلّم PIX كأنه إنسان</b>: اسأله عن أي شي هني («شلون أعيد نشر بوست؟»)، أو اطلب منه يسوي أشياء («فصّل الكابشن للينكدإن»، «سوّ غلاف للكاروسيل»، «انقل بوست الجمعة للساعة 7»). يسويها ويقولك النتيجة؛ وأي شي ينشر للناس يظل ينتظر موافقتك أو تكتب go. أشّر على PIX عشان يسوي حركة، أو حرّك الماوس فوقه، أو اضغطه.",
         "<b>انشر على</b> (تبويب البوست): اضغط على منصة عشان تشغّلها أو تطفيها لهالبوست. <b>المنشورات</b>: ▶ على الفيديو يشغّله بالصوت داخل اللوحة، مع نتايجه (الوصول، اللايكات، الحفظ…). <b>الرسائل</b>: <b>⊘ تجاهل</b> التعليق اللي ما يحتاج رد (أو <b>تجاهل الكل</b>)؛ والتراجع موجود.",
         "<b>حكم خريطة التفاعل</b>: أشّر على أي ساعة وتطلع بطاقة صغيرة: <b>وقت حلو / عادي / ضعيف</b> مقارنة بساعة عادية، وشلون سوّت الكاروسيل والفيديو والصور فيها، لكل منصة. من بوستاتك بس.",
         "<b>حركات سريعة</b>: اضغط <b>1-5</b> عشان تبدّل التبويبات (البوست، المنشورات، الخطة، النمو، الرسائل)؛ واضغط أي رقم بالشريط عشان تروح له. في <b>الفحوصات</b>، اللي نجحت تنطوي بسطر واحد عشان اللي يحتاجك يبين. وفي <b>خريطة التفاعل</b>، السطرين فوق يشرحون معناها؛ وأشّر على أي ساعة عشان تقرا أرقامها.",
@@ -5663,23 +5710,23 @@
         "<b>ملف مضغوط (.zip, .7z, .rar…):</b> ضيفه مثل الصورة، أو اختار المجلد اللي فيه. ينفك وينفتح كبوست.",
         "<b>PDF وصور:</b> LinkedIn ياخذ الـPDF؛ والمنصات الثانية ياخذون الصور.",
         "<b>ريلز Instagram</b> تقدر توصل لين 15 دقيقة.",
-        "<b>✨ فصّله لكل منصة</b> (تبويب البوست تحت الكابشن، الخطوة 2 بالبوست الجديد، أو Ctrl+K؛ لبوست فيه منصتين أو أكثر): Claude يكتب نسخة لكل منصة (مكان الهوك، الأسلوب، حدود الطول والهاشتاقات)، نفس الرسالة وبأسلوبك. <b>راجعها</b> يعرض كل وحدة جنب الكابشن الحالي مع تغيّر السكور؛ عدّل، أو <b>استخدم هذي</b>، أو <b>استخدم الكل</b>، أو <b>لا شكراً</b>. وتتراجع من التغييرات.",
+        "<b>✨ فصّله لكل منصة</b> (تبويب البوست تحت الكابشن، الخطوة 2 بالبوست الجديد، أو Ctrl+K؛ لبوست فيه منصتين أو أكثر): PIX يكتب نسخة لكل منصة (مكان الهوك، الأسلوب، حدود الطول والهاشتاقات)، نفس الرسالة وبأسلوبك. <b>راجعها</b> يعرض كل وحدة جنب الكابشن الحالي مع تغيّر السكور؛ عدّل، أو <b>استخدم هذي</b>، أو <b>استخدم الكل</b>، أو <b>لا شكراً</b>. وتتراجع من التغييرات.",
         "<b>بوست نص، تصويت أو إعادة نشر في LinkedIn:</b> في <b>بوست جديد</b> لا تضيف صور، اكتب الكابشن بس. بالخطوة 2 (أو تبويب البوست ← إعدادات المنصات ← LinkedIn) اختار <b>تصويت</b> (سؤال، و2 إلى 4 خيارات كل واحد لين 30 حرف، مفتوح من يوم لين أسبوعين) أو <b>إعادة نشر</b> (الصق رابط بوست LinkedIn؛ الكابشن مالك يصير تعليقك). وFacebook إذا شغّال ياخذ الكابشن كبوست نص.",
          "<b>شوف تصويتك أي وقت:</b> قبل الجدولة في معاينة تبويب البوست؛ وبعد الجدولة أو النشر افتحه من المنشورات أو الخطة: كرت التصويت، وكم يظل مفتوح (والوقت الباقي لما ينتشر)، ومشاهدات وتفاعل وتعليقات LinkedIn، وزر <b>شوف التصويت في LinkedIn ↗</b> (LinkedIn ما يعطي الأصوات للتطبيقات).",
         "<b>عندك كذا حساب على نفس المنصة؟</b> علّمهم في <b>انشر على هالحسابات</b>. نفس الكابشن على كل واحد.",
-        "<b>بوست جديد بـ4 خطوات:</b> اختار الملفات واكتب الكابشن (أو خله على Claude)، بعدين <b>افحص وحسّن</b> (عدّل الكابشن بنفسك أو اطلب من Claude يصلّح كل نقطة؛ قبل/بعد يطلع هني)، <b>الوقت</b> (أفضل أوقاتك، أي يوم ودقيقة، أو على طول) و<b>راجع وجدول</b> (أضف هدية، واكتب <b>go</b>).",
+        "<b>بوست جديد بـ4 خطوات:</b> اختار الملفات واكتب الكابشن (أو خله على PIX)، بعدين <b>افحص وحسّن</b> (عدّل الكابشن بنفسك أو اطلب من PIX يصلّح كل نقطة؛ قبل/بعد يطلع هني)، <b>الوقت</b> (أفضل أوقاتك، أي يوم ودقيقة، أو على طول) و<b>راجع وجدول</b> (أضف هدية، واكتب <b>go</b>).",
         "امشِ على المسار فوق تبويب البوست: <b>فحص ← غلاف ← وقت ← هدية ← نشر</b>. «التالي» دايماً يسوي الخطوة الجاية.",
-        "<b>الفحص:</b> الأحمر يمنع النشر. اضغطه وClaude يوريك قبل/بعد؛ وافق، عدّل أو ارفض. النص الأصلي محفوظ.",
+        "<b>الفحص:</b> الأحمر يمنع النشر. اضغطه وPIX يوريك قبل/بعد؛ وافق، عدّل أو ارفض. النص الأصلي محفوظ.",
         "<b>التقييم (0-100):</b> قد إيش البوست جاهز، مع النصايح اللي ترفعه.",
-        "<b>الغلاف</b> (للريلز): لقطة، صورتك، أو تصميم من Claude. «عرض الشبكة» يوريك القص بالبروفايل.",
+        "<b>الغلاف</b> (للريلز): لقطة، صورتك، أو تصميم من PIX. «عرض الشبكة» يوريك القص بالبروفايل.",
         "<b>الوقت:</b> أفضل وقت من بياناتك، أو أي يوم/ساعة تضغطها.",
         "<b>الهدية</b> (اختياري): اللي يعلّق بكلمة على Instagram توصله رسالتك بالخاص (مع زر لرابطك إذا تبي)، وتقدر تشترط إنه يتابعك أول. نافذة الهدية تقولها بجملة وحدة وتوريك كل مشهد بيشوفونه الناس وأنت تكتب؛ وما تبدأ إلا لما البوست ينزل.",
         "<b>نشر:</b> اضغط انشر واكتب <b>go</b>. اللوحة ترفعه على Zernio وبعدها تقراه منه عشان تتأكد إنه موجود."]],
       ["سوّ وعدّل صور", [
         "افتحها من <b>صورة</b> فوق، أو <b>+ سوّ صورة</b> في تبويب البوست، أو <b>بوست جديد ← سوّ صورة</b>، أو Ctrl+K.",
-        "<b>طريقتين:</b> <b>صورة OpenAI</b> ترسم صور ورسومات (تحتاج مفتاح OpenAI وتستهلك رصيده). <b>Claude يصممها</b> تبني الصورة بالكود (كتابة، سلايدات كاروسيل، اقتباسات، رسوم بيانية) بنفس مقاس البوست (مربع، طولي 4:5، عرضي أو ستوري)، ببلاش. لازم Claude Code يكون مفتوح؛ والتصميم يطلع بالنافذة بروحه. <b>✦ خل Claude يعدّلها</b> يعدّل تصميم Claude.",
+        "<b>طريقتين:</b> <b>صورة OpenAI</b> ترسم صور ورسومات (تحتاج مفتاح OpenAI وتستهلك رصيده). <b>PIX يصممها</b> تبني الصورة بالكود (كتابة، سلايدات كاروسيل، اقتباسات، رسوم بيانية) بنفس مقاس البوست (مربع، طولي 4:5، عرضي أو ستوري)، ببلاش. لازم Claude Code يكون مفتوح؛ والتصميم يطلع بالنافذة بروحه. <b>✦ خل PIX يعدّلها</b> يعدّل تصميم PIX.",
         "<b>موديلات جديدة:</b> قائمة موديلات OpenAI تتحدث بروحها مرة باليوم. أي موديل جديد يطلع له تنبيه: <b>جرّبه</b>، <b>خله الافتراضي</b> أو <b>تمام</b>. <b>↻ افحص الحين</b> (بالنافذة وبالإعدادات ← المفاتيح ← OpenAI) يسأل OpenAI على طول.",
-        "<b>سوّ:</b> اوصف الصورة (أو اضغط «خل Claude يحسّنه»)، أضف صور مرشدة عشان تحافظ على أسلوب أو وجه أو منتج، واختار الشكل والجودة والعدد.",
+        "<b>سوّ:</b> اوصف الصورة (أو اضغط «خل PIX يحسّنه»)، أضف صور مرشدة عشان تحافظ على أسلوب أو وجه أو منتج، واختار الشكل والجودة والعدد.",
         "<b>عدّل:</b> اضغط <b>✎ عدّل</b> على أي صورة، أو <b>عدّل صورة من جهازك</b>. علّم على الصورة بـ<b>دبوس / مربع</b> (ضغطة أو سحب)، <b>لوّن</b> (فرشاة S، M، L) أو <b>حوّط</b> (ارسم دايرة)، واكتب ملاحظة لكل علامة مرقّمة.",
         "<b>غيّر بس الأماكن المحددة</b> (شغّال من البداية): بس علاماتك تتغيّر، وكل شي ثاني يبقى نفس الأصلية بالضبط. والتعديل يحافظ على مقاس الأصلية.",
         "<b>ملء الشاشة</b> يكبّر الصورة وملاحظاتك جنبها. النسخة المعدّلة تطلع داخل المحرر نفسه؛ والأصلية ما تتغيّر أبداً.",
@@ -5692,12 +5739,12 @@
         "<b>2 حدد الأوقات:</b> اختار يوم البداية، كم مرة (كل يوم، كل يومين، أو أيام تختارها) والوقت (أفضل أوقاتك أو وقت ثابت). الأيام اللي فيها بوست تنتجاهل.",
         "كل وقت يقول ليش انختار (مثلاً «أفضل وقت الأربعاء · +96% · n=5»). اسحب ⋮⋮ أو ↑↓ عشان ترتب؛ وعدّل أي وقت مباشرة.",
         "<b>3 نشر:</b> راجع القائمة واكتب <b>go</b> مرة وحدة. كل بوست ينسوى في Zernio <i>كمجدول</i>، مع علامة ✓ لكل واحد. ما ينزل شي الحين.",
-        "البوستات اللي ما ينفع تنجدول تطلع لحالها، مع «اطلب من Claude يصلحه»."]],
+        "البوستات اللي ما ينفع تنجدول تطلع لحالها، مع «اطلب من PIX يصلحه»."]],
       ["الخطة: التقويم وأفضل الساعات", [
         "التقويم يعرض نفس البوستات اللي في تبويب المنشورات. الألوان: <b>ليموني</b> منشور، <b>أزرق</b> مجدول، <b>أحمر</b> يحتاج انتباه، <b>إطار</b> ما انرفع.",
         "‹ و› يغيرون الشهر (أو الأسبوع أو اليوم)؛ <b>اليوم</b> يرجعك. بدّل <b>شهر · أسبوع · يوم</b> من فوق.",
         "<b>الأسبوع واليوم</b> يعرضون الساعات، مع تظليل أفضل ساعاتك وخط أحمر للحين. <b>اسحب أي بوست</b> لوقت ثاني عشان تنقله (في الشهر اسحبه ليوم ثاني). بوستات Zernio تطلب تكتب <b>move</b>؛ والمسودات تنتقل على طول.",
-        "<b>اضغط أو اسحب على وقت فاضي</b> عشان تخطط له: حط المسودة المفتوحة أو أي مسودة، أو ابدأ بوست جديد لهالوقت، أو خل Claude يكتب واحد من فكرة.",
+        "<b>اضغط أو اسحب على وقت فاضي</b> عشان تخطط له: حط المسودة المفتوحة أو أي مسودة، أو ابدأ بوست جديد لهالوقت، أو خل PIX يكتب واحد من فكرة.",
         "<b>انسخ بوست:</b> اضغط <b>⧉</b> عليه (أو كلك يمين ← انسخ، أو Ctrl+C). اضغط يوم ← <b>الصق هني</b> (أو Ctrl+V). اختار الوقت واكتب go، أو احفظه مسودة في Zernio. علّم 🎁 عشان تنسخ الهدية بعد.",
         "<b>كلك يمين</b> على بوست: شوفه، انسخ، انقل، عدّل أو ألغِ؛ وعلى يوم أو ساعة: الصق أو خطّط له.",
         "اضغط أي بوست لـ<b>انقل…</b> و<b>عدّل الكابشن…</b> (اكتب <b>edit</b>) و<b>ألغِ…</b> (اكتب <b>cancel</b>). المنشور ما ينقل ولا يتعدّل.",
@@ -5710,12 +5757,12 @@
         "<b>المنصات:</b> كل بوست يبين أيقونة أول منصة و<b>+N</b>. اضغطها عشان تشوف حساب كل منصة وحالتها ووقتها.",
         "<b>⇆ المنصات…</b> (من نافذة البوست، أو كلك يمين في الخطة): شغّل أو طفّ أي منصة. اكتب edit عشان تحفظ؛ ومنصة وحدة لازم تظل.",
         "<b>انسخ</b> من نافذة البوست: والصقه على يوم ثاني في الخطة.",
-        "بوست فشل؟ «اطلب من Claude يصلحه». مسودة؟ «كمّل هالبوست».",
+        "بوست فشل؟ «اطلب من PIX يصلحه». مسودة؟ «كمّل هالبوست».",
         "«تحديث من Zernio» يجيب كل شي الحين (ويتحدث بروحه كل 5 دقايق).",
         "<b>ألغِ</b> أي بوست: افتحه واضغط «ألغِ البوست» (أو من التقويم، أو تبويب البوست، أو Ctrl+K ← ألغِ بوست)، واكتب <b>cancel</b>. المجدول ما ينزل والمسودة تظل؛ وبوستات Instagram المنشورة تنحذف من تطبيق Instagram."]],
       ["النمو", [
-        "<b>🅰🅱 جرّب هوكين</b> (ريل انستقرام، تبويب البوست ← المعاينة ← جرّب هوكين، أو Ctrl+K): B ياخذ أول سطر مختلف (اكتبه، أو <b>✨ اطلب من Claude هوك B</b>) وكفر مختلف إذا تبي. اكتب <b>go</b>: النسختين ينزلون كـ Trial Reels بنفس الوقت ويشوفهم بس اللي ما يتابعونك. بعد 48 ساعة، النمو ← <b>تجارب الهوك</b> ← شوف النتايج يقارن المشاهدات والوصول ونسبة التخطي ووقت المشاهدة؛ وما في فايز إلا مع 100 مشاهدة لكل وحدة وفرق واضح. شارك الفايز مع متابعينك من تطبيق انستقرام (··· ← Share to followers).",
-        "<b>♻ أعد تدوير الأفضل</b> (كرت أفضل البوستات، أو ♻ جنب كل بوست، أو Ctrl+K): Zernio يعيد نشر البوست المنشور كل كم أسبوع أو شهر. اختار كل قد إيش، وكم مرة، وأول تاريخ؛ وأضف نسختين أو أكثر (أو اضغط <b>✨ اطلب من Claude هوكات جديدة</b>) وكل إعادة تاخذ النسخة اللي بعدها. اكتب <b>go</b> عشان يبدأ؛ ونقرا اللي انحفظ في Zernio مع تاريخ الإعادة الجاية. <b>وقّف إعادة التدوير</b> متى ما تبي. لين 10 بوستات مرة وحدة؛ بوستات TikTok ما تنعاد.",
+        "<b>🅰🅱 جرّب هوكين</b> (ريل انستقرام، تبويب البوست ← المعاينة ← جرّب هوكين، أو Ctrl+K): B ياخذ أول سطر مختلف (اكتبه، أو <b>✨ اطلب من PIX هوك B</b>) وكفر مختلف إذا تبي. اكتب <b>go</b>: النسختين ينزلون كـ Trial Reels بنفس الوقت ويشوفهم بس اللي ما يتابعونك. بعد 48 ساعة، النمو ← <b>تجارب الهوك</b> ← شوف النتايج يقارن المشاهدات والوصول ونسبة التخطي ووقت المشاهدة؛ وما في فايز إلا مع 100 مشاهدة لكل وحدة وفرق واضح. شارك الفايز مع متابعينك من تطبيق انستقرام (··· ← Share to followers).",
+        "<b>♻ أعد تدوير الأفضل</b> (كرت أفضل البوستات، أو ♻ جنب كل بوست، أو Ctrl+K): Zernio يعيد نشر البوست المنشور كل كم أسبوع أو شهر. اختار كل قد إيش، وكم مرة، وأول تاريخ؛ وأضف نسختين أو أكثر (أو اضغط <b>✨ اطلب من PIX هوكات جديدة</b>) وكل إعادة تاخذ النسخة اللي بعدها. اكتب <b>go</b> عشان يبدأ؛ ونقرا اللي انحفظ في Zernio مع تاريخ الإعادة الجاية. <b>وقّف إعادة التدوير</b> متى ما تبي. لين 10 بوستات مرة وحدة؛ بوستات TikTok ما تنعاد.",
         "الوصول والمشاهدات والتفاعل والمتابعين الجدد لآخر 7 أيام، مقارنة بالأسبوع اللي قبله.",
         "<b>التبويبات = المنصات</b> (Instagram · 6). اضغط منصة فيها كذا حساب واختار <b>كل الحسابات</b> أو حساب واحد.",
         "<b>كل الحسابات</b> يجمعهم ويعرضهم جنب بعض؛ اضغط عمود عشان ترتّب. ☆ تثبّت الحساب فوق.",
@@ -5732,20 +5779,20 @@
         "<b>التصنيفات</b> (سؤال، عميل، سبام… أو تصنيفك) تظل على هالجهاز. <b>اخفِ</b> يخفي التعليق عن الناس؛ <b>احذف</b> يشيله نهائياً بعد ما تكتب <b>delete</b>. اللي خلصت تروح لـ«انتهت»؛ و«رجّعه للانتظار» يلغي العلامة.",
         "<b>🕒 الوقت حسب:</b> وقت التعليقات على ساعتك، أو دولة من جمهورك، أو أي منطقة زمنية.",
         "<b>تلقائي:</b> التعليقات اللي ردّت عليها هدية الرسائل تنتقل لـ«انتهت» بروحها.",
-        "<b>✨ خل Claude يكتب الردود</b> ← <b>استخدمها</b> ← <b>أرسل الرد</b>، أو <b>أرسل كل المسودات</b> مرة وحدة. ما ينرسل شي بدون ضغطتك.",
+        "<b>✨ خل PIX يكتب الردود</b> ← <b>استخدمها</b> ← <b>أرسل الرد</b>، أو <b>أرسل كل المسودات</b> مرة وحدة. ما ينرسل شي بدون ضغطتك.",
         "<b>مسار الهدية</b> (الرسائل التلقائية): علّق ← تابع ← وصلته الهدية ← فتح الرابط.",
         "رديت من تطبيق Instagram (رد، أو منشن، أو بالخاص)؟ ينتقل لـ«انتهت» بعد. <b>▶ شوفه</b> يفتح البوست اللي عليه التعليق.",
         "تحت: الرسائل التلقائية بالكلمات وأسئلة البداية."]],
-      ["الشغل مع Claude", [
+      ["الشغل مع PIX", [
         "<b>Enter</b> يرسل رسالتك؛ و<b>Shift+Enter</b> أو <b>Ctrl+Enter</b> لسطر جديد.",
-        "ضوء <b>Claude يسمعك</b>: الأخضر يعني ضغطاتك توصل Claude Code فوراً.",
-        "<b>رسالة لـClaude</b>: قول له أي شي («استخدم اللقطة 4»، «قصّر الافتتاحية»). كل ملاحظة توريك وين وصل Claude: ينتظر ← وصلت Claude ← قاعد يشتغل (مع الخطوة) ← <b>خلصت</b> أو <b>ما قدر</b>. وجواب Claude يطلع تحت ملاحظتك على طول.",
-        "لما Claude يخلّص ملاحظة، يطلع <b>تنبيه</b> فيه النتيجة واللوحة تتحدث بروحها، فتشوف التغيير بدون ما تعيد التحميل.",
+        "ضوء <b>PIX يسمعك</b>: الأخضر يعني ضغطاتك توصل Claude Code فوراً.",
+        "<b>رسالة لـPIX</b>: قول له أي شي («استخدم اللقطة 4»، «قصّر الافتتاحية»). كل ملاحظة توريك وين وصل PIX: ينتظر ← وصلت PIX ← قاعد يشتغل (مع الخطوة) ← <b>خلصت</b> أو <b>ما قدر</b>. وجواب PIX يطلع تحت ملاحظتك على طول.",
+        "لما PIX يخلّص ملاحظة، يطلع <b>تنبيه</b> فيه النتيجة واللوحة تتحدث بروحها، فتشوف التغيير بدون ما تعيد التحميل.",
         "جرس <b>النشاط</b> (فوق) يعرض كل ملاحظة وطلب مع حالته ونتيجته؛ فلتر حسب قيد الشغل أو خلصت أو ما قدر. والرقم يعد النتايج الجديدة.",
-        "لما Claude يحتاجك، تطلع نافذة تسألك. جاوب فيها أو بالمحادثة؛ أول جواب يعتمد.",
+        "لما PIX يحتاجك، تطلع نافذة تسألك. جاوب فيها أو بالمحادثة؛ أول جواب يعتمد.",
         "<b>Ctrl+K</b> (⌘K): شريط الأوامر. اكتب غلاف، تصحيح، وقت، جدولة، دليل…"]],
       ["الشكل والإعدادات", [
-        "<b>الإصدار والبِلد</b> (الشريط العلوي، أسفل الصفحة، الإعدادات): \"v1.18.0 · build YYYYMMDD.HHMM\"، يتحدّث بروحه مع كل تعديل. عطه Claude إذا بلّغت عن مشكلة.",
+        "<b>الإصدار والبِلد</b> (الشريط العلوي، أسفل الصفحة، الإعدادات): \"v1.18.0 · build YYYYMMDD.HHMM\"، يتحدّث بروحه مع كل تعديل. عطه PIX إذا بلّغت عن مشكلة.",
         "العربي والإنجليزي نفس الشكل والمحتوى؛ بدّل من الإعدادات ← اللغة.",
         "12/24 ساعة، فاتح/داكن، و<b>الشروحات</b> (هالتوضيحات) تشغيل أو إطفاء.",
         "<b>وضع عمى الألوان</b> (الإعدادات، أو Ctrl+K ← color): ألوان أوضح مع أشكال، عشان ما تعتمد أي حالة على اللون بس. الشارات تاخذ ✓ → ! ×، ونقاط التقويم تصير ■ ○ ✕ ▲، والتغييرات تاخذ أسهم ▲▼، والخريطة الحرارية تصير من أزرق لأصفر.",
@@ -5787,7 +5834,7 @@
       { k: "time", label: t("cTime"), hint: t("tabPlan"), run: () => runStep("time") },
       { k: "gift", label: t("cGift"), hint: "DM", run: () => runStep("gift"), show: !!p },
       { k: "go", label: t("pubBtn"), hint: "go", run: openPublish, show: !!p },
-      { k: "note", label: t("noteTitle"), hint: "Claude", run: () => $("#noteFab").click() },
+      { k: "note", label: t("noteTitle"), hint: "PIX", run: () => $("#noteFab").click() },
       { k: "new", label: t("newPost"), hint: t("newPostKeepShort"), run: confirmNewPost },
       { k: "post", label: t("tabPost"), hint: "tab", run: () => go("post") },
       { k: "posts", label: t("tabPosts"), hint: "Zernio", run: () => go("posts") },
@@ -6048,6 +6095,11 @@
   async function loadJobs() {
     clearTimeout(JOBS.timer);
     try { JOBS.data = await (await fetch("/api/jobs", { cache: "no-store" })).json(); } catch (e) { /* keep the last view */ }
+    // PIX reacts when something in the background finishes
+    const nowSt = {}; ((JOBS.data && JOBS.data.items) || []).forEach((j) => { nowSt[j.id] = j.state; });
+    if (JOBS.prev && DOCK.p3) for (const [id, s_] of Object.entries(nowSt)) if (JOBS.prev[id] === "running" && s_ !== "running")
+      DOCK.p3.play(s_ === "done" ? [["done", 1600], ["party", 900]] : s_ === "stopped" ? [["sad", 1400]] : [["fail", 1800]]);
+    JOBS.prev = nowSt;
     drawJobs();
     JOBS.timer = setTimeout(loadJobs, JOBS.data && JOBS.data.running ? 1000 : 4000);
   }
@@ -6170,15 +6222,15 @@
   const HELP = {
     en: {
       brand: ["200bps.ai", "Opens 200bps.ai in a new tab."],
-      listen: ["Claude is listening", "Green: anything you click here reaches Claude Code right away. Grey: Claude Code is closed, and your requests wait until it opens."],
-      decision: ["A decision is waiting", "Claude asked you something. Click to answer here, or answer in the chat. The first answer wins."],
+      listen: ["PIX is listening", "Green: anything you click here reaches Claude Code right away. Grey: Claude Code is closed, and your requests wait until it opens."],
+      decision: ["A decision is waiting", "PIX asked you something. Click to answer here, or answer in the chat. The first answer wins."],
       streak: ["Posting streak", "Days in a row with at least one post. Keep it going to stay visible."],
-      note: ["Note to Claude", "PIX, bottom corner, is always there: click it or press N from anywhere. Drop files anywhere on the page (or 📎 Attach, or paste) to send them with your note. Claude's replies pop up next to PIX."],
+      note: ["Note to PIX", "PIX, bottom corner, is always there: click it or press N from anywhere. Drop files anywhere on the page (or 📎 Attach, or paste) to send them with your note. PIX's replies pop up next to PIX."],
       postTo: ["Post to", "Switch each network on or off for this post with one tap. A post already in Zernio opens its networks window instead."],
       zplay: ["Play", "Opens the post and plays the whole video with sound, with its results. If your browser blocks sound, press the big ▶ Play with sound."],
       ibxIgnore: ["Ignore", "No reply needed: moves the comment to Handled on this computer only. Nothing is posted or deleted. Undo is in the message that pops up."],
-      jobStop: ["Stop", "Stops this job or withdraws a note Claude hasn't finished. Publishing and batch scheduling can't stop halfway, so they don't have this button."],
-      chatAttach: ["Attach", "Photos, a video, a PDF or a zip, sent to Claude with your note. You can also paste them or drop them anywhere on the page."],
+      jobStop: ["Stop", "Stops this job or withdraws a note PIX hasn't finished. Publishing and batch scheduling can't stop halfway, so they don't have this button."],
+      chatAttach: ["Attach", "Photos, a video, a PDF or a zip, sent to PIX with your note. You can also paste them or drop them anywhere on the page."],
       search: ["Command bar", "Press Ctrl+K (⌘K on Mac) and type: cover, fix, batch, dark… Then Enter. The fastest way to do anything here."],
       menu: ["Settings", "API keys, language, 12h/24h, light/dark, readiness, connected accounts, and the full guide."],
       tabPost: ["Post", "The post you're working on now: preview, checks, score, cover, time, gift and the Publish button."],
@@ -6187,23 +6239,23 @@
       tabGrowth: ["Growth", "Reach, followers, your goal, top posts, audience and the idea bank."],
       tabInbox: ["Inbox", "Comments waiting for a reply, DM automations and ice breakers."],
       journey: ["Your post's path", "Check → Cover → Time → Gift → Go. Click any step to do it; ↺ undoes that step."],
-      step_check: ["Check", "Caption, hashtags and media checks. Red items block publishing; click one and Claude writes a fix you approve."],
-      step_cover: ["Cover", "Reels only: pick a video frame, your own image, or a cover Claude designs."],
+      step_check: ["Check", "Caption, hashtags and media checks. Red items block publishing; click one and PIX writes a fix you approve."],
+      step_cover: ["Cover", "Reels only: pick a video frame, your own image, or a cover PIX designs."],
       step_time: ["Time", "When it goes out. Pick the suggested best time, or click any calendar day or heatmap hour."],
       step_gift: ["DM gift (optional)", "People who comment a keyword get a DM, e.g. a link. Only switched on with your yes."],
       step_go: ["Go", "Press Publish and type go. Nothing goes live before that."],
       preview: ["Preview", "Your media in posting order. Hover a video to play it."],
       platSwitch: ["Platform", "Switch between Instagram and LinkedIn to see each caption and its checks."],
-      caption: ["Caption", "Hashtags are highlighted. Claude suggests edits; your original is always kept."],
-      checks: ["Checks", "Red blocks publishing, amber is a tip. Click a fixable check to ask Claude for a before/after."],
-      fixable: ["Fix this", "Click: Claude writes an improved caption and shows a before/after with the score change. Approve, edit or reject."],
+      caption: ["Caption", "Hashtags are highlighted. PIX suggests edits; your original is always kept."],
+      checks: ["Checks", "Red blocks publishing, amber is a tip. Click a fixable check to ask PIX for a before/after."],
+      fixable: ["Fix this", "Click: PIX writes an improved caption and shows a before/after with the score change. Approve, edit or reject."],
       score: ["Post score (0-100)", "How ready the post is: hook, keyword, question, hashtags, media and timing. The tips below raise it."],
       cover: ["Cover", "What people see in your profile grid. \"Grid view\" shows the square crop."],
       planCard: ["Plan", "Everything that will be sent: platforms, time, type, settings and gift."],
       bestTime: ["Best time", "From your own posts only: lift vs your average, number of posts and confidence. Never a generic guess."],
       changes: ["Changes", "Every edit to this draft. Revert any single one before publishing."],
       connect: ["Connect Zernio", "Paste your Zernio API key and press Save. It stays on this computer."],
-      newPost: ["New post", "Type a post folder name and send it to Claude, or use Batch schedule for many at once."],
+      newPost: ["New post", "Type a post folder name and send it to PIX, or use Batch schedule for many at once."],
       refresh: ["Refresh from Zernio", "Reloads your posts, numbers and statuses from Zernio now."],
       batch: ["Batch schedule", "Schedule many posts at once: pick folders → set times → type go once. Each is created in Zernio as scheduled."],
       zfilter: ["Filter", "Show all posts, or only scheduled, published, needing attention, or not uploaded."],
@@ -6224,19 +6276,19 @@
       goal: ["Follower goal", "Progress to your goal from your Zernio follower count. It updates with every refresh."],
       changeGoal: ["Change goal", "Pick a quick option or type any number above your current followers."],
       streakGrid: ["Last 14 days", "Filled = you posted that day."],
-      topPosts: ["Top posts", "Ranked by follows they brought, then saves + shares. Claude uses these for new ideas."],
+      topPosts: ["Top posts", "Ranked by follows they brought, then saves + shares. PIX uses these for new ideas."],
       audience: ["Audience", "Age, gender, cities and countries of your followers."],
       ideas: ["Idea bank", "Post ideas based on your best posts. Click one for its hook, outline and best time, or edit it. Tick ideas to delete or save them; add your own; load a backup."],
       comments: ["Comments waiting", "Recent comments you haven't answered, each with the post it's on and that post's gift. Reply, send the gift, label, hide or delete."],
-      rwAsk: ["Fit it for every network", "Claude rewrites this caption for each network in the post: Instagram's hook before 'more', LinkedIn's professional tone, TikTok's short punch, each network's length and hashtag limits. Same message, your voice. Nothing changes until you pick."],
+      rwAsk: ["Fit it for every network", "PIX rewrites this caption for each network in the post: Instagram's hook before 'more', LinkedIn's professional tone, TikTok's short punch, each network's length and hashtag limits. Same message, your voice. Nothing changes until you pick."],
       rwReview: ["Versions per network", "Each network's version next to the current one, with the score change and character count. Edit any, use one, use all, or no thanks. Undo from Changes."],
       abOpen: ["Test two hooks", "Post this Reel twice as Instagram Trial Reels (non-followers only) with two different first lines or covers. After 2 days, compare skip rate and watch time and share the winner to your followers."],
-      abAsk: ["Hook B from Claude", "Claude writes a different first line (a new angle, not a rewording) in your voice. It appears in B's caption to edit."],
+      abAsk: ["Hook B from PIX", "PIX writes a different first line (a new angle, not a rewording) in your voice. It appears in B's caption to edit."],
       abGo: ["Start the test", "Type go to create both Trial Reels in Zernio at the same time. Your other networks in this post aren't posted by the test."],
       abCheck: ["Hook test results", "A vs B from your own Zernio numbers: views, reach, skip rate, watch time. A winner only with 100+ views each, 48 hours and a clear gap."],
-      rcOpen: ["Recycle best posts", "Zernio re-posts your best published posts every few weeks or months, with new hooks Claude writes (you review them). Starts only after you type go."],
+      rcOpen: ["Recycle best posts", "Zernio re-posts your best published posts every few weeks or months, with new hooks PIX writes (you review them). Starts only after you type go."],
       rcRow: ["Recycle this post", "Open the Recycle window for this post: how often, how many times, and new caption versions."],
-      rcAsk: ["New hooks from Claude", "Claude writes 3-5 new versions of this post: same message, a fresh first line, your voice. They appear here to edit or remove."],
+      rcAsk: ["New hooks from PIX", "PIX writes 3-5 new versions of this post: same message, a fresh first line, your voice. They appear here to edit or remove."],
       rcGo: ["Start recycling", "Type go to turn it on in Zernio. It's read back, so you see what Zernio really has, including the next repost date."],
       liPosted: ["Your LinkedIn poll", "The poll as it goes out: question, choices, how long it's open (time left once it's live), and LinkedIn's impressions, reactions and comments. The votes themselves are on LinkedIn."],
       liPreviewMain: ["LinkedIn poll / repost", "How the poll (question, choices, how long it's open) or the reposted link will show under your caption. Change it in Network settings → LinkedIn."],
@@ -6262,20 +6314,20 @@
       netGoal: ["This network's goal", "Each network has its own follower goal. Set or change it here."],
       netBest: ["Best times on this network", "From this network's own past posts: lift vs your average, number of posts and confidence."],
       netRhythm: ["Posting rhythm", "How many posts you published each week (last 8 weeks). Hover a bar for that week's engagements."],
-      ibxDraftAll: ["Ask Claude to draft replies", "Claude writes a reply in your voice for every waiting comment. Nothing is sent: each draft waits on its comment until you press Use it, then Send reply."],
+      ibxDraftAll: ["Ask PIX to draft replies", "PIX writes a reply in your voice for every waiting comment. Nothing is sent: each draft waits on its comment until you press Use it, then Send reply."],
       ibxSendAll: ["Send all drafts", "Posts every draft as a public reply under its comment. You see the full list first and press Post to confirm."],
-      ibxDraft: ["Claude's draft", "A suggested public reply. Use it opens the reply box with this text (edit it if you like), then Send reply posts it. No thanks drops it."],
+      ibxDraft: ["PIX's draft", "A suggested public reply. Use it opens the reply box with this text (edit it if you like), then Send reply posts it. No thanks drops it."],
       funnel: ["Gift funnel", "Zernio's own counts for this automation: commented the keyword → got the follow-first message → followed and tapped → got the gift → opened the link. % = share of everyone who commented the keyword."],
       folFresh: ["When the follower count was updated", "Zernio refreshes follower counts about once a day, so a new follower can take up to a day to show here."],
       ibxLab: ["Labels", "Your own tags (Question, Lead, Spam…), saved on this computer only. Filter by them at the top."],
       ibxActs: ["Answer it", "Reply: a public answer under the comment. Send gift: a private message (one per comment, within 7 days). Hide: only you and them see it. Delete: removes it for good (type delete)."],
       automations: ["DM automations", "Your keyword → DM gifts and ice breakers."],
-      jobs: ["Background jobs", "What's working right now (making images, publishing, uploads, refreshing from Zernio, Claude writing for you) and how far along each one is. Click to see the list."],
-      image: ["Create an image", "Two ways: OpenAI paints a picture (photos, illustrations), or Claude designs one in code (text, carousel slides, quote cards, charts). Edit any picture by marking the places to change. Nothing is posted until you add it to a post."],
-      imgEngine: ["OpenAI or Claude", "OpenAI image: gpt-image paints photos and illustrations (uses your OpenAI credit). Claude designs it: Claude Code writes the design in HTML and it's rendered at the exact post size, in your brand. Free, and great for text-heavy slides. Claude Code must be open."],
+      jobs: ["Background jobs", "What's working right now (making images, publishing, uploads, refreshing from Zernio, PIX writing for you) and how far along each one is. Click to see the list."],
+      image: ["Create an image", "Two ways: OpenAI paints a picture (photos, illustrations), or PIX designs one in code (text, carousel slides, quote cards, charts). Edit any picture by marking the places to change. Nothing is posted until you add it to a post."],
+      imgEngine: ["OpenAI or PIX", "OpenAI image: gpt-image paints photos and illustrations (uses your OpenAI credit). PIX designs it: Claude Code writes the design in HTML and it's rendered at the exact post size, in your brand. Free, and great for text-heavy slides. Claude Code must be open."],
       imgNewModel: ["New OpenAI model", "OpenAI added an image model since your last look. Try it once, make it your default, or dismiss the notice. The list is re-checked by itself once a day."],
       imgModelCheck: ["Model list", "The list of OpenAI image models refreshes by itself once a day when you open this window. Check now asks OpenAI right away."],
-      clChange: ["Ask Claude to change", "Claude edits its own design (the HTML is kept), so text and layout stay sharp. Say what to change."],
+      clChange: ["Ask PIX to change", "PIX edits its own design (the HTML is kept), so text and layout stay sharp. Say what to change."],
       ticker: ["Your numbers", "A live strip of your own results from Zernio: followers, streak, 7-day reach, engagement and follows, the post score and your best slot. Hover to pause; click a number to open where it lives. Nothing here is estimated."],
       imgDrop: ["Guide pictures", "Drop, paste or pick pictures. The new image follows them: style, people, products, layout."],
       imgModel: ["Image model", "Which OpenAI model draws the picture. The ★ one is your default (Settings → Keys → OpenAI)."],
@@ -6308,20 +6360,20 @@
       ibUndo: ["Undo", "Brings back the ideas you just deleted, in their places."],
       ibEditOne: ["Edit this idea", "Change any part of it: title, hook, why, outline, call to action, hashtags, time."],
       npTrack: ["New post in 4 steps", "1 Media & caption → 2 Check & improve → 3 Time → 4 Review & schedule. Close any time: the draft is kept in the Post tab."],
-      npChecks: ["What to fix", "Red blocks scheduling, amber is advice. Ask Claude to fix one: its suggestion appears right here with before/after, and you choose Use it, Edit or No thanks."],
+      npChecks: ["What to fix", "Red blocks scheduling, amber is advice. Ask PIX to fix one: its suggestion appears right here with before/after, and you choose Use it, Edit or No thanks."],
       npCapEdit: ["Your caption", "Edit it yourself and press Save and check again: the score and checks update at once."],
       npSlots: ["Your best times", "The next date of each of your best slots, from your own results. Or pick any day and minute below, or post right after you confirm."],
-      npSug: ["Claude's suggestion", "Before and after, with the score change. Use it, edit it first, or say no thanks."],
-      noteState: ["Where Claude is", "Waiting → Claude got it → Working (with the current step) → Done or Couldn't do it. Claude's answer appears right under your note."],
+      npSug: ["PIX's suggestion", "Before and after, with the score change. Use it, edit it first, or say no thanks."],
+      noteState: ["Where PIX is", "Waiting → PIX got it → Working (with the current step) → Done or Couldn't do it. PIX's answer appears right under your note."],
       gsSentence: ["The gift in one sentence", "Exactly what will happen, updated as you type."],
       gsStory: ["What people will see", "The scenes in order: their comment, your public reply, the follow-first step, and your DM with its button. It changes as you type."],
       gsWhen: ["When it starts", "Nothing runs until the post goes live with your go. Instagram only."],
       gsGate: ["Follow-first messages", "What non-followers get first, the button they tap once they follow, and the message if they tap too early."],
       calViews: ["Month · Week · Day", "Week and Day show the hours: your best hours are shaded, the red line is now. Click a day's name to open that day."],
-      tgCol: ["Plan a time", "Click or drag on an empty time (15-minute steps) to put a draft there, start a new post for that time, or have Claude draft one from an idea."],
+      tgCol: ["Plan a time", "Click or drag on an empty time (15-minute steps) to put a draft there, start a new post for that time, or have PIX draft one from an idea."],
       tgEv: ["A post", "Click to see it, move it, edit its caption or cancel it. Drag it to another time to move it: posts in Zernio ask you to type move; drafts move at once. Published posts can't change."],
-      bell: ["Activity", "Every note and request you sent Claude, with where it is (waiting, working, done, couldn't) and the result. The number counts new results."],
-      notice: ["Claude finished", "Shown when Claude completes one of your notes, with the result. The dashboard refreshes itself so you see the change. View opens the conversation."],
+      bell: ["Activity", "Every note and request you sent PIX, with where it is (waiting, working, done, couldn't) and the result. The number counts new results."],
+      notice: ["PIX finished", "Shown when PIX completes one of your notes, with the result. The dashboard refreshes itself so you see the change. View opens the conversation."],
       readiness: ["Readiness", "What's set up: Python, ffprobe, your key, Zernio and add-ons. Each problem shows its fix."],
       accounts: ["Connected accounts", "The Instagram and LinkedIn accounts posts go to."],
       bsteps: ["Three steps", "Pick posts → Set times → Go. Nothing is sent before you type go."],
@@ -6335,20 +6387,20 @@
       brow: ["Order", "Drag the ⋮⋮ handle (or ↑↓) to change which post goes first. Times stay in order."],
       bwhen: ["Time for this post", "Edit it directly. The line below says why this time was picked."],
       bgo: ["Confirm", "Type go to schedule exactly this list."],
-      bblocked: ["Can't be scheduled yet", "Fix these first (Claude can help), or remove them from the batch."],
+      bblocked: ["Can't be scheduled yet", "Fix these first (PIX can help), or remove them from the batch."],
       cancelBtn: ["Cancel", "Scheduled: removed from Zernio so it never goes out (the draft stays). Published: removed where the network allows; Instagram posts are deleted in the Instagram app. You type cancel to confirm."],
     },
     ar: {
       brand: ["200bps.ai", "يفتح 200bps.ai في تبويب جديد."],
-      listen: ["Claude يسمعك", "أخضر: أي شي تضغطه هني يوصل Claude Code فوراً. رمادي: Claude Code مسكّر، وطلباتك تنتظر لين ينفتح."],
-      decision: ["في قرار ينتظرك", "Claude سألك شي. اضغط عشان تجاوب هني، أو جاوب بالمحادثة. أول جواب يعتمد."],
+      listen: ["PIX يسمعك", "أخضر: أي شي تضغطه هني يوصل Claude Code فوراً. رمادي: Claude Code مسكّر، وطلباتك تنتظر لين ينفتح."],
+      decision: ["في قرار ينتظرك", "PIX سألك شي. اضغط عشان تجاوب هني، أو جاوب بالمحادثة. أول جواب يعتمد."],
       streak: ["أيام النشر المتواصلة", "عدد الأيام ورا بعض اللي نشرت فيها. كمّل عشان تظل ظاهر."],
-      note: ["رسالة لـClaude", "PIX تحت بالزاوية دايماً موجود: اضغط عليه أو اضغط N من أي مكان. اسحب ملفات لأي مكان بالصفحة (أو 📎 أرفق، أو الصق) عشان ترسلها مع رسالتك. ردود Claude تطلع جنب PIX."],
+      note: ["رسالة لـPIX", "PIX تحت بالزاوية دايماً موجود: اضغط عليه أو اضغط N من أي مكان. اسحب ملفات لأي مكان بالصفحة (أو 📎 أرفق، أو الصق) عشان ترسلها مع رسالتك. ردوده تطلع جنبه."],
       postTo: ["انشر على", "شغّل أو طفّ كل منصة لهالبوست بضغطة. البوست اللي صار في Zernio يفتح نافذة منصاته."],
       zplay: ["تشغيل", "يشغّل الفيديو كامل بالصوت هني، مع نتايج البوست. بدون ما تروح Zernio."],
       ibxIgnore: ["تجاهل", "ما يحتاج رد: ينقل التعليق لـ«انتهت» على هالجهاز بس. ما ينشر ولا ينحذف شي. التراجع موجود بالرسالة اللي تطلع."],
-      jobStop: ["وقّف", "يوقف هالشغل أو يسحب رسالة Claude ما خلصها. النشر والجدولة الجماعية ما تتوقف بالنص، فما لها هالزر."],
-      chatAttach: ["أرفق", "صور، فيديو، PDF أو ملف مضغوط، تنرسل لـClaude مع رسالتك. وتقدر تلصقها أو تسحبها لأي مكان بالصفحة."],
+      jobStop: ["وقّف", "يوقف هالشغل أو يسحب رسالة PIX ما خلصها. النشر والجدولة الجماعية ما تتوقف بالنص، فما لها هالزر."],
+      chatAttach: ["أرفق", "صور، فيديو، PDF أو ملف مضغوط، تنرسل لـPIX مع رسالتك. وتقدر تلصقها أو تسحبها لأي مكان بالصفحة."],
       search: ["شريط الأوامر", "اضغط Ctrl+K (⌘K بالماك) واكتب: غلاف، تصحيح، جدولة… وبعدها Enter. أسرع طريقة لأي شي هني."],
       menu: ["الإعدادات", "مفاتيح API، اللغة، 12/24 ساعة، فاتح/داكن، الجاهزية، الحسابات، والدليل الكامل."],
       tabPost: ["البوست", "البوست اللي تشتغل عليه الحين: المعاينة، الفحوصات، التقييم، الغلاف، الوقت، الهدية وزر النشر."],
@@ -6357,23 +6409,23 @@
       tabGrowth: ["النمو", "الوصول، المتابعين، هدفك، أفضل البوستات، الجمهور وبنك الأفكار."],
       tabInbox: ["الرسائل", "تعليقات تنتظر رد، الرسائل التلقائية وأسئلة البداية."],
       journey: ["مسار البوست", "فحص ← غلاف ← وقت ← هدية ← نشر. اضغط أي خطوة عشان تسويها؛ ↺ يتراجع عنها."],
-      step_check: ["الفحص", "فحص الكابشن والهاشتاقات والميديا. الأحمر يمنع النشر؛ اضغطه وClaude يكتب تصحيح توافق عليه."],
-      step_cover: ["الغلاف", "للريلز بس: اختار لقطة من الفيديو، أو صورتك، أو غلاف يصممه Claude."],
+      step_check: ["الفحص", "فحص الكابشن والهاشتاقات والميديا. الأحمر يمنع النشر؛ اضغطه وPIX يكتب تصحيح توافق عليه."],
+      step_cover: ["الغلاف", "للريلز بس: اختار لقطة من الفيديو، أو صورتك، أو غلاف يصممه PIX."],
       step_time: ["الوقت", "متى ينزل. اختار أفضل وقت مقترح، أو اضغط أي يوم بالتقويم أو ساعة بالخريطة."],
       step_gift: ["هدية بالخاص (اختياري)", "اللي يعلّق بكلمة معينة يوصله رسالة بالخاص، مثلاً رابط. ما تشتغل إلا بموافقتك."],
       step_go: ["نشر", "اضغط انشر واكتب go. ما ينزل شي قبلها."],
       preview: ["المعاينة", "الصور أو الفيديو بترتيب النشر. حط الماوس على الفيديو عشان يشتغل."],
       platSwitch: ["المنصة", "بدّل بين Instagram وLinkedIn عشان تشوف كل كابشن وفحوصاته."],
-      caption: ["الكابشن", "الهاشتاقات ملوّنة. Claude يقترح تعديلات، والنص الأصلي دايماً محفوظ."],
-      checks: ["الفحوصات", "الأحمر يمنع النشر، والأصفر نصيحة. اضغط أي فحص قابل للتصحيح عشان Claude يوريك قبل/بعد."],
-      fixable: ["صحّح هذا", "اضغط: Claude يكتب كابشن أحسن ويوريك قبل/بعد مع تغيّر التقييم. وافق، عدّل أو ارفض."],
+      caption: ["الكابشن", "الهاشتاقات ملوّنة. PIX يقترح تعديلات، والنص الأصلي دايماً محفوظ."],
+      checks: ["الفحوصات", "الأحمر يمنع النشر، والأصفر نصيحة. اضغط أي فحص قابل للتصحيح عشان PIX يوريك قبل/بعد."],
+      fixable: ["صحّح هذا", "اضغط: PIX يكتب كابشن أحسن ويوريك قبل/بعد مع تغيّر التقييم. وافق، عدّل أو ارفض."],
       score: ["تقييم البوست (0-100)", "قد إيش البوست جاهز: الافتتاحية، الكلمة المفتاحية، السؤال، الهاشتاقات، الميديا والتوقيت. النصايح تحت ترفعه."],
       cover: ["الغلاف", "اللي يشوفونه الناس في شبكة بروفايلك. «عرض الشبكة» يوريك القص المربع."],
       planCard: ["الخطة", "كل شي بينرسل: المنصات، الوقت، النوع، الإعدادات والهدية."],
       bestTime: ["أفضل وقت", "من بوستاتك أنت بس: الزيادة مقارنة بمعدلك، عدد البوستات ودرجة الثقة. مو تخمين عام."],
       changes: ["التغييرات", "كل تعديل على المسودة. تقدر ترجع أي واحد قبل النشر."],
       connect: ["اربط Zernio", "الصق مفتاح Zernio واضغط حفظ. يظل على هالجهاز بس."],
-      newPost: ["بوست جديد", "اكتب اسم مجلد البوست وأرسله لـClaude، أو استخدم «جدولة مجموعة» لبوستات كثيرة مرة وحدة."],
+      newPost: ["بوست جديد", "اكتب اسم مجلد البوست وأرسله لـPIX، أو استخدم «جدولة مجموعة» لبوستات كثيرة مرة وحدة."],
       refresh: ["تحديث من Zernio", "يجيب بوستاتك وأرقامك وحالاتها من Zernio الحين."],
       batch: ["جدولة مجموعة", "جدول بوستات كثيرة مرة وحدة: اختار المجلدات ← حدد الأوقات ← اكتب go مرة وحدة. كل واحد ينسوى في Zernio كمجدول."],
       zfilter: ["الفلتر", "اعرض الكل، أو المجدول بس، أو المنشور، أو اللي يحتاج انتباه، أو اللي ما انرفع."],
@@ -6394,19 +6446,19 @@
       goal: ["هدف المتابعين", "تقدمك للهدف من عدد متابعينك في Zernio. يتحدث مع كل تحديث."],
       changeGoal: ["غيّر الهدف", "اختار من الخيارات السريعة أو اكتب أي رقم أكبر من متابعينك الحين."],
       streakGrid: ["آخر 14 يوم", "المربع المعبّى = نشرت بهاليوم."],
-      topPosts: ["أفضل البوستات", "مرتبة حسب المتابعين اللي جابتهم، بعدها الحفظ والمشاركة. Claude يستخدمها للأفكار الجديدة."],
+      topPosts: ["أفضل البوستات", "مرتبة حسب المتابعين اللي جابتهم، بعدها الحفظ والمشاركة. PIX يستخدمها للأفكار الجديدة."],
       audience: ["الجمهور", "أعمار متابعينك، الجنس، المدن والدول."],
       ideas: ["بنك الأفكار", "أفكار بوستات مبنية على أفضل بوستاتك. اضغط وحدة للافتتاحية والمخطط وأفضل وقت، أو عدّلها. علّم على الأفكار عشان تحذفها أو تحفظها؛ أضف فكرتك؛ أو حمّل نسخة."],
       comments: ["تعليقات تنتظر رد", "آخر التعليقات اللي ما رديت عليها، كل وحدة مع البوست اللي عليه وهدية البوست. رد، أرسل الهدية، صنّف، اخفِ أو احذف."],
-      rwAsk: ["فصّله لكل منصة", "Claude يعيد كتابة الكابشن لكل منصة بالبوست: هوك انستقرام قبل «المزيد»، أسلوب لينكدإن المهني، اختصار تيك توك، وحدود الطول والهاشتاقات لكل منصة. نفس الرسالة وبأسلوبك. ما يتغير شي إلا لما تختار."],
+      rwAsk: ["فصّله لكل منصة", "PIX يعيد كتابة الكابشن لكل منصة بالبوست: هوك انستقرام قبل «المزيد»، أسلوب لينكدإن المهني، اختصار تيك توك، وحدود الطول والهاشتاقات لكل منصة. نفس الرسالة وبأسلوبك. ما يتغير شي إلا لما تختار."],
       rwReview: ["نسخة لكل منصة", "نسخة كل منصة جنب الحالية، مع تغيّر السكور وعدد الحروف. عدّل أي وحدة، استخدم وحدة أو الكل، أو لا شكراً. وتتراجع من التغييرات."],
       abOpen: ["جرّب هوكين", "ينزل هالريل مرتين كـ Trial Reels بانستقرام (لغير المتابعين بس) بسطرين أول مختلفين أو كفرين. بعد يومين قارن نسبة التخطي ووقت المشاهدة وشارك الفايز مع متابعينك."],
-      abAsk: ["هوك B من Claude", "Claude يكتب أول سطر مختلف (زاوية جديدة، مو إعادة صياغة) بأسلوبك. يطلع بكابشن B تعدله."],
+      abAsk: ["هوك B من PIX", "PIX يكتب أول سطر مختلف (زاوية جديدة، مو إعادة صياغة) بأسلوبك. يطلع بكابشن B تعدله."],
       abGo: ["ابدأ التجربة", "اكتب go عشان ينسوون الريلين في Zernio بنفس الوقت. المنصات الثانية بهالبوست ما تنشر من التجربة."],
       abCheck: ["نتايج تجربة الهوك", "A ضد B من أرقامك في Zernio: مشاهدات، وصول، نسبة التخطي، وقت المشاهدة. ما في فايز إلا مع 100 مشاهدة لكل وحدة و48 ساعة وفرق واضح."],
-      rcOpen: ["أعد تدوير الأفضل", "Zernio يعيد نشر أفضل بوستاتك المنشورة كل كم أسبوع أو شهر، بهوكات جديدة يكتبها Claude (وأنت تراجعها). ما يبدأ إلا لما تكتب go."],
+      rcOpen: ["أعد تدوير الأفضل", "Zernio يعيد نشر أفضل بوستاتك المنشورة كل كم أسبوع أو شهر، بهوكات جديدة يكتبها PIX (وأنت تراجعها). ما يبدأ إلا لما تكتب go."],
       rcRow: ["أعد تدوير هالبوست", "يفتح نافذة إعادة التدوير لهالبوست: كل قد إيش، كم مرة، ونسخ جديدة من الكابشن."],
-      rcAsk: ["هوكات جديدة من Claude", "Claude يكتب 3-5 نسخ جديدة من البوست: نفس الرسالة، أول سطر جديد، وبأسلوبك. تطلع هني تعدلها أو تشيلها."],
+      rcAsk: ["هوكات جديدة من PIX", "PIX يكتب 3-5 نسخ جديدة من البوست: نفس الرسالة، أول سطر جديد، وبأسلوبك. تطلع هني تعدلها أو تشيلها."],
       rcGo: ["ابدأ إعادة التدوير", "اكتب go عشان يشتغل في Zernio. ونقرا اللي انحفظ فعلياً، فتشوف اللي عند Zernio بالضبط مع تاريخ الإعادة الجاية."],
       liPosted: ["تصويتك في LinkedIn", "التصويت مثل ما بينشر: السؤال والخيارات وكم يظل مفتوح (والوقت الباقي لما ينتشر)، ومشاهدات وتفاعل وتعليقات LinkedIn. الأصوات نفسها تشوفها في LinkedIn."],
       liPreviewMain: ["تصويت / إعادة نشر LinkedIn", "كذا بيطلع التصويت (السؤال والخيارات ومدته) أو رابط إعادة النشر تحت الكابشن. غيّره من إعدادات المنصات ← LinkedIn."],
@@ -6432,20 +6484,20 @@
       netGoal: ["هدف هالمنصة", "كل منصة لها هدف متابعين خاص فيها. حطه أو غيّره من هني."],
       netBest: ["أفضل الأوقات على هالمنصة", "من بوستاتك السابقة على هالمنصة: الفرق عن متوسطك، وعدد البوستات، ومستوى الثقة."],
       netRhythm: ["إيقاع النشر", "كم بوست نشرت كل أسبوع (آخر 8 أسابيع). مرّر على العمود عشان تشوف تفاعلات هالأسبوع."],
-      ibxDraftAll: ["خل Claude يكتب الردود", "Claude يكتب رد بأسلوبك لكل تعليق ينتظر. ما ينرسل شي: كل مسودة تنتظر على تعليقها لين تضغط «استخدمها» وبعدين «أرسل الرد»."],
+      ibxDraftAll: ["خل PIX يكتب الردود", "PIX يكتب رد بأسلوبك لكل تعليق ينتظر. ما ينرسل شي: كل مسودة تنتظر على تعليقها لين تضغط «استخدمها» وبعدين «أرسل الرد»."],
       ibxSendAll: ["أرسل كل المسودات", "ينشر كل مسودة كرد عام تحت تعليقها. تشوف القائمة كاملة أول وتضغط «انشر» عشان تأكد."],
-      ibxDraft: ["مسودة Claude", "رد عام مقترح. «استخدمها» يفتح خانة الرد بهالنص (عدّله إذا تبي)، وبعدين «أرسل الرد» ينشره. «لا، شكراً» يشيلها."],
+      ibxDraft: ["مسودة PIX", "رد عام مقترح. «استخدمها» يفتح خانة الرد بهالنص (عدّله إذا تبي)، وبعدين «أرسل الرد» ينشره. «لا، شكراً» يشيلها."],
       funnel: ["مسار الهدية", "أرقام Zernio لهالأتمتة: علّق بالكلمة ← وصلته «تابع أول» ← تابع وضغط ← وصلته الهدية ← فتح الرابط. النسبة = من كل اللي علّقوا بالكلمة."],
       folFresh: ["متى تحدّث عدد المتابعين", "Zernio يحدّث عدد المتابعين تقريباً مرة باليوم، فالمتابع الجديد ممكن ياخذ لين يوم عشان يبين هني."],
       ibxLab: ["التصنيفات", "تصنيفاتك (سؤال، عميل، سبام…)، محفوظة على هالجهاز بس. فلتر فيها من فوق."],
       ibxActs: ["رد عليه", "رد: جواب عام تحت التعليق. أرسل الهدية: رسالة خاصة (وحدة لكل تعليق، خلال 7 أيام). اخفِ: تشوفه أنت وهو بس. احذف: ينشال نهائياً (اكتب delete)."],
       automations: ["رسائل تلقائية", "هدايا الكلمات بالخاص وأسئلة البداية."],
-      jobs: ["الشغل بالخلفية", "شنو قاعد يشتغل الحين (الصور، النشر، رفع الملفات، تحديث Zernio، Claude يكتب لك) ووين وصل كل واحد. اضغط تشوف القائمة."],
-      image: ["سوّ صورة", "طريقتين: OpenAI يرسم صورة (صور ورسومات)، أو Claude يصممها بالكود (كتابة، سلايدات كاروسيل، اقتباسات، رسوم بيانية). وتقدر تعدّل أي صورة بتعليم الأماكن اللي تتغيّر. ما ينشر شي لين تضيفها لبوست."],
-      imgEngine: ["OpenAI ولا Claude", "صورة OpenAI: gpt-image يرسم صور ورسومات (يستهلك رصيد OpenAI). Claude يصممها: Claude Code يكتب التصميم بـHTML وينرسم بنفس مقاس البوست وبهويتك. ببلاش، وممتاز للسلايدات اللي فيها كتابة. لازم Claude Code يكون مفتوح."],
+      jobs: ["الشغل بالخلفية", "شنو قاعد يشتغل الحين (الصور، النشر، رفع الملفات، تحديث Zernio، PIX يكتب لك) ووين وصل كل واحد. اضغط تشوف القائمة."],
+      image: ["سوّ صورة", "طريقتين: OpenAI يرسم صورة (صور ورسومات)، أو PIX يصممها بالكود (كتابة، سلايدات كاروسيل، اقتباسات، رسوم بيانية). وتقدر تعدّل أي صورة بتعليم الأماكن اللي تتغيّر. ما ينشر شي لين تضيفها لبوست."],
+      imgEngine: ["OpenAI ولا PIX", "صورة OpenAI: gpt-image يرسم صور ورسومات (يستهلك رصيد OpenAI). PIX يصممها: Claude Code يكتب التصميم بـHTML وينرسم بنفس مقاس البوست وبهويتك. ببلاش، وممتاز للسلايدات اللي فيها كتابة. لازم Claude Code يكون مفتوح."],
       imgNewModel: ["موديل جديد من OpenAI", "OpenAI نزّل موديل صور جديد من آخر مرة. جرّبه مرة، أو خله الافتراضي، أو سكّر التنبيه. القائمة تنفحص بروحها مرة باليوم."],
       imgModelCheck: ["قائمة الموديلات", "قائمة موديلات الصور من OpenAI تتحدث بروحها مرة باليوم لما تفتح هالنافذة. «افحص الحين» يسأل OpenAI على طول."],
-      clChange: ["خل Claude يعدّلها", "Claude يعدّل تصميمه نفسه (ملف الـHTML محفوظ)، فالكتابة والترتيب يظلون واضحين. قول شنو يتغيّر."],
+      clChange: ["خل PIX يعدّلها", "PIX يعدّل تصميمه نفسه (ملف الـHTML محفوظ)، فالكتابة والترتيب يظلون واضحين. قول شنو يتغيّر."],
       ticker: ["أرقامك", "شريط حي لنتايجك من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت. وقّف عليه بالماوس عشان يوقف، واضغط أي رقم عشان تروح مكانه. ولا رقم هني تقديري."],
       imgDrop: ["صور مرشدة", "اسحب أو الصق أو اختار صور. الصورة الجديدة تمشي عليها: الأسلوب، الأشخاص، المنتجات، التصميم."],
       imgModel: ["موديل الصور", "أي موديل من OpenAI يرسم الصورة. اللي عليه ★ هو الافتراضي (الإعدادات ← المفاتيح ← OpenAI)."],
@@ -6478,20 +6530,20 @@
       ibUndo: ["تراجع", "يرجّع الأفكار اللي حذفتها الحين، بنفس أماكنها."],
       ibEditOne: ["عدّل هالفكرة", "غيّر أي جزء: العنوان، الافتتاحية، ليش، المخطط، الدعوة، الهاشتاقات، الوقت."],
       npTrack: ["بوست جديد بـ4 خطوات", "1 الملفات والكابشن ← 2 افحص وحسّن ← 3 الوقت ← 4 راجع وجدول. سكّر أي وقت: المسودة محفوظة في تبويب البوست."],
-      npChecks: ["شنو يحتاج تصليح", "الأحمر يمنع الجدولة، والبرتقالي نصيحة. اطلب من Claude يصلّح وحدة: اقتراحه يطلع هني قبل/بعد، وتختار استخدمه أو عدّل أو لا شكراً."],
+      npChecks: ["شنو يحتاج تصليح", "الأحمر يمنع الجدولة، والبرتقالي نصيحة. اطلب من PIX يصلّح وحدة: اقتراحه يطلع هني قبل/بعد، وتختار استخدمه أو عدّل أو لا شكراً."],
       npCapEdit: ["الكابشن مالك", "عدّله بنفسك واضغط «احفظ وافحص من جديد»: التقييم والفحوصات تتحدث على طول."],
       npSlots: ["أفضل أوقاتك", "أقرب تاريخ لكل وقت من أفضل أوقاتك، من نتايجك. أو اختار أي يوم ودقيقة تحت، أو انشره أول ما تأكد."],
-      npSug: ["اقتراح Claude", "قبل وبعد، مع تغيّر التقييم. استخدمه، عدّله أول، أو قول لا شكراً."],
-      noteState: ["وين وصل Claude", "ينتظر ← وصلت Claude ← قاعد يشتغل (مع الخطوة الحالية) ← خلصت أو ما قدر. جواب Claude يطلع تحت ملاحظتك على طول."],
+      npSug: ["اقتراح PIX", "قبل وبعد، مع تغيّر التقييم. استخدمه، عدّله أول، أو قول لا شكراً."],
+      noteState: ["وين وصل PIX", "ينتظر ← وصلت PIX ← قاعد يشتغل (مع الخطوة الحالية) ← خلصت أو ما قدر. جواب PIX يطلع تحت ملاحظتك على طول."],
       gsSentence: ["الهدية بجملة وحدة", "شنو بيصير بالضبط، ويتحدث وأنت تكتب."],
       gsStory: ["شنو بيشوفون الناس", "المشاهد بالترتيب: تعليقهم، ردك العام، خطوة المتابعة، ورسالتك بالخاص مع الزر. تتغيّر وأنت تكتب."],
       gsWhen: ["متى تبدأ", "ما يشتغل شي لين البوست ينزل بموافقتك (go). على Instagram بس."],
       gsGate: ["رسايل المتابعة أول", "شنو يوصل اللي ما يتابعونك أول، والزر اللي يضغطونه بعد ما يتابعون، والرسالة إذا ضغطوا بدري."],
       calViews: ["شهر · أسبوع · يوم", "الأسبوع واليوم يعرضون الساعات: أفضل ساعاتك مظللة، والخط الأحمر هو الحين. اضغط اسم اليوم عشان تفتحه."],
-      tgCol: ["خطط وقت", "اضغط أو اسحب على وقت فاضي (كل 15 دقيقة) عشان تحط مسودة فيه، أو تبدأ بوست جديد لهالوقت، أو تخلي Claude يكتب واحد من فكرة."],
+      tgCol: ["خطط وقت", "اضغط أو اسحب على وقت فاضي (كل 15 دقيقة) عشان تحط مسودة فيه، أو تبدأ بوست جديد لهالوقت، أو تخلي PIX يكتب واحد من فكرة."],
       tgEv: ["بوست", "اضغط عشان تشوفه أو تنقله أو تعدّل الكابشن أو تلغيه. اسحبه لوقت ثاني عشان تنقله: بوستات Zernio تطلب تكتب move؛ والمسودات تنتقل على طول. المنشور ما يتغيّر."],
-      bell: ["النشاط", "كل ملاحظة وطلب أرسلته لـClaude، وين وصل (ينتظر، يشتغل، خلصت، ما قدر) والنتيجة. الرقم يعد النتايج الجديدة."],
-      notice: ["Claude خلّص", "يطلع لما Claude يخلّص وحدة من ملاحظاتك، مع النتيجة. واللوحة تتحدث بروحها عشان تشوف التغيير. «شوف» يفتح المحادثة."],
+      bell: ["النشاط", "كل ملاحظة وطلب أرسلته لـPIX، وين وصل (ينتظر، يشتغل، خلصت، ما قدر) والنتيجة. الرقم يعد النتايج الجديدة."],
+      notice: ["PIX خلّص", "يطلع لما PIX يخلّص وحدة من ملاحظاتك، مع النتيجة. واللوحة تتحدث بروحها عشان تشوف التغيير. «شوف» يفتح المحادثة."],
       readiness: ["الجاهزية", "شنو جاهز: Python وffprobe ومفتاحك وZernio والإضافات. كل مشكلة معاها حلها."],
       accounts: ["الحسابات المربوطة", "حسابات Instagram وLinkedIn اللي تنزل عليها البوستات."],
       bsteps: ["ثلاث خطوات", "اختار البوستات ← حدد الأوقات ← نشر. ما ينرسل شي قبل ما تكتب go."],
@@ -6505,7 +6557,7 @@
       brow: ["الترتيب", "اسحب ⋮⋮ (أو ↑↓) عشان تغيّر أي بوست ينزل أول. الأوقات تظل بالترتيب."],
       bwhen: ["وقت هالبوست", "عدّله مباشرة. السطر تحت يقول ليش انختار هالوقت."],
       bgo: ["التأكيد", "اكتب go عشان تجدول هالقائمة بالضبط."],
-      bblocked: ["ما ينفع ينجدول للحين", "صلّحها أول (Claude يقدر يساعد)، أو شيلها من المجموعة."],
+      bblocked: ["ما ينفع ينجدول للحين", "صلّحها أول (PIX يقدر يساعد)، أو شيلها من المجموعة."],
       cancelBtn: ["إلغاء", "المجدول: ينشال من Zernio وما ينزل (والمسودة تظل). المنشور: ينشال إذا المنصة تسمح؛ بوستات Instagram تنحذف من تطبيق Instagram. تكتب cancel للتأكيد."],
     },
   };
@@ -6526,7 +6578,7 @@
     [".bgo, .bconfirm", "bgo"], [".bblocked", "bblocked"],
     [".cancel-btn", "cancelBtn"], [".ztile, .zrow", "ztile"], [".zview", "zview"], ["#zFilter", "zfilter"], [".add-acc", "connectAcc"], ["#zAccounts .aud-z", "account"],
     ["#zRefresh", "refresh"], ["#zBatch, #batchBtn", "batch"], ["#imgTop, #imgPreview", "image"], [".img-engine", "imgEngine"], [".img-newmodel", "imgNewModel"], [".img-modelcheck", "imgModelCheck"], [".img-cledit-btn", "clChange"], ["#ticker", "ticker"], [".post-to", "postTo"], [".ztile-play, .ztile.has-vid", "zplay"], [".ibx-ignore, .ibx-ignoreall", "ibxIgnore"], [".job-stop, .chat-stop", "jobStop"], [".chat-attach", "chatAttach"], [".heat-read", "heatRead"], [".pass-sum", "passSum"], ["#jobsPill, .jobs-panel", "jobs"], [".img-drop", "imgDrop"], [".img-model", "imgModel"],
-    ["#listenPill", "listen"], ["#decisionPill", "decision"], ["#streakPill", "streak"], ["#noteTop, #noteTab, #noteFab", "note"], ["#cmdBtn", "search"],
+    ["#listenPill", "listen"], ["#decisionPill", "decision"], ["#streakPill", "streak"], ["#noteTop, #noteTab", "note"], ["#cmdBtn", "search"],
     ["#drawerBtn", "menu"], [".topbar .brand", "brand"],
     [".tab[data-view=post]", "tabPost"], [".tab[data-view=posts]", "tabPosts"], [".tab[data-view=plan]", "tabPlan"], [".tab[data-view=growth]", "tabGrowth"], [".tab[data-view=inbox]", "tabInbox"],
     [".journey-head", "journey"], ["#mediaStrip", "preview"], ["#platSwitch", "platSwitch"], ["#captionBox", "caption"], ["#checkList", "checks"],
@@ -6641,7 +6693,20 @@
       onerror: (e) => { if (!e.target.dataset.fb) { e.target.dataset.fb = "1"; e.target.src = "assets/pix/idle.png"; } } });
   }
   const dockImg = () => $("#noteFab .dock-av");
-  function dockSet(pose) { if (DOCK.p3) DOCK.p3.mood(pose); const im = dockImg(); if (im && DOCK.pose !== pose) { DOCK.pose = pose; im.classList.remove("swap"); void im.offsetWidth; im.classList.add("swap"); im.src = "assets/pix/" + (PIX_MOOD[pose] || pose) + ".png"; } }
+  // PIX anywhere: a 3D PIX in this element, the flat picture until 3D is ready (or if it can't run)
+  function pixHere(cls, mood, opts) {
+    const host = el("span", { class: "pixhost " + (cls || ""), "aria-hidden": "true" }, bips(mood, "pix-fb"));
+    host.pix = null;
+    const go = () => { if (host.pix || !window.PIX3D || !host.isConnected) return; const p3 = window.PIX3D.mount(host, { mood: PIX_MOOD3[mood] || mood, ...(opts || {}) }); if (p3) { host.pix = p3; host.classList.add("is-3d"); } };
+    requestAnimationFrame(() => requestAnimationFrame(go));
+    if (!window.PIX3D) addEventListener("pix3d-ready", go, { once: true });
+    host.mood = (m) => { if (host.pix) host.pix.mood(PIX_MOOD3[m] || m); else { const im = host.querySelector(".pix-fb"); if (im) im.src = "assets/pix/" + (PIX_MOOD[m] || m) + ".png"; } };
+    host.play = (steps) => host.pix && host.pix.play(steps.map(([m, ms]) => [PIX_MOOD3[m] || m, ms]));
+    return host;
+  }
+  const PIX_MOOD3 = { focus: "focus", uploaded: "uploaded", upload: "upload" };
+  const pixAll = (fn) => { if (DOCK.p3) fn(DOCK.p3); document.querySelectorAll(".pixhost.is-3d").forEach((h) => h.pix && fn(h.pix)); };
+  function dockSet(pose) { if (DOCK.p3) DOCK.p3.mood(PIX_MOOD3[pose] || pose); const im = dockImg(); if (im && DOCK.pose !== pose) { DOCK.pose = pose; im.classList.remove("swap"); void im.offsetWidth; im.classList.add("swap"); im.src = "assets/pix/" + (PIX_MOOD[pose] || pose) + ".png"; } }
   function dockPose(pose, ms) { clearTimeout(DOCK.timer); dockSet(pose); if (ms) DOCK.timer = setTimeout(() => dockSet(DOCK.base), ms); }
   function dockPresence(pres) { const b = pres === "listening" ? "listen" : pres === "working" ? "work" : "away"; if (DOCK.base !== b) { DOCK.base = b; if (!DOCK.timer || DOCK.pose === DOCK.base) dockSet(b); } }
   (function buildDock() {
@@ -6653,9 +6718,9 @@
     const host = el("span", { class: "dock-3d", "aria-hidden": "true" }); fab.prepend(host);
     const go3d = () => { if (DOCK.p3 || !window.PIX3D) return; const p3 = window.PIX3D.mount(host); if (p3) { DOCK.p3 = p3; fab.classList.add("has-3d"); p3.mood(DOCK.pose); } };
     if (window.PIX3D) go3d(); else addEventListener("pix3d-ready", go3d, { once: true });
-    fab.addEventListener("pointerdown", () => DOCK.p3 && DOCK.p3.poke());
-    fab.addEventListener("pointerenter", () => { if (!DOCK.timer) dockSet("hover"); });
-    fab.addEventListener("pointerleave", () => { if (!DOCK.timer) dockSet(DOCK.base); });
+    fab.addEventListener("pointerdown", () => DOCK.p3 && DOCK.p3.react());
+    fab.addEventListener("pointerenter", () => { if (!DOCK.p3 && !DOCK.timer) dockSet("hover"); });      // 3D PIX does its own hover tricks
+    fab.addEventListener("pointerleave", () => { if (!DOCK.p3 && !DOCK.timer) dockSet(DOCK.base); });
   })();
   // Claude's replies: PIX says them in a small bubble by the dock (questions still open a window)
   function dockSay(m) {
@@ -6663,8 +6728,8 @@
     const txt = String(m.text || "");
     const close = () => { b.classList.add("out"); setTimeout(() => b.remove(), 220); post("/api/chat", { op: "seen", id: m.id }).catch(() => {}); };
     const b = el("div", { class: "dock-say", role: "status", "aria-live": "polite" },
-      bips("talk", "say-av"),
-      el("div", { class: "say-body" }, el("b", {}, "Claude"),
+      (() => { const h = pixHere("say-av", "reply", { shadow: false, zoom: 1.25 }); setTimeout(() => h.play([["reply", 2600], ["happy", 0]]), 60); return h; })(),
+      el("div", { class: "say-body" }, el("b", {}, "PIX"),
         el("p", { style: "unicode-bidi:plaintext" }, txt.length > 180 ? txt.slice(0, 180) + "…" : txt),
         el("div", { class: "row2" }, el("button", { class: "btn sm on", type: "button", onclick: () => { b.remove(); openChat(); } }, t("chatOpen")),
           el("button", { class: "btn sm", type: "button", onclick: close }, t("gotIt")))),
@@ -6710,7 +6775,7 @@
     if (modal.open === "note" && DOCK.drawAtts) DOCK.drawAtts(); else openChat();
   }
   (function dropAnywhere() {
-    const ov = el("div", { class: "drop-ov", hidden: true }, el("div", { class: "drop-card" }, bips("drop", "drop-av"), el("b", {}, t("dropTitle")), el("p", {}, t("dropHint"))));
+    const ov = el("div", { class: "drop-ov", hidden: true }, el("div", { class: "drop-card" }, pixHere("drop-av", "drop", { shadow: false, zoom: 1.2 }), el("b", {}, t("dropTitle")), el("p", {}, t("dropHint"))));
     document.body.append(ov);
     let depth = 0;
     const files = (e) => e.dataTransfer && [...(e.dataTransfer.types || [])].includes("Files");
@@ -6719,6 +6784,12 @@
     document.addEventListener("dragleave", () => { if (ov.hidden) return; depth = Math.max(0, depth - 1); if (!depth) ov.hidden = true; });
     document.addEventListener("dragover", (e) => { if (!ov.hidden) e.preventDefault(); });
     document.addEventListener("drop", (e) => { if (ov.hidden) return; e.preventDefault(); depth = 0; ov.hidden = true; addAttachments([...e.dataTransfer.files]); });
+  })();
+  (function dozing() {
+    let lastAct = Date.now(), asleep = false;
+    const wake = () => { lastAct = Date.now(); if (asleep && DOCK.p3) { asleep = false; DOCK.p3.mood(PIX_MOOD3[DOCK.base] || DOCK.base); DOCK.p3.play([["wow", 500], ["hover", 1500]]); } };
+    ["pointermove", "keydown", "scroll"].forEach((ev) => addEventListener(ev, wake, { passive: true }));
+    setInterval(() => { if (!asleep && DOCK.p3 && Date.now() - lastAct > 180000 && !modal.open) { asleep = true; DOCK.p3.mood("away"); } }, 15000);
   })();
   document.addEventListener("keydown", (e) => {                   // N: note to Claude, from anywhere
     if (e.ctrlKey || e.metaKey || e.altKey || modal.open || !$("#palette").hidden) return;
@@ -6842,12 +6913,17 @@
     if (document.documentElement.classList.contains("no-splash")) { sp.remove(); return; }
     const ar = (localStorage.getItem("bps.lang") || "") === "ar";
     if (ar) { sp.querySelector(".sp-kick").lastChild.textContent = " 200 اختراق في الثانية"; sp.querySelector(".sp-line").innerHTML = "انشر بذكاء. <b>وانمُ أسرع.</b>"; sp.setAttribute("dir", "rtl"); }
+    const spImg = sp.querySelector(".sp-pix");
+    const sp3 = () => { if (!window.PIX3D || !spImg || !spImg.isConnected) return; const h = el("span", { class: "sp-pix3" }); spImg.replaceWith(h);
+      const p3 = window.PIX3D.mount(h, { mood: "hover", shadow: false, zoom: 1.2 }); if (p3) { p3.hover(true); setTimeout(() => p3.play([["hover", 1300], ["happy", 0]]), 10); } };
+    if (window.PIX3D) sp3(); else addEventListener("pix3d-ready", sp3, { once: true });
     const end = () => { if (sp.classList.contains("out")) return; sp.classList.add("out"); setTimeout(() => sp.remove(), 520); };
     sp.addEventListener("click", end);
     setTimeout(end, 2600);
   })();
   // a press lands: a ring from the point you pressed (primary actions and tabs)
   document.addEventListener("pointerdown", (e) => {
+    if (window.PIX3D && !(e.target.closest && e.target.closest("#noteFab"))) window.PIX3D.lookAt(e.clientX, e.clientY, 900);   // PIX glances at what you pressed
     const b = e.target.closest && e.target.closest(".btn.on, .tab, .fab, .pt-net, .img-engine button");
     if (!b || reduced || b.disabled) return;
     const r = b.getBoundingClientRect(), s_ = Math.max(r.width, r.height) * 2.2;
