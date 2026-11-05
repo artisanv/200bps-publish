@@ -101,35 +101,44 @@ function drawBack(c) {
   g.font = "700 46px 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif"; g.textAlign = "center"; g.fillText("200BPS.AI", W / 2, H * .74);
 }
 
-/* ---------------- the gloves ---------------- */
-const POSES = {      // finger curl 0 = straight, 1 = closed: [thumb, index, middle, ring]
-  open: [0, 0, 0, 0], point: [.7, 0, 1, 1], fist: [.9, 1, 1, 1], thumb: [-.2, 1, 1, 1], peace: [.8, 0, 0, 1], relax: [.25, .3, .35, .4],
+/* ---------------- the gloves (as on the sheet) ----------------
+   Rubber-hose cartoon gloves: a black back of the hand and a white palm side,
+   a thumb and four thick round fingers, a white cuff ring and a black forearm
+   stub, all with a black outline. Fists, pointing and thumbs-up show the black
+   back with the white fingers curled under, exactly like the sheet. */
+const POSES = {      // curl 0 = straight, 1 = closed: [thumb, index, middle, ring, pinky]
+  open: [0, 0, 0, 0, 0], point: [.75, 0, 1, 1, 1], fist: [.95, 1, 1, 1, 1], thumb: [-.25, 1, 1, 1, 1],
+  peace: [.85, 0, 0, 1, 1], relax: [.25, .25, .3, .35, .42],
 };
-function makeHand(mat, cuffMat) {
+const BACK_OUT = { point: 1, fist: 1, thumb: 1 };       // these show the black back of the hand
+function makeHand(white, black) {
   const hand = new THREE.Group(), pivot = new THREE.Group(); hand.add(pivot);
-  const palm = outline(new THREE.Mesh(new THREE.SphereGeometry(.15, 24, 18), mat), 1.09);
-  palm.scale.set(1, 1.05, .62); pivot.add(palm);
-  const cuff = outline(new THREE.Mesh(new THREE.CylinderGeometry(.095, .11, .13, 20), cuffMat), 1.08);
-  cuff.position.set(0, -.2, 0); pivot.add(cuff);
-  const rim = new THREE.Mesh(new THREE.TorusGeometry(.1, .022, 10, 24), mat); rim.rotation.x = Math.PI / 2; rim.position.set(0, -.14, 0); pivot.add(rim);
+  const R0 = .15;
+  const palm = new THREE.Group(); palm.scale.set(1.08, 1.06, .72); pivot.add(palm);
+  palm.add(new THREE.Mesh(new THREE.SphereGeometry(R0, 28, 18, 0, Math.PI), white));          // palm side (faces +z)
+  palm.add(new THREE.Mesh(new THREE.SphereGeometry(R0, 28, 18, Math.PI, Math.PI), black));    // back of the hand
+  const ol = new THREE.Mesh(new THREE.SphereGeometry(R0 * 1.09, 28, 18), new THREE.MeshBasicMaterial({ color: 0, side: THREE.BackSide })); palm.add(ol);
+  // the white cuff ring and the black forearm stub
+  const ring = outline(new THREE.Mesh(new THREE.TorusGeometry(.105, .034, 12, 28), white), 1.08); ring.rotation.x = Math.PI / 2; ring.position.y = -.15; pivot.add(ring);
+  const arm = outline(new THREE.Mesh(new THREE.CapsuleGeometry(.088, .08, 8, 18), black), 1.07); arm.position.y = -.25; arm.scale.set(1, 1, .92); pivot.add(arm);
   const fingers = [];
-  const fx = [-.13, -.07, 0, .07];
-  for (let i = 0; i < 4; i++) {
-    const base = new THREE.Group();
-    if (i === 0) { base.position.set(-.13, -.02, .02); base.rotation.z = .9; }
-    else base.position.set(fx[i] + .02, .12, 0);
+  const spots = [[-.158, -.02, .03, 1.0, .064, .07], [-.092, .122, .01, .2, .06, .1], [-.031, .142, .01, .06, .062, .11], [.031, .138, .01, -.07, .06, .105], [.09, .114, .01, -.22, .056, .085]];
+  spots.forEach(([x, y, z, rz, r, len], i) => {
+    const base = new THREE.Group(); base.position.set(x, y, z); base.rotation.z = rz;
     const seg = new THREE.Group(); base.add(seg);
-    const f = outline(new THREE.Mesh(new THREE.CapsuleGeometry(i === 0 ? .045 : .042, i === 0 ? .08 : .11, 6, 12), mat), 1.12);
-    f.position.y = i === 0 ? .06 : .075; seg.add(f);
+    const f = outline(new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 8, 16), white), 1.13);
+    f.position.y = len * .5 + r * .5; seg.add(f);
     pivot.add(base); fingers.push(seg);
-  }
-  hand.userData = { pivot, fingers, curl: [0, 0, 0, 0], want: [0, 0, 0, 0] };
+  });
+  hand.userData = { pivot, fingers, curl: [0, 0, 0, 0, 0], want: [0, 0, 0, 0, 0], back: 0 };
   return hand;
 }
-function setCurl(hand, pose) { hand.userData.want = (POSES[pose] || POSES.relax).slice(); }
+function setCurl(hand, pose) { hand.userData.want = (POSES[pose] || POSES.relax).slice(); hand.userData.backWant = BACK_OUT[pose] ? 1 : 0; }
 function stepHand(hand, k) {
   const u = hand.userData;
-  u.fingers.forEach((seg, i) => { u.curl[i] += (u.want[i] - u.curl[i]) * k; seg.rotation.x = u.curl[i] * (i === 0 ? 1.2 : 2.3); if (i === 0) seg.rotation.z = -u.curl[i] * .6; });
+  u.fingers.forEach((seg, i) => { u.curl[i] += (u.want[i] - u.curl[i]) * k; seg.rotation.x = u.curl[i] * (i === 0 ? 1.3 : 2.4); if (i === 0) seg.rotation.z = -u.curl[i] * .7; });
+  u.back += ((u.backWant || 0) - u.back) * k;
+  u.pivot.rotation.y = u.back * Math.PI;                 // turn the back of the hand toward you for fists
 }
 
 /* ---------------- moods: face + hands + motion, all from the sheets ---------------- */
@@ -221,7 +230,7 @@ function mount(host, opts = {}) {
   paintBack(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(paintBack);
   const ramp = toonRamp();
   const glove = new THREE.MeshToonMaterial({ color: 0xffffff, gradientMap: ramp });
-  const cuff = new THREE.MeshToonMaterial({ color: 0x15171a, gradientMap: ramp });
+  const cuff = new THREE.MeshToonMaterial({ color: 0x141618, gradientMap: ramp });   // the glove's black parts
   const L = makeHand(glove, cuff), R = makeHand(glove, cuff); L.scale.setScalar(1.18); R.scale.set(-1.18, 1.18, 1.18);
   scene.add(L, R);
   // a soft shadow on the "floor": it shrinks and fades as PIX rises, which reads as depth
