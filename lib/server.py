@@ -171,6 +171,8 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
         if UI_DIR.resolve() not in target.parents and target != UI_DIR.resolve() or not target.is_file():
             return self._send(404, b"not found", "text/plain")
         ctype = mimetypes.guess_type(target.name)[0] or "application/octet-stream"
+        if target.suffix in (".js", ".mjs"):          # ES modules need a JavaScript type on every OS
+            ctype = "text/javascript"
         if target.suffix == ".webp":
             ctype = "image/webp"
         body = target.read_bytes()

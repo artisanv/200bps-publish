@@ -5528,7 +5528,7 @@
       ["Get started", [
         "Open Claude Code in your posts folder and type <code>/200bps-publish set me up</code>. This dashboard opens by itself.",
         "<b>The top of the dashboard</b>: the curve is your growth (lime is steady work, the red dot is the breakthrough). The strip under it rolls your own numbers from Zernio: followers, streak, 7-day reach, engagement, follows, the post score and your best slot (hover to pause). A post score of 100 gets the red breakthrough dot. Move the mouse to light up the grid.",
-        "<b>PIX, your Claude</b>: PIX (the 200bps screen mascot) in the bottom corner is always there. Click it or press <b>N</b> to write to Claude. <b>Drop files anywhere</b> on the page (or <b>📎 Attach</b>, or paste) to send them with the note. Claude's replies pop up next to PIX; questions still open a window. Anything running can be stopped: <b>■ Stop</b> in the jobs list or under your note. A short splash plays when you open the dashboard; click it to skip.",
+        "<b>PIX, your Claude</b>: PIX (the 200bps screen mascot) in the bottom corner is always there. Click it or press <b>N</b> to write to Claude. <b>Drop files anywhere</b> on the page (or <b>📎 Attach</b>, or paste) to send them with the note. PIX is a live 3D figure: it follows your mouse, blinks, bounces when you press it, and shows what Claude is doing (listening, typing, thinking, thumbs-up, shrug). Claude's replies pop up next to PIX; questions still open a window. Anything running can be stopped: <b>■ Stop</b> in the jobs list or under your note. A short splash plays when you open the dashboard; click it to skip.",
         "<b>Post to</b> (Post tab): tap a network to switch it on or off for this post. <b>Posts</b>: ▶ on a video plays it with sound inside the dashboard, with its results (reach, likes, saves…). <b>Inbox</b>: <b>⊘ Ignore</b> a comment that needs no reply (or <b>Ignore all</b>); Undo is right there.",
         "<b>Heatmap verdict</b>: point at any hour for a small card: <b>Good / OK / Weak time</b> compared with a typical hour, and how carousels, videos and photos did there, per network. From your own posts only.",
         "<b>Quick moves</b>: press <b>1-5</b> to switch tabs (Post, Posts, Plan, Growth, Inbox); click any number in the strip to jump to it. In <b>Checks</b>, passed checks fold into one line so what needs you stands out. In the <b>heatmap</b>, the two lines on top say what it means; point at an hour to read its numbers.",
@@ -5646,7 +5646,7 @@
       ["البداية", [
         "افتح Claude Code في مجلد البوستات واكتب <code>/200bps-publish set me up</code>. هاللوحة تنفتح بروحها.",
         "<b>أعلى اللوحة</b>: المنحنى هو نموك (الأخضر شغل ثابت، والنقطة الحمرا هي الاختراق). والشريط تحته يمشي بأرقامك الحقيقية من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت (وقّف عليه بالماوس عشان يوقف). وتقييم 100 ياخذ نقطة الاختراق الحمرا. حرّك الماوس عشان تنور الشبكة.",
-        "<b>PIX، Claude مالك</b>: PIX اللي بالزاوية تحت دايماً موجود. اضغط عليه أو اضغط <b>N</b> عشان تكتب لـClaude. <b>اسحب ملفات لأي مكان</b> بالصفحة (أو <b>📎 أرفق</b>، أو الصق) عشان ترسلها مع الرسالة. ردود Claude تطلع جنب PIX؛ والأسئلة تفتح نافذة. وأي شي قاعد يشتغل تقدر توقفه: <b>■ وقّف</b> بقائمة الشغل أو تحت رسالتك. ولما تفتح اللوحة تطلع شاشة افتتاحية قصيرة؛ اضغط عليها عشان تتخطاها.",
+        "<b>PIX، Claude مالك</b>: PIX اللي بالزاوية تحت دايماً موجود. اضغط عليه أو اضغط <b>N</b> عشان تكتب لـClaude. <b>اسحب ملفات لأي مكان</b> بالصفحة (أو <b>📎 أرفق</b>، أو الصق) عشان ترسلها مع الرسالة. وPIX شكل ثلاثي الأبعاد حي: يلحق الماوس، يرمش، ينط لما تضغط عليه، ويوريك شنو يسوي Claude (يسمع، يكتب، يفكر، 👍، يهز كتوفه). ردود Claude تطلع جنب PIX؛ والأسئلة تفتح نافذة. وأي شي قاعد يشتغل تقدر توقفه: <b>■ وقّف</b> بقائمة الشغل أو تحت رسالتك. ولما تفتح اللوحة تطلع شاشة افتتاحية قصيرة؛ اضغط عليها عشان تتخطاها.",
         "<b>انشر على</b> (تبويب البوست): اضغط على منصة عشان تشغّلها أو تطفيها لهالبوست. <b>المنشورات</b>: ▶ على الفيديو يشغّله بالصوت داخل اللوحة، مع نتايجه (الوصول، اللايكات، الحفظ…). <b>الرسائل</b>: <b>⊘ تجاهل</b> التعليق اللي ما يحتاج رد (أو <b>تجاهل الكل</b>)؛ والتراجع موجود.",
         "<b>حكم خريطة التفاعل</b>: أشّر على أي ساعة وتطلع بطاقة صغيرة: <b>وقت حلو / عادي / ضعيف</b> مقارنة بساعة عادية، وشلون سوّت الكاروسيل والفيديو والصور فيها، لكل منصة. من بوستاتك بس.",
         "<b>حركات سريعة</b>: اضغط <b>1-5</b> عشان تبدّل التبويبات (البوست، المنشورات، الخطة، النمو، الرسائل)؛ واضغط أي رقم بالشريط عشان تروح له. في <b>الفحوصات</b>، اللي نجحت تنطوي بسطر واحد عشان اللي يحتاجك يبين. وفي <b>خريطة التفاعل</b>، السطرين فوق يشرحون معناها؛ وأشّر على أي ساعة عشان تقرا أرقامها.",
@@ -6641,7 +6641,7 @@
       onerror: (e) => { if (!e.target.dataset.fb) { e.target.dataset.fb = "1"; e.target.src = "assets/pix/idle.png"; } } });
   }
   const dockImg = () => $("#noteFab .dock-av");
-  function dockSet(pose) { const im = dockImg(); if (im && DOCK.pose !== pose) { DOCK.pose = pose; im.classList.remove("swap"); void im.offsetWidth; im.classList.add("swap"); im.src = "assets/pix/" + (PIX_MOOD[pose] || pose) + ".png"; } }
+  function dockSet(pose) { if (DOCK.p3) DOCK.p3.mood(pose); const im = dockImg(); if (im && DOCK.pose !== pose) { DOCK.pose = pose; im.classList.remove("swap"); void im.offsetWidth; im.classList.add("swap"); im.src = "assets/pix/" + (PIX_MOOD[pose] || pose) + ".png"; } }
   function dockPose(pose, ms) { clearTimeout(DOCK.timer); dockSet(pose); if (ms) DOCK.timer = setTimeout(() => dockSet(DOCK.base), ms); }
   function dockPresence(pres) { const b = pres === "listening" ? "listen" : pres === "working" ? "work" : "away"; if (DOCK.base !== b) { DOCK.base = b; if (!DOCK.timer || DOCK.pose === DOCK.base) dockSet(b); } }
   (function buildDock() {
@@ -6649,6 +6649,11 @@
     fab.innerHTML = "";
     fab.append(bips("listen", "dock-av"), el("span", { class: "dock-lbl", "data-i18n": "noteFab" }, t("noteFab")), el("kbd", { class: "dock-kbd" }, "N"));
     fab.title = t("dockHint");
+    // PIX in 3D (pix3d.js); the flat pictures stay as the fallback
+    const host = el("span", { class: "dock-3d", "aria-hidden": "true" }); fab.prepend(host);
+    const go3d = () => { if (DOCK.p3 || !window.PIX3D) return; const p3 = window.PIX3D.mount(host); if (p3) { DOCK.p3 = p3; fab.classList.add("has-3d"); p3.mood(DOCK.pose); } };
+    if (window.PIX3D) go3d(); else addEventListener("pix3d-ready", go3d, { once: true });
+    fab.addEventListener("pointerdown", () => DOCK.p3 && DOCK.p3.poke());
     fab.addEventListener("pointerenter", () => { if (!DOCK.timer) dockSet("hover"); });
     fab.addEventListener("pointerleave", () => { if (!DOCK.timer) dockSet(DOCK.base); });
   })();

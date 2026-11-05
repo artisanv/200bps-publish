@@ -591,3 +591,16 @@ footer.credit .verbs b { color: var(--accent-ink); font-weight: 500; }
 .sp-name em { font: italic 400 .78em 'Instrument Serif', Georgia, serif; letter-spacing: 0; color: #F4F5F2; padding-inline-end: .08em; }
 .splash { animation: spAuto 0s linear 3.8s forwards; }
 .sp-curve path { animation-duration: 1.6s; }
+
+/* PIX in 3D, floating over the dock */
+.dock-3d { display: none; }
+#noteFab.has-3d .dock-3d { display: block; position: absolute; width: 132px; height: 112px; inset-inline-start: -30px; bottom: 6px; pointer-events: none; }
+#noteFab.has-3d .dock-3d canvas { width: 100% !important; height: 100% !important; display: block; }
+#noteFab.has-3d .dock-av { display: none; }
+#noteFab.has-3d { padding-inline-start: 92px; }
+@media (max-width: 700px) {
+  #noteFab.has-3d { padding: 0; }
+  #noteFab.has-3d .dock-3d { width: 104px; height: 90px; inset-inline-start: -24px; bottom: 4px; }
+}
+#noteFab.has-3d .dock-3d { width: 156px; height: 132px; inset-inline-start: -38px; bottom: 4px; }
+#noteFab.has-3d { padding-inline-start: 104px; }
