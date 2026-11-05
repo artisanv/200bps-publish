@@ -585,3 +585,9 @@ footer.credit .verbs b { color: var(--accent-ink); font-weight: 500; }
 .sp-name { display: inline-flex; align-items: baseline; }
 .sp-pipe { color: #2E3639; font-weight: 300; margin: 0 .14em; }
 .sp-name em { font-style: italic; font-weight: 500; color: #F4F5F2; font-size: .62em; margin: 0; letter-spacing: -.03em; }
+/* "Publish" in an elegant serif italic; the splash never clips its last letter, and stays a little longer */
+.brand .name .nm2 { font: italic 400 1.08em 'Instrument Serif', Georgia, serif; letter-spacing: 0; color: var(--bps-text); }
+.sp-name { padding-inline-end: .18em; }
+.sp-name em { font: italic 400 .78em 'Instrument Serif', Georgia, serif; letter-spacing: 0; color: #F4F5F2; padding-inline-end: .08em; }
+.splash { animation: spAuto 0s linear 3.8s forwards; }
+.sp-curve path { animation-duration: 1.6s; }

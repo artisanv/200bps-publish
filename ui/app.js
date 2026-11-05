@@ -6831,7 +6831,7 @@
   }
   addEventListener("scroll", () => { vcard.hidden = true; }, { passive: true });
 
-  // the splash (1.5 s): the curve draws, PIX waves hello, the name lands; click to skip
+  // the splash (2.6 s): the curve draws, PIX waves hello, the name lands; click to skip
   (function splash() {
     const sp = $("#splash"); if (!sp) return;
     if (document.documentElement.classList.contains("no-splash")) { sp.remove(); return; }
@@ -6839,7 +6839,7 @@
     if (ar) { sp.querySelector(".sp-kick").lastChild.textContent = " 200 اختراق في الثانية"; sp.querySelector(".sp-line").innerHTML = "انشر بذكاء. <b>وانمُ أسرع.</b>"; sp.setAttribute("dir", "rtl"); }
     const end = () => { if (sp.classList.contains("out")) return; sp.classList.add("out"); setTimeout(() => sp.remove(), 520); };
     sp.addEventListener("click", end);
-    setTimeout(end, 1500);
+    setTimeout(end, 2600);
   })();
   // a press lands: a ring from the point you pressed (primary actions and tabs)
   document.addEventListener("pointerdown", (e) => {
