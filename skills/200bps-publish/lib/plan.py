@@ -308,6 +308,8 @@ def set_setting(plan: dict, path: str, raw: str, via: str = "chat") -> dict:
         raise ValueError("Instagram allows up to 3 collaborators.")
     if key == "graduation" and val not in ("MANUAL", "SS_PERFORMANCE"):
         raise ValueError("graduation is MANUAL or SS_PERFORMANCE.")
+    if plat == "instagram" and key == "trial" and val and type_for(plan, "instagram") != "reel":
+        raise ValueError("A Trial Reel needs one video: this Instagram post isn't a Reel.")
     if key == "privacyLevel" and val not in TIKTOK_PRIVACY:
         raise ValueError("privacyLevel is one of " + ", ".join(TIKTOK_PRIVACY))
     if key == "commercialContentType" and val not in ("none", "brand_organic", "brand_content"):
@@ -413,7 +415,8 @@ def analyze(folder: str, platforms: list[str] | None = None, connected: list[str
         "schedule": old.get("schedule", {"mode": "ask"}),
         "settings": old.get("settings", {
             "instagram": {
-                "trial": bool(ig_defaults.get("trial_reels", True)) and ptype == "reel",
+                "trial": bool(ig_defaults.get("trial_reels", False)) and ptype == "reel",
+                "graduation": ig_defaults.get("trial_graduation") or "SS_PERFORMANCE",
                 "locationId": ig_defaults.get("location_id"),
                 "locationName": ig_defaults.get("location_name"),
                 "firstComment": "",
@@ -633,7 +636,7 @@ def build_body(plan: dict, z: Zernio, dry: bool = False, make_current: bool = Tr
         pt = type_for(plan, p)
         if p == "instagram":
             if pt == "reel" and s.get("trial"):
-                psd["trialParams"] = {"graduationStrategy": s.get("graduation", "SS_PERFORMANCE")}
+                psd["trialParams"] = {"graduationStrategy": s.get("graduation") or "SS_PERFORMANCE"}
             if pt == "reel" and plan.get("cover"):
                 psd["instagramThumbnail"] = url_for(plan["cover"]["file"], plan["cover"].get("path"))
             if s.get("locationId"):

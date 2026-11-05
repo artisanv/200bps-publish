@@ -107,7 +107,7 @@ the user can accept by saying "defaults":
 | Words you must never use in posts (legal/licensing, brand) | none | `safety_terms` |
 | Hashtags to never use | none | `banned_hashtags` |
 | Follower goal | next round number | `goal.followers` |
-| Instagram Trial Reels by default | yes | `instagram.trial_reels` |
+| Instagram Trial Reels by default (and after the trial: automatic or manual) | no (automatic) | `instagram.trial_reels`, `instagram.trial_graduation` |
 | Location tag (a Facebook Page ID with a location) | none | `instagram.location_id`, `location_name` |
 | LinkedIn: personal profile or company page | personal | `linkedin.organization_urn` (from `GET /accounts/{id}/linkedin-organizations`) |
 | DM ice breakers (up to 4 buttons, 80 chars max) | skip | `ice_breakers` |
@@ -193,7 +193,10 @@ Sequence:
    `bps.py set <platform>.<setting> "<value>"`. That records history (so it can
    be undone) and re-runs the checks. Never hand-edit the plan JSON for settings.
    - Instagram: `firstComment` (a question), `collaborators` (up to 3, only if the user names them)
-   - Instagram Reels: `trial` on/off
+   - Instagram Reels: `trial` on/off (Trial Reel: non-followers first; only at creation) and `graduation`
+     `SS_PERFORMANCE` (automatic: shared to followers if it does well) or `MANUAL` (the user shares it in the app).
+     The dashboard has the same switch in Network settings → Instagram; the default for new Reels is in
+     Settings → Preferences (off unless the user turns it on). Ask before turning it on: a trial hides the Reel from followers.
    - LinkedIn: `documentTitle` for PDFs
 7. **When.** If `bestTime.basis == "data"`, propose the top slot and run
    `bps.py schedule best` on agreement. Otherwise say plainly that there isn't

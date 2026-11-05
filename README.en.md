@@ -65,6 +65,9 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 
 ## New in v1.20.0 (the big one)
 
+- **🧪 Trial Reel switch.** Tick Trial Reel on any Instagram Reel (Network settings) to show it to non-followers
+  first, then pick what happens after: Automatic (shared to your followers if it does well) or Manual. New Reels
+  start with Trial off; set your default in Settings.
 - **PIX, your assistant, in 3D.** A live 3D model built from the PIX model sheet (screen, mint border, lime eyes, the
   back with screws and the 200BPS.AI mark, cel-shaded cartoon gloves). It follows your mouse, blinks, does a different
   trick each time you hover (wave, peekaboo, high five, wink, peace, a full spin, cheer), gets shy if you wiggle the mouse

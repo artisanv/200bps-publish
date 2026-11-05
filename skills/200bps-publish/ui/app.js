@@ -36,7 +36,7 @@
       streak: "day streak", sinceLast: "since your last visit", newFollowers: "followers", newComments: "new comments",
       noData: "No data yet.", zernioOff: "Zernio is not connected yet. Finish setup in the chat.",
       reach7: "Reach · 7 days", views7: "Views · 7 days", eng7: "Engagement · 7 days", follows7: "New follows · 7 days",
-      platforms: "Platforms", when: "When", type: "Type", trial: "Trial Reel", cover: "Cover", location: "Location",
+      platforms: "Platforms", when: "When", type: "Type", trial: "Trial Reel", cover: "Cover", location: "Location", trialTick: "Trial Reel: show it to non-followers first", trialHint: "Instagram tries it on people who don't follow you yet. Only when it's first posted.", trialAfter: "After the trial", trialAuto: "Automatic", trialManual: "Manual", trialAutoHint: "Instagram shares it to your followers too if it does well.", trialManualHint: "You decide: share it to followers yourself in the Instagram app.", trialDefault: "New Reels as Trial", trialDefaultAfter: "After the trial (new Reels)", trialSaved: "Saved for new Reels", nsIG: "Instagram Reel",
       firstComment: "First comment", collab: "Collaborators", dmGift: "DM gift", off: "off", on: "on", now: "Now",
       basisData: "from your data", basisNone: "not enough data",
       ready: "ready", issues: "issues", post: "Post", reach: "Reach", saves: "Saves", shares: "Shares", follows: "Follows",
@@ -244,7 +244,7 @@
       streak: "يوم متواصل", sinceLast: "من آخر زيارة", newFollowers: "متابع", newComments: "تعليق جديد",
       noData: "ما في بيانات للحين.", zernioOff: "Zernio مو مربوط للحين. كمّل الإعداد في المحادثة.",
       reach7: "الوصول · 7 أيام", views7: "المشاهدات · 7 أيام", eng7: "التفاعل · 7 أيام", follows7: "متابعين جدد · 7 أيام",
-      platforms: "المنصات", when: "الموعد", type: "النوع", trial: "Trial Reel", cover: "الغلاف", location: "الموقع",
+      platforms: "المنصات", when: "الموعد", type: "النوع", trial: "Trial Reel", cover: "الغلاف", location: "الموقع", trialTick: "Trial Reel: اعرضه لغير المتابعين أول", trialHint: "انستقرام يجربه على ناس ما يتابعونك. ينختار بس وقت النشر.", trialAfter: "بعد التجربة", trialAuto: "تلقائي", trialManual: "يدوي", trialAutoHint: "انستقرام ينشره لمتابعينك بعد إذا أدّى زين.", trialManualHint: "القرار لك: انشره لمتابعينك بنفسك من تطبيق انستقرام.", trialDefault: "الريلز الجديدة كـ Trial", trialDefaultAfter: "بعد التجربة (الريلز الجديدة)", trialSaved: "انحفظ للريلز الجديدة", nsIG: "ريل انستقرام",
       firstComment: "أول تعليق", collab: "تعاون", dmGift: "هدية بالخاص", off: "مطفي", on: "شغّال", now: "الحين",
       basisData: "من بياناتك", basisNone: "البيانات ما تكفي",
       ready: "جاهز", issues: "ملاحظات", post: "البوست", reach: "الوصول", saves: "حفظ", shares: "مشاركة", follows: "متابعة",
@@ -1081,7 +1081,7 @@
     row("when", p.schedule && p.schedule.at ? dt(p.schedule.at) : t("now"));
     const ig = (p.settings || {}).instagram || {};
     if (plats.includes("instagram")) {
-      if (p.type === "reel") row("trial", ig.trial ? t("on") : t("off"));
+      if (p.type === "reel") row("trial", ig.trial ? t("on") + " · " + t(ig.graduation === "MANUAL" ? "trialManual" : "trialAuto") : t("off"));
       if (p.type === "reel") row("cover", p.cover ? p.cover.file : t("off"));
       row("location", ig.locationName || t("off"));
       row("firstComment", ig.firstComment || t("off"));
@@ -1092,6 +1092,7 @@
     if (hasNetSettings(p) || Object.keys(p.skipped_reasons || {}).length) {
       const tt = (p.settings || {}).tiktok || {}, sc = (p.settings || {}).snapchat || {};
       const bits = [];
+      if (igReel(p)) bits.push("Instagram: " + t("trial") + " " + (ig.trial ? t("on") : t("off")));
       if (plats.includes("tiktok")) bits.push("TikTok: " + (tt.privacyLevel ? t("nsPriv_" + tt.privacyLevel) : t("nsPick")));
       if (plats.includes("snapchat")) bits.push("Snapchat: " + t({ story: "nsStory", saved_story: "nsSaved", spotlight: "nsSpot" }[sc.contentType || "story"]));
       if (plats.includes("linkedin")) { const lk = ((p.settings || {}).linkedin || {}).kind || "post"; bits.push("LinkedIn: " + t({ post: "liPost", poll: "liPoll", repost: "liRepost" }[lk])); }
@@ -1999,6 +2000,7 @@
     $("#streakPill").innerHTML = s != null ? `<b>${esc(s)}</b> ${esc(t("streak"))}` : "&nbsp;";
     const vb = "v" + ((state.data && state.data.version) || "") + ((state.data && state.data.build) ? " · " + t("buildWord") + " " + state.data.build : "");
     $("#versionPill").textContent = vb;
+    renderTrialPref();
     const fv = $("#footVersion"); if (fv) fv.textContent = vb;
     const spv = $("#spVer"); if (spv && state.data && state.data.version) spv.textContent = "v" + state.data.version;
     const tv = $("#topVersion"); if (tv) tv.textContent = "v" + ((state.data && state.data.version) || "") + ((state.data && state.data.build) ? " · " + state.data.build : "");
@@ -3655,7 +3657,20 @@
       el("small", { class: "hint" }, t("pollNoVotes")));
     return card;
   }
-  function hasNetSettings(p) { return (p.platforms || []).some((x) => ["tiktok", "snapchat", "facebook", "linkedin"].includes(x)); }
+  const igReel = (p) => (p.platforms || []).includes("instagram") && ((p.types || {}).instagram || p.type) === "reel";
+  function hasNetSettings(p) { return igReel(p) || (p.platforms || []).some((x) => ["tiktok", "snapchat", "facebook", "linkedin"].includes(x)); }
+  // Instagram Reel: Trial Reel (non-followers first) + what happens after the trial
+  function igTrialCard(p, set) {
+    const s = (p.settings || {}).instagram || {};
+    const on = !!s.trial, grad = s.graduation || "SS_PERFORMANCE";
+    const c = el("input", { type: "checkbox", class: "ig-trial-tick" }); c.checked = on;
+    c.addEventListener("change", () => set("instagram.trial", c.checked));
+    return el("div", { class: "ns-card ig-trial" }, el("h3", {}, "IG · " + t("nsIG")),
+      el("label", { class: "check-row" }, c, el("span", { style: "display:grid;gap:2px" }, el("b", {}, t("trialTick")), el("small", { class: "hint" }, t("trialHint")))),
+      on ? el("label", { class: "label" }, t("trialAfter")) : null,
+      on ? seg([["SS_PERFORMANCE", t("trialAuto")], ["MANUAL", t("trialManual")]], grad, (v) => v !== grad && set("instagram.graduation", v), "ig-grad-seg") : null,
+      on ? el("p", { class: "hint" }, t(grad === "MANUAL" ? "trialManualHint" : "trialAutoHint")) : null);
+  }
   // LinkedIn: a normal post, a poll (question + 2-4 choices + how long) or a repost of a LinkedIn post link
   function liKindCard(p, set) {
     const ls = (p.settings || {}).linkedin || {};
@@ -3705,6 +3720,7 @@
       catch (e) { toast(e.message); }
     };
     const plats = p.platforms || [];
+    if (igReel(p)) box.append(igTrialCard(p, set));
     if (plats.includes("linkedin")) box.append(liKindCard(p, set));
     if (plats.includes("tiktok")) {
       const s = (p.settings || {}).tiktok || {};
@@ -5591,6 +5607,7 @@
         "<b>Archive (.zip, .7z, .rar…):</b> add it like a photo, or pick a folder that holds it. It's unpacked and opened as the post.",
         "<b>PDF + photos:</b> LinkedIn gets the PDF; the other networks get the photos.",
         "<b>Instagram Reels</b> can be up to 15 minutes long.",
+        "<b>🧪 Trial Reel</b> (an Instagram Reel: Post tab → Network settings → Instagram, or New post step 2): tick <b>Trial Reel</b> and Instagram shows it to non-followers first. <b>After the trial</b>: <b>Automatic</b> shares it to your followers if it does well; <b>Manual</b> lets you share it yourself in the Instagram app. Only when it's first posted: a Reel already live can't become a trial. The default for new Reels is in Settings → Preferences (Off unless you change it). Posts shows a <b>Trial</b> badge.",
         "<b>Text post, LinkedIn poll or repost:</b> in <b>New post</b>, add no media and just write the caption. In step 2 (or Post tab → Network settings → LinkedIn) pick <b>Poll</b> (a question, 2-4 choices up to 30 characters, open 1 day to 2 weeks) or <b>Repost</b> (paste a LinkedIn post link; your caption becomes your comment). Facebook, if on, gets the caption as a text post.",
         "<b>See your poll any time:</b> before scheduling, in the Post tab's Preview; after scheduling or posting, open it in Posts or Plan: the poll card, how long it's open (time left once live), LinkedIn's impressions, reactions and comments, and <b>See the votes on LinkedIn ↗</b> (LinkedIn doesn't share votes with apps).",
         "<b>✨ Fit it for every network</b> (Post tab under the caption, New post step 2, or Ctrl+K; a post with 2+ networks): PIX writes one version per network (hook placement, tone, length and hashtag limits), same message in your voice. <b>Review</b> shows each next to the current caption with the score change; edit, <b>Use this</b>, <b>Use all</b> or <b>No thanks</b>. Undo from Changes.",
@@ -5711,6 +5728,7 @@
         "<b>PDF وصور:</b> LinkedIn ياخذ الـPDF؛ والمنصات الثانية ياخذون الصور.",
         "<b>ريلز Instagram</b> تقدر توصل لين 15 دقيقة.",
         "<b>✨ فصّله لكل منصة</b> (تبويب البوست تحت الكابشن، الخطوة 2 بالبوست الجديد، أو Ctrl+K؛ لبوست فيه منصتين أو أكثر): PIX يكتب نسخة لكل منصة (مكان الهوك، الأسلوب، حدود الطول والهاشتاقات)، نفس الرسالة وبأسلوبك. <b>راجعها</b> يعرض كل وحدة جنب الكابشن الحالي مع تغيّر السكور؛ عدّل، أو <b>استخدم هذي</b>، أو <b>استخدم الكل</b>، أو <b>لا شكراً</b>. وتتراجع من التغييرات.",
+        "<b>🧪 Trial Reel</b> (ريل انستقرام: تبويب البوست ← إعدادات المنصات ← Instagram، أو بوست جديد خطوة 2): فعّل <b>Trial Reel</b> وانستقرام يعرضه لغير المتابعين أول. <b>بعد التجربة</b>: <b>تلقائي</b> ينشره لمتابعينك إذا أدّى زين؛ <b>يدوي</b> تنشره أنت من تطبيق انستقرام. ينختار بس وقت النشر: الريل المنشور ما يصير تجريبي. الافتراضي للريلز الجديدة في الإعدادات ← التفضيلات (مطفي إلا إذا غيّرته). المنشورات تحط عليه شارة <b>تجريبي</b>.",
         "<b>بوست نص، تصويت أو إعادة نشر في LinkedIn:</b> في <b>بوست جديد</b> لا تضيف صور، اكتب الكابشن بس. بالخطوة 2 (أو تبويب البوست ← إعدادات المنصات ← LinkedIn) اختار <b>تصويت</b> (سؤال، و2 إلى 4 خيارات كل واحد لين 30 حرف، مفتوح من يوم لين أسبوعين) أو <b>إعادة نشر</b> (الصق رابط بوست LinkedIn؛ الكابشن مالك يصير تعليقك). وFacebook إذا شغّال ياخذ الكابشن كبوست نص.",
          "<b>شوف تصويتك أي وقت:</b> قبل الجدولة في معاينة تبويب البوست؛ وبعد الجدولة أو النشر افتحه من المنشورات أو الخطة: كرت التصويت، وكم يظل مفتوح (والوقت الباقي لما ينتشر)، ومشاهدات وتفاعل وتعليقات LinkedIn، وزر <b>شوف التصويت في LinkedIn ↗</b> (LinkedIn ما يعطي الأصوات للتطبيقات).",
         "<b>عندك كذا حساب على نفس المنصة؟</b> علّمهم في <b>انشر على هالحسابات</b>. نفس الكابشن على كل واحد.",
@@ -5844,7 +5862,7 @@
       { k: "newfiles", label: t("npTitle"), hint: t("npPaletteHint"), run: () => openNewPost() },
       { k: "batch", label: t("bBtn"), hint: "Plan", run: () => openBatch() },
       { k: "guide", label: t("guideTitle"), hint: "?", run: () => openGuide() },
-      { k: "linkedin poll repost tiktok snapchat facebook network settings", label: t("nsTitle"), hint: "LinkedIn poll/repost · TikTok · Snapchat · Facebook", run: openNetSettings, show: !!(p && hasNetSettings(p)) },
+      { k: "instagram trial reel linkedin poll repost tiktok snapchat facebook network settings", label: t("nsTitle"), hint: "Instagram Trial Reel · LinkedIn poll/repost · TikTok · Snapchat · Facebook", run: openNetSettings, show: !!(p && hasNetSettings(p)) },
       { k: "activity notes results bell", label: t("actTitle"), hint: t("actHint"), run: () => setTimeout(() => toggleAct(true), 50) },
       { k: "cancel", label: t("cPickTitle"), hint: "Posts", run: () => openCancelChooser() },
       { k: "rewrite every network fit caption each platform versions", label: "✨ " + t("rwAsk"), hint: t("rwHintShort"), run: () => { const pp = state.data.plan; (pp && pp.rewrite && ["ready", "partial"].includes(pp.rewrite.status)) ? openRewrite() : rwApi({ op: "ask" }).then(() => { toast(t("rwSent")); lastSig = ""; load(false); }).catch((e) => toast(e.message)); }, show: rwEligible(p) },
@@ -6073,6 +6091,27 @@
     try { localStorage.setItem("bps.cb", on ? "1" : "0"); } catch (e) {}
     applyToggles();
   });
+  // Settings: do new Instagram Reels start as Trial Reels, and what happens after the trial
+  function renderTrialPref() {
+    const d = ((state.data && state.data.config) || {}).reelDefaults || { trial: false, graduation: "SS_PERFORMANCE" };
+    $("#trialDefBtn").textContent = d.trial ? t("on") : t("off");
+    $("#trialDefBtn").classList.toggle("on", !!d.trial);
+    $("#trialGradRow").style.display = d.trial ? "" : "none";
+    $("#trialAutoBtn").classList.toggle("on", d.graduation !== "MANUAL");
+    $("#trialManBtn").classList.toggle("on", d.graduation === "MANUAL");
+  }
+  async function saveTrialPref(body) {
+    try {
+      const r = await fetch("/api/reeldefaults", { method: "POST", headers: { "Content-Type": "application/json", "X-BPS-Token": TOKEN }, body: JSON.stringify(body) });
+      const j = await r.json();
+      if (!r.ok || !j.ok) throw new Error(j.error || ("HTTP " + r.status));
+      if (state.data) state.data.config = Object.assign({}, state.data.config, { reelDefaults: j.reelDefaults });
+      renderTrialPref(); toast(t("trialSaved"));
+    } catch (e) { toast(e.message); }
+  }
+  $("#trialDefBtn").addEventListener("click", () => saveTrialPref({ trial: !(((state.data || {}).config || {}).reelDefaults || {}).trial }));
+  $("#trialAutoBtn").addEventListener("click", () => saveTrialPref({ graduation: "SS_PERFORMANCE" }));
+  $("#trialManBtn").addEventListener("click", () => saveTrialPref({ graduation: "MANUAL" }));
   $("#tipsBtn").addEventListener("click", () => { state.tips = !state.tips; try { localStorage.setItem("bps.tips", state.tips ? "1" : "0"); } catch (e) {} if (!state.tips) tipHide(); applyToggles(); });
   const setH12 = (v) => { state.h12 = v; try { localStorage.setItem("bps.h12", v ? "1" : "0"); } catch (e) {} renderAll(); };
   $("#h12Btn").addEventListener("click", () => setH12(true));
@@ -6341,6 +6380,8 @@
       lang: ["Language", "Switch between English and Arabic."], clock: ["Time format", "12-hour or 24-hour times."],
       theme: ["Theme", "Light or dark."], version: ["Version", "The installed version of this skill and its build time (updates by itself with every change)."],
       tipsPref: ["Hover tips", "Turn these explanations on or off."],
+      trialCard: ["Trial Reel", "Show this Reel to non-followers first. After the trial: Automatic shares it to your followers if it does well; Manual lets you share it in the Instagram app. Only when it's first posted."],
+      trialPref: ["New Reels as Trial", "Whether every new Reel starts as a Trial Reel, and what happens after the trial. You can still change it per Reel in Network settings."],
       cbPref: ["Color-blind mode", "Safer colors for red-green and blue-yellow color blindness, plus shapes and marks so no status relies on color alone."],
       viewer: ["Post viewer", "The whole post: swipe a carousel (‹ › arrows, dots, or ← → keys), play the full video with sound, or read the PDF. The full-screen button opens it large."],
       imgEditBtn: ["Edit this picture", "Mark the places to change (pin, box, paint or loop), write a note for each, and get a new version. The original is never changed."],
@@ -6511,6 +6552,8 @@
       lang: ["اللغة", "بدّل بين العربي والإنجليزي."], clock: ["صيغة الوقت", "12 ساعة أو 24 ساعة."],
       theme: ["المظهر", "فاتح أو داكن."], version: ["الإصدار", "نسخة السكل المثبتة ووقت البِلد (يتحدّث بروحه مع كل تعديل)."],
       tipsPref: ["الشروحات", "شغّل أو طفّي هالشروحات."],
+      trialCard: ["Trial Reel", "اعرض هالريل لغير المتابعين أول. بعد التجربة: تلقائي ينشره لمتابعينك إذا أدّى زين؛ يدوي تنشره أنت من تطبيق انستقرام. ينختار بس وقت النشر."],
+      trialPref: ["الريلز الجديدة كـ Trial", "هل كل ريل جديد يبدأ كـ Trial Reel، وشنو يصير بعد التجربة. تقدر تغيّره لكل ريل من إعدادات المنصات."],
       cbPref: ["وضع عمى الألوان", "ألوان أوضح لعمى الأحمر والأخضر والأزرق والأصفر، مع أشكال وعلامات عشان ما تعتمد أي حالة على اللون بس."],
       viewer: ["عارض البوست", "البوست كامل: قلّب الكاروسيل (الأسهم ‹ › أو النقاط أو ← →)، شغّل الفيديو كامل بالصوت، أو اقرا الـPDF. زر ملء الشاشة يكبّره."],
       imgEditBtn: ["عدّل هالصورة", "علّم الأماكن اللي تبيها تتغيّر (دبوس، مربع، تلوين أو تحويط)، اكتب ملاحظة لكل وحدة، وتطلع لك نسخة جديدة. الأصلية ما تتغيّر أبداً."],
@@ -6591,6 +6634,7 @@
     ["#scoreRing, #tipList", "score"], ["#coverCard", "cover"], ["#planList", "planCard"], ["#bestTime", "bestTime"], ["#changes", "changes"],
     ["#connectCard", "connect"], ["#newPostCard", "newPost"],
     [".kpi", "kpi"], ["#folChart", "followers"], ["#topPosts", "topPosts"], ["#demo", "audience"], ["#ideas", "ideas"], ["#comments", "comments"], ["#automations", "automations"],
+    [".ig-trial", "trialCard"], [".trial-pref", "trialPref"],
     [".keys-card", "keys"], ["#langBtn", "lang"], ["#h12Btn, #h24Btn", "clock"], ["#themeBtn", "theme"], ["#versionPill", "version"], ["#tipsBtn", "tipsPref"], ["#cbBtn", "cbPref"],
     ["#doctorList", "readiness"], ["#accounts", "accounts"],
   ];

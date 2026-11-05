@@ -72,6 +72,8 @@ def _public_config(cfg: dict) -> dict:
     keep = ("language", "timezone", "platforms", "goal", "keywords", "primary_platform")
     out = {k: cfg.get(k) for k in keep if k in cfg}
     out["accounts"] = {p: {"username": (a or {}).get("username")} for p, a in (cfg.get("accounts") or {}).items()}
+    ig = cfg.get("instagram") or {}
+    out["reelDefaults"] = {"trial": bool(ig.get("trial_reels", False)), "graduation": ig.get("trial_graduation") or "SS_PERFORMANCE"}
     import accounts as acct
     out["connectable"] = list(acct.CONNECTABLE)
     out["comingSoon"] = list(acct.COMING_SOON)
@@ -391,6 +393,19 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 return self._json({"ok": True, **cancel.cancel_post(str(data.get("postId", "")), str(data.get("confirm", "")))})
             if path == "/api/batch":
                 return self._json(self._batch(data))
+            if path == "/api/reeldefaults":      # Settings: new Instagram Reels start as Trial Reels or not
+                cfg = config()
+                ig = cfg.setdefault("instagram", {})
+                if "trial" in data:
+                    ig["trial_reels"] = bool(data.get("trial"))
+                if "graduation" in data:
+                    g = str(data.get("graduation") or "")
+                    if g not in ("MANUAL", "SS_PERFORMANCE"):
+                        raise ValueError("After the trial is MANUAL or SS_PERFORMANCE.")
+                    ig["trial_graduation"] = g
+                save_config(cfg)
+                return self._json({"ok": True, "reelDefaults": {"trial": bool(ig.get("trial_reels", False)),
+                                                                 "graduation": ig.get("trial_graduation") or "SS_PERFORMANCE"}})
             if path == "/api/goal":
                 try:
                     n = int(data.get("followers"))
