@@ -13,6 +13,8 @@
 - Fixed: chat replies had a sliced accent line next to PIX's face.
 - Fixed: in a long chat, messages were squeezed and their text spilled out of the bubble.
 - The open dashboard reloads itself (quietly, no splash) when its files change, so fixes show up without a manual reload; it waits while you're typing or in a window.
+- **PIX is cel-shaded** (cartoon look: flat lit and shadow tones, bold outlines), and the thumbs sit on the inside of the hands, as on the sheet.
+- **Now a Claude Code plugin** with its own marketplace: `/plugin marketplace add artisanv/200bps-publish` then `/plugin install 200bps-publish@200bps`; turn on auto-update once. The skill lives in `skills/200bps-publish/` and still works on its own.
 - **PIX's gloves match the model sheet**: rubber-hose cartoon gloves with a black back and white palm side, a thumb and four puffy fingers, a white cuff ring and a short black forearm. Fists, pointing and thumbs-up show the black back with the white fingers curled under.
 - **PIX in 3D**: the dock's PIX is now a live 3D model built from the model sheet (the black slab, the mint line, the lime eyes, the back with screws and the 200BPS.AI mark, the floating gloves). It floats, follows your mouse with its eyes and body, blinks, bounces when you press it, and acts out every moment with expressions and gestures from the sheets (listening, typing, thinking, presenting, thumbs-up, celebrating, shrugging with X eyes, asleep, surprised, clapping, peace signs). Falls back to the pictures if 3D isn't available. three.js is bundled locally (MIT).
 - **A 1.5-second splash** each time you open the dashboard: the curve draws, PIX waves, the name lands (click to skip; it doesn't show when the dashboard reloads itself after an update).

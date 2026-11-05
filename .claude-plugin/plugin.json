@@ -1,0 +1,10 @@
+{
+  "name": "200bps-publish",
+  "version": "1.20.0",
+  "description": "Publish and grow on Instagram, LinkedIn, Facebook, TikTok and Snapchat from Claude Code: checks, a 0-100 post score, your own best time, captions per network, Reel covers, OpenAI and Claude-designed images, DM gifts, recycling, hook A/B tests, and a live bilingual dashboard with PIX, a 3D assistant. Nothing goes public without your typed go.",
+  "author": { "name": "Nasser Al-Ostath", "url": "https://www.200bps.ai" },
+  "homepage": "https://github.com/artisanv/200bps-publish",
+  "repository": "https://github.com/artisanv/200bps-publish",
+  "license": "MIT",
+  "keywords": ["social media", "instagram", "linkedin", "tiktok", "facebook", "snapchat", "zernio", "publishing", "scheduling", "dashboard", "arabic"]
+}

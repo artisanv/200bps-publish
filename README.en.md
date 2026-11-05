@@ -1,28 +1,83 @@
-# 200BPS Publish
+# 200BPS.ai | Publish
 
 [العربية](README.md) · **English** · [Arabic guide (PDF)](200bps-publish-README-ar.pdf)
 
-![200bps Publish](docs/banner.png)
+![200BPS.ai | Publish](media/splash.png)
 
-**A free Claude Code skill from [200BPS.ai](https://www.200bps.ai).** Point it at a
-folder containing your caption and media. It checks everything, tells you what
-it will do, finds your best posting time from your own data, and publishes to
-**Instagram, LinkedIn, Facebook, TikTok and Snapchat** through [Zernio](https://zernio.com),
-but only after you say yes. It also comes with a branded dashboard that mirrors
-your Zernio account.
+**A free Claude Code plugin from [200BPS.ai](https://www.200bps.ai).** Point it at a folder with your caption and media.
+It checks everything, scores the post, finds your best time from **your own** data, fits the caption to each network,
+and publishes to **Instagram, LinkedIn, Facebook, TikTok and Snapchat** through [Zernio](https://zernio.com), but only
+after you type **go**. A live bilingual dashboard (English / Arabic) runs on your computer, with **PIX**, a 3D assistant
+you can talk to.
 
 > Built by Nasser Al-Ostath · [200bps.ai](https://www.200bps.ai) · [Instagram](https://www.instagram.com/200bps.ai/) · [LinkedIn](https://www.linkedin.com/in/nasser-al-ostath/)
 
-## New in v1.20.0
+## Install (plugin, recommended)
 
-- **✨ Fit it for every network:** one click, and Claude writes a version of your caption for each network (Instagram, LinkedIn, Facebook, TikTok, Snapchat) with its own limits and tone. Review the score change, use all, some or none.
-- **A new look: 200bps Brand System v2.** A self-drawing φ-curve hero, a live ticker of your real numbers, a segmented tab bar, soft geometry and purposeful motion. A score of 100 is a "breakthrough", with a red dot.
-- **✦ Claude designs it:** a second way to make images. Claude builds the design in code (carousel slides, quote cards, charts) at the exact post size and in your brand. Free, no OpenAI key needed.
-- **Talk to PIX:** ask about any feature or have it do things from the chat; it reacts with lots of moves and faces.
-- **PIX, your assistant:** always in the corner. Press N or drop files anywhere to send them to PIX; replies pop up next to it.
-- **■ Stop anything running**, **⊘ Ignore** comments, **Post to** toggles per network, and ▶ **play videos with sound** inside the dashboard with their results.
-- **Heatmap verdict:** point at any hour to see if it's a good or weak time, and for which format and network.
-- **New OpenAI models show up by themselves:** the list refreshes once a day, and a new model gets a notice: try it, or make it your default.
+In Claude Code:
+
+```
+/plugin marketplace add artisanv/200bps-publish
+/plugin install 200bps-publish@200bps
+```
+
+(On Claude Code 2.1.275 or later, one line does both: `/plugin install 200bps-publish --marketplace artisanv/200bps-publish`.)
+
+Then **turn on auto-update** once, so you always get the newest version: `/plugin` → **Marketplaces** → **200bps** →
+**Enable auto-update**. Restart Claude Code, open it in your posts folder and type:
+
+```
+/200bps-publish set me up
+```
+
+The dashboard opens by itself. Paste your Zernio API key in the **Connect Zernio** card. That's it.
+
+**Update by hand:** `/plugin marketplace update 200bps`. **Remove:** `/plugin uninstall 200bps-publish@200bps`.
+
+## From a skill to a plugin
+
+200BPS Publish started as a **Claude Code skill**: a folder you unzipped into `.claude/skills/`. It grew into a full app
+(a local web dashboard, a listener that wakes Claude when you click, background jobs, a 3D assistant), so from v1.20 it
+ships as a **plugin**:
+
+| | Skill (before) | Plugin (now) |
+|---|---|---|
+| Install | download a zip, unzip into `.claude/skills/` | two commands in Claude Code |
+| Updates | download every new zip | automatic (after you enable auto-update) |
+| What's inside | the skill | the same skill, in `skills/200bps-publish/` |
+
+The skill still works on its own: you can copy `skills/200bps-publish/` into your project's `.claude/skills/` folder
+(or use the zip from [Releases](https://github.com/artisanv/200bps-publish/releases)). Your workspace data (`.env`,
+`.bps/`) is never inside the plugin and is never touched by updates.
+
+## See it
+
+| | |
+|---|---|
+| ![Dashboard](media/dashboard.png) | ![Arabic](media/dashboard-ar.png) |
+| **The dashboard**: a self-drawing growth curve, a live strip of your real numbers, PIX in the corner. | **Arabic**, right to left, all the way. |
+| ![PIX moods](media/pix-moods-1.png) | ![PIX moods](media/pix-moods-2.png) |
+| **PIX in 3D**, true to its model sheet: waving, pointing, celebrating, X-eyes shrug, thumbs-up, thinking, typing, peace. | High five, peekaboo, presenting, ideas, shy, determined, wink… |
+| ![Chat with PIX](media/chat-with-pix.png) | ![Heatmap verdict](media/heatmap-verdict.png) |
+| **Chat with PIX**: ask how anything works, or ask it to do things. Public actions still wait for your go. | **Heatmap verdict**: point at any hour: good, OK or weak, and for which format and network. |
+| ![Post window](media/post-window.png) | ![Images](media/image-window.png) |
+| **Posts**: play a Reel with sound inside the dashboard, with its results per network. | **Images**: OpenAI paints, or **PIX designs it** in code at the exact post size, free. |
+
+## New in v1.20.0 (the big one)
+
+- **PIX, your assistant, in 3D.** A live 3D model built from the PIX model sheet (screen, mint border, lime eyes, the
+  back with screws and the 200BPS.AI mark, cel-shaded cartoon gloves). It follows your mouse, blinks, does a different
+  trick each time you hover (wave, peekaboo, high five, wink, peace, a full spin, cheer), gets shy if you wiggle the mouse
+  over it, and acts out what's happening: listening, typing while it works, "…" while it thinks, thumbs-up when done,
+  X-eyes shrug when something failed, asleep when Claude Code is closed.
+- **Talk to PIX.** "Note to PIX" (press **N** anywhere, or drop files anywhere on the page). PIX knows every feature and
+  can do anything the app does from the chat. Nothing public happens without your yes or a typed **go**.
+- **A new look:** 200bps Brand System v2, a 2.6-second splash, the curve, the evidence ticker, soft geometry, purposeful motion.
+- **✦ PIX designs it:** a second image engine: designs in code (carousel slides, quote cards, charts) at the exact post size. Free.
+- **New OpenAI image models show up by themselves** (checked daily, with a "try it / make it default" notice).
+- **Heatmap verdict**, **■ Stop** anything running, **⊘ Ignore** comments, **Post to** switches per network,
+  **▶ play videos with sound** with their results, **1-5** to switch tabs, folded passed checks.
+- **✨ Fit it for every network:** one caption, rewritten for each network's rules, with the score change.
 
 ## New in v1.19.0
 

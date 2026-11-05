@@ -1,0 +1,16 @@
+{
+  "name": "200bps",
+  "owner": { "name": "Nasser Al-Ostath", "url": "https://www.200bps.ai" },
+  "metadata": { "description": "Free Claude Code plugins by 200BPS.ai" },
+  "plugins": [
+    {
+      "name": "200bps-publish",
+      "source": "./",
+      "description": "Publish and grow on five social networks from Claude Code, with a live bilingual dashboard and PIX, a 3D assistant. Nothing goes public without your typed go.",
+      "version": "1.20.0",
+      "author": { "name": "Nasser Al-Ostath" },
+      "homepage": "https://github.com/artisanv/200bps-publish",
+      "category": "productivity"
+    }
+  ]
+}

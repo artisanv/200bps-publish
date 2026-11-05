@@ -25,8 +25,8 @@ function outline(mesh, k = 1.06) {
   const o = new THREE.Mesh(mesh.geometry, new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.BackSide }));
   o.scale.setScalar(k); mesh.add(o); return mesh;
 }
-function toonRamp() {
-  const d = new Uint8Array([90, 170, 255]);
+function toonRamp(steps) {
+  const d = new Uint8Array(steps || [110, 255]);       // two hard tones: cel shading
   const t = new THREE.DataTexture(d, 3, 1, THREE.RedFormat); t.minFilter = t.magFilter = THREE.NearestFilter; t.needsUpdate = true; return t;
 }
 
@@ -117,16 +117,17 @@ function makeHand(white, black) {
   const palm = new THREE.Group(); palm.scale.set(1.08, 1.06, .72); pivot.add(palm);
   palm.add(new THREE.Mesh(new THREE.SphereGeometry(R0, 28, 18, 0, Math.PI), white));          // palm side (faces +z)
   palm.add(new THREE.Mesh(new THREE.SphereGeometry(R0, 28, 18, Math.PI, Math.PI), black));    // back of the hand
-  const ol = new THREE.Mesh(new THREE.SphereGeometry(R0 * 1.09, 28, 18), new THREE.MeshBasicMaterial({ color: 0, side: THREE.BackSide })); palm.add(ol);
+  const ol = new THREE.Mesh(new THREE.SphereGeometry(R0 * 1.12, 28, 18), new THREE.MeshBasicMaterial({ color: 0, side: THREE.BackSide })); palm.add(ol);
   // the white cuff ring and the black forearm stub
   const ring = outline(new THREE.Mesh(new THREE.TorusGeometry(.105, .034, 12, 28), white), 1.08); ring.rotation.x = Math.PI / 2; ring.position.y = -.15; pivot.add(ring);
   const arm = outline(new THREE.Mesh(new THREE.CapsuleGeometry(.088, .08, 8, 18), black), 1.07); arm.position.y = -.25; arm.scale.set(1, 1, .92); pivot.add(arm);
   const fingers = [];
-  const spots = [[-.158, -.02, .03, 1.0, .064, .07], [-.092, .122, .01, .2, .06, .1], [-.031, .142, .01, .06, .062, .11], [.031, .138, .01, -.07, .06, .105], [.09, .114, .01, -.22, .056, .085]];
+  // thumb on the inside (toward PIX's body), little finger on the outside, as on the sheet
+  const spots = [[.158, -.02, .03, -1.0, .064, .07], [.092, .122, .01, -.2, .06, .1], [.031, .142, .01, -.06, .062, .11], [-.031, .138, .01, .07, .06, .105], [-.09, .114, .01, .22, .056, .085]];
   spots.forEach(([x, y, z, rz, r, len], i) => {
     const base = new THREE.Group(); base.position.set(x, y, z); base.rotation.z = rz;
     const seg = new THREE.Group(); base.add(seg);
-    const f = outline(new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 8, 16), white), 1.13);
+    const f = outline(new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 8, 16), white), 1.17);
     f.position.y = len * .5 + r * .5; seg.add(f);
     pivot.add(base); fingers.push(seg);
   });
@@ -136,7 +137,7 @@ function makeHand(white, black) {
 function setCurl(hand, pose) { hand.userData.want = (POSES[pose] || POSES.relax).slice(); hand.userData.backWant = BACK_OUT[pose] ? 1 : 0; }
 function stepHand(hand, k) {
   const u = hand.userData;
-  u.fingers.forEach((seg, i) => { u.curl[i] += (u.want[i] - u.curl[i]) * k; seg.rotation.x = u.curl[i] * (i === 0 ? 1.3 : 2.4); if (i === 0) seg.rotation.z = -u.curl[i] * .7; });
+  u.fingers.forEach((seg, i) => { u.curl[i] += (u.want[i] - u.curl[i]) * k; seg.rotation.x = u.curl[i] * (i === 0 ? 1.3 : 2.4); if (i === 0) seg.rotation.z = u.curl[i] * .7; });
   u.back += ((u.backWant || 0) - u.back) * k;
   u.pivot.rotation.y = u.back * Math.PI;                 // turn the back of the hand toward you for fists
 }
@@ -216,7 +217,7 @@ function mount(host, opts = {}) {
   const pix = new THREE.Group(); scene.add(pix);
   const bodyGeo = new THREE.ExtrudeGeometry(roundedRect(BW - .06, BH - .06, BR), { depth: BD - .06, bevelEnabled: true, bevelThickness: .03, bevelSize: .03, bevelSegments: 5, curveSegments: 12 });
   bodyGeo.translate(0, 0, -(BD - .06) / 2);
-  pix.add(outline(new THREE.Mesh(bodyGeo, new THREE.MeshPhongMaterial({ color: INK, specular: 0x555a60, shininess: 70 })), 1.025));
+  pix.add(outline(new THREE.Mesh(bodyGeo, new THREE.MeshToonMaterial({ color: 0x23272b, gradientMap: toonRamp([70, 150, 255]) })), 1.04));   // cel-shaded case, bold outline
   const faceC = document.createElement("canvas"); faceC.width = FACE_W; faceC.height = FACE_H;
   const faceT = new THREE.CanvasTexture(faceC); faceT.colorSpace = THREE.SRGBColorSpace; faceT.anisotropy = 4;
   const scr = new THREE.ShapeGeometry(roundedRect(BW - .04, BH - .04, BR - .01), 12);
@@ -228,9 +229,9 @@ function mount(host, opts = {}) {
   const back = new THREE.Mesh(scr.clone(), new THREE.MeshLambertMaterial({ map: backT })); back.position.z = -BD / 2 - .004; back.rotation.y = Math.PI; pix.add(back);
   const paintBack = () => { drawBack(backC); backT.needsUpdate = true; };
   paintBack(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(paintBack);
-  const ramp = toonRamp();
-  const glove = new THREE.MeshToonMaterial({ color: 0xffffff, gradientMap: ramp });
-  const cuff = new THREE.MeshToonMaterial({ color: 0x141618, gradientMap: ramp });   // the glove's black parts
+  const ramp = toonRamp([120, 255]);                 // gloves: white in the light, a light grey cel shadow
+  const glove = new THREE.MeshToonMaterial({ color: 0xffffff, emissive: 0x9a9a9a, gradientMap: ramp });              // white glove: lit / shade, nothing in between
+  const cuff = new THREE.MeshToonMaterial({ color: 0x2a2e33, gradientMap: ramp });   // the glove's black parts
   const L = makeHand(glove, cuff), R = makeHand(glove, cuff); L.scale.setScalar(1.18); R.scale.set(-1.18, 1.18, 1.18);
   scene.add(L, R);
   // a soft shadow on the "floor": it shrinks and fades as PIX rises, which reads as depth
