@@ -240,6 +240,35 @@ def note_status(nid: str, status: str, text: str = "") -> dict:
     return hit
 
 
+def cancel_note(nid: str) -> dict:
+    """The user stopped a note: Claude won't get it (or should drop it)."""
+    p = state_dir() / "notes.jsonl"
+    with _locked("notes"):
+        rows, raw = _read_rows(p)
+        hit = next((r for r in rows if r is not None and r.get("id") == nid), None)
+        if not hit:
+            raise ValueError(f"Unknown note: {nid}")
+        if hit.get("status") in ("done", "failed"):
+            return hit
+        hit.update(read=True, status="stopped", statusTs=int(time.time()), result="Stopped by you.")
+        hit.pop("step", None)
+        _write_rows(p, rows, raw)
+    a = hit.get("action") or {}
+    if a.get("job"):                                  # e.g. a Claude design: its job stops too
+        try:
+            import jobs
+            jobs._update(a["job"], state="stopped", finished=time.time(), error="Stopped by you.")
+        except Exception:
+            pass
+    if a.get("type") == "claude_image":
+        try:
+            import images
+            images.claude_stop(a.get("job") or "")
+        except Exception:
+            pass
+    return hit
+
+
 def notes(unread_only: bool = True, mark_read: bool = False, ids: list | None = None) -> list[dict]:
     """List notes. With mark_read, mark as read only the notes Claude was shown
     (handed out by `watch`/`notes`), or exactly `ids` when given. Anything newer
@@ -405,6 +434,7 @@ def watch(timeout: int = 3600, poll: float = 1.0) -> list[dict]:
             items = notes(unread_only=True)
         except (OSError, ValueError):     # never stop listening over one bad read
             items = []
+        items = [n for n in items if n.get("status") != "stopped"]
         if items:
             hand(items)
             return items

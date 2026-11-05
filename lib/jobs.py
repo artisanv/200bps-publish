@@ -94,8 +94,36 @@ def progress(jid: str | None, done: int | None = None, pct: float | None = None,
     _update(jid, **f)
 
 
+STOPPABLE = {"image", "sync", "keytest", "unpack", "claude"}   # never publishing or batch: half-done would be worse
+
+
+def stop(jid: str) -> dict:
+    """The user pressed Stop. A note to Claude is withdrawn; a job is marked
+    stopped and whatever it returns later is thrown away."""
+    if jid.startswith("n-"):
+        import hitl
+        return hitl.cancel_note(jid[2:])
+    j = _load().get(jid)
+    if not j:
+        raise ValueError("That job already finished.")
+    if j.get("kind") not in STOPPABLE:
+        raise ValueError("This one can't be stopped halfway (it would leave things half done).")
+    if j.get("state") != "running":
+        return j
+    try:                                       # a Claude design: withdraw the request too
+        import images
+        images.claude_stop(jid)
+    except Exception:
+        pass
+    return _update(jid, state="stopped", finished=time.time(), error="Stopped by you.") or {}
+
+
+def stopped(jid: str | None) -> bool:
+    return bool(jid) and (_load().get(jid) or {}).get("state") == "stopped"
+
+
 def finish(jid: str | None, ok: bool = True, error: str = "", step: str | None = None) -> None:
-    if not jid:
+    if not jid or stopped(jid):                # stopped by the user: keep it that way
         return
     f = {"state": "done" if ok else "failed", "finished": time.time(), "error": (error or "")[:300]}
     if ok:
@@ -121,6 +149,7 @@ def job(kind: str, label: str, total: int | None = None, estimate: float | None 
         j = _load().get(jid) or {}
         if j.get("state") == "running":
             finish(jid)
+        # a stopped job keeps its "stopped" state
     finally:
         _LOCAL.jid = prev
 
@@ -152,6 +181,7 @@ def _view(j: dict, now: float) -> dict:
         pct = min(pct, 99)
     j["pct"] = round(pct)
     j["secs"] = round((j.get("finished") or now) - j["started"], 1)
+    j["stoppable"] = j["state"] == "running" and j.get("kind") in STOPPABLE
     j.pop("pid", None)
     return j
 
@@ -170,7 +200,7 @@ def _claude() -> list[dict]:
         a = n.get("action") or {}
         typ = a.get("type") or "note"
         label = labels.get(typ, "Reading your note")
-        out.append({"id": "n-" + n["id"], "kind": "claude", "label": "Claude: " + label,
+        out.append({"id": "n-" + n["id"], "kind": "claude", "stoppable": True, "label": "Claude: " + label,
                     "step": n.get("step") or ("Working on it…" if listening else "Waiting for Claude to start listening"),
                     "state": "running", "pct": None, "indeterminate": True, "started": n["ts"],
                     "secs": round(now - n["ts"]), "text": (n.get("text") or "")[:160]})

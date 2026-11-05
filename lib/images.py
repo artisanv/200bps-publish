@@ -289,6 +289,8 @@ def generate(prompt: str, refs: list[str] | None = None, model: str = "", shape:
             except RuntimeError as e:
                 errors.append(str(e))
             jobs.progress(jid, done=len(results) + len(errors), step=f"{len(results)} of {n} ready")
+    if jobs.stopped(jid):                                # the user pressed Stop: throw the results away
+        raise RuntimeError("Stopped by you. Nothing was saved.")
     if not results:
         jobs.finish(jid, ok=False, error=errors[0] if errors else "No image came back.")
         raise RuntimeError(errors[0] if errors else "No image came back.")
@@ -524,11 +526,19 @@ def ask_claude(prompt: str, shape: str = "tall", n: int = 1, refs: list[str] | N
     return {"queued": note["id"], "job": jid}
 
 
+def claude_stop(jid: str = "") -> None:
+    st = read_json(_claude_path(), None)
+    if st and st.get("status") == "asked" and (not jid or st.get("job") == jid):
+        write_json(_claude_path(), {**st, "status": "stopped", "answered": int(time.time())})
+
+
 def claude_render(html_files: list[str], prompt: str = "", shape: str = "", note: str = "") -> dict:
     """Claude's answer: render each HTML file to a PNG in the gallery."""
     import cover
     import jobs
     st = claude_state() or {}
+    if st.get("status") == "stopped":
+        raise ValueError("The user stopped this design request in the dashboard. Don't render it.")
     shape = shape or st.get("shape") or "tall"
     if shape not in CLAUDE_SIZES:
         raise ValueError("Shape must be square, tall, wide or story.")

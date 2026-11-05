@@ -7,6 +7,13 @@
 - **OpenAI image models stay up to date**: the model list refreshes by itself once a day (in the background), a **New from OpenAI** notice lists models you haven't seen (**Try it**, **Make it my default**, **Got it**), and **↻ Check now** sits in the window and in Settings → Keys → OpenAI. From chat: `bps.py image models --refresh`.
 - **Heatmap that explains itself**: two lines on top say what it means (your best hour with its evidence, and your most reliable hour across the week). Point at any hour: its row and column light up and a readout says the average engagement per post, how many posts, vs your average, confidence and what's scheduled there. The key now matches what's drawn (empty, scheduled, this post); "peaks by day" and "audience clocks" fold under **More detail**.
 - **Tidier and quicker**: passed checks fold into one line ("11 checks passed · show"); DM automations show on/off and their keywords as chips; idea and automation cards are clean soft cards; press **1-5** to switch tabs; clicking a tab brings its content into view; every number in the ticker opens where it lives.
+- **BIPS, your Claude, always one tap away**: the 200bps robot sits in the bottom corner on every page. Click it or press **N**; **drop files anywhere** on the page (or 📎 Attach, or paste) to send them with your note. Claude's replies pop up as a small bubble next to BIPS (questions still open a window); BIPS changes pose when Claude is listening, working, done or stuck. BIPS also appears in the chat, Claude's messages and the "done" notices.
+- **■ Stop anything that's running**: in the jobs list and under any note Claude hasn't finished: making images, a Claude design, a Zernio refresh, a key test, unpacking, or a note to Claude. Publishing and batch scheduling can't stop halfway, so they have no Stop.
+- **Heatmap verdict**: point at any hour for one small card: **Good / OK / Weak time** compared with a typical hour (the median, so one viral post can't skew it), plus how carousels, videos and photos did there and on which network. Your own posts only.
+- **Post to** (Post tab): every connected network as a big switch; tap to turn it on or off for this post.
+- **Posts: play it here**: ▶ on a video plays it with sound inside the dashboard, with the post's results per network (reach, views, likes, comments, shares, saves, follows). No link out to Zernio.
+- **Inbox: ⊘ Ignore** a comment that needs no reply, or **Ignore all**; one-click Undo.
+- **More life**: a lime opening once per visit, press rings on main buttons, charts that draw themselves, bars that grow from the baseline.
 - Fixed: the calendar, idea bank and DM automation cards got oval corners from one radius applied too widely.
 - Guide, hover tips, READMEs in English and Arabic.
 

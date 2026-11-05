@@ -93,6 +93,13 @@
       jk_sync: "Refreshing from Zernio", jk_newpost: "Making a post folder", jk_claude: "Claude is working",
       imgShort: "Image", imgOpen: "Create image", imgNoKey: "Add your OpenAI key to create images", imgNoKeyHint: "Paste it below and press Save. It's tested right away.",
       imgStep1: "Describe the image", imgPh: "e.g. A lime-green paper airplane on a dark desk, soft light, minimal, room for a headline at the top",
+      dockKey: "N", dockHint: "Note to Claude (N) · drop files anywhere to send them", dropTitle: "Drop to send to Claude", dropHint: "Photos, a video, a PDF or a zip. Added to your note.",
+      attach: "Attach", attachHint: "Photos, video, PDF or zip. Or paste or drop them here.", attUploading: "Adding {n}…", attWord: "Attached",
+      chatStop: "Stop", chatStopped: "Stopped", jobsStop: "Stop", jobsStopped: "Stopped", jobsStopDone: "Stopped", jobsStopNo: "Can't stop this one",
+      ibxIgnore: "Ignore", ibxIgnored: "Ignored", ibxUndo: "Undo", ibxIgnoreAll: "Ignore all ({n})", ibxIgnoreAllQ: "Ignore {n} waiting comments? They move to Handled. Nothing is posted or deleted.", "ibxSt_ignored": "Ignored",
+      hvTyp: "{l} vs a typical hour · {n} posts", hvGood: "Good time", hvOk: "OK time", hvBad: "Weak time", hvNone: "No data yet", hvKinds: "By format", hvNets: "By network", kCarousel: "Carousel", kReel: "Video", kPost: "Photo",
+      ptTitle: "Post to", ptHint: "Tap a network to switch it on or off for this post.", ptLocked: "Already in Zernio: tap to change its networks.", ptSaved: "Networks updated", ptKeep: "Keep at least one network on.", ptCant: "can't show this post",
+      pdK_reach: "Reach", pdK_views: "Views", pdK_likes: "Likes", pdK_comments: "Comments", pdK_shares: "Shares", pdK_saves: "Saves", pdK_follows: "Follows", pdStats: "Results", pdComments: "{n} comments", pdOpenInbox: "See them in Inbox", pdPlay: "Play with sound",
       hiBest: "Best hour: {slot} · {lift} vs your average · {n} posts · {conf} confidence", hiHour: "Most reliable hour across the week: {h} · {n} posts · {lift}",
       hiRead: "Point at any hour to read its numbers. Click to plan a post there.", hrEmpty: "{slot}: you haven't posted at this hour yet, so there's no data. Click to plan one.",
       hrLine: "{slot} · {avg} engagement per post on average · {n} posts · {lift} vs your average · {conf} confidence", hrSched: "{k} scheduled here",
@@ -294,6 +301,13 @@
       jk_sync: "تحديث من Zernio", jk_newpost: "مجلد بوست جديد", jk_claude: "طلب لـClaude",
       imgShort: "صورة", imgOpen: "سوّ صورة", imgNoKey: "أضف مفتاح OpenAI عشان تسوي صور", imgNoKeyHint: "الصقه تحت واضغط حفظ. ينختبر على طول.",
       imgStep1: "اوصف الصورة", imgPh: "مثلاً: طيارة ورق لونها ليموني على مكتب غامق، إضاءة ناعمة، بسيطة، وفي مكان للعنوان فوق",
+      dockKey: "N", dockHint: "رسالة لـClaude (N) · اسحب ملفات لأي مكان عشان ترسلها", dropTitle: "أفلت الملفات عشان ترسلها لـClaude", dropHint: "صور، فيديو، PDF أو ملف مضغوط. تنضاف لرسالتك.",
+      attach: "أرفق", attachHint: "صور، فيديو، PDF أو ملف مضغوط. أو الصقها أو اسحبها هني.", attUploading: "قاعد يضيف {n}…", attWord: "مرفقات",
+      chatStop: "وقّف", chatStopped: "توقّفت", jobsStop: "وقّف", jobsStopped: "توقّف", jobsStopDone: "توقّف", jobsStopNo: "هذي ما تتوقف",
+      ibxIgnore: "تجاهل", ibxIgnored: "انتجاهل", ibxUndo: "تراجع", ibxIgnoreAll: "تجاهل الكل ({n})", ibxIgnoreAllQ: "تتجاهل {n} تعليق ينتظر؟ تنتقل لـ«انتهت». ما ينشر ولا ينحذف شي.", "ibxSt_ignored": "انتجاهل",
+      hvTyp: "{l} مقارنة بساعة عادية · {n} بوستات", hvGood: "وقت حلو", hvOk: "وقت عادي", hvBad: "وقت ضعيف", hvNone: "ما في بيانات", hvKinds: "حسب النوع", hvNets: "حسب المنصة", kCarousel: "كاروسيل", kReel: "فيديو", kPost: "صورة",
+      ptTitle: "انشر على", ptHint: "اضغط على منصة عشان تشغّلها أو تطفيها لهالبوست.", ptLocked: "صار في Zernio: اضغط عشان تغيّر منصاته.", ptSaved: "انحدّثت المنصات", ptKeep: "خلّ منصة وحدة شغّالة على الأقل.", ptCant: "ما تعرض هالبوست",
+      pdK_reach: "الوصول", pdK_views: "المشاهدات", pdK_likes: "لايك", pdK_comments: "تعليق", pdK_shares: "مشاركة", pdK_saves: "حفظ", pdK_follows: "متابعة", pdStats: "النتايج", pdComments: "{n} تعليق", pdOpenInbox: "شوفها في الرسائل", pdPlay: "شغّل بالصوت",
       hiBest: "أفضل ساعة: {slot} · {lift} مقارنة بمعدلك · {n} بوستات · ثقة {conf}", hiHour: "أثبت ساعة على مدار الأسبوع: {h} · {n} بوستات · {lift}",
       hiRead: "أشّر على أي ساعة عشان تشوف أرقامها. اضغط عشان تخطط بوست فيها.", hrEmpty: "{slot}: ما نشرت بهالساعة للحين، فما في بيانات. اضغط عشان تخطط واحد.",
       hrLine: "{slot} · معدل {avg} تفاعل للبوست · {n} بوستات · {lift} مقارنة بمعدلك · ثقة {conf}", hrSched: "{k} مجدول هني",
@@ -1014,6 +1028,7 @@
     delete strip.dataset.same;
     const plats = p.platforms || [];
     if (!plats.includes(state.plat)) state.plat = plats[0];
+    renderPostTo(p);
     const sw = $("#platSwitch"); sw.innerHTML = "";
     plats.forEach((pl) => sw.append(el("button", { class: "btn" + (pl === state.plat ? " on" : ""), type: "button", onclick: () => { state.plat = pl; renderPost(); } }, pl)));
     renderTargets(p);
@@ -1349,8 +1364,10 @@
       const cnt = (d, h) => (bt.counts && bt.counts[d] && bt.counts[d][h]) || 0;
       const avgAll = bt.average || 0;
       const schedCount = (key) => (z.scheduled || []).filter((x) => slotOf(x.scheduledFor) === key).length;
-      const show = (c) => {
+      const prof = slotProfile(bt, slotOf);
+      const show = (c, ev) => {
         g.querySelectorAll(".xh").forEach((x) => x.classList.remove("xh"));
+        verdictCard(c, bt, prof, ev);
         if (!c) { read.textContent = t("hiRead"); read.classList.remove("on"); return; }
         const d = +c.dataset.d, h = +c.dataset.h, v = bt.grid[d][h], n = cnt(d, h), slot = `${t("days")[d]} ${hh(h)}`;
         g.querySelectorAll(`.c[data-d="${d}"], .c[data-h="${h}"]`).forEach((x) => x.classList.add("xh"));
@@ -1361,7 +1378,8 @@
               .replace("{lift}", avgAll ? liftTxt(Math.round((v / avgAll - 1) * 100)) : "–").replace("{conf}", t("conf_" + (n >= 5 ? "high" : n >= 3 ? "medium" : "low"))))
           + (k ? " · " + t("hrSched").replace("{k}", k) : "");
       };
-      g.addEventListener("pointerover", (e) => show(e.target.closest && e.target.closest(".c[data-d]")));
+      g.addEventListener("pointerover", (e) => show(e.target.closest && e.target.closest(".c[data-d]"), e));
+      g.addEventListener("pointermove", (e) => verdictMove(e));
       g.addEventListener("focusin", (e) => show(e.target.closest && e.target.closest(".c[data-d]")));
       g.addEventListener("pointerleave", () => show(null));
       heat.append(read);
@@ -1632,6 +1650,8 @@
     const needDraft = waiting.filter((x) => !drafts[x.id] && (x.can || {}).reply !== false);
     const withDraft = waiting.filter((x) => drafts[x.id] && (x.can || {}).reply !== false);
     c.append(el("div", { class: "ibx-bar" },
+      waiting.length > 1 ? el("button", { class: "btn sm ibx-ignoreall", type: "button", onclick: () => {
+        if (confirm(t("ibxIgnoreAllQ").replace("{n}", waiting.length))) ignoreComments(waiting.map((x) => x.id)); } }, "⊘ " + t("ibxIgnoreAll").replace("{n}", waiting.length)) : null,
       waiting.length ? el("button", { class: "btn sm ibx-draftall", type: "button", onclick: async (e) => {
         if (!needDraft.length) { toast(t("ibxDraftNone")); return; }
         e.target.disabled = true;
@@ -1727,6 +1747,7 @@
         onclick: () => { S.open = S.open === x.id + ":gift" ? null : x.id + ":gift"; S.confirm = null; renderComments(); } }, "🎁 " + (au ? t("ibxGift") : t("ibxPrivate"))) : null,
       can.hide ? el("button", { class: "btn sm", type: "button", onclick: async () => {
         try { await inboxApi({ op: x.hidden ? "show" : "hide", ...ids }); toast(x.hidden ? t("ibxShown") : t("ibxHidden")); lastZSig = ""; loadZernio(); } catch (e) { toast(e.message); } } }, x.hidden ? t("ibxShow") : t("ibxHide")) : null,
+      el("button", { class: "btn sm ibx-ignore", type: "button", onclick: () => ignoreComments([x.id]) }, "⊘ " + t("ibxIgnore")),
       can.delete ? el("button", { class: "btn sm danger-ghost", type: "button", onclick: () => deleteComment(x, ids) }, t("ibxDelete")) : null));
     if (am && am.consumed) card.append(el("p", { class: "hint" }, t("ibxAutoUsed")));
     // composers
@@ -1960,6 +1981,7 @@
   function renderHeader() {
     const lp = $("#listenPill"), pres = (state.data && state.data.presence) || (state.data && state.data.listening ? "listening" : "closed");
     lp.classList.toggle("on", pres === "listening");
+    dockPresence(pres);
     lp.classList.toggle("busy", pres === "working");
     lp.querySelector("span").textContent = pres === "listening" ? t("listening") : pres === "working" ? t("working") : t("away");
     lp.title = pres === "listening" ? t("listeningHint") : pres === "working" ? t("workingHint") : t("awayHint");
@@ -2267,7 +2289,7 @@
     enterSends(ta, () => reply(ta.value));
     const opts = (m.options || []).length ? el("div", { class: "opts" }, ...(m.options || []).map((o) =>
       el("button", { class: "btn opt", type: "button", onclick: () => reply(o) }, o))) : null;
-    body.append(el("div", { class: "label kicker claude-kicker" }, el("i", { class: "cdot" }), t("claudeSays")),
+    body.append(bips("talk", "msg-av"), el("div", { class: "label kicker claude-kicker" }, el("i", { class: "cdot" }), t("claudeSays")),
       el("div", { class: "claude-say", id: "mTitle", style: "unicode-bidi:plaintext" }, m.text), opts,
       el("div", { class: "field" }, el("label", { class: "label" }, t(m.expect ? "chatAnswer" : "chatReplyOpt")), ta, el("small", { class: "hint enter-hint" }, t("enterHint"))), err,
       el("div", { class: "actions" },
@@ -2280,9 +2302,10 @@
     const q = state.data && state.data.question;
     const pill = $("#decisionPill");
     const cm = state.data && state.data.claudeMsg;
-    if (!q && cm && !cm.status && !modal.open && !state.dismissed["m:" + cm.id]) {
-      state.dismissed["m:" + cm.id] = true;           // pops up once; it stays in the chat
-      showModal("m:" + cm.id, (body) => claudeMsgUI(cm, body));
+    if (!q && cm && !cm.status && !state.dismissed["m:" + cm.id]) {
+      const ask = cm.expect || (cm.options || []).length;
+      if (!ask) { state.dismissed["m:" + cm.id] = true; dockSay(cm); }      // a reply: BIPS says it, no window
+      else if (!modal.open) { state.dismissed["m:" + cm.id] = true; showModal("m:" + cm.id, (body) => claudeMsgUI(cm, body)); }
     }
     if (!q) {
       pill.hidden = true;
@@ -2306,7 +2329,7 @@
   // where Claude is with one of your notes
   function noteState(m) {
     const st = m.status || (m.read ? "received" : "");
-    const txt = st === "done" ? t("chatDone") : st === "failed" ? t("chatFailed") : st === "handled" ? t("chatHandled")
+    const txt = st === "done" ? t("chatDone") : st === "failed" ? t("chatFailed") : st === "handled" ? t("chatHandled") : st === "stopped" ? "■ " + t("chatStopped")
       : st === "working" ? (m.step ? t("chatWorking").replace("{s}", m.step) : t("chatWorkingNo"))
       : st === "received" ? t("chatSeen") : t("chatWaiting");
     return el("div", { class: "chat-state st-" + (st || "new") }, st === "working" ? el("i", { class: "spin", "aria-hidden": "true" }) : null, txt);
@@ -2317,7 +2340,7 @@
   function showNotice(n) {
     const ok = n.status === "done";
     const card = el("div", { class: "notice " + (ok ? "ok" : "bad") },
-      el("div", { class: "notice-head" }, el("b", {}, (ok ? "✓ " : "✗ ") + (ok ? t("ntDone") : t("ntFailed"))),
+      el("div", { class: "notice-head" }, bips(ok ? "done" : "think", "notice-av"), el("b", {}, (ok ? "✓ " : "✗ ") + (ok ? t("ntDone") : t("ntFailed"))),
         el("button", { class: "x", type: "button", "aria-label": t("close"), onclick: () => card.remove() }, "×")),
       el("div", { class: "notice-note", style: "unicode-bidi:plaintext" }, t("ntYour") + ": “" + (n.text || "").slice(0, 90) + ((n.text || "").length > 90 ? "…" : "") + "”"),
       n.result ? el("div", { class: "notice-res", style: "unicode-bidi:plaintext" }, n.result) : null,
@@ -2337,6 +2360,7 @@
     if (!before) return;                                           // first load: no old news
     const finished = thr.filter((m) => m.from === "you" && ["done", "failed"].includes(now[m.id]) && before[m.id] !== now[m.id]);
     if (!finished.length) return;
+    dockPose(finished.some((m) => now[m.id] === "done") ? "done" : "think", 4000);
     finished.forEach((m) => {
       showNotice(m);
       thr.filter((r) => r.from === "claude" && r.to === m.id && !r.seen).forEach((r) => { r.seen = true; post("/api/chat", { op: "seen", id: r.id }).catch(() => {}); });
@@ -2413,11 +2437,14 @@
         const bubble = (m, reply) => {
           const mine = m.from === "you";
           const b_ = el("div", { class: "chat-msg " + (mine ? "me" : "claude") + (reply ? " reply" : "") },
+            mine ? null : bips(reply ? "talk" : "point", "chat-av"),
             el("div", { class: "chat-who" }, mine ? t("chatYou") : "Claude", el("span", {}, " · " + ago(m.ts))),
             el("div", { class: "chat-text", style: "unicode-bidi:plaintext" }, m.text));
           if (!mine && (m.options || []).length && !m.answered) b_.append(el("div", { class: "opts" }, ...m.options.map((o) =>
             el("button", { class: "btn opt", type: "button", onclick: () => send(o, m.id) }, o))));
           if (mine) b_.append(noteState(m));
+          if (mine && !["done", "failed", "stopped", "handled"].includes(m.status || "") && !(m.read && !m.status))
+            b_.append(el("button", { class: "btn sm chat-stop", type: "button", onclick: () => stopJob("n-" + m.id).then(draw) }, "■ " + t("chatStop")));
           return b_;
         };
         rows.forEach((m) => {
@@ -2432,24 +2459,35 @@
       };
       const ta = el("textarea", { rows: 3, placeholder: t("notePh2") });
       const err = el("div", { class: "err", role: "alert" });
+      const atts = el("div", { class: "chat-atts" });
+      const drawAtts = () => { atts.innerHTML = ""; DOCK.att.forEach((a, k) => atts.append(el("span", { class: "chip att" }, "📎 " + a.name,
+        el("button", { type: "button", class: "x", "aria-label": t("remove"), onclick: () => { DOCK.att.splice(k, 1); drawAtts(); } }, "×")))); };
+      DOCK.drawAtts = drawAtts;
+      const fileIn = el("input", { type: "file", multiple: true, hidden: true, accept: "image/*,video/*,application/pdf,.zip,.7z,.rar,.tar,.gz" });
+      fileIn.addEventListener("change", () => addAttachments([...fileIn.files]));
+      ta.addEventListener("paste", (e) => { const fs = [...((e.clipboardData || {}).files || [])]; if (fs.length) { e.preventDefault(); addAttachments(fs); } });
+      ta.addEventListener("dragover", (e) => e.preventDefault());
+      ta.addEventListener("drop", (e) => { if (e.dataTransfer && e.dataTransfer.files.length) { e.preventDefault(); e.stopPropagation(); addAttachments([...e.dataTransfer.files]); } });
       const send = async (text, to) => {
         err.textContent = "";
+        if (DOCK.att.length) text = (text || "").trim() + "\n\n" + t("attWord") + ": " + DOCK.att.map((a) => a.path).join(", ");
         try {
           const lastClaude = [...((state.data && state.data.thread) || [])].reverse().find((m) => m.from === "claude" && m.expect && !m.answered);
           const target = to || (lastClaude && lastClaude.id);
           const r = target ? await post("/api/chat", { op: "reply", id: target, text }) : await post("/api/note", { text });
           if (r.thread) state.data.thread = r.thread;
           else state.data.thread = [...(state.data.thread || []), { id: r.note.id, ts: r.note.ts, from: "you", text: r.note.text, read: false }];
-          ta.value = ""; draw(); toast(t("noteSent"));
+          ta.value = ""; DOCK.att = []; drawAtts(); draw(); toast(t("noteSent")); dockPose("think", 2500);
         } catch (e) { err.textContent = e.message; }
       };
       enterSends(ta, () => send(ta.value));
       body.append(el("div", { class: "label kicker", style: "color:var(--bps-lime)" }, t("noteKicker")),
-        el("h2", { id: "mTitle" }, t("chatTitle")), el("p", { class: "ctx" }, t("chatHint")), list, ta, el("small", { class: "hint enter-hint" }, t("enterHint")), err,
+        el("h2", { id: "mTitle" }, t("chatTitle")), el("p", { class: "ctx" }, t("chatHint")), list, atts, ta, fileIn, el("small", { class: "hint enter-hint" }, t("enterHint")), err,
         el("div", { class: "actions" },
+          el("button", { class: "btn chat-attach", type: "button", title: t("attachHint"), onclick: () => fileIn.click() }, "📎 " + t("attach")),
           el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("close")),
           el("button", { class: "btn on big", type: "button", onclick: () => send(ta.value) }, t("send"))));
-      draw();
+      draw(); drawAtts();
       state.chatDraw = draw;
     });
     modal.open ? closeModal(open) : open();
@@ -3965,7 +4003,7 @@
     if (e.key === "ArrowRight") { e.preventDefault(); curViewer.step(1); }
     if (e.key === "ArrowLeft") { e.preventDefault(); curViewer.step(-1); }
   });
-  function openPostDetail(r) {
+  function openPostDetail(r, opt) {
     const build = (body) => {
       const pollLeft = r.li && !(r.items || []).length && !r.media;     // a text poll/repost: the poll is the picture
       body.append(el("div", { class: "zdetail" }, pollLeft ? liPostedCard(r) : postViewer(r),
@@ -3980,8 +4018,9 @@
         p.url ? el("a", { href: p.url, target: "_blank", rel: "noopener" }, t("openPost") + " ↗") : null,
         p.error ? el("div", { class: "zerr" }, (p.errorCategory ? p.errorCategory + ": " : "") + p.error) : null)));
       body.append(plats);
+      const ps_ = postStats(r); if (ps_) body.append(ps_);
+      if (opt && opt.play) setTimeout(() => { const v = $("#modalBody video"); if (v) { v.muted = false; v.play().catch(() => {}); } }, 380);
       const acts = el("div", { class: "actions" });
-      if (!r.local) acts.append(el("a", { class: "btn", href: "https://zernio.com", target: "_blank", rel: "noopener" }, t("openZernio") + " ↗"));
       if (r.local || PENDING.includes(r.status) || r.status === "published")
         acts.append(el("button", { class: "btn danger-ghost cancel-btn", type: "button", onclick: () => openCancel(r) },
           r.local ? t("cDelDraft") : r.status === "published" ? t("cRemoveBtn") + "…" : t("cCancelBtn") + "…"));
@@ -4056,8 +4095,10 @@
     if (state.zview === "grid") {
       shown.forEach((r) => {
         const when = r.status === "published" ? (r.platforms || []).map((p) => p.publishedAt).filter(Boolean).sort()[0] : r.scheduledFor;
-        const card = el("button", { class: "ztile", type: "button", title: (r.caption || "").split("\n")[0] },
+        const vid = viewerItems(r).some((m) => m.type === "video");
+        const card = el("button", { class: "ztile" + (vid ? " has-vid" : ""), type: "button", title: (r.caption || "").split("\n")[0] },
           thumbEl(r),
+          vid ? el("span", { class: "ztile-play", "aria-hidden": "true" }, el("i")) : null,
           el("span", { class: "ztile-badge" }, badge(r.status)),
           el("span", { class: "ztile-body" },
             el("span", { class: "zcap2", style: "unicode-bidi:plaintext" }, (r.caption || "").split("\n")[0] || "—"),
@@ -4065,7 +4106,7 @@
               when ? el("span", { class: "ztile-when", title: dtFull(when) }, dtFull(when)) : null)));
         if (r.outside) card.classList.add("outside");
         if ((r.platforms || []).some((p) => p.status === "failed")) card.classList.add("has-err");
-        card.addEventListener("click", () => openPostDetail(r));
+        card.addEventListener("click", () => openPostDetail(r, { play: vid }));
         list.append(card);
       });
       return;
@@ -5468,6 +5509,9 @@
       ["Get started", [
         "Open Claude Code in your posts folder and type <code>/200bps-publish set me up</code>. This dashboard opens by itself.",
         "<b>The top of the dashboard</b>: the curve is your growth (lime is steady work, the red dot is the breakthrough). The strip under it rolls your own numbers from Zernio: followers, streak, 7-day reach, engagement, follows, the post score and your best slot (hover to pause). A post score of 100 gets the red breakthrough dot. Move the mouse to light up the grid.",
+        "<b>BIPS, your Claude</b>: the robot in the bottom corner is always there. Click it or press <b>N</b> to write to Claude. <b>Drop files anywhere</b> on the page (or <b>📎 Attach</b>, or paste) to send them with the note. Claude's replies pop up next to BIPS; questions still open a window. Anything running can be stopped: <b>■ Stop</b> in the jobs list or under your note.",
+        "<b>Post to</b> (Post tab): tap a network to switch it on or off for this post. <b>Posts</b>: ▶ on a video plays it with sound inside the dashboard, with its results (reach, likes, saves…). <b>Inbox</b>: <b>⊘ Ignore</b> a comment that needs no reply (or <b>Ignore all</b>); Undo is right there.",
+        "<b>Heatmap verdict</b>: point at any hour for a small card: <b>Good / OK / Weak time</b> compared with a typical hour, and how carousels, videos and photos did there, per network. From your own posts only.",
         "<b>Quick moves</b>: press <b>1-5</b> to switch tabs (Post, Posts, Plan, Growth, Inbox); click any number in the strip to jump to it. In <b>Checks</b>, passed checks fold into one line so what needs you stands out. In the <b>heatmap</b>, the two lines on top say what it means; point at an hour to read its numbers.",
         "Paste your Zernio API key in the <b>Connect Zernio</b> card and press Save. It's tested right away and stays in this folder's .env file.",
         "Answer the one-time setup questions (accounts, keywords, words to avoid, goal…), or say \"defaults\".",
@@ -5583,6 +5627,9 @@
       ["البداية", [
         "افتح Claude Code في مجلد البوستات واكتب <code>/200bps-publish set me up</code>. هاللوحة تنفتح بروحها.",
         "<b>أعلى اللوحة</b>: المنحنى هو نموك (الأخضر شغل ثابت، والنقطة الحمرا هي الاختراق). والشريط تحته يمشي بأرقامك الحقيقية من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت (وقّف عليه بالماوس عشان يوقف). وتقييم 100 ياخذ نقطة الاختراق الحمرا. حرّك الماوس عشان تنور الشبكة.",
+        "<b>BIPS، Claude مالك</b>: الروبوت اللي بالزاوية تحت دايماً موجود. اضغط عليه أو اضغط <b>N</b> عشان تكتب لـClaude. <b>اسحب ملفات لأي مكان</b> بالصفحة (أو <b>📎 أرفق</b>، أو الصق) عشان ترسلها مع الرسالة. ردود Claude تطلع جنب BIPS؛ والأسئلة تفتح نافذة. وأي شي قاعد يشتغل تقدر توقفه: <b>■ وقّف</b> بقائمة الشغل أو تحت رسالتك.",
+        "<b>انشر على</b> (تبويب البوست): اضغط على منصة عشان تشغّلها أو تطفيها لهالبوست. <b>المنشورات</b>: ▶ على الفيديو يشغّله بالصوت داخل اللوحة، مع نتايجه (الوصول، اللايكات، الحفظ…). <b>الرسائل</b>: <b>⊘ تجاهل</b> التعليق اللي ما يحتاج رد (أو <b>تجاهل الكل</b>)؛ والتراجع موجود.",
+        "<b>حكم خريطة التفاعل</b>: أشّر على أي ساعة وتطلع بطاقة صغيرة: <b>وقت حلو / عادي / ضعيف</b> مقارنة بساعة عادية، وشلون سوّت الكاروسيل والفيديو والصور فيها، لكل منصة. من بوستاتك بس.",
         "<b>حركات سريعة</b>: اضغط <b>1-5</b> عشان تبدّل التبويبات (البوست، المنشورات، الخطة، النمو، الرسائل)؛ واضغط أي رقم بالشريط عشان تروح له. في <b>الفحوصات</b>، اللي نجحت تنطوي بسطر واحد عشان اللي يحتاجك يبين. وفي <b>خريطة التفاعل</b>، السطرين فوق يشرحون معناها؛ وأشّر على أي ساعة عشان تقرا أرقامها.",
         "الصق مفتاح Zernio في بطاقة <b>اربط Zernio</b> واضغط حفظ. ينختبر على طول ويظل في ملف ‎.env‎ بهالمجلد.",
         "جاوب أسئلة الإعداد مرة وحدة (الحسابات، الكلمات، الكلمات الممنوعة، الهدف…)، أو قول «defaults».",
@@ -6010,16 +6057,17 @@
     const list = el("ul", { class: "jobs-list" });
     for (const j of items) {
       const run = j.state === "running", ind = run && (j.pct == null || j.indeterminate);
-      const icon = run ? el("i", { class: "jobs-spin" }) : el("i", { class: "jobs-ic " + j.state }, j.state === "done" ? "✓" : j.state === "lost" ? "‖" : "✕");
-      const pct = run ? (ind ? "" : j.pct + "%") : j.state === "done" ? "100%" : t(j.state === "lost" ? "jobsLost" : "jobsFailed");
+      const icon = run ? el("i", { class: "jobs-spin" }) : el("i", { class: "jobs-ic " + j.state }, j.state === "done" ? "✓" : j.state === "lost" || j.state === "stopped" ? "■" : "✕");
+      const pct = run ? (ind ? "" : j.pct + "%") : j.state === "done" ? "100%" : t(j.state === "lost" ? "jobsLost" : j.state === "stopped" ? "jobsStopped" : "jobsFailed");
       const step = !run && j.error ? j.error : j.step || (j.text || "");
       list.append(el("li", { class: "job " + j.state },
         icon,
         el("div", { class: "job-main" },
           el("div", { class: "job-top" }, el("b", {}, jobLabel(j)), el("span", { class: "job-pct" }, pct)),
           el("div", { class: "job-bar" + (ind ? " ind" : "") }, el("s", { style: "width:" + (ind ? 35 : run ? j.pct : 100) + "%" })),
-          el("div", { class: "job-sub" }, el("span", {}, step), el("span", { class: "job-time" }, fmtSecs(j.secs) + " · " + (run ? t("jobsWorking") : t("jobsFinished"))))
-        )));
+          el("div", { class: "job-sub" }, el("span", {}, step), el("span", { class: "job-time" }, fmtSecs(j.secs) + " · " + (run ? t("jobsWorking") : j.state === "stopped" ? t("jobsStopped") : t("jobsFinished"))))
+        ),
+        run && j.stoppable ? el("button", { class: "btn sm job-stop", type: "button", onclick: (e) => { e.stopPropagation(); stopJob(j.id); } }, "■ " + t("jobsStop")) : null));
     }
     jobsPanel.append(list);
   }
@@ -6106,7 +6154,12 @@
       listen: ["Claude is listening", "Green: anything you click here reaches Claude Code right away. Grey: Claude Code is closed, and your requests wait until it opens."],
       decision: ["A decision is waiting", "Claude asked you something. Click to answer here, or answer in the chat. The first answer wins."],
       streak: ["Posting streak", "Days in a row with at least one post. Keep it going to stay visible."],
-      note: ["Note to Claude", "Type any instruction, e.g. \"use frame 4\" or \"make the hook shorter\". Claude reads it before the next step."],
+      note: ["Note to Claude", "BIPS, bottom corner, is always there: click it or press N from anywhere. Drop files anywhere on the page (or 📎 Attach, or paste) to send them with your note. Claude's replies pop up next to BIPS."],
+      postTo: ["Post to", "Switch each network on or off for this post with one tap. A post already in Zernio opens its networks window instead."],
+      zplay: ["Play", "Plays the whole video with sound right here, with the post's results. No trip to Zernio."],
+      ibxIgnore: ["Ignore", "No reply needed: moves the comment to Handled on this computer only. Nothing is posted or deleted. Undo is in the message that pops up."],
+      jobStop: ["Stop", "Stops this job or withdraws a note Claude hasn't finished. Publishing and batch scheduling can't stop halfway, so they don't have this button."],
+      chatAttach: ["Attach", "Photos, a video, a PDF or a zip, sent to Claude with your note. You can also paste them or drop them anywhere on the page."],
       search: ["Command bar", "Press Ctrl+K (⌘K on Mac) and type: cover, fix, batch, dark… Then Enter. The fastest way to do anything here."],
       menu: ["Settings", "API keys, language, 12h/24h, light/dark, readiness, connected accounts, and the full guide."],
       tabPost: ["Post", "The post you're working on now: preview, checks, score, cover, time, gift and the Publish button."],
@@ -6271,7 +6324,12 @@
       listen: ["Claude يسمعك", "أخضر: أي شي تضغطه هني يوصل Claude Code فوراً. رمادي: Claude Code مسكّر، وطلباتك تنتظر لين ينفتح."],
       decision: ["في قرار ينتظرك", "Claude سألك شي. اضغط عشان تجاوب هني، أو جاوب بالمحادثة. أول جواب يعتمد."],
       streak: ["أيام النشر المتواصلة", "عدد الأيام ورا بعض اللي نشرت فيها. كمّل عشان تظل ظاهر."],
-      note: ["رسالة لـClaude", "اكتب أي تعليمات، مثلاً «استخدم اللقطة 4» أو «قصّر الافتتاحية». Claude يقراها قبل الخطوة الجاية."],
+      note: ["رسالة لـClaude", "BIPS تحت بالزاوية دايماً موجود: اضغط عليه أو اضغط N من أي مكان. اسحب ملفات لأي مكان بالصفحة (أو 📎 أرفق، أو الصق) عشان ترسلها مع رسالتك. ردود Claude تطلع جنب BIPS."],
+      postTo: ["انشر على", "شغّل أو طفّ كل منصة لهالبوست بضغطة. البوست اللي صار في Zernio يفتح نافذة منصاته."],
+      zplay: ["تشغيل", "يشغّل الفيديو كامل بالصوت هني، مع نتايج البوست. بدون ما تروح Zernio."],
+      ibxIgnore: ["تجاهل", "ما يحتاج رد: ينقل التعليق لـ«انتهت» على هالجهاز بس. ما ينشر ولا ينحذف شي. التراجع موجود بالرسالة اللي تطلع."],
+      jobStop: ["وقّف", "يوقف هالشغل أو يسحب رسالة Claude ما خلصها. النشر والجدولة الجماعية ما تتوقف بالنص، فما لها هالزر."],
+      chatAttach: ["أرفق", "صور، فيديو، PDF أو ملف مضغوط، تنرسل لـClaude مع رسالتك. وتقدر تلصقها أو تسحبها لأي مكان بالصفحة."],
       search: ["شريط الأوامر", "اضغط Ctrl+K (⌘K بالماك) واكتب: غلاف، تصحيح، جدولة… وبعدها Enter. أسرع طريقة لأي شي هني."],
       menu: ["الإعدادات", "مفاتيح API، اللغة، 12/24 ساعة، فاتح/داكن، الجاهزية، الحسابات، والدليل الكامل."],
       tabPost: ["البوست", "البوست اللي تشتغل عليه الحين: المعاينة، الفحوصات، التقييم، الغلاف، الوقت، الهدية وزر النشر."],
@@ -6448,7 +6506,7 @@
     [".brhythm, .bdays", "brhythm"], [".bmode, .bctl input[type=time]", "bmode"], [".bskip", "bskip"], [".bwhen", "bwhen"], [".bgrip, .bmove", "brow"],
     [".bgo, .bconfirm", "bgo"], [".bblocked", "bblocked"],
     [".cancel-btn", "cancelBtn"], [".ztile, .zrow", "ztile"], [".zview", "zview"], ["#zFilter", "zfilter"], [".add-acc", "connectAcc"], ["#zAccounts .aud-z", "account"],
-    ["#zRefresh", "refresh"], ["#zBatch, #batchBtn", "batch"], ["#imgTop, #imgPreview", "image"], [".img-engine", "imgEngine"], [".img-newmodel", "imgNewModel"], [".img-modelcheck", "imgModelCheck"], [".img-cledit-btn", "clChange"], ["#ticker", "ticker"], [".heat-read", "heatRead"], [".pass-sum", "passSum"], ["#jobsPill, .jobs-panel", "jobs"], [".img-drop", "imgDrop"], [".img-model", "imgModel"],
+    ["#zRefresh", "refresh"], ["#zBatch, #batchBtn", "batch"], ["#imgTop, #imgPreview", "image"], [".img-engine", "imgEngine"], [".img-newmodel", "imgNewModel"], [".img-modelcheck", "imgModelCheck"], [".img-cledit-btn", "clChange"], ["#ticker", "ticker"], [".post-to", "postTo"], [".ztile-play, .ztile.has-vid", "zplay"], [".ibx-ignore, .ibx-ignoreall", "ibxIgnore"], [".job-stop, .chat-stop", "jobStop"], [".chat-attach", "chatAttach"], [".heat-read", "heatRead"], [".pass-sum", "passSum"], ["#jobsPill, .jobs-panel", "jobs"], [".img-drop", "imgDrop"], [".img-model", "imgModel"],
     ["#listenPill", "listen"], ["#decisionPill", "decision"], ["#streakPill", "streak"], ["#noteTop, #noteTab, #noteFab", "note"], ["#cmdBtn", "search"],
     ["#drawerBtn", "menu"], [".topbar .brand", "brand"],
     [".tab[data-view=post]", "tabPost"], [".tab[data-view=posts]", "tabPosts"], [".tab[data-view=plan]", "tabPlan"], [".tab[data-view=growth]", "tabGrowth"], [".tab[data-view=inbox]", "tabInbox"],
@@ -6549,6 +6607,228 @@
     new MutationObserver(kick).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     build(); kick();
   })();
+
+  /* =====================================================================
+     v1.20 life layer: BIPS (the 200bps robot) is Claude's face in the
+     dashboard; the dock is always there; files can be dropped anywhere;
+     everything that runs can be stopped.
+     ===================================================================== */
+  const DOCK = { att: [], pose: "listen", base: "listen", timer: 0, drawAtts: null };
+  function bips(pose, cls) {
+    return el("img", { class: "bips " + (cls || ""), src: "assets/bips/" + pose + ".png", alt: "", "aria-hidden": "true", draggable: "false",
+      onerror: (e) => { if (!e.target.dataset.fb) { e.target.dataset.fb = "1"; e.target.src = "assets/bips/idle.png"; } } });
+  }
+  const dockImg = () => $("#noteFab .dock-av");
+  function dockSet(pose) { const im = dockImg(); if (im && DOCK.pose !== pose) { DOCK.pose = pose; im.classList.remove("swap"); void im.offsetWidth; im.classList.add("swap"); im.src = "assets/bips/" + pose + ".png"; } }
+  function dockPose(pose, ms) { clearTimeout(DOCK.timer); dockSet(pose); if (ms) DOCK.timer = setTimeout(() => dockSet(DOCK.base), ms); }
+  function dockPresence(pres) { const b = pres === "listening" ? "listen" : pres === "working" ? "work" : "idle"; if (DOCK.base !== b) { DOCK.base = b; if (!DOCK.timer || DOCK.pose === DOCK.base) dockSet(b); } }
+  (function buildDock() {
+    const fab = $("#noteFab"); if (!fab) return;
+    fab.innerHTML = "";
+    fab.append(bips("listen", "dock-av"), el("span", { class: "dock-lbl", "data-i18n": "noteFab" }, t("noteFab")), el("kbd", { class: "dock-kbd" }, "N"));
+    fab.title = t("dockHint");
+    fab.addEventListener("pointerenter", () => { if (!DOCK.timer) dockSet("wave"); });
+    fab.addEventListener("pointerleave", () => { if (!DOCK.timer) dockSet(DOCK.base); });
+  })();
+  // Claude's replies: BIPS says them in a small bubble by the dock (questions still open a window)
+  function dockSay(m) {
+    document.querySelectorAll(".dock-say").forEach((x) => x.remove());
+    const txt = String(m.text || "");
+    const close = () => { b.classList.add("out"); setTimeout(() => b.remove(), 220); post("/api/chat", { op: "seen", id: m.id }).catch(() => {}); };
+    const b = el("div", { class: "dock-say", role: "status", "aria-live": "polite" },
+      bips("talk", "say-av"),
+      el("div", { class: "say-body" }, el("b", {}, "Claude"),
+        el("p", { style: "unicode-bidi:plaintext" }, txt.length > 180 ? txt.slice(0, 180) + "…" : txt),
+        el("div", { class: "row2" }, el("button", { class: "btn sm on", type: "button", onclick: () => { b.remove(); openChat(); } }, t("chatOpen")),
+          el("button", { class: "btn sm", type: "button", onclick: close }, t("gotIt")))),
+      el("button", { class: "x", type: "button", "aria-label": t("close"), onclick: close }, "×"));
+    document.body.append(b);
+    dockPose("talk", 6000);
+    let left = 14000;
+    const tick = setInterval(() => { if (!b.matches(":hover")) left -= 500; if (left <= 0 || !b.isConnected) { clearInterval(tick); if (b.isConnected) close(); } }, 500);
+  }
+  async function stopJob(id) {
+    try { const r = await post("/api/jobs", { op: "stop", id }); JOBS.data = r; drawJobs(); toast("■ " + t("jobsStopDone")); lastSig = ""; load(false); return r; }
+    catch (e) { toast(e.message); }
+  }
+  async function ignoreComments(ids) {
+    try {
+      const r = await inboxApi({ op: "ignore", ids });
+      state.data.inbox = r.inbox; renderComments();
+      toastUndo(t("ibxIgnored") + (ids.length > 1 ? " · " + ids.length : ""), async () => {
+        for (const id of ids) await inboxApi({ op: "unhandle", commentId: id }).catch(() => {});
+        lastSig = ""; load(false);
+      });
+    } catch (e) { toast(e.message); }
+  }
+  function toastUndo(msg, undo) {
+    document.querySelectorAll(".toast.undo").forEach((x) => x.remove());
+    const tt = el("div", { class: "toast undo", role: "status" }, el("span", {}, msg),
+      el("button", { class: "btn sm", type: "button", onclick: () => { tt.remove(); undo(); } }, "↶ " + t("ibxUndo")));
+    document.body.append(tt); setTimeout(() => tt.remove(), 7000);
+  }
+  // files for Claude: from the chat's 📎, a paste, or a drop anywhere on the page
+  async function addAttachments(files) {
+    files = files.filter((f) => f && f.size);
+    if (!files.length) return;
+    dockPose("work"); toast(t("attUploading").replace("{n}", files.length));
+    for (const f of files) {
+      try {
+        const r = await fetch("/api/upload", { method: "POST", headers: { "Content-Type": "application/octet-stream", "X-BPS-Token": TOKEN, "X-File-Name": encodeURIComponent(f.name) }, body: f }).then((x) => x.json());
+        if (!r.ok) throw new Error(r.error);
+        DOCK.att.push({ path: r.path, name: r.name, kind: r.kind });
+      } catch (e) { toast(f.name + ": " + e.message); }
+    }
+    dockPose("done", 1800);
+    if (modal.open === "note" && DOCK.drawAtts) DOCK.drawAtts(); else openChat();
+  }
+  (function dropAnywhere() {
+    const ov = el("div", { class: "drop-ov", hidden: true }, el("div", { class: "drop-card" }, bips("wave", "drop-av"), el("b", {}, t("dropTitle")), el("p", {}, t("dropHint"))));
+    document.body.append(ov);
+    let depth = 0;
+    const files = (e) => e.dataTransfer && [...(e.dataTransfer.types || [])].includes("Files");
+    const theirs = () => modal.open && modal.open !== "note";            // the image / new post windows take their own drops
+    document.addEventListener("dragenter", (e) => { if (!files(e) || theirs()) return; depth++; ov.querySelector("b").textContent = t("dropTitle"); ov.querySelector("p").textContent = t("dropHint"); ov.hidden = false; });
+    document.addEventListener("dragleave", () => { if (ov.hidden) return; depth = Math.max(0, depth - 1); if (!depth) ov.hidden = true; });
+    document.addEventListener("dragover", (e) => { if (!ov.hidden) e.preventDefault(); });
+    document.addEventListener("drop", (e) => { if (ov.hidden) return; e.preventDefault(); depth = 0; ov.hidden = true; addAttachments([...e.dataTransfer.files]); });
+  })();
+  document.addEventListener("keydown", (e) => {                   // N: note to Claude, from anywhere
+    if (e.ctrlKey || e.metaKey || e.altKey || modal.open || !$("#palette").hidden) return;
+    const tg = e.target; if (tg && (tg.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName))) return;
+    if (e.key === "n" || e.key === "N") { e.preventDefault(); openChat(); }
+  });
+
+  // a post's results, inside the post window (no trip to Zernio)
+  function postStats(r) {
+    const rows = ((state.z || {}).posts || []).filter((x) => x.zid === r.id && x.metrics);
+    if (!rows.length) return null;
+    const keys = ["reach", "views", "likes", "comments", "shares", "saves", "follows"].map((k) => [k, "pdK_" + k]);
+    const box = el("div", { class: "pd-stats" }, el("div", { class: "label" }, t("pdStats")));
+    rows.forEach((x) => {
+      const m = x.metrics;
+      box.append(el("div", { class: "pd-row" }, el("span", { class: "net n-" + x.platform }, NET[x.platform] || x.platform),
+        ...keys.filter(([k]) => m[k] != null && m[k] !== 0 || k === "reach").map(([k, lbl]) => el("div", { class: "pd-k" },
+          el("b", {}, fmt(Math.round(m[k] || 0))), el("small", {}, t(lbl))))));
+      if (m.comments) box.append(el("button", { class: "btn sm", type: "button", onclick: () => closeModal(() => { go("inbox"); }) }, t("pdComments").replace("{n}", fmt(m.comments)) + " · " + t("pdOpenInbox")));
+    });
+    return box;
+  }
+
+  // Post tab: which networks this post goes to, as big toggles
+  function renderPostTo(p) {
+    let host = $("#postTo");
+    if (!host) { host = el("div", { class: "post-to", id: "postTo" }); $("#platSwitch").before(host); }
+    host.innerHTML = "";
+    const accs = ((state.z || {}).accounts || []).filter((a) => a.active !== false && !a.needsReconnection);
+    if (!p || !accs.length) return;
+    const nets = [...new Set(accs.map((a) => a.platform))];
+    const on = new Set(p.platforms || []);
+    const uploaded = !!p.postId || ["scheduled", "published"].includes(p.status);
+    const kind = p.type === "reel" ? "reel" : p.type === "carousel" ? "carousel" : p.type === "document" ? "document" : p.type === "text" ? "text" : "single";
+    const cfgAcc = ((state.data && state.data.config) || {}).accounts || {};
+    host.append(el("span", { class: "label pt-l" }, t("ptTitle")));
+    nets.forEach((pf) => {
+      const fits = !NET_FITS[pf] || NET_FITS[pf].includes(kind);
+      const acc = accs.find((a) => a.id === (cfgAcc[pf] || {}).id) || accs.find((a) => a.platform === pf);
+      const b = el("button", { class: "pt-net" + (on.has(pf) ? " on" : "") + (fits ? "" : " no"), type: "button", "aria-pressed": String(on.has(pf)),
+        disabled: fits ? null : "", title: fits ? (NET_NAME[pf] || pf) + (acc ? " · @" + acc.username : "") : (NET_NAME[pf] || pf) + " " + t("ptCant") },
+        el("span", { class: "net n-" + pf }, NET[pf] || pf), el("span", { class: "pt-name" }, NET_NAME[pf] || pf),
+        acc ? el("small", {}, "@" + acc.username) : null, el("i", { class: "pt-sw", "aria-hidden": "true" }));
+      b.addEventListener("click", async () => {
+        if (uploaded) { const row = postRows().find((r) => r.id === p.postId); if (row) openNetEdit(row); else toast(t("ptLocked")); return; }
+        const next = new Set(on); next.has(pf) ? next.delete(pf) : next.add(pf);
+        if (!next.size) { toast(t("ptKeep")); return; }
+        b.classList.toggle("on");
+        const wanted = [...next].map((x) => ({ platform: x, accountId: ((cfgAcc[x] || {}).id) || (accs.find((a) => a.platform === x) || {}).id }));
+        try { await post("/api/plan", { op: "networks", planId: p.id, platforms: wanted }); toast(t("ptSaved")); lastSig = ""; load(false); }
+        catch (e) { b.classList.toggle("on"); toast(e.message); }
+      });
+      host.append(b);
+    });
+    host.append(el("small", { class: "hint pt-hint" }, uploaded ? t("ptLocked") : t("ptHint")));
+  }
+
+  // heatmap: is this a good time, and for which format and network? From the user's own posts.
+  function slotProfile(bt, slotOf) {
+    const z = state.z || {}, kinds = {};
+    (z.zposts || []).forEach((r) => { kinds[r.id] = r.kind; });
+    const eng = (m) => (m.likes || 0) + (m.comments || 0) + (m.shares || 0) + (m.saves || 0);
+    const posts = (z.posts || []).filter((x) => x.publishedAt && x.metrics);
+    const med = (a) => { const b = [...a].sort((x, y) => x - y); return b.length ? (b.length % 2 ? b[(b.length - 1) / 2] : (b[b.length / 2 - 1] + b[b.length / 2]) / 2) : 0; };
+    const avg = {};
+    [...new Set(posts.map((x) => x.platform))].forEach((pl) => { const m = med(posts.filter((x) => x.platform === pl).map((x) => eng(x.metrics))); avg[pl] = { s: m, n: 1 }; });
+    const norm = (k) => k === "reel" || k === "video" ? "reel" : k === "carousel" ? "carousel" : k === "post" || k === "single" ? "post" : null;
+    const rows = posts.map((x) => {
+      const [d, h] = slotOf(x.publishedAt).split(":").map(Number), a = avg[x.platform];
+      return { d, h, plat: x.platform, kind: norm(kinds[x.zid]), rel: a && a.s ? eng(x.metrics) / (a.s / a.n) : null };
+    }).filter((r) => r.rel != null && !Number.isNaN(r.d));
+    return (d, h) => {
+      const near = rows.filter((r) => r.d === d && Math.abs(r.h - h) <= 1);
+      const group = (key) => { const g = {}; near.forEach((r) => { if (!r[key]) return; const x = g[r[key]] || (g[r[key]] = { n: 0, s: 0 }); x.n++; x.s += r.rel; }); Object.values(g).forEach((x) => { x.rel = x.s / x.n; }); return g; };
+      return { kinds: group("kind"), nets: group("plat"), n: near.length };
+    };
+  }
+  const vcard = el("div", { class: "vcard", hidden: true, "aria-hidden": "true" });
+  document.body.append(vcard);
+  // a typical hour: the median of the hours you've posted at (one viral post can't move it)
+  function typicalHour(bt) {
+    const vals = [];
+    (bt.grid || []).forEach((row, d) => row.forEach((v, h) => { if ((bt.counts && bt.counts[d] && bt.counts[d][h]) && v > 0) vals.push(v); }));
+    vals.sort((a, b) => a - b);
+    return vals.length ? (vals.length % 2 ? vals[(vals.length - 1) / 2] : (vals[vals.length / 2 - 1] + vals[vals.length / 2]) / 2) : 0;
+  }
+  const verdictOf = (rel) => rel == null ? "none" : rel >= 1.15 ? "good" : rel <= .85 ? "bad" : "ok";
+  function verdictCard(c, bt, prof, ev) {
+    if (!c || innerWidth < 700) { vcard.hidden = true; return; }
+    const d = +c.dataset.d, h = +c.dataset.h, n = (bt.counts && bt.counts[d] && bt.counts[d][h]) || 0, v = bt.grid[d][h];
+    const pf = prof(d, h);
+    const typ = typicalHour(bt);
+    const overall = n && typ ? verdictOf(v / typ) : pf.n ? verdictOf(Object.values(pf.nets).reduce((a, x) => a + x.rel * x.n, 0) / pf.n) : "none";
+    const word = { good: t("hvGood"), ok: t("hvOk"), bad: t("hvBad"), none: t("hvNone") };
+    const mark = (g) => { const vv = verdictOf(g && g.rel); return el("span", { class: "vc-m v-" + (g ? vv : "none") }, g ? (vv === "good" ? "▲" : vv === "bad" ? "▼" : "■") : "·"); };
+    vcard.innerHTML = "";
+    vcard.className = "vcard v-" + overall;
+    vcard.append(el("div", { class: "vc-head" }, el("span", { class: "vc-badge" }, word[overall]), el("span", { class: "vc-when" }, `${t("days")[d]} ${hourLabel(h)}`)));
+    if (n && typ) vcard.append(el("div", { class: "vc-sub" }, t("hvTyp").replace("{l}", liftTxt(Math.round((v / typ - 1) * 100))).replace("{n}", n)));
+    if (pf.n) {
+      vcard.append(el("div", { class: "vc-row" }, ...[["carousel", "kCarousel"], ["reel", "kReel"], ["post", "kPost"]].map(([k, lbl]) => el("span", { class: "vc-i" + (pf.kinds[k] ? "" : " dim") }, mark(pf.kinds[k]), t(lbl)))));
+      const nets = Object.keys(pf.nets);
+      if (nets.length) vcard.append(el("div", { class: "vc-row" }, ...nets.map((k) => el("span", { class: "vc-i" }, mark(pf.nets[k]), NET_NAME[k] || k))));
+    }
+    vcard.hidden = false;
+    if (ev) verdictMove(ev);
+  }
+  function verdictMove(e) {
+    if (vcard.hidden) return;
+    const w = vcard.offsetWidth, h = vcard.offsetHeight;
+    let x = e.clientX + 18, y = e.clientY + 18;
+    if (x + w > innerWidth - 8) x = e.clientX - w - 18;
+    if (y + h > innerHeight - 8) y = e.clientY - h - 18;
+    vcard.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+  }
+  addEventListener("scroll", () => { vcard.hidden = true; }, { passive: true });
+
+  // the opening: a lime flood rises, the mark lands, then the dashboard (once per visit)
+  (function bumper() {
+    let seen = false; try { seen = sessionStorage.getItem("bps.bumped") === "1"; sessionStorage.setItem("bps.bumped", "1"); } catch (e) {}
+    if (seen || reduced) return;
+    const b = el("div", { class: "bumper", "aria-hidden": "true" }, el("div", { class: "bp-in" }, el("img", { src: "assets/200bps-mark.webp", alt: "" }),
+      el("span", { class: "bp-name" }, "200bps", el("b", {}, ".ai")), el("span", { class: "bp-sub" }, "Publish")));
+    document.body.append(b);
+    const end = () => { b.classList.add("out"); setTimeout(() => b.remove(), 420); };
+    b.addEventListener("click", end);
+    setTimeout(end, 1150);
+  })();
+  // a press lands: a ring from the point you pressed (primary actions and tabs)
+  document.addEventListener("pointerdown", (e) => {
+    const b = e.target.closest && e.target.closest(".btn.on, .tab, .fab, .pt-net, .img-engine button");
+    if (!b || reduced || b.disabled) return;
+    const r = b.getBoundingClientRect(), s_ = Math.max(r.width, r.height) * 2.2;
+    const rp = el("span", { class: "rpl", "aria-hidden": "true", style: `width:${s_}px;height:${s_}px;left:${e.clientX - r.left - s_ / 2}px;top:${e.clientY - r.top - s_ / 2}px` });
+    const box = el("span", { class: "rpl-box", "aria-hidden": "true" }, rp);
+    b.append(box); setTimeout(() => box.remove(), 650);
+  }, { passive: true });
 
   setView(state.view);
   load(true).then(loadZernio);

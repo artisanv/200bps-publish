@@ -30,6 +30,14 @@ def _save(s: dict) -> None:
     write_json(_path(), s)
 
 
+def ignore(comment_ids: list[str]) -> dict:
+    """Ignore = no reply needed. Local only (moves it to Handled); undo with unhandle."""
+    for c in comment_ids:
+        if c:
+            _handled(c, "ignored")
+    return state()
+
+
 def _handled(comment_id: str, how: str) -> None:
     s = state()
     s["handled"][comment_id] = {"how": how, "ts": int(time.time())}

@@ -208,6 +208,11 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             return self._json({"ok": False, "error": "bad json"}, 400)
         path = urlparse(self.path).path
         try:
+            if path == "/api/jobs":             # Stop: a job, or a note Claude hasn't finished
+                import jobs
+                if data.get("op") != "stop":
+                    raise ValueError("Unknown action.")
+                return self._json({"ok": True, "job": jobs.stop(str(data.get("id", ""))), **jobs.summary()})
             if path == "/api/answer":
                 q = hitl.answer(str(data.get("id", "")), str(data.get("answer", "")), str(data.get("note", "")), via="ui",
                                 edited=str(data.get("edited", ""))[:5000])
@@ -289,6 +294,8 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                     return self._json({"ok": True, **inbox.delete(*a, str(data.get("confirm", "")))})
                 if op == "label":
                     return self._json({"ok": True, "inbox": inbox.label(a[2], str(data.get("name", "")), bool(data.get("on", True)))})
+                if op == "ignore":
+                    return self._json({"ok": True, "inbox": inbox.ignore([str(x) for x in (data.get("ids") or [a[2]])][:200])})
                 if op == "unhandle":
                     return self._json({"ok": True, "inbox": inbox.unhandle(a[2])})
                 if op == "ask_drafts":
