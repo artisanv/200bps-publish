@@ -93,6 +93,11 @@
       jk_sync: "Refreshing from Zernio", jk_newpost: "Making a post folder", jk_claude: "Claude is working",
       imgShort: "Image", imgOpen: "Create image", imgNoKey: "Add your OpenAI key to create images", imgNoKeyHint: "Paste it below and press Save. It's tested right away.",
       imgStep1: "Describe the image", imgPh: "e.g. A lime-green paper airplane on a dark desk, soft light, minimal, room for a headline at the top",
+      hiBest: "Best hour: {slot} · {lift} vs your average · {n} posts · {conf} confidence", hiHour: "Most reliable hour across the week: {h} · {n} posts · {lift}",
+      hiRead: "Point at any hour to read its numbers. Click to plan a post there.", hrEmpty: "{slot}: you haven't posted at this hour yet, so there's no data. Click to plan one.",
+      hrLine: "{slot} · {avg} engagement per post on average · {n} posts · {lift} vs your average · {conf} confidence", hrSched: "{k} scheduled here",
+      keyEmpty: "no posts yet", heatScale: "engagement per post", heatMore: "More detail: peaks by day and your audience's clocks",
+      passSum: "{n} checks passed", passShow: "show", passHide: "hide", kbTabs: "Keys 1-5 switch tabs",
       engOpenAI: "OpenAI image", engOpenAISub: "Photos and illustrations, drawn by gpt-image. Uses your OpenAI credit.",
       engClaude: "Claude designs it", engClaudeSub: "Typography, carousel slides, quote cards, charts. Built in code at the exact post size. Free.",
       shapeStory: "Story", qDesign: "design", clGo: "Ask Claude to design it", clGoEdit: "Ask Claude to change it",
@@ -289,6 +294,11 @@
       jk_sync: "تحديث من Zernio", jk_newpost: "مجلد بوست جديد", jk_claude: "طلب لـClaude",
       imgShort: "صورة", imgOpen: "سوّ صورة", imgNoKey: "أضف مفتاح OpenAI عشان تسوي صور", imgNoKeyHint: "الصقه تحت واضغط حفظ. ينختبر على طول.",
       imgStep1: "اوصف الصورة", imgPh: "مثلاً: طيارة ورق لونها ليموني على مكتب غامق، إضاءة ناعمة، بسيطة، وفي مكان للعنوان فوق",
+      hiBest: "أفضل ساعة: {slot} · {lift} مقارنة بمعدلك · {n} بوستات · ثقة {conf}", hiHour: "أثبت ساعة على مدار الأسبوع: {h} · {n} بوستات · {lift}",
+      hiRead: "أشّر على أي ساعة عشان تشوف أرقامها. اضغط عشان تخطط بوست فيها.", hrEmpty: "{slot}: ما نشرت بهالساعة للحين، فما في بيانات. اضغط عشان تخطط واحد.",
+      hrLine: "{slot} · معدل {avg} تفاعل للبوست · {n} بوستات · {lift} مقارنة بمعدلك · ثقة {conf}", hrSched: "{k} مجدول هني",
+      keyEmpty: "ما في بوستات", heatScale: "التفاعل للبوست", heatMore: "تفاصيل أكثر: أفضل وقت لكل يوم وساعات جمهورك",
+      passSum: "{n} فحص نجح", passShow: "اعرض", passHide: "اخفِ", kbTabs: "الأزرار 1-5 تبدّل التبويبات",
       engOpenAI: "صورة OpenAI", engOpenAISub: "صور ورسومات يرسمها gpt-image. تستهلك رصيد OpenAI.",
       engClaude: "Claude يصممها", engClaudeSub: "كتابة وتصاميم، سلايدات كاروسيل، اقتباسات، رسوم بيانية. تنبني بالكود بنفس مقاس البوست. ببلاش.",
       shapeStory: "ستوري", qDesign: "تصميم", clGo: "خل Claude يصممها", clGoEdit: "خل Claude يعدّلها",
@@ -1020,7 +1030,10 @@
     const list = $("#checkList"); list.innerHTML = "";
     const checks = (p.checks || []).filter((c) => !c.platform || c.platform === state.plat);
     const order = { fail: 0, warn: 1, info: 2, pass: 3 };
-    checks.sort((a, b) => order[a.status] - order[b.status]).forEach((c) => {
+    const passed = checks.filter((c) => c.status === "pass"), open_ = checks.filter((c) => c.status !== "pass");
+    const fold = passed.length > 2;
+    const showList = fold && !state.showPass ? open_ : checks;
+    showList.sort((a, b) => order[a.status] - order[b.status]).forEach((c) => {
       const fixable = c.status !== "pass";
       const li = el("li", fixable ? { class: "fixable", role: "button", tabindex: "0", title: t("clickToFix") } : {},
         el("span", { class: "tag " + c.status }, c.status.toUpperCase()),
@@ -1033,6 +1046,10 @@
       }
       list.append(li);
     });
+    if (fold) list.append(el("li", { class: "pass-sum", role: "button", tabindex: "0", "aria-expanded": String(!!state.showPass),
+      onclick: () => { state.showPass = !state.showPass; renderAll(); },
+      onkeydown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); state.showPass = !state.showPass; renderAll(); } } },
+      el("span", { class: "tag pass" }, "✓"), el("div", {}, el("b", {}, t("passSum").replace("{n}", passed.length))), el("span", { class: "fixme" }, state.showPass ? t("passHide") : t("passShow"))));
     const bad = checks.filter((c) => c.status === "fail").length, warn = checks.filter((c) => c.status === "warn").length;
     $("#checkCount").textContent = `${bad} FAIL · ${warn} WARN`;
 
@@ -1319,19 +1336,40 @@
           const r = rank.get(d + ":" + h);
           const key = d + ":" + h;
           const cell = el("span", { class: `c click l${level(v)}` + (r ? ` r r${r}` : "") + (schedSlots.has(key) ? " sched" : "") + (planSlot === key ? " plan" : ""),
-            role: "button", tabindex: "0", title: `${t("days")[d]} ${hh(h)}` + (r ? ` · #${r}` : "") + (v ? ` · ${(+v).toFixed(1)}` : "") }, r ? el("b", {}, r) : null);
+            role: "button", tabindex: "0", "data-d": d, "data-h": h, title: `${t("days")[d]} ${hh(h)}` + (r ? ` · #${r}` : "") + (v ? ` · ${(+v).toFixed(1)}` : "") }, r ? el("b", {}, r) : null);
           const openIt = () => openSlot(d, h, v, r, mx, (bt.counts && bt.counts[d] && bt.counts[d][h]) || 0);
           cell.addEventListener("click", openIt);
           cell.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openIt(); } });
           g.append(cell);
         });
       });
-      heat.append(el("div", { class: "hscroll" }, g));
-      heat.append(el("div", { class: "heat-key" }, el("span", {}, el("i", { style: "background:var(--bps-info)" }), t("keySched")),
-        el("span", {}, el("i", { style: "box-shadow:inset 0 0 0 2px var(--bps-info)" }), t("keyPlan")), el("span", {}, t("keyClick"))));
+      heat.append(heatInsight(bt), el("div", { class: "hscroll" }, g));
+      // the readout: what the hour under the pointer means, in words and numbers
+      const read = el("p", { class: "heat-read", "aria-live": "polite" }, t("hiRead"));
+      const cnt = (d, h) => (bt.counts && bt.counts[d] && bt.counts[d][h]) || 0;
+      const avgAll = bt.average || 0;
+      const schedCount = (key) => (z.scheduled || []).filter((x) => slotOf(x.scheduledFor) === key).length;
+      const show = (c) => {
+        g.querySelectorAll(".xh").forEach((x) => x.classList.remove("xh"));
+        if (!c) { read.textContent = t("hiRead"); read.classList.remove("on"); return; }
+        const d = +c.dataset.d, h = +c.dataset.h, v = bt.grid[d][h], n = cnt(d, h), slot = `${t("days")[d]} ${hh(h)}`;
+        g.querySelectorAll(`.c[data-d="${d}"], .c[data-h="${h}"]`).forEach((x) => x.classList.add("xh"));
+        const k = schedCount(d + ":" + h);
+        read.classList.add("on");
+        read.textContent = (!n && !v ? t("hrEmpty").replace("{slot}", slot)
+          : t("hrLine").replace("{slot}", slot).replace("{avg}", (+v).toFixed(v >= 10 ? 0 : 1)).replace("{n}", n || "–")
+              .replace("{lift}", avgAll ? liftTxt(Math.round((v / avgAll - 1) * 100)) : "–").replace("{conf}", t("conf_" + (n >= 5 ? "high" : n >= 3 ? "medium" : "low"))))
+          + (k ? " · " + t("hrSched").replace("{k}", k) : "");
+      };
+      g.addEventListener("pointerover", (e) => show(e.target.closest && e.target.closest(".c[data-d]")));
+      g.addEventListener("focusin", (e) => show(e.target.closest && e.target.closest(".c[data-d]")));
+      g.addEventListener("pointerleave", () => show(null));
+      heat.append(read);
+      const sample = (cls, txt) => el("span", {}, el("i", { class: "hk c " + cls }), txt);
       heat.append(el("div", { class: "heat-legend" },
-        el("span", { class: "label" }, t("low")), ...[1, 2, 3, 4, 5].map((l) => el("i", { class: "c l" + l })), el("span", { class: "label" }, t("high")),
+        el("span", { class: "label" }, t("low")), ...[1, 2, 3, 4, 5].map((l) => el("i", { class: "c l" + l })), el("span", { class: "label" }, t("high") + " · " + t("heatScale")),
         el("span", { class: "sep" }), el("i", { class: "c r r1" }, el("b", {}, "1")), el("span", { class: "label" }, t("bestSlot"))));
+      heat.append(el("div", { class: "heat-key" }, sample("l0", t("keyEmpty")), sample("l0 sched", t("keySched")), sample("l0 plan", t("keyPlan")), el("span", {}, t("keyClick"))));
       if (top.length) {
         const list = el("ol", { class: "toptimes" });
         const medal = [t("best"), t("second"), t("third")];
@@ -1344,8 +1382,8 @@
           el("span", { class: "evi" }, `n=${s.posts}`, confChip(s.confidence)))));
         heat.append(list);
       }
-      heat.append(peaksByDay(bt), audienceStrip(z.audience, bt));
-      if (bt.note) heat.append(el("p", { class: "empty" }, bt.note));
+      heat.append(el("details", { class: "heat-more" }, el("summary", {}, t("heatMore")), peaksByDay(bt), audienceStrip(z.audience, bt)));
+      if (bt.note && !top.length) heat.append(el("p", { class: "empty" }, bt.note));
     } else heat.innerHTML = `<p class="empty">${esc(bt.note || t("noData"))}</p>`;
   }
 
@@ -1513,8 +1551,11 @@
       const link = po.permalink || ((zp.platforms || []).find((p) => p.url) || {}).url;
       const cap = ((po.caption || zp.caption || "").split("\n")[0] || "").slice(0, 60);
       a.append(el("div", { class: "idea fn-card", style: "margin-bottom:8px" },
-        el("h3", {}, `“${x.keyword || (x.keywords || []).join(", ")}”`),
-        el("p", {}, `${x.active === false ? t("off") : t("on")}${x.followGate ? " · " + t("followGated") : ""}`),
+        el("div", { class: "fn-head" },
+          el("span", { class: "fn-state" + (x.active === false ? " off" : "") }, x.active === false ? t("off") : t("on")),
+          x.followGate ? el("span", { class: "chip" }, t("followGated")) : null),
+        el("div", { class: "chips fn-kw" }, ...[...new Set(String(x.keyword || (x.keywords || []).join(",")).split(/\s*,\s*/).filter(Boolean))].slice(0, 14)
+          .map((k) => el("span", { class: "chip", dir: "auto" }, k))),
         cap || link ? el("div", { class: "fn-post" }, cap ? el("span", { class: "fn-cap", dir: "auto" }, cap) : null,
           link ? el("a", { href: link, target: "_blank", rel: "noopener" }, t("fnPost") + " ↗") : null) : null,
         funnel(x)));
@@ -1957,21 +1998,25 @@
     if (!tk || !tr) return;
     const kp = z.kpis || {}, items = [];
     const fmt = (n) => n == null ? "–" : Intl.NumberFormat("en", { notation: n >= 10000 ? "compact" : "standard" }).format(n);   // metrics: Western digits
-    const add = (v, lbl, red) => { if (v != null && v !== "" && !Number.isNaN(v)) items.push([v, lbl, red]); };
+    let goTo = "growth";
+    const add = (v, lbl, red) => { if (v != null && v !== "" && !Number.isNaN(v)) items.push([v, lbl, red, goTo]); };
     add(z.followers && z.followers.current != null ? fmt(z.followers.current) : null, t("tkFollowers"));
     add((z.streak || {}).current ? fmt(z.streak.current) : null, t("tkStreak"));
     add(kp.reach != null ? fmt(kp.reach) : null, t("tkReach"));
     add(kp.engagement != null ? fmt(kp.engagement) : null, t("tkEng"));
     add(kp.follows != null ? fmt(kp.follows) : null, t("tkFollows"));
     const p = state.data && state.data.plan, sc = p && p.score ? Object.values(p.score).map((x) => x.value) : [];
-    if (sc.length) add(Math.min(...sc) + "/100", t("tkScore"), Math.min(...sc) >= 100);
+    goTo = "post"; if (sc.length) add(Math.min(...sc) + "/100", t("tkScore"), Math.min(...sc) >= 100);
+    goTo = "plan";
     const bt = p && p.bestTime, top = bt && bt.basis === "data" && (bt.slots || [])[0];
     if (top && top.lift != null) add((top.lift >= 0 ? "+" : "") + top.lift + "%", t("tkBest") + " · n=" + top.posts + " · " + t("conf_" + top.confidence), top.lift > 0);
     const sig = items.map((x) => x.join("|")).join("/") + state.lang;
     tk.hidden = items.length < 2;
     if (tr.dataset.sig === sig) return;
     tr.dataset.sig = sig; tr.innerHTML = "";
-    for (let k = 0; k < 2; k++) items.forEach(([v, lbl, red]) => tr.append(el("span", k ? { "aria-hidden": "true" } : {}, el("b", { class: red ? "red" : "" }, String(v)), " " + lbl)));
+    for (let k = 0; k < 2; k++) items.forEach(([v, lbl, red, view]) => tr.append(el("span", { class: "tk-go", role: "link", tabindex: k ? "-1" : "0", ...(k ? { "aria-hidden": "true" } : {}),
+      onclick: () => { go(view); $(".tabs").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); },
+      onkeydown: (e) => { if (e.key === "Enter") e.currentTarget.click(); } }, el("b", { class: red ? "red" : "" }, String(v)), " " + lbl)));
   }
   // the red knee sits at 61.8% of the hero curve's length
   function placeKnee() {
@@ -2477,6 +2522,23 @@
   /* ---------- peak evidence + audience clocks ---------- */
   const liftTxt = (l) => (l == null ? "" : (l >= 0 ? "+" : "") + l + "%");
   const confChip = (c) => el("span", { class: "conf " + (c || "low"), title: t("confHint") }, t("conf_" + (c || "low")));
+  /* two sentences that say what the heatmap means, from the user's own posts only */
+  function heatInsight(bt) {
+    const box = el("div", { class: "heat-insight" });
+    const best = (bt.slots || [])[0];
+    if (best) box.append(el("p", {}, el("i", { class: "hi-dot", "aria-hidden": "true" }),
+      t("hiBest").replace("{slot}", `${t("days")[best.day]} ${hourLabel(best.hour)}`).replace("{lift}", liftTxt(best.lift)).replace("{n}", best.posts).replace("{conf}", t("conf_" + best.confidence))));
+    if (bt.grid && bt.counts) {
+      let pick = null;
+      for (let h = 0; h < 24; h++) {
+        let sum = 0, n = 0;
+        for (let d = 0; d < 7; d++) { const c = (bt.counts[d] && bt.counts[d][h]) || 0; sum += (bt.grid[d][h] || 0) * c; n += c; }
+        if (n >= 5 && (!pick || sum / n > pick.v)) pick = { h, n, v: sum / n };
+      }
+      if (pick && bt.average) box.append(el("p", { class: "hint" }, t("hiHour").replace("{h}", hourLabel(pick.h)).replace("{n}", pick.n).replace("{lift}", liftTxt(Math.round((pick.v / bt.average - 1) * 100)))));
+    }
+    return box;
+  }
   function peaksByDay(bt) {
     const wrap = el("div", { class: "pbd" }, el("h3", {}, t("peakByDay")), el("p", { class: "hint" }, t("peakHint")));
     if (!bt.byDay) return wrap;
@@ -5406,6 +5468,7 @@
       ["Get started", [
         "Open Claude Code in your posts folder and type <code>/200bps-publish set me up</code>. This dashboard opens by itself.",
         "<b>The top of the dashboard</b>: the curve is your growth (lime is steady work, the red dot is the breakthrough). The strip under it rolls your own numbers from Zernio: followers, streak, 7-day reach, engagement, follows, the post score and your best slot (hover to pause). A post score of 100 gets the red breakthrough dot. Move the mouse to light up the grid.",
+        "<b>Quick moves</b>: press <b>1-5</b> to switch tabs (Post, Posts, Plan, Growth, Inbox); click any number in the strip to jump to it. In <b>Checks</b>, passed checks fold into one line so what needs you stands out. In the <b>heatmap</b>, the two lines on top say what it means; point at an hour to read its numbers.",
         "Paste your Zernio API key in the <b>Connect Zernio</b> card and press Save. It's tested right away and stays in this folder's .env file.",
         "Answer the one-time setup questions (accounts, keywords, words to avoid, goal…), or say \"defaults\".",
         "Connect Instagram, LinkedIn, <b>Facebook</b>, <b>TikTok</b> or <b>Snapchat</b> from <b>Posts → + Connect account</b>. You approve on the network's own site.",
@@ -5520,6 +5583,7 @@
       ["البداية", [
         "افتح Claude Code في مجلد البوستات واكتب <code>/200bps-publish set me up</code>. هاللوحة تنفتح بروحها.",
         "<b>أعلى اللوحة</b>: المنحنى هو نموك (الأخضر شغل ثابت، والنقطة الحمرا هي الاختراق). والشريط تحته يمشي بأرقامك الحقيقية من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت (وقّف عليه بالماوس عشان يوقف). وتقييم 100 ياخذ نقطة الاختراق الحمرا. حرّك الماوس عشان تنور الشبكة.",
+        "<b>حركات سريعة</b>: اضغط <b>1-5</b> عشان تبدّل التبويبات (البوست، المنشورات، الخطة، النمو، الرسائل)؛ واضغط أي رقم بالشريط عشان تروح له. في <b>الفحوصات</b>، اللي نجحت تنطوي بسطر واحد عشان اللي يحتاجك يبين. وفي <b>خريطة التفاعل</b>، السطرين فوق يشرحون معناها؛ وأشّر على أي ساعة عشان تقرا أرقامها.",
         "الصق مفتاح Zernio في بطاقة <b>اربط Zernio</b> واضغط حفظ. ينختبر على طول ويظل في ملف ‎.env‎ بهالمجلد.",
         "جاوب أسئلة الإعداد مرة وحدة (الحسابات، الكلمات، الكلمات الممنوعة، الهدف…)، أو قول «defaults».",
         "اربط Instagram أو LinkedIn أو <b>Facebook</b> أو <b>TikTok</b> أو <b>Snapchat</b> من <b>المنشورات ← + اربط حساب</b>. توافق في موقع الشبكة نفسها.",
@@ -6013,7 +6077,14 @@
   }
   function localStorageLang() { try { return localStorage.getItem("bps.lang"); } catch (e) { return null; } }
 
-  document.querySelectorAll(".tab[data-view]").forEach((b) => b.addEventListener("click", () => go(b.dataset.view)));
+  const toContent = () => { const tb = $(".tabs"); if (tb && innerWidth > 700 && tb.getBoundingClientRect().top > 140) window.scrollTo({ top: scrollY + tb.getBoundingClientRect().top - 72, behavior: reduced ? "auto" : "smooth" }); };
+  document.querySelectorAll(".tab[data-view]").forEach((b) => { b.addEventListener("click", () => { go(b.dataset.view); toContent(); }); b.title = t("kbTabs"); });
+  document.addEventListener("keydown", (e) => {                 // 1-5: switch tabs (never while typing or in a window)
+    if (e.ctrlKey || e.metaKey || e.altKey || modal.open || !$("#palette").hidden || !$("#drawer").hidden) return;
+    const tg = e.target; if (tg && (tg.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName))) return;
+    const v = ["post", "posts", "plan", "growth", "inbox"][+e.key - 1];
+    if (v && /^[1-5]$/.test(e.key)) { e.preventDefault(); go(v); toContent(); }
+  });
   ["#noteTop", "#noteTab"].forEach((id) => $(id).addEventListener("click", () => $("#noteFab").click()));
   $("#langBtn").addEventListener("click", () => { state.langChosen = true; state.lang = state.lang === "ar" ? "en" : "ar"; try { localStorage.setItem("bps.lang", state.lang); } catch (e) {} renderAll(); });
   const calStep = (d) => {
@@ -6072,7 +6143,9 @@
       calDay: ["Calendar day", "Click: see posts and plan this day. Double-click an empty future day: schedule the current post at its best hour."],
       calEv: ["Post on this day", "Colour = status: lime published, blue scheduled, red needs attention, outline not uploaded."],
       calKey: ["Legend", "The same colours as the Posts tab badges."],
-      heat: ["When your audience engages", "Hours are shaded in 5 steps by rank: darker = more engagement in your past posts at that hour. 1-2-3 are your best slots. Click a cell to schedule there."],
+      heat: ["When your audience engages", "Each square is one hour of the week. The brighter it is, the more engagement your past posts got at that hour (5 steps, by rank). Empty squares: you haven't posted then yet. 1-2-3 are your best slots. Point at a square to read its numbers under the map (posts, average, vs your average, confidence); click it to plan a post there."],
+      heatRead: ["This hour in numbers", "The hour under your pointer: average engagement per post, how many of your posts it's based on, how it compares with your average, the confidence, and any post already scheduled there."],
+      passSum: ["Passed checks", "Checks that passed are folded into one line so the ones that need you stand out. Click to show or hide them."],
       peaks: ["Peak times by day", "Each weekday's two best hours, with lift, number of posts (n) and confidence."],
       kpi: ["Last 7 days", "Compared with the 7 days before (the % below)."],
       followers: ["Followers", "Your follower count over time, from Zernio."],
@@ -6131,7 +6204,7 @@
       imgNewModel: ["New OpenAI model", "OpenAI added an image model since your last look. Try it once, make it your default, or dismiss the notice. The list is re-checked by itself once a day."],
       imgModelCheck: ["Model list", "The list of OpenAI image models refreshes by itself once a day when you open this window. Check now asks OpenAI right away."],
       clChange: ["Ask Claude to change", "Claude edits its own design (the HTML is kept), so text and layout stay sharp. Say what to change."],
-      ticker: ["Your numbers", "A live strip of your own results from Zernio: followers, streak, 7-day reach, engagement and follows, the post score and your best slot. Hover to pause. Nothing here is estimated."],
+      ticker: ["Your numbers", "A live strip of your own results from Zernio: followers, streak, 7-day reach, engagement and follows, the post score and your best slot. Hover to pause; click a number to open where it lives. Nothing here is estimated."],
       imgDrop: ["Guide pictures", "Drop, paste or pick pictures. The new image follows them: style, people, products, layout."],
       imgModel: ["Image model", "Which OpenAI model draws the picture. The ★ one is your default (Settings → Keys → OpenAI)."],
       keys: ["API keys", "Stored only in this folder's .env file, readable by you. Never shown in full and never sent to the chat."],
@@ -6235,7 +6308,9 @@
       calDay: ["يوم بالتقويم", "اضغط: تشوف بوستات اليوم وتخطط له. اضغط مرتين على يوم فاضي جاي: يجدول البوست الحالي بأفضل ساعة."],
       calEv: ["بوست بهاليوم", "اللون = الحالة: ليموني منشور، أزرق مجدول، أحمر يحتاج انتباه، إطار بس ما انرفع."],
       calKey: ["دليل الألوان", "نفس ألوان شارات تبويب المنشورات."],
-      heat: ["متى يتفاعل جمهورك", "الساعات متدرجة على 5 درجات حسب الترتيب: الأغمق = تفاعل أكثر في بوستاتك السابقة بهالساعة. 1-2-3 أفضل أوقاتك. اضغط أي خانة عشان تجدول فيها."],
+      heat: ["متى يتفاعل جمهورك", "كل مربع ساعة من الأسبوع. كل ما كان أفتح، كان التفاعل على بوستاتك السابقة بهالساعة أكثر (5 درجات حسب الترتيب). المربعات الفاضية: ما نشرت فيها للحين. 1-2-3 أفضل أوقاتك. أشّر على مربع عشان تقرا أرقامه تحت الخريطة (البوستات، المعدل، مقارنة بمعدلك، الثقة)؛ واضغط عشان تخطط بوست فيه."],
+      heatRead: ["هالساعة بالأرقام", "الساعة اللي تأشر عليها: معدل التفاعل للبوست، كم بوست مبني عليه، مقارنتها بمعدلك، الثقة، وأي بوست مجدول فيها."],
+      passSum: ["الفحوصات اللي نجحت", "الفحوصات الناجحة تنطوي بسطر واحد عشان اللي يحتاجك يبين. اضغط عشان تعرضها أو تخفيها."],
       peaks: ["أفضل الأوقات لكل يوم", "أفضل ساعتين لكل يوم، مع الزيادة وعدد البوستات (n) ودرجة الثقة."],
       kpi: ["آخر 7 أيام", "مقارنة بالـ7 أيام اللي قبلها (النسبة تحت)."],
       followers: ["المتابعين", "عدد متابعينك مع الوقت، من Zernio."],
@@ -6294,7 +6369,7 @@
       imgNewModel: ["موديل جديد من OpenAI", "OpenAI نزّل موديل صور جديد من آخر مرة. جرّبه مرة، أو خله الافتراضي، أو سكّر التنبيه. القائمة تنفحص بروحها مرة باليوم."],
       imgModelCheck: ["قائمة الموديلات", "قائمة موديلات الصور من OpenAI تتحدث بروحها مرة باليوم لما تفتح هالنافذة. «افحص الحين» يسأل OpenAI على طول."],
       clChange: ["خل Claude يعدّلها", "Claude يعدّل تصميمه نفسه (ملف الـHTML محفوظ)، فالكتابة والترتيب يظلون واضحين. قول شنو يتغيّر."],
-      ticker: ["أرقامك", "شريط حي لنتايجك من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت. وقّف عليه بالماوس عشان يوقف. ولا رقم هني تقديري."],
+      ticker: ["أرقامك", "شريط حي لنتايجك من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت. وقّف عليه بالماوس عشان يوقف، واضغط أي رقم عشان تروح مكانه. ولا رقم هني تقديري."],
       imgDrop: ["صور مرشدة", "اسحب أو الصق أو اختار صور. الصورة الجديدة تمشي عليها: الأسلوب، الأشخاص، المنتجات، التصميم."],
       imgModel: ["موديل الصور", "أي موديل من OpenAI يرسم الصورة. اللي عليه ★ هو الافتراضي (الإعدادات ← المفاتيح ← OpenAI)."],
       keys: ["مفاتيح API", "محفوظة بس في ملف ‎.env‎ بهالمجلد، وأنت بس تقدر تقراه. ما تنعرض كاملة وما تروح للمحادثة."],
@@ -6367,13 +6442,13 @@
     [".rw-ask", "rwAsk"], [".rw-review, .rw-row, .rw-all", "rwReview"], [".ab-open", "abOpen"], [".ab-ask", "abAsk"], [".ab-go, .ab-word", "abGo"], [".ab-check, .ab-table", "abCheck"], [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-posted", "liPosted"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
     [".steps-track .step[data-step]", (n) => "step_" + n.dataset.step], [".checks li.fixable", "fixable"],
     [".cal .ev", "calEv"], [".cal .d.click", "calDay"], [".cal-key", "calKey"], ["#calPrev", "calPrev"], ["#calNext", "calNext"], ["#calToday", "calToday"],
-    [".heat", "heat"], [".toptimes", "peaks"],
+    [".heat-insight, .heat .dl, .heat .h, .heat-legend", "heat"], [".toptimes", "peaks"],
     [".goal-info .btn", "changeGoal"], ["#goalRing, .goal-info", "goal"], ["#streakGrid", "streakGrid"],
     [".bsteps", "bsteps"], [".bbrowse", "bbrowse"], [".bexpbtn, .bexp", "bexp"], [".bcard", "bcard"], [".bctl input[type=date]", "bstart"],
     [".brhythm, .bdays", "brhythm"], [".bmode, .bctl input[type=time]", "bmode"], [".bskip", "bskip"], [".bwhen", "bwhen"], [".bgrip, .bmove", "brow"],
     [".bgo, .bconfirm", "bgo"], [".bblocked", "bblocked"],
     [".cancel-btn", "cancelBtn"], [".ztile, .zrow", "ztile"], [".zview", "zview"], ["#zFilter", "zfilter"], [".add-acc", "connectAcc"], ["#zAccounts .aud-z", "account"],
-    ["#zRefresh", "refresh"], ["#zBatch, #batchBtn", "batch"], ["#imgTop, #imgPreview", "image"], [".img-engine", "imgEngine"], [".img-newmodel", "imgNewModel"], [".img-modelcheck", "imgModelCheck"], [".img-cledit-btn", "clChange"], ["#ticker", "ticker"], ["#jobsPill, .jobs-panel", "jobs"], [".img-drop", "imgDrop"], [".img-model", "imgModel"],
+    ["#zRefresh", "refresh"], ["#zBatch, #batchBtn", "batch"], ["#imgTop, #imgPreview", "image"], [".img-engine", "imgEngine"], [".img-newmodel", "imgNewModel"], [".img-modelcheck", "imgModelCheck"], [".img-cledit-btn", "clChange"], ["#ticker", "ticker"], [".heat-read", "heatRead"], [".pass-sum", "passSum"], ["#jobsPill, .jobs-panel", "jobs"], [".img-drop", "imgDrop"], [".img-model", "imgModel"],
     ["#listenPill", "listen"], ["#decisionPill", "decision"], ["#streakPill", "streak"], ["#noteTop, #noteTab, #noteFab", "note"], ["#cmdBtn", "search"],
     ["#drawerBtn", "menu"], [".topbar .brand", "brand"],
     [".tab[data-view=post]", "tabPost"], [".tab[data-view=posts]", "tabPosts"], [".tab[data-view=plan]", "tabPlan"], [".tab[data-view=growth]", "tabGrowth"], [".tab[data-view=inbox]", "tabInbox"],
