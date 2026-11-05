@@ -457,6 +457,7 @@ returns the unread requests. For each one:
 | `ab_hook` | The user pressed "Ask Claude for hook B" in the Hook test window. `action.caption` is version A. Write B and save it with `bps.py abtest hook` (see "Hook A/B test"). Never start the test yourself |
 | `abtest_started` | The user started a hook test from the dashboard. Already done; acknowledge in one line and say results come after 48 hours |
 | `recycle_hooks` | The user pressed "Ask Claude for new hooks" in the Recycle window. `action.caption`, `metrics` and `platforms` describe the post. Write 3-5 new versions and save them with `bps.py recycle hooks` (see "Recycle best posts"). Never start recycling yourself |
+| `claude_image` | The user picked **Claude designs it** in the image window. Design `n` images for `prompt` at `width`×`height` (`shape`): copy `templates/claude-image.html` (brand v2 tokens, φ-curve), write one self-contained HTML file per image (Google Fonts OK, no network-waiting scripts, phone-readable text, Arabic RTL in Cairo/IBM Plex Sans Arabic, technical terms in Latin). Look at any `refs` first. With `editOf`, change the existing design: edit its `html` (a workspace path) and keep everything not asked for. Then `bps.py image claude --html f1.html [--html f2.html] --shape SHAPE --note "<one line what you made>"`, check the PNG it prints by viewing it, and `say --to <id> --status done`. Never publish it yourself |
 | `image_prompt` | The user pressed "Ask Claude to improve it" in the image window. Turn `action.text` (and any guide pictures in `action.refs`) into one clear, specific image prompt in their language, then `bps.py image prompt --prompt "…" --note "…"`. It appears in the window with a "Use this prompt" button. Don't generate the image yourself |
 
 Then run `bps.py notes --mark-read` and start `watch` again **right away**. `--mark-read` marks only the notes you were shown; anything that arrived meanwhile stays unread and the next `watch` returns it at once. Never leave the dashboard open without a `watch` running: notes then wait on "Waiting for Claude…" with no one to answer them.
@@ -578,7 +579,14 @@ python3 "$SKILL/bin/bps.py" image gen --edit FILE --prompt "what to change" [--q
 python3 "$SKILL/bin/bps.py" image models | list | set --model ID [--shape ..] [--quality ..]
 python3 "$SKILL/bin/bps.py" image copy --id IMAGE_ID [--to FOLDER]
 python3 "$SKILL/bin/bps.py" image prompt --prompt "<improved prompt>" --note "<one line why>"
+python3 "$SKILL/bin/bps.py" image models --refresh                   # ask OpenAI for its model list now
+python3 "$SKILL/bin/bps.py" image claude --html F.html [--html G.html] --shape square|tall|wide|story --note "…"
 ```
+- **Model list:** refreshed from OpenAI by itself once a day (background, when the image window opens); models the user hasn't
+  seen yet are listed as `new` and shown as a notice (Try it / Make it my default / Got it).
+- **Claude designs it** (second engine in the window): no OpenAI key or credit. The dashboard sends a `claude_image` request;
+  you write HTML and render it (see the listening-loop table). Sizes: square 1080×1080, tall 1080×1350, wide 1920×1080,
+  story 1080×1920. The HTML is kept in `.bps/images/claude/` so "Ask Claude to change" can edit it.
 Show generated images to the user by path; run `image gen` only when the user asked for an image.
 
 ## Step 4: results, ideas, weekly review

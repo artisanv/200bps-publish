@@ -79,21 +79,68 @@ def save_settings(**kw) -> dict:
     return settings()
 
 
+MODELS_MAX_AGE = 24 * 3600            # re-read OpenAI's model list once a day
+_REFRESHING = {"on": False}
+
+
+def refresh_models(force: bool = False) -> bool:
+    """Keep the model list fresh: ask OpenAI again when the last check is
+    older than a day (in the background, so the window never waits), or now
+    with force (the "Check now" button / `image models --refresh`)."""
+    from providers import last_tests, test
+    if not has_key():
+        return False
+    t = last_tests().get("OPENAI_API_KEY") or {}
+    if not force and time.time() - float(t.get("ts") or 0) < MODELS_MAX_AGE:
+        return False
+    if force:
+        test("OPENAI_API_KEY")
+        return True
+    if _REFRESHING["on"]:
+        return False
+    import threading
+    def run():
+        try:
+            test("OPENAI_API_KEY")
+        except Exception:
+            pass
+        finally:
+            _REFRESHING["on"] = False
+    _REFRESHING["on"] = True
+    threading.Thread(target=run, daemon=True).start()
+    return True
+
+
+def mark_models_seen(ids: list[str] | None = None) -> dict:
+    """The user saw the "new model" notice: stop showing those models as new."""
+    cfg = config()
+    cur = cfg.setdefault("images", {})
+    seen = set(cur.get("seenModels") or FALLBACK_MODELS)
+    seen |= set(ids or (models()["main"] + models()["pinned"]))
+    cur["seenModels"] = sorted(seen)
+    save_config(cfg)
+    return models()
+
+
 def models() -> dict:
     """Image models this key can use, from the last key test. Short names
-    first, dated (pinned) versions after."""
+    first, dated (pinned) versions after. `new` = short names the user hasn't
+    been told about yet (anything after the built-in list)."""
     from providers import last_tests
     t = last_tests().get("OPENAI_API_KEY") or {}
     ids = [m["id"] for m in (t.get("items") or []) if m.get("kind") == "image"]
     source = "key" if ids else "fallback"
     ids = ids or FALLBACK_MODELS
+    seen = set((config().get("images") or {}).get("seenModels") or FALLBACK_MODELS)
     dated = re.compile(r"-\d{4}-\d{2}-\d{2}$")
     def rank(m):                                  # default first, then newest version, minis after
         v = re.search(r"(\d+(?:\.\d+)?)", m)
         return (m != DEFAULT_MODEL, m.startswith("chatgpt"), -float(v.group(1)) if v else 0, "mini" in m, m)
     main = sorted([m for m in ids if not dated.search(m)], key=rank)
     pinned = sorted([m for m in ids if dated.search(m)], reverse=True)
-    return {"main": main, "pinned": pinned, "source": source, "tested": t.get("ts")}
+    new = [m for m in main if m not in seen and not m.startswith("chatgpt")] if source == "key" else []
+    return {"main": main, "pinned": pinned, "source": source, "tested": t.get("ts"), "new": new,
+            "checking": _REFRESHING["on"], "maxAge": MODELS_MAX_AGE}
 
 
 def has_key() -> bool:
@@ -411,9 +458,122 @@ def state() -> dict:
             f = Path(p["folder"]) / m["file"]
             if f.suffix.lower() in IMG_EXT and f.exists():
                 post_media.append({"path": rel(f), "file": m["file"], "plan": p["id"]})
+    try:
+        refresh_models()                          # stale list → re-read it in the background
+    except Exception:
+        pass
     return {"hasKey": has_key(), "settings": settings(), "models": models(),
+            "claude": claude_state(), "claudeShapes": {k: list(v) for k, v in CLAUDE_SIZES.items()},
             "shapes": list(SHAPES), "qualities": list(QUALITY), "maxRefs": MAX_REFS, "maxN": MAX_N,
             "gallery": list(reversed(gallery()))[:60],
             "suggested": read_json(img_dir() / "suggested.json"),
             "post": {"id": p["id"], "folder": rel(Path(p["folder"])) if p else None, "media": post_media,
                      "editable": bool(plans.editable(p) and not p.get("postId"))} if p else None}
+
+
+# ---------------- Claude designs it (HTML/SVG → PNG) ----------------
+# Claude can't paint photos the way gpt-image does. It designs in code:
+# typography, layouts, carousel slides, charts, diagrams, quote cards. The
+# dashboard asks (a `claude_image` request); Claude writes one HTML file per
+# design and runs `bps.py image claude --html ...`; the page is rendered with
+# the same headless browser as Reel covers, at the post's real pixel size.
+# Free: no image credit is used. The HTML is kept so it can be changed later.
+CLAUDE_SIZES = {"square": (1080, 1080), "tall": (1080, 1350), "wide": (1920, 1080), "story": (1080, 1920)}
+CLAUDE_MODEL = "claude-design"
+
+
+def _claude_path() -> Path:
+    return img_dir() / "claude.json"
+
+
+def claude_state() -> dict | None:
+    """The open request (if any) and when Claude last answered."""
+    s = read_json(_claude_path(), None)
+    if s and s.get("status") == "asked" and time.time() - s.get("ts", 0) > 3600:
+        s["status"] = "stale"
+    return s
+
+
+def ask_claude(prompt: str, shape: str = "tall", n: int = 1, refs: list[str] | None = None, edit_of: str = "") -> dict:
+    """Queue "Claude, design this" for the listening loop."""
+    import hitl
+    import jobs
+    prompt = (prompt or "").strip()
+    if not prompt:
+        raise ValueError("Describe the image you want.")
+    shape = shape if shape in CLAUDE_SIZES else "tall"
+    n = max(1, min(MAX_N, int(n or 1)))
+    refs = [rel(ref_path(r)) for r in (refs or [])][:MAX_REFS]
+    src = None
+    if edit_of:
+        row = get(edit_of)
+        if not row.get("html") or not (workspace() / row["html"]).exists():
+            raise ValueError("Only a Claude design can be changed this way.")
+        src = row
+        shape = row.get("shape") or shape
+    w, h = CLAUDE_SIZES[shape]
+    jid = jobs.start("image", ("Claude is changing a design" if src else f"Claude is designing {n} image{'s' if n > 1 else ''}"),
+                     estimate=90 * n, step="Waiting for Claude Code…")
+    action = {"type": "claude_image", "prompt": prompt[:4000], "shape": shape, "width": w, "height": h, "n": n,
+              "refs": refs, "job": jid, "template": "templates/claude-image.html"}
+    if src:
+        action.update(editOf=src["id"], html=src["html"], file=rel(img_dir() / src["file"]))
+    note = hitl.add_note(("Change this Claude design: " if src else f"Design {n} image{'s' if n > 1 else ''} ({shape} {w}x{h}): ") + prompt[:300], action)
+    write_json(_claude_path(), {"status": "asked", "ts": int(time.time()), "noteId": note["id"], "job": jid, "n": n,
+                                "shape": shape, "prompt": prompt[:4000], **({"editOf": src["id"]} if src else {})})
+    return {"queued": note["id"], "job": jid}
+
+
+def claude_render(html_files: list[str], prompt: str = "", shape: str = "", note: str = "") -> dict:
+    """Claude's answer: render each HTML file to a PNG in the gallery."""
+    import cover
+    import jobs
+    st = claude_state() or {}
+    shape = shape or st.get("shape") or "tall"
+    if shape not in CLAUDE_SIZES:
+        raise ValueError("Shape must be square, tall, wide or story.")
+    if not html_files:
+        raise ValueError("Pass --html with at least one design file.")
+    w, h = CLAUDE_SIZES[shape]
+    jid = st.get("job") if st.get("status") == "asked" else None
+    t0 = time.time()
+    keep = img_dir() / "claude"
+    keep.mkdir(parents=True, exist_ok=True)
+    stamp = time.strftime("%Y%m%d-%H%M%S")
+    prompt = (prompt or st.get("prompt") or "").strip()
+    slug = re.sub(r"[^a-z0-9]+", "-", prompt.lower())[:30].strip("-") or "design"
+    rows, made, errors = gallery(), [], []
+    for i, f in enumerate(html_files):
+        src = Path(f).expanduser()
+        if not src.is_file() or src.suffix.lower() not in (".html", ".htm"):
+            errors.append(f"Not an HTML file: {f}")
+            continue
+        jobs.progress(jid, step=f"Rendering design {i + 1} of {len(html_files)}")
+        name = f"{stamp}-claude-{slug}-{i + 1}"
+        html_keep = keep / (name + ".html")
+        if src.resolve() != html_keep.resolve():
+            shutil.copy2(src, html_keep)
+        out = img_dir() / (name + ".png")
+        try:
+            cover.render_png(html_keep, out, w, h)
+        except RuntimeError as e:
+            errors.append(str(e))
+            continue
+        row = {"id": uuid.uuid4().hex[:10], "file": out.name, "prompt": prompt, "model": CLAUDE_MODEL, "engine": "claude",
+               "shape": shape, "quality": "design", "size": f"{w}x{h}", "refs": [], "ts": int(time.time()),
+               "secs": round(time.time() - t0, 1), "via": "claude", "html": rel(html_keep),
+               **({"note": note.strip()[:500]} if note else {}), **({"editOf": st["editOf"]} if st.get("editOf") else {})}
+        rows.append(row)
+        made.append(row)
+    _save_index(rows)
+    if jid:
+        if made:
+            jobs.finish(jid, step=f"{len(made)} Claude design{'s' if len(made) > 1 else ''} ready")
+        else:
+            jobs.finish(jid, ok=False, error=errors[0] if errors else "Nothing was rendered.")
+    write_json(_claude_path(), {**st, "status": "ready" if made else "failed", "answered": int(time.time()),
+                                "images": [r["id"] for r in made], "note": (note or "").strip()[:500],
+                                "errors": errors})
+    from store import append_log
+    append_log({"ts": int(time.time()), "event": "image", "model": CLAUDE_MODEL, "n": len(made), "via": "claude"})
+    return {"images": made, "errors": errors}

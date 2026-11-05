@@ -136,20 +136,26 @@ def template_html(headline: str, kicker: str = "", bg: Path | None = None, handl
     return tpl
 
 
-def render(html_path: Path, out_jpg: Path) -> Path:
+def render_png(html_path: Path, png: Path, w: int = W, h: int = H) -> Path:
+    """Screenshot an HTML page at exactly w x h pixels (headless browser)."""
     exe = browser()
     if not exe:
         raise RuntimeError("No Chrome/Chromium/Edge found to render the design. Install one, or set BPS_BROWSER.")
-    png = out_jpg.with_suffix(".png")
     profile = state_dir() / "browser"           # the browser's own files stay in the project too
     profile.mkdir(parents=True, exist_ok=True)
+    png.unlink(missing_ok=True)
     cmd = [exe, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--no-default-browser-check",
            f"--user-data-dir={profile}",
-           "--force-device-scale-factor=1", f"--window-size={W},{H}", "--virtual-time-budget=6000",
+           "--force-device-scale-factor=1", f"--window-size={int(w)},{int(h)}", "--virtual-time-budget=6000",
            "--allow-file-access-from-files", f"--screenshot={png}", html_path.resolve().as_uri()]
     r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
     if not png.exists():
         raise RuntimeError("Browser render failed: " + (r.stderr or r.stdout).strip()[-400:])
+    return png
+
+
+def render(html_path: Path, out_jpg: Path) -> Path:
+    png = render_png(html_path, out_jpg.with_suffix(".png"))
     fit(png, out_jpg)
     png.unlink(missing_ok=True)
     return out_jpg

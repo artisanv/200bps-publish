@@ -93,6 +93,15 @@
       jk_sync: "Refreshing from Zernio", jk_newpost: "Making a post folder", jk_claude: "Claude is working",
       imgShort: "Image", imgOpen: "Create image", imgNoKey: "Add your OpenAI key to create images", imgNoKeyHint: "Paste it below and press Save. It's tested right away.",
       imgStep1: "Describe the image", imgPh: "e.g. A lime-green paper airplane on a dark desk, soft light, minimal, room for a headline at the top",
+      engOpenAI: "OpenAI image", engOpenAISub: "Photos and illustrations, drawn by gpt-image. Uses your OpenAI credit.",
+      engClaude: "Claude designs it", engClaudeSub: "Typography, carousel slides, quote cards, charts. Built in code at the exact post size. Free.",
+      shapeStory: "Story", qDesign: "design", clGo: "Ask Claude to design it", clGoEdit: "Ask Claude to change it",
+      clWaiting: "Claude is designing…", clWaitHint: "It appears here when ready. Claude Code must be open (/200bps-publish).",
+      clReady: "Claude's designs are ready", clChange: "Ask Claude to change", clEditing: "Changing this Claude design. Say what to change:",
+      clCancelEdit: "Cancel", clShapeHint: "Rendered at {w}×{h} px, the size the network shows.", clNoKeyOk: "No OpenAI key needed for Claude designs.",
+      nmTitle: "New from OpenAI", nmTry: "Try it", nmDefault: "Make it my default", nmGotIt: "Got it",
+      mdChecked: "Model list checked {t}", mdCheckNow: "Check now", mdChecking: "Checking…", mdNever: "not yet", mdFound: "{n} new model(s) found", mdNone: "No new models",
+      tkFollowers: "followers", tkStreak: "day streak", tkReach: "reach · 7 days", tkEng: "engagement · 7 days", tkFollows: "new follows · 7 days", tkScore: "post score", tkBest: "best slot vs your average",
       imgAsk: "Ask Claude to improve it", imgAsking: "Claude is writing a better prompt… it will appear here.", imgSuggested: "Claude suggests", imgUseIt: "Use this prompt",
       imgAskNeed: "Write a few words first, then Claude can turn them into a full prompt.", imgSugArrived: "Claude's prompt is ready",
       imgStep2: "Guide pictures", imgDrop: "Drop or paste pictures here, or click to pick. The new image will follow their style, people or products.",
@@ -280,6 +289,15 @@
       jk_sync: "تحديث من Zernio", jk_newpost: "مجلد بوست جديد", jk_claude: "طلب لـClaude",
       imgShort: "صورة", imgOpen: "سوّ صورة", imgNoKey: "أضف مفتاح OpenAI عشان تسوي صور", imgNoKeyHint: "الصقه تحت واضغط حفظ. ينختبر على طول.",
       imgStep1: "اوصف الصورة", imgPh: "مثلاً: طيارة ورق لونها ليموني على مكتب غامق، إضاءة ناعمة، بسيطة، وفي مكان للعنوان فوق",
+      engOpenAI: "صورة OpenAI", engOpenAISub: "صور ورسومات يرسمها gpt-image. تستهلك رصيد OpenAI.",
+      engClaude: "Claude يصممها", engClaudeSub: "كتابة وتصاميم، سلايدات كاروسيل، اقتباسات، رسوم بيانية. تنبني بالكود بنفس مقاس البوست. ببلاش.",
+      shapeStory: "ستوري", qDesign: "تصميم", clGo: "خل Claude يصممها", clGoEdit: "خل Claude يعدّلها",
+      clWaiting: "Claude قاعد يصمم…", clWaitHint: "بتطلع هني أول ما تخلص. لازم Claude Code يكون مفتوح (/200bps-publish).",
+      clReady: "تصاميم Claude جاهزة", clChange: "خل Claude يعدّلها", clEditing: "تعديل تصميم Claude. قول شنو يتغيّر:",
+      clCancelEdit: "إلغاء", clShapeHint: "تنرسم بمقاس {w}×{h}، نفس اللي تعرضه المنصة.", clNoKeyOk: "تصاميم Claude ما تحتاج مفتاح OpenAI.",
+      nmTitle: "جديد من OpenAI", nmTry: "جرّبه", nmDefault: "خله الافتراضي", nmGotIt: "تمام",
+      mdChecked: "آخر فحص للموديلات {t}", mdCheckNow: "افحص الحين", mdChecking: "قاعد يفحص…", mdNever: "للحين لا", mdFound: "لقينا {n} موديل جديد", mdNone: "ما في موديلات جديدة",
+      tkFollowers: "متابع", tkStreak: "يوم متواصل", tkReach: "الوصول · 7 أيام", tkEng: "التفاعل · 7 أيام", tkFollows: "متابعين جدد · 7 أيام", tkScore: "تقييم البوست", tkBest: "أفضل وقت مقارنة بمعدلك",
       imgAsk: "خل Claude يحسّنه", imgAsking: "Claude قاعد يكتب وصف أحسن… بيطلع هني.", imgSuggested: "اقتراح Claude", imgUseIt: "استخدم هالوصف",
       imgAskNeed: "اكتب كم كلمة أول، وClaude يحولها لوصف كامل.", imgSugArrived: "وصف Claude جاهز",
       imgStep2: "صور مرشدة", imgDrop: "اسحب أو الصق الصور هني، أو اضغط عشان تختار. الصورة الجديدة بتمشي على أسلوبها أو الأشخاص أو المنتجات اللي فيها.",
@@ -421,12 +439,18 @@
     document.documentElement.lang = state.lang;
     document.documentElement.dir = state.lang === "ar" ? "rtl" : "ltr";
     document.querySelectorAll("[data-i18n]").forEach((n) => { n.textContent = t(n.dataset.i18n); });
+    const ht = $("#heroTitle"), parts = ht ? ht.textContent.split(/(?<=\.)\s+/) : [];     // the result is the lime phrase
+    if (parts.length > 1) { ht.textContent = parts.slice(0, -1).join(" ") + " "; ht.append(el("span", { class: "hl" }, parts[parts.length - 1])); }
     $("#langBtn").textContent = state.lang === "ar" ? "English" : "العربية";
     document.querySelectorAll("[data-i18n-label]").forEach((n) => { n.setAttribute("aria-label", t(n.dataset.i18nLabel)); n.title = t(n.dataset.i18nLabel); });
   }
 
   function setView(v) {
     if (!["post", "posts", "plan", "growth", "inbox"].includes(v)) v = { calendar: "plan", ideas: "growth" }[v] || "post";
+    if (state.view && state.view !== v && !matchMedia("(prefers-reduced-motion: reduce)").matches) {   // the aperture cut
+      const a = el("div", { class: "aperture", "aria-hidden": "true" }); document.body.append(a);
+      a.addEventListener("animationend", () => a.remove()); setTimeout(() => a.remove(), 800);
+    }
     state.view = v;
     try { localStorage.setItem("bps.view", v); } catch (e) {}
     document.querySelectorAll(".tab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === v)));
@@ -456,6 +480,7 @@
     host.dataset.key = key;
     const r = 64, c = 2 * Math.PI * r, pct = Math.max(0, Math.min(1, max ? value / max : 0));
     host.dataset.pct = pct;
+    host.classList.toggle("bt", label !== "goal" && max > 0 && value >= max);     // a perfect score is a breakthrough
     const col = pct >= 0.8 ? "var(--bps-lime)" : pct >= 0.5 ? "var(--bps-warn)" : "var(--bps-danger)";
     host.innerHTML = `
       <svg viewBox="0 0 150 150" aria-hidden="true">
@@ -1912,6 +1937,7 @@
     $("#versionPill").textContent = vb;
     const fv = $("#footVersion"); if (fv) fv.textContent = vb;
     const tv = $("#topVersion"); if (tv) tv.textContent = "v" + ((state.data && state.data.version) || "") + ((state.data && state.data.build) ? " · " + state.data.build : "");
+    renderTicker(z);
     const since = $("#since"); since.innerHTML = "";
     const prev = state.data && state.data.previousVisit;
     const cur = z.followers && z.followers.current;
@@ -1924,6 +1950,42 @@
       if (hit) celebrate(`${t("milestone")}: ${fmt(hit)} ${t("followers")}`);
     }
   }
+
+  /* evidence ticker: the user's own numbers only, never invented */
+  function renderTicker(z) {
+    const tk = $("#ticker"), tr = $("#tickerTrack");
+    if (!tk || !tr) return;
+    const kp = z.kpis || {}, items = [];
+    const fmt = (n) => n == null ? "–" : Intl.NumberFormat("en", { notation: n >= 10000 ? "compact" : "standard" }).format(n);   // metrics: Western digits
+    const add = (v, lbl, red) => { if (v != null && v !== "" && !Number.isNaN(v)) items.push([v, lbl, red]); };
+    add(z.followers && z.followers.current != null ? fmt(z.followers.current) : null, t("tkFollowers"));
+    add((z.streak || {}).current ? fmt(z.streak.current) : null, t("tkStreak"));
+    add(kp.reach != null ? fmt(kp.reach) : null, t("tkReach"));
+    add(kp.engagement != null ? fmt(kp.engagement) : null, t("tkEng"));
+    add(kp.follows != null ? fmt(kp.follows) : null, t("tkFollows"));
+    const p = state.data && state.data.plan, sc = p && p.score ? Object.values(p.score).map((x) => x.value) : [];
+    if (sc.length) add(Math.min(...sc) + "/100", t("tkScore"), Math.min(...sc) >= 100);
+    const bt = p && p.bestTime, top = bt && bt.basis === "data" && (bt.slots || [])[0];
+    if (top && top.lift != null) add((top.lift >= 0 ? "+" : "") + top.lift + "%", t("tkBest") + " · n=" + top.posts + " · " + t("conf_" + top.confidence), top.lift > 0);
+    const sig = items.map((x) => x.join("|")).join("/") + state.lang;
+    tk.hidden = items.length < 2;
+    if (tr.dataset.sig === sig) return;
+    tr.dataset.sig = sig; tr.innerHTML = "";
+    for (let k = 0; k < 2; k++) items.forEach(([v, lbl, red]) => tr.append(el("span", k ? { "aria-hidden": "true" } : {}, el("b", { class: red ? "red" : "" }, String(v)), " " + lbl)));
+  }
+  // the red knee sits at 61.8% of the hero curve's length
+  function placeKnee() {
+    const k = $("#heroKnee"), path = $(".hero-art .hero-line"), host = $(".hero-art");
+    if (!k || !path || !host || !path.getTotalLength) return;
+    const svg = path.ownerSVGElement, L = path.getTotalLength(), pt = path.getPointAtLength(L * .618);
+    const vb = svg.viewBox.baseVal, r = svg.getBoundingClientRect(), h = host.getBoundingClientRect();
+    const rtl = document.documentElement.dir === "rtl";
+    const x = (rtl ? r.right - (pt.x / vb.width) * r.width : r.left + (pt.x / vb.width) * r.width) - h.left;
+    k.style.left = x + "px"; k.style.top = (r.top + (pt.y / vb.height) * r.height - h.top) + "px";
+  }
+  addEventListener("resize", placeKnee);
+  requestAnimationFrame(placeKnee);
+  new MutationObserver(placeKnee).observe(document.documentElement, { attributes: true, attributeFilter: ["dir"] });
 
   function milestone(a, b) {
     const marks = [100, 250, 500, 750, 1000, 2000, 2500, 5000, 7500, 10000, 25000, 50000, 100000];
@@ -4054,7 +4116,8 @@
     if (files.length) { e.preventDefault(); addRefFiles(files); }
   });
   const put = (parent, ...kids) => parent.append(...kids.flat().filter((k) => k != null && k !== false));
-  const IMG = { st: null, prompt: "", refs: [], edit: "", marks: [], maskOn: true, tool: "mark", brush: .06, forNP: false, shape: null, quality: null, n: null, model: null, busy: false, t0: 0, last: [], err: "", askedAt: 0, note: "" };
+  const IMG = { engine: (() => { try { return localStorage.getItem("bps.imgEngine") || "openai"; } catch (e) { return "openai"; } })(), clAsked: 0, clEdit: "", mdBusy: false,
+    st: null, prompt: "", refs: [], edit: "", marks: [], maskOn: true, tool: "mark", brush: .06, forNP: false, shape: null, quality: null, n: null, model: null, busy: false, t0: 0, last: [], err: "", askedAt: 0, note: "" };
   async function imgApi(body) {
     let r, j = {};
     try { r = body ? await fetch("/api/images", { method: "POST", headers: { "Content-Type": "application/json", "X-BPS-Token": TOKEN }, body: JSON.stringify(body) })
@@ -4074,6 +4137,8 @@
     const s = IMG.st.settings;
     IMG.shape = IMG.shape || s.shape; IMG.quality = IMG.quality || s.quality; IMG.n = IMG.n || s.n; IMG.model = IMG.model || s.model;
     if (preset && preset.refs) IMG.refs = [...new Set([...IMG.refs, ...preset.refs])].slice(0, IMG.st.maxRefs);
+    const cl = IMG.st.claude;                 // a Claude design still on its way: keep waiting for it
+    if (cl && cl.status === "asked" && !IMG.clAsked) { IMG.clAsked = cl.ts - 1; pollClaude(); }
     const build = (body) => drawImage(body);
     if (modal.open && modal.open !== "image") closeModal(() => showModal("image", build));
     else { modal.open = null; showModal("image", build); }
@@ -4089,11 +4154,14 @@
   function drawImage(body) {
     const st = IMG.st;
     put(body, el("h2", { id: "mTitle" }, t("imgTitle")), el("p", { class: "hint" }, t("imgSub")));
-    if (!st.hasKey) {
-      put(body, el("div", { class: "img-nokey" }, el("b", {}, t("imgNoKey")), el("p", { class: "hint" }, t("imgNoKeyHint")),
+    const claude = IMG.engine === "claude" && !IMG.edit;
+    if (!IMG.edit) put(body, imgEngineSwitch());
+    if (!st.hasKey && !claude) {
+      put(body, el("div", { class: "img-nokey" }, el("b", {}, t("imgNoKey")), el("p", { class: "hint" }, t("imgNoKeyHint") + " " + t("clNoKeyOk")),
         keyForm({ name: "OPENAI_API_KEY", label: "OpenAI API key", known: true, onDone: async (r) => { if (r.saved) { await imgRefresh(); redrawImage(); } } })));
       return;
     }
+    if (!claude && !IMG.edit && st.models && (st.models.new || []).length) put(body, imgNewModels());
     const grid = el("div", { class: "img-grid" });
     const left = el("div", { class: "img-form" }), right = el("div", { class: "img-out" });
     grid.append(left, right); put(body, grid);
@@ -4101,7 +4169,11 @@
     // editing one picture: show it on top, the prompt says what changes
     const editIn = el("input", { type: "file", accept: "image/png,image/jpeg,image/webp", hidden: true });
     editIn.addEventListener("change", () => editFromPc(editIn.files[0]));
+    const clRow = claude && IMG.clEdit ? st.gallery.find((g) => g.id === IMG.clEdit) : null;
     if (IMG.edit) put(left, annotator());
+    else if (claude) { if (clRow) put(left, el("div", { class: "img-claude-wait" }, el("b", {}, t("clEditing")),
+        el("div", { class: "orbit-row" }, el("img", { src: imgUrl(clRow), alt: "", style: "width:84px;border-radius:10px" }),
+          el("button", { class: "btn sm", type: "button", onclick: () => { IMG.clEdit = ""; redrawImage(); } }, t("clCancelEdit"))))); }
     else put(left, el("div", { class: "row2" }, editIn,
       el("button", { class: "btn sm img-editpc-btn", type: "button", title: t("imgEditHint"), onclick: () => editIn.click() }, "✎ " + t("imgEditPc"))));
 
@@ -4109,7 +4181,7 @@
     const ta = el("textarea", { rows: "5", class: "img-prompt", placeholder: IMG.edit ? t("imgEditPh") : t("imgPh"), "aria-label": IMG.edit ? t("imgEditStep") : t("imgStep1") });
     ta.value = IMG.prompt;
     ta.addEventListener("input", () => { IMG.prompt = ta.value; });
-    ta.addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); runImage(); } });
+    ta.addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); IMG.engine === "claude" && !IMG.edit ? runClaude() : runImage(); } });
     const sug = st.suggested && st.suggested.ts >= IMG.askedAt && IMG.askedAt ? st.suggested : null;
     if (!IMG.edit) put(left, el("div", { class: "img-step" }, el("span", { class: "n1" }, "1"), el("b", {}, t("imgStep1"))), ta,
       el("div", { class: "row2 img-askrow" },
@@ -4149,6 +4221,24 @@
       st.models.pinned.length ? el("optgroup", { label: t("imgModelsPinned") }, ...st.models.pinned.map((m) => el("option", { value: m, selected: m === IMG.model ? "" : null }, m))) : null);
     sel.addEventListener("change", () => { IMG.model = sel.value; redrawImage(); });
     const isDefault = IMG.model === st.settings.model && IMG.shape === st.settings.shape && IMG.quality === st.settings.quality && +IMG.n === +st.settings.n;
+    if (claude) {
+      const cs = st.claudeShapes || { square: [1080, 1080], tall: [1080, 1350], wide: [1920, 1080], story: [1080, 1920] };
+      if (!cs[IMG.shape]) IMG.shape = "tall";
+      put(left, el("div", { class: "img-step" }, el("span", { class: "n1" }, "3"), el("b", {}, t("imgStep3"))),
+        el("div", { class: "img-opts" },
+          clRow ? null : el("label", { class: "label" }, t("imgShape")),
+          clRow ? null : seg([["square", "■ " + t("shapeSquare")], ["tall", "▮ " + t("shapeTall")], ["wide", "▬ " + t("shapeWide")], ["story", "▯ " + t("shapeStory")]], IMG.shape, (v) => { IMG.shape = v; redrawImage(); }),
+          clRow ? null : el("label", { class: "label" }, t("imgCount")), clRow ? null : seg([1, 2, 4].map((n) => [n, String(n)]), +IMG.n, (v) => { IMG.n = v; redrawImage(); })),
+        el("p", { class: "hint img-shapehint" }, t("clShapeHint").replace("{w}", (cs[(clRow && clRow.shape) || IMG.shape] || [])[0]).replace("{h}", (cs[(clRow && clRow.shape) || IMG.shape] || [])[1])));
+      const waiting = IMG.clAsked && st.claude && st.claude.status === "asked";
+      const go = el("button", { class: "btn on img-go cl-go", type: "button", disabled: waiting ? "" : null, onclick: runClaude },
+        waiting ? t("clWaiting") : "✦ " + (clRow ? t("clGoEdit") : t("clGo")));
+      put(left, go, IMG.err ? el("div", { class: "key-msg bad" }, "✗ " + IMG.err) : null, el("p", { class: "hint" }, t("imgWhere")));
+      if (waiting) put(right, el("div", { class: "img-claude-wait" }, el("div", { class: "orbit-row" }, el("i", { class: "jobs-spin" }), el("b", {}, t("clWaiting"))),
+        el("p", { class: "hint" }, t("clWaitHint"))));
+      imgResults(right, st);
+      return;
+    }
     put(left, el("div", { class: "img-step" }, el("span", { class: "n1" }, "3"), el("b", {}, t("imgStep3"))),
       el("div", { class: "img-opts" },
         IMG.edit ? null : el("label", { class: "label" }, t("imgShape")),
@@ -4157,7 +4247,8 @@
         el("label", { class: "label" }, t("imgCount")), seg([1, 2, 4].map((n) => [n, String(n)]), +IMG.n, (v) => { IMG.n = v; redrawImage(); }),
         el("label", { class: "label" }, t("imgModel")), sel),
       el("p", { class: "hint img-shapehint" }, IMG.edit ? "" : t("shapeHint_" + IMG.shape) + " · ", t("qHint_" + IMG.quality)),
-      !isDefault ? el("button", { class: "btn sm ghost", type: "button", onclick: saveImgDefaults }, "★ " + t("imgMakeDefault")) : null);
+      !isDefault ? el("button", { class: "btn sm ghost", type: "button", onclick: saveImgDefaults }, "★ " + t("imgMakeDefault")) : null,
+      modelCheckRow(st));
 
     // go
     const go = el("button", { class: "btn on img-go", type: "button", disabled: IMG.busy ? "" : null, onclick: runImage },
@@ -4166,10 +4257,14 @@
       el("p", { class: "hint" }, t("imgWhere")));
     if (IMG.busy) tickTimer(go);
 
+    imgResults(right, st);
+  }
+  function imgResults(right, st) {
     // results + your images
     if (IMG.busy) put(right, el("div", { class: "img-step" }, el("b", {}, t("imgMakingN").replace("{n}", IMG.n))),
       el("div", { class: "img-tiles" }, ...Array.from({ length: +IMG.n }, () => el("div", { class: "img-tile ghost shape-" + (IMG.edit ? "square" : IMG.shape) }))));
     if (IMG.last.length) put(right, el("div", { class: "img-step" }, el("b", {}, t("imgNew"))), el("div", { class: "img-tiles" }, ...IMG.last.map((g) => imgTile(g, true))));
+    if (IMG.last.length && IMG.engine === "claude" && st.claude && st.claude.note && st.claude.status === "ready") put(right, el("p", { class: "img-claude-note" }, st.claude.note));
     const older = st.gallery.filter((g) => !IMG.last.some((x) => x.id === g.id));
     put(right, el("div", { class: "img-step" }, el("b", {}, t("imgMine")), el("span", { class: "label" }, String(st.gallery.length))),
       st.gallery.length > 1 ? el("button", { class: "btn sm", type: "button", onclick: () => openNewPost({ pick: "mine" }) }, "▦ " + t("npCarouselFromMine")) : null,
@@ -4310,7 +4405,7 @@
         const ta = el("textarea", { rows: "2", placeholder: t("annNote"), "aria-label": t("annNote") + " " + (i + 1) });
         ta.value = m.note;
         ta.addEventListener("input", () => { m.note = ta.value; });
-        ta.addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); runImage(); } });
+        ta.addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); IMG.engine === "claude" && !IMG.edit ? runClaude() : runImage(); } });
         list.append(el("li", {}, el("span", { class: "ann-n" }, String(i + 1)), ta,
           el("button", { class: "btn sm danger-ghost", type: "button", "aria-label": t("remove"), onclick: () => { IMG.marks.splice(i, 1); drawMarks(); drawList(); } }, "×")));
       });
@@ -4407,17 +4502,20 @@
 
   function imgTile(g, big) {
     const st = IMG.st, canPost = st.post && st.post.editable;
-    const fig = el("figure", { class: "img-tile shape-" + g.shape + (big ? " big" : "") },
+    const byClaude = g.engine === "claude";
+    const fig = el("figure", { class: "img-tile shape-" + g.shape + (big ? " big" : ""), style: "position:relative" },
+      byClaude ? el("span", { class: "img-badge" }, "Claude") : null,
       el("a", { href: imgUrl(g), target: "_blank", rel: "noopener", title: g.prompt }, el("img", { src: imgUrl(g), alt: g.prompt.slice(0, 120), loading: "lazy" })),
       el("figcaption", {}, el("span", { class: "label" }, g.model + " · " + t("q" + g.quality[0].toUpperCase() + g.quality.slice(1)) + (g.refs && g.refs.length ? " · " + g.refs.length + " " + t("imgGuides") : "")),
         el("div", { class: "row2 img-acts" },
           IMG.forNP ? el("button", { class: "btn sm on keep img-tonp-btn", type: "button", onclick: () => imgToNewPost(g) }, "＋ " + t("imgToNP")) : null,
           el("button", { class: "btn sm img-folder-btn" + (big && !IMG.forNP ? " on" : ""), type: "button", onclick: () => imgToPost(g, canPost) }, canPost ? "＋ " + t("imgAddPost") : t("imgSaveFolder")),
-          el("button", { class: "btn sm keep img-edit-btn", type: "button", title: t("imgEditHint"), onclick: () => startEdit(".bps/images/" + g.file) }, "✎ " + t("imgEdit")),
+          byClaude ? el("button", { class: "btn sm keep img-cledit-btn", type: "button", onclick: () => { setEngine("claude"); Object.assign(IMG, { clEdit: g.id, prompt: "", err: "" }); redrawImage(); $("#modalBody").scrollTop = 0; } }, "✦ " + t("clChange"))
+            : el("button", { class: "btn sm keep img-edit-btn", type: "button", title: t("imgEditHint"), onclick: () => startEdit(".bps/images/" + g.file) }, "✎ " + t("imgEdit")),
           el("button", { class: "btn sm img-saveas-btn", type: "button", title: t("imgSaveAsHint"), onclick: () => imgSaveAs(g) }, t("imgSaveAs")),
           IMG.forNP ? null : el("button", { class: "btn sm", type: "button", title: t("npFromImageHint"), onclick: () => openNewPost({ images: [g] }) }, "＋ " + t("npFromImage")),
           el("button", { class: "btn sm", type: "button", title: t("imgUseGuideHint"), onclick: () => { useAsGuide(g); } }, t("imgUseGuide")),
-          el("button", { class: "btn sm", type: "button", title: t("imgAgainHint"), onclick: () => { Object.assign(IMG, { prompt: g.prompt, refs: [...(g.refs || [])], shape: g.shape, quality: g.quality, model: g.model }); redrawImage(); $("#modalBody").scrollTop = 0; } }, "↻ " + t("imgAgain")),
+          el("button", { class: "btn sm", type: "button", title: t("imgAgainHint"), onclick: () => { if (byClaude) { setEngine("claude"); Object.assign(IMG, { prompt: g.prompt, shape: g.shape, clEdit: "" }); } else { setEngine("openai"); Object.assign(IMG, { prompt: g.prompt, refs: [...(g.refs || [])], shape: g.shape, quality: g.quality, model: g.model }); } redrawImage(); $("#modalBody").scrollTop = 0; } }, "↻ " + t("imgAgain")),
           el("a", { class: "btn sm", href: imgUrl(g), download: g.file }, "⤓"),
           el("button", { class: "btn sm danger-ghost", type: "button", "aria-label": t("remove"), onclick: () => imgDelete(g) }, "🗑"))));
     return fig;
@@ -4544,6 +4642,57 @@
     catch (e) { toast(e.message); }
   }
 
+  /* ---------- two engines: OpenAI paints, Claude designs in code ---------- */
+  function setEngine(v) { IMG.engine = v; try { localStorage.setItem("bps.imgEngine", v); } catch (e) {} }
+  function imgEngineSwitch() {
+    const b = (v, title, sub) => el("button", { type: "button", "aria-pressed": String(IMG.engine === v), onclick: () => { setEngine(v); IMG.err = ""; redrawImage(); } },
+      el("b", {}, title), el("small", {}, sub));
+    return el("div", { class: "img-engine", role: "group" }, b("openai", t("engOpenAI"), t("engOpenAISub")), b("claude", t("engClaude"), t("engClaudeSub")));
+  }
+  function imgNewModels() {
+    const st = IMG.st, nw = st.models.new;
+    return el("div", { class: "img-newmodel", role: "status" }, el("i", { class: "nm-dot", "aria-hidden": "true" }),
+      el("span", { class: "grow" }, el("span", { class: "label" }, t("nmTitle") + " "), el("b", {}, nw.join(" · "))),
+      el("button", { class: "btn sm", type: "button", onclick: () => { IMG.model = nw[0]; redrawImage(); } }, t("nmTry")),
+      el("button", { class: "btn sm on", type: "button", onclick: async () => {
+        try { const r = await imgApi({ op: "settings", model: nw[0] }); IMG.st.settings = r.settings; IMG.model = nw[0];
+              const m = await imgApi({ op: "models_seen" }); IMG.st.models = m.models; toast(t("imgDefSaved")); redrawImage(); } catch (e) { toast(e.message); } } }, "★ " + t("nmDefault")),
+      el("button", { class: "btn sm ghost", type: "button", onclick: async () => { try { const m = await imgApi({ op: "models_seen" }); IMG.st.models = m.models; redrawImage(); } catch (e) { toast(e.message); } } }, t("nmGotIt")));
+  }
+  function modelCheckRow(st, after) {
+    const md = st.models || {};
+    return el("div", { class: "img-modelcheck" },
+      el("span", { class: "hint" }, t("mdChecked").replace("{t}", md.tested ? ago(md.tested) : t("mdNever"))),
+      el("button", { class: "btn sm img-modelcheck-btn", type: "button", disabled: IMG.mdBusy || md.checking ? "" : null, onclick: async () => {
+        IMG.mdBusy = true; after ? after() : redrawImage();
+        try { const r = await imgApi({ op: "models_refresh" }); IMG.st.models = r.models; toast(r.models.new.length ? t("mdFound").replace("{n}", r.models.new.length) : t("mdNone")); }
+        catch (e) { toast(e.message); }
+        finally { IMG.mdBusy = false; after ? after() : redrawImage(); } } }, IMG.mdBusy || md.checking ? t("mdChecking") : "↻ " + t("mdCheckNow")));
+  }
+  async function runClaude() {
+    if (!IMG.prompt.trim()) { IMG.err = t("imgNeedPrompt"); redrawImage(); $(".img-prompt") && $(".img-prompt").focus(); return; }
+    try {
+      await imgApi({ op: "claude", prompt: IMG.prompt, shape: IMG.shape, n: IMG.n, refs: IMG.refs, editOf: IMG.clEdit || "" });
+      IMG.clAsked = Math.floor(Date.now() / 1000) - 2; IMG.err = ""; IMG.last = [];
+      flyToClaude(lastBtn); await imgRefresh(); redrawImage(); pollClaude();
+    } catch (e) { IMG.err = e.message; redrawImage(); }
+  }
+  function pollClaude() {
+    clearInterval(IMG.clTick);
+    IMG.clTick = setInterval(async () => {
+      if (!IMG.clAsked) return clearInterval(IMG.clTick);
+      try {
+        const st = await imgApi(), c = st.claude;
+        if (c && c.status !== "asked" && (c.answered || 0) >= IMG.clAsked) {
+          clearInterval(IMG.clTick); IMG.st = st; IMG.clAsked = 0; IMG.clEdit = "";
+          IMG.last = st.gallery.filter((g) => (c.images || []).includes(g.id));
+          if (c.status === "ready") toast(t("clReady")); else IMG.err = (c.errors || [])[0] || "Claude couldn't render it.";
+          if (modal.open === "image") redrawImage();
+        }
+      } catch (e) {}
+    }, 3000);
+  }
+
   async function askClaudePrompt() {
     const idea = IMG.prompt.trim();
     if (!idea) { IMG.err = t("imgAskNeed"); redrawImage(); return; }
@@ -4567,6 +4716,8 @@
         st.models.pinned.length ? el("optgroup", { label: t("imgModelsPinned") }, ...st.models.pinned.map((m) => el("option", { value: m, selected: m === st.settings.model ? "" : null }, m))) : null);
       sel.addEventListener("change", async () => { try { const r = await imgApi({ op: "settings", model: sel.value }); IMG.st && (IMG.st.settings = r.settings); IMG.model = sel.value; toast(t("imgDefSaved")); } catch (e) { toast(e.message); } });
       put(box, sel, el("button", { class: "btn sm on", type: "button", onclick: () => { closeDrawer(); openImage(); } }, "✦ " + t("imgOpen")));
+      const redo = () => { const old = box.querySelector(".img-modelcheck"); const nu = modelCheckRow(IMG.st, redo); old ? old.replaceWith(nu) : box.append(nu); };
+      IMG.st = IMG.st || st; redo();
     };
     if (IMG.st) fillRow(IMG.st); else imgRefresh().then(fillRow).catch(() => {});
     return box;
@@ -5254,6 +5405,7 @@
     en: [
       ["Get started", [
         "Open Claude Code in your posts folder and type <code>/200bps-publish set me up</code>. This dashboard opens by itself.",
+        "<b>The top of the dashboard</b>: the curve is your growth (lime is steady work, the red dot is the breakthrough). The strip under it rolls your own numbers from Zernio: followers, streak, 7-day reach, engagement, follows, the post score and your best slot (hover to pause). A post score of 100 gets the red breakthrough dot. Move the mouse to light up the grid.",
         "Paste your Zernio API key in the <b>Connect Zernio</b> card and press Save. It's tested right away and stays in this folder's .env file.",
         "Answer the one-time setup questions (accounts, keywords, words to avoid, goal…), or say \"defaults\".",
         "Connect Instagram, LinkedIn, <b>Facebook</b>, <b>TikTok</b> or <b>Snapchat</b> from <b>Posts → + Connect account</b>. You approve on the network's own site.",
@@ -5280,7 +5432,9 @@
         "<b>Gift</b> (optional): people who comment a keyword on Instagram get your DM (with a link button if you like), and you can require them to follow you first. The gift window says it in one sentence and shows each scene people will see, live as you type; it starts only when the post goes live.",
         "<b>Go:</b> press Publish and type <b>go</b>. The dashboard uploads to Zernio, then reads the post back to prove it's there."]],
       ["Create and edit images", [
-        "Open it from <b>Image</b> at the top, <b>+ Create image</b> in the Post tab, <b>New post → Create an image</b>, or Ctrl+K. It needs your OpenAI key (Settings → Keys).",
+        "Open it from <b>Image</b> at the top, <b>+ Create image</b> in the Post tab, <b>New post → Create an image</b>, or Ctrl+K.",
+        "<b>Two engines:</b> <b>OpenAI image</b> paints photos and illustrations (needs your OpenAI key, uses its credit). <b>Claude designs it</b> builds the picture in code (text, carousel slides, quote cards, charts) at the exact post size (square, tall 4:5, wide or story), free. Claude Code must be open; the design appears in the window by itself. <b>✦ Ask Claude to change</b> edits a Claude design.",
+        "<b>New models:</b> the OpenAI model list refreshes by itself once a day. A new model shows a notice: <b>Try it</b>, <b>Make it my default</b> or <b>Got it</b>. <b>↻ Check now</b> (in the window and in Settings → Keys → OpenAI) asks OpenAI right away.",
         "<b>Create:</b> describe the picture (or press \"Ask Claude to improve it\"), add guide pictures to keep a style, face or product, pick shape, quality and how many.",
         "<b>Edit:</b> press <b>✎ Edit</b> on any image, or <b>Edit a picture from my computer</b>. Mark the picture with <b>Pin / Area</b> (click or drag), <b>Paint</b> (brush S, M, L) or <b>Surround</b> (draw a loop), and write a note for each numbered mark.",
         "<b>Only change the marked spots</b> (on by default): only your marks change, and everything else stays pixel-for-pixel the original. The edit keeps the original's size.",
@@ -5365,6 +5519,7 @@
     ar: [
       ["البداية", [
         "افتح Claude Code في مجلد البوستات واكتب <code>/200bps-publish set me up</code>. هاللوحة تنفتح بروحها.",
+        "<b>أعلى اللوحة</b>: المنحنى هو نموك (الأخضر شغل ثابت، والنقطة الحمرا هي الاختراق). والشريط تحته يمشي بأرقامك الحقيقية من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت (وقّف عليه بالماوس عشان يوقف). وتقييم 100 ياخذ نقطة الاختراق الحمرا. حرّك الماوس عشان تنور الشبكة.",
         "الصق مفتاح Zernio في بطاقة <b>اربط Zernio</b> واضغط حفظ. ينختبر على طول ويظل في ملف ‎.env‎ بهالمجلد.",
         "جاوب أسئلة الإعداد مرة وحدة (الحسابات، الكلمات، الكلمات الممنوعة، الهدف…)، أو قول «defaults».",
         "اربط Instagram أو LinkedIn أو <b>Facebook</b> أو <b>TikTok</b> أو <b>Snapchat</b> من <b>المنشورات ← + اربط حساب</b>. توافق في موقع الشبكة نفسها.",
@@ -5391,7 +5546,9 @@
         "<b>الهدية</b> (اختياري): اللي يعلّق بكلمة على Instagram توصله رسالتك بالخاص (مع زر لرابطك إذا تبي)، وتقدر تشترط إنه يتابعك أول. نافذة الهدية تقولها بجملة وحدة وتوريك كل مشهد بيشوفونه الناس وأنت تكتب؛ وما تبدأ إلا لما البوست ينزل.",
         "<b>نشر:</b> اضغط انشر واكتب <b>go</b>. اللوحة ترفعه على Zernio وبعدها تقراه منه عشان تتأكد إنه موجود."]],
       ["سوّ وعدّل صور", [
-        "افتحها من <b>صورة</b> فوق، أو <b>+ سوّ صورة</b> في تبويب البوست، أو <b>بوست جديد ← سوّ صورة</b>، أو Ctrl+K. تحتاج مفتاح OpenAI (الإعدادات ← المفاتيح).",
+        "افتحها من <b>صورة</b> فوق، أو <b>+ سوّ صورة</b> في تبويب البوست، أو <b>بوست جديد ← سوّ صورة</b>، أو Ctrl+K.",
+        "<b>طريقتين:</b> <b>صورة OpenAI</b> ترسم صور ورسومات (تحتاج مفتاح OpenAI وتستهلك رصيده). <b>Claude يصممها</b> تبني الصورة بالكود (كتابة، سلايدات كاروسيل، اقتباسات، رسوم بيانية) بنفس مقاس البوست (مربع، طولي 4:5، عرضي أو ستوري)، ببلاش. لازم Claude Code يكون مفتوح؛ والتصميم يطلع بالنافذة بروحه. <b>✦ خل Claude يعدّلها</b> يعدّل تصميم Claude.",
+        "<b>موديلات جديدة:</b> قائمة موديلات OpenAI تتحدث بروحها مرة باليوم. أي موديل جديد يطلع له تنبيه: <b>جرّبه</b>، <b>خله الافتراضي</b> أو <b>تمام</b>. <b>↻ افحص الحين</b> (بالنافذة وبالإعدادات ← المفاتيح ← OpenAI) يسأل OpenAI على طول.",
         "<b>سوّ:</b> اوصف الصورة (أو اضغط «خل Claude يحسّنه»)، أضف صور مرشدة عشان تحافظ على أسلوب أو وجه أو منتج، واختار الشكل والجودة والعدد.",
         "<b>عدّل:</b> اضغط <b>✎ عدّل</b> على أي صورة، أو <b>عدّل صورة من جهازك</b>. علّم على الصورة بـ<b>دبوس / مربع</b> (ضغطة أو سحب)، <b>لوّن</b> (فرشاة S، M، L) أو <b>حوّط</b> (ارسم دايرة)، واكتب ملاحظة لكل علامة مرقّمة.",
         "<b>غيّر بس الأماكن المحددة</b> (شغّال من البداية): بس علاماتك تتغيّر، وكل شي ثاني يبقى نفس الأصلية بالضبط. والتعديل يحافظ على مقاس الأصلية.",
@@ -5969,7 +6126,12 @@
       ibxActs: ["Answer it", "Reply: a public answer under the comment. Send gift: a private message (one per comment, within 7 days). Hide: only you and them see it. Delete: removes it for good (type delete)."],
       automations: ["DM automations", "Your keyword → DM gifts and ice breakers."],
       jobs: ["Background jobs", "What's working right now (making images, publishing, uploads, refreshing from Zernio, Claude writing for you) and how far along each one is. Click to see the list."],
-      image: ["Create an image", "Describe a picture and OpenAI draws it, or edit any picture by marking the places to change. Add guide pictures to keep a style, a face or a product. Nothing is posted until you add it to a post."],
+      image: ["Create an image", "Two ways: OpenAI paints a picture (photos, illustrations), or Claude designs one in code (text, carousel slides, quote cards, charts). Edit any picture by marking the places to change. Nothing is posted until you add it to a post."],
+      imgEngine: ["OpenAI or Claude", "OpenAI image: gpt-image paints photos and illustrations (uses your OpenAI credit). Claude designs it: Claude Code writes the design in HTML and it's rendered at the exact post size, in your brand. Free, and great for text-heavy slides. Claude Code must be open."],
+      imgNewModel: ["New OpenAI model", "OpenAI added an image model since your last look. Try it once, make it your default, or dismiss the notice. The list is re-checked by itself once a day."],
+      imgModelCheck: ["Model list", "The list of OpenAI image models refreshes by itself once a day when you open this window. Check now asks OpenAI right away."],
+      clChange: ["Ask Claude to change", "Claude edits its own design (the HTML is kept), so text and layout stay sharp. Say what to change."],
+      ticker: ["Your numbers", "A live strip of your own results from Zernio: followers, streak, 7-day reach, engagement and follows, the post score and your best slot. Hover to pause. Nothing here is estimated."],
       imgDrop: ["Guide pictures", "Drop, paste or pick pictures. The new image follows them: style, people, products, layout."],
       imgModel: ["Image model", "Which OpenAI model draws the picture. The ★ one is your default (Settings → Keys → OpenAI)."],
       keys: ["API keys", "Stored only in this folder's .env file, readable by you. Never shown in full and never sent to the chat."],
@@ -6127,7 +6289,12 @@
       ibxActs: ["رد عليه", "رد: جواب عام تحت التعليق. أرسل الهدية: رسالة خاصة (وحدة لكل تعليق، خلال 7 أيام). اخفِ: تشوفه أنت وهو بس. احذف: ينشال نهائياً (اكتب delete)."],
       automations: ["رسائل تلقائية", "هدايا الكلمات بالخاص وأسئلة البداية."],
       jobs: ["الشغل بالخلفية", "شنو قاعد يشتغل الحين (الصور، النشر، رفع الملفات، تحديث Zernio، Claude يكتب لك) ووين وصل كل واحد. اضغط تشوف القائمة."],
-      image: ["سوّ صورة", "اوصف صورة وOpenAI يرسمها، أو عدّل أي صورة بتعليم الأماكن اللي تتغيّر. أضف صور مرشدة عشان تحافظ على أسلوب أو وجه أو منتج. ما ينشر شي لين تضيفها لبوست."],
+      image: ["سوّ صورة", "طريقتين: OpenAI يرسم صورة (صور ورسومات)، أو Claude يصممها بالكود (كتابة، سلايدات كاروسيل، اقتباسات، رسوم بيانية). وتقدر تعدّل أي صورة بتعليم الأماكن اللي تتغيّر. ما ينشر شي لين تضيفها لبوست."],
+      imgEngine: ["OpenAI ولا Claude", "صورة OpenAI: gpt-image يرسم صور ورسومات (يستهلك رصيد OpenAI). Claude يصممها: Claude Code يكتب التصميم بـHTML وينرسم بنفس مقاس البوست وبهويتك. ببلاش، وممتاز للسلايدات اللي فيها كتابة. لازم Claude Code يكون مفتوح."],
+      imgNewModel: ["موديل جديد من OpenAI", "OpenAI نزّل موديل صور جديد من آخر مرة. جرّبه مرة، أو خله الافتراضي، أو سكّر التنبيه. القائمة تنفحص بروحها مرة باليوم."],
+      imgModelCheck: ["قائمة الموديلات", "قائمة موديلات الصور من OpenAI تتحدث بروحها مرة باليوم لما تفتح هالنافذة. «افحص الحين» يسأل OpenAI على طول."],
+      clChange: ["خل Claude يعدّلها", "Claude يعدّل تصميمه نفسه (ملف الـHTML محفوظ)، فالكتابة والترتيب يظلون واضحين. قول شنو يتغيّر."],
+      ticker: ["أرقامك", "شريط حي لنتايجك من Zernio: المتابعين، الأيام المتواصلة، الوصول والتفاعل والمتابعين الجدد بآخر 7 أيام، تقييم البوست وأفضل وقت. وقّف عليه بالماوس عشان يوقف. ولا رقم هني تقديري."],
       imgDrop: ["صور مرشدة", "اسحب أو الصق أو اختار صور. الصورة الجديدة تمشي عليها: الأسلوب، الأشخاص، المنتجات، التصميم."],
       imgModel: ["موديل الصور", "أي موديل من OpenAI يرسم الصورة. اللي عليه ★ هو الافتراضي (الإعدادات ← المفاتيح ← OpenAI)."],
       keys: ["مفاتيح API", "محفوظة بس في ملف ‎.env‎ بهالمجلد، وأنت بس تقدر تقراه. ما تنعرض كاملة وما تروح للمحادثة."],
@@ -6206,7 +6373,7 @@
     [".brhythm, .bdays", "brhythm"], [".bmode, .bctl input[type=time]", "bmode"], [".bskip", "bskip"], [".bwhen", "bwhen"], [".bgrip, .bmove", "brow"],
     [".bgo, .bconfirm", "bgo"], [".bblocked", "bblocked"],
     [".cancel-btn", "cancelBtn"], [".ztile, .zrow", "ztile"], [".zview", "zview"], ["#zFilter", "zfilter"], [".add-acc", "connectAcc"], ["#zAccounts .aud-z", "account"],
-    ["#zRefresh", "refresh"], ["#zBatch, #batchBtn", "batch"], ["#imgTop, #imgPreview", "image"], ["#jobsPill, .jobs-panel", "jobs"], [".img-drop", "imgDrop"], [".img-model", "imgModel"],
+    ["#zRefresh", "refresh"], ["#zBatch, #batchBtn", "batch"], ["#imgTop, #imgPreview", "image"], [".img-engine", "imgEngine"], [".img-newmodel", "imgNewModel"], [".img-modelcheck", "imgModelCheck"], [".img-cledit-btn", "clChange"], ["#ticker", "ticker"], ["#jobsPill, .jobs-panel", "jobs"], [".img-drop", "imgDrop"], [".img-model", "imgModel"],
     ["#listenPill", "listen"], ["#decisionPill", "decision"], ["#streakPill", "streak"], ["#noteTop, #noteTab, #noteFab", "note"], ["#cmdBtn", "search"],
     ["#drawerBtn", "menu"], [".topbar .brand", "brand"],
     [".tab[data-view=post]", "tabPost"], [".tab[data-view=posts]", "tabPosts"], [".tab[data-view=plan]", "tabPlan"], [".tab[data-view=growth]", "tabGrowth"], [".tab[data-view=inbox]", "tabInbox"],
@@ -6264,105 +6431,48 @@
   addEventListener("scroll", tipHide, { passive: true, capture: true });
   document.addEventListener("pointerout", (e) => { if (tipFor && !e.relatedTarget) tipHide(); });
 
-  /* ---------- background: the mark, 200bps.ai and the founder's name as a
-     faint pattern on the brand's 28deg slope, in three depth layers that
-     follow the mouse (near layers move more) and lift under the cursor ---------- */
+  /* ---------- background (brand v2): the 8pt grid as faint dots. Near the
+     cursor the grid lights up in lime, like a reading under a probe; colour
+     only, nothing moves. Paused in hidden tabs; static when motion is reduced. ---------- */
   (function bgfx() {
     const cv = $("#bgfx");
     if (!cv || !cv.getContext) return;
     const ctx = cv.getContext("2d");
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const SLOPE = -28 * Math.PI / 180;
-    const LAYERS = [                    // far → near
-      { gap: 120, scale: .5, alpha: .035, par: 10, kind: "mark" },
-      { gap: 340, scale: .8, alpha: .038, par: 26, kind: "lockup" },
-      { gap: 520, scale: 1, alpha: .045, par: 48, kind: "name" },
-    ];
-    const mark = new Image(); mark.src = "assets/200bps-mark.webp";
-    let W = 0, H = 0, dpr = 1, sprites = [], tiles = [];
-    const m = { x: .5, y: .5, tx: .5, ty: .5, px: -9999, py: -9999, on: false };
-    let drift = 0, raf = 0, lastT = 0, scrollY = 0;
-    const theme = () => document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
-
-    function sprite(kind, scale) {
-      const light = theme() === "light";
-      const ink = light ? "#08090A" : "#F4F5F2", lime = light ? "#08090A" : "#CCFF33";
-      const s = document.createElement("canvas"), c = s.getContext("2d");
-      const mk = Math.round(40 * scale);
-      const font = (w, px, fam) => `${w} ${Math.round(px * scale)}px ${fam}`;
-      const text = kind === "name" ? "Nasser Al-Ostath" : "200bps";
-      c.font = kind === "name" ? font(500, 15, "'IBM Plex Sans Arabic', sans-serif") : font(700, 26, "'Space Grotesk', sans-serif");
-      const tw = kind === "mark" ? 0 : c.measureText(text).width + (kind === "lockup" ? c.measureText(".ai").width : 0);
-      s.width = Math.ceil((mk + (tw ? tw + 14 * scale : 0) + 8) * dpr); s.height = Math.ceil((mk + 8) * dpr);
-      c.scale(dpr, dpr);
-      // the mark, tinted (lime on dark, void on paper: the approved versions)
-      const t = document.createElement("canvas"); t.width = mk; t.height = mk;
-      const tc = t.getContext("2d"); if (mark.complete && mark.naturalWidth) tc.drawImage(mark, 0, 0, mk, mk);
-      tc.globalCompositeOperation = "source-in"; tc.fillStyle = lime; tc.fillRect(0, 0, mk, mk);
-      c.drawImage(t, 4, 4);
-      if (tw) {
-        c.font = kind === "name" ? font(500, 15, "'IBM Plex Sans Arabic', sans-serif") : font(700, 26, "'Space Grotesk', sans-serif");
-        c.textBaseline = "middle"; c.fillStyle = ink;
-        const x = mk + 14 * scale, y = 4 + mk / 2;
-        c.fillText(text, x, y);
-        if (kind === "lockup") { c.fillStyle = lime; c.fillText(".ai", x + c.measureText(text).width, y); }
-      }
-      return { img: s, w: s.width / dpr, h: s.height / dpr };
-    }
+    const GAP = 24, R = 200;
+    let W = 0, H = 0, dpr = 1, raf = 0;
+    const m = { x: -9999, y: -9999, tx: -9999, ty: -9999, on: 0, ton: 0 };
+    const light = () => document.documentElement.getAttribute("data-theme") === "light";
     function build() {
-      dpr = Math.min(1.5, window.devicePixelRatio || 1);
+      dpr = Math.min(2, window.devicePixelRatio || 1);
       W = innerWidth; H = innerHeight;
       cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
       cv.style.width = W + "px"; cv.style.height = H + "px";
-      sprites = LAYERS.map((L) => sprite(L.kind, L.scale));
-      // a staggered grid on the slope, generous margin so parallax never shows an edge
-      tiles = LAYERS.map((L, li) => {
-        const out = [], R = Math.hypot(W, H) / 2 + L.gap * 2;
-        for (let gy = -R, row = 0; gy <= R; gy += L.gap * .62, row++)
-          for (let gx = -R + (row % 2) * L.gap / 2; gx <= R; gx += L.gap)
-            out.push({ gx: gx + li * L.gap * .37, gy: gy + li * L.gap * .21, lift: 0 });   // layers offset so words rarely collide
-        return out;
-      });
+      cv.style.transform = "";
     }
-    function frame(ts) {
+    function frame() {
       raf = 0;
-      if (!tiles.length) return;                  // not built yet (fonts still loading)
-      const dt = Math.min(64, ts - (lastT || ts)); lastT = ts;
-      m.x += (m.tx - m.x) * .08; m.y += (m.ty - m.y) * .08;
-      if (!still) drift = (drift + dt * .006) % 100000;
+      m.x += (m.tx - m.x) * .22; m.y += (m.ty - m.y) * .22; m.on += (m.ton - m.on) * .12;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      const cx = W / 2, cy = H / 2, cos = Math.cos(SLOPE), sin = Math.sin(SLOPE);
-      LAYERS.forEach((L, li) => {
-        const sp = sprites[li], ox = (.5 - m.x) * L.par * 2, oy = (.5 - m.y) * L.par * 2 - scrollY * L.par / 400;
-        const d = still ? 0 : (drift * (li + 1) * .35) % L.gap;
-        tiles[li].forEach((tl) => {
-          const lx = tl.gx + d, ly = tl.gy;
-          const x = cx + lx * cos - ly * sin + ox, y = cy + lx * sin + ly * cos + oy;
-          if (x < -sp.w * 2 || x > W + sp.w || y < -sp.h * 2 || y > H + sp.h) return;
-          // lift: brighter and slightly larger near the cursor, eased
-          const dist = m.on ? Math.hypot(x + sp.w / 2 - m.px, y + sp.h / 2 - m.py) : 9999;
-          const want = Math.max(0, 1 - dist / 240);
-          tl.lift += (want - tl.lift) * .12;
-          const k = 1 + tl.lift * .18 * (li + 1) / 3;
-          ctx.globalAlpha = Math.min(.3, L.alpha + tl.lift * (.1 + li * .07));
-          ctx.drawImage(sp.img, x - sp.w * (k - 1) / 2, y - sp.h * (k - 1) / 2, sp.w * k, sp.h * k);
-        });
-      });
-      ctx.globalAlpha = 1;
-      // 3D tilt of the whole field toward the cursor: depth without moving content
-      cv.style.transform = still ? "" : `perspective(1200px) rotateX(${((m.y - .5) * -4).toFixed(2)}deg) rotateY(${((m.x - .5) * 5).toFixed(2)}deg) scale(1.06)`;
-      if (!still && !document.hidden) raf = requestAnimationFrame(frame);   // slow drift keeps it alive; paused in hidden tabs
+      const lt = light(), base = lt ? "8,9,10" : "244,245,242", lime = lt ? "90,117,8" : "204,255,51";
+      const oy = -(window.scrollY % GAP);
+      for (let y = GAP / 2 + oy; y < H + GAP; y += GAP)
+        for (let x = GAP / 2; x < W; x += GAP) {
+          const d = Math.hypot(x - m.x, y - m.y), k = Math.max(0, 1 - d / R) * m.on;
+          if (k > .01) { ctx.fillStyle = `rgba(${lime},${(.1 + k * .55).toFixed(3)})`; ctx.fillRect(x - 1 - k, y - 1 - k, 2 + 2 * k, 2 + 2 * k); }
+          else { ctx.fillStyle = `rgba(${base},.055)`; ctx.fillRect(x - .75, y - .75, 1.5, 1.5); }
+        }
+      if (!still && (Math.abs(m.tx - m.x) > .5 || Math.abs(m.ty - m.y) > .5 || Math.abs(m.ton - m.on) > .01)) raf = requestAnimationFrame(frame);
     }
     const kick = () => { if (!raf && !document.hidden) raf = requestAnimationFrame(frame); };
-    addEventListener("pointermove", (e) => { m.tx = e.clientX / W; m.ty = e.clientY / H; m.px = e.clientX; m.py = e.clientY; m.on = true; kick(); }, { passive: true });
-    document.addEventListener("pointerleave", () => { m.on = false; m.tx = .5; m.ty = .5; kick(); });
-    addEventListener("scroll", () => { scrollY = window.scrollY; kick(); }, { passive: true });
+    addEventListener("pointermove", (e) => { if (still || e.pointerType === "touch") return; m.tx = e.clientX; m.ty = e.clientY; if (!m.ton) { m.x = m.tx; m.y = m.ty; } m.ton = 1; kick(); }, { passive: true });
+    document.addEventListener("pointerleave", () => { m.ton = 0; kick(); });
+    addEventListener("scroll", kick, { passive: true });
     addEventListener("resize", () => { build(); kick(); });
-    document.addEventListener("visibilitychange", () => { lastT = 0; kick(); });
-    new MutationObserver(() => { sprites = LAYERS.map((L) => sprite(L.kind, L.scale)); kick(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-    const start = () => { build(); kick(); };
-    Promise.all([new Promise((r) => { if (mark.complete) r(); else { mark.onload = r; mark.onerror = r; } }), (document.fonts ? document.fonts.ready : Promise.resolve())]).then(start);
+    document.addEventListener("visibilitychange", kick);
+    new MutationObserver(kick).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    build(); kick();
   })();
 
   setView(state.view);

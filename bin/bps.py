@@ -141,9 +141,11 @@ def main() -> None:
     rc.add_argument("--unit", default="week", choices=["week", "month"]); rc.add_argument("--times", type=int, default=0); rc.add_argument("--confirm", action="store_true")
     rc.add_argument("--start", default="", help="first repost date (ISO); default today")
     cx = sub.add_parser("cancel"); cx.add_argument("--post"); cx.add_argument("--draft"); cx.add_argument("--confirm", action="store_true")
-    im = sub.add_parser("image"); im.add_argument("action", choices=["gen", "models", "list", "set", "copy", "prompt"])
+    im = sub.add_parser("image"); im.add_argument("action", choices=["gen", "models", "list", "set", "copy", "prompt", "claude"])
+    im.add_argument("--html", action="append", default=[], help="claude: one HTML design file per image (rendered at the shape's size)")
+    im.add_argument("--refresh", action="store_true", help="models: ask OpenAI for the model list now")
     im.add_argument("--prompt", default=""); im.add_argument("--ref", action="append", default=[])
-    im.add_argument("--model", default=""); im.add_argument("--shape", default="", choices=["", "square", "tall", "wide", "auto"])
+    im.add_argument("--model", default=""); im.add_argument("--shape", default="", choices=["", "square", "tall", "wide", "auto", "story"])
     im.add_argument("--quality", default="", choices=["", "draft", "standard", "best"]); im.add_argument("--n", type=int, default=0)
     im.add_argument("--id", default=""); im.add_argument("--to", default=""); im.add_argument("--note", default="")
     im.add_argument("--edit", default="", help="gen: change this picture (workspace path) as --prompt says")
@@ -299,7 +301,11 @@ def run(args) -> None:
         if args.action == "gen":
             emit({"ok": True, **images.generate(args.prompt, args.ref, args.model, args.shape or ("auto" if args.edit else ""), args.quality, args.n, via="chat", edit_of=args.edit)})
         elif args.action == "models":
+            if args.refresh:
+                images.refresh_models(force=True)
             emit(images.models())
+        elif args.action == "claude":           # answer a "Claude designs it" request
+            emit({"ok": True, **images.claude_render(args.html, args.prompt, args.shape, args.note)})
         elif args.action == "list":
             emit(list(reversed(images.gallery()))[:20])
         elif args.action == "set":

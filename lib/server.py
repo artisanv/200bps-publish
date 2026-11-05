@@ -559,6 +559,18 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             return {"ok": True, "image": images.keep_outside(str(data.get("id", "")), str(data.get("data", "")))}
         if op == "saveas":
             return {"ok": True, **images.save_as(str(data.get("id", "")))}
+        if op == "models_refresh":           # "Check now": read OpenAI's model list again
+            try:
+                images.refresh_models(force=True)
+            except (RuntimeError, ValueError) as e:
+                return {"ok": False, "error": str(e)}
+            return {"ok": True, "models": images.models()}
+        if op == "models_seen":              # the "new model" notice was read
+            return {"ok": True, "models": images.mark_models_seen([str(x) for x in (data.get("ids") or [])][:50] or None)}
+        if op == "claude":                   # "Claude designs it": queue it for the listening loop
+            return {"ok": True, **images.ask_claude(str(data.get("prompt", "")), str(data.get("shape") or "tall"),
+                                                    int(data.get("n") or 1), [str(r) for r in (data.get("refs") or [])][:images.MAX_REFS],
+                                                    str(data.get("editOf") or ""))}
         if op == "ask":                      # "Ask Claude to write the prompt"
             idea = str(data.get("text", ""))[:2000]
             n = hitl.add_note(f"Write an image prompt for: {idea}", {"type": "image_prompt", "text": idea,

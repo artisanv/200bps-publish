@@ -8,8 +8,9 @@
 <link rel="icon" href="assets/200bps-mark.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="v2.css">
 <script>
   // set theme before first paint (saved choice, else the OS setting)
   try { var t = localStorage.getItem("bps.theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
@@ -41,13 +42,29 @@
 </div>
 
 <section class="hero" id="hero">
-  <div class="slope-plate" aria-hidden="true"></div>
+  <div class="hero-art" aria-hidden="true">
+    <!-- the φ-curve: controls at 61.8% / 85.4% of the width, knee at 61.8% of its length -->
+    <svg viewBox="0 0 1000 360" preserveAspectRatio="none">
+      <defs><linearGradient id="bpsSpectrum" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0">
+        <stop offset=".668" stop-color="#CCFF33"/><stop offset=".79" stop-color="#FF3B2F"/></linearGradient></defs>
+      <path class="flow" d="M0 330 C 618 330, 854 210, 1000 30"/>
+      <path class="flow" d="M0 344 C 618 344, 854 236, 1000 74"/>
+      <path class="flow" d="M0 352 C 618 352, 854 258, 1000 118"/>
+      <path class="flow" d="M0 357 C 618 357, 854 278, 1000 162"/>
+      <path class="flow" d="M0 360 C 618 360, 854 296, 1000 206"/>
+      <path class="limit" d="M0 150 L 1000 150"/>
+      <path class="hero-line" pathLength="100" d="M0 318 C 618 318, 854 190, 1000 -10"/>
+      <path class="rider" pathLength="100" d="M0 318 C 618 318, 854 190, 1000 -10"/>
+    </svg>
+    <span class="knee" id="heroKnee"><i></i><i></i><i></i></span>
+  </div>
   <div class="hero-inner">
     <div class="label kicker" data-i18n="kicker">200 breakthroughs per second</div>
     <h1 id="heroTitle" data-i18n="heroTitle">Post smarter. Grow faster.</h1>
     <p id="heroSub" data-i18n="heroSub">Your accounts, your content, one screen. Nothing is published until you approve it in the chat.</p>
     <div class="since" id="since"></div>
   </div>
+  <div class="ticker" id="ticker" hidden aria-label="Your numbers"><div class="ticker-track" id="tickerTrack"></div></div>
 </section>
 
 <main>
@@ -161,6 +178,7 @@
     <a href="https://www.instagram.com/200bps.ai/" target="_blank" rel="noopener">Instagram</a>
     <a href="https://www.linkedin.com/in/nasser-al-ostath/" target="_blank" rel="noopener">LinkedIn</a>
   </nav>
+  <div class="verbs" dir="ltr">Code. Create. Innovate. <b>Transform.</b></div>
 </footer>
 
 

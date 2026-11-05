@@ -1,0 +1,46 @@
+<!doctype html>
+<!-- Starter for "Claude designs it" (bps.py image claude --html FILE).
+     Copy it, set the page to the request's width x height, design inside.
+     Rendered by a headless browser at exactly that size, then saved as PNG.
+     Rules: everything inline (fonts from Google Fonts are fine), no scripts
+     that wait on the network, text big enough to read on a phone. -->
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Cairo:wght@700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=block" rel="stylesheet">
+<style>
+  :root {
+    --w: 1080px; --h: 1350px;                 /* set from the request */
+    --lime: #CCFF33; --red: #FF3B2F; --void: #08090A; --panel: #0D1113;
+    --line: #1E2427; --mute: #8A949B; --body: #97A0A6; --text: #F4F5F2;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: var(--w); height: var(--h); overflow: hidden; background: var(--void); color: var(--text); }
+  body { font-family: 'IBM Plex Sans Arabic', sans-serif; position: relative; }
+  .pad { position: absolute; inset: 84px; display: flex; flex-direction: column; }
+  .kicker { font: 500 26px 'JetBrains Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: var(--lime); }
+  h1 { font: 700 112px/1.02 'Space Grotesk', sans-serif; letter-spacing: -.045em; margin-top: 32px; }
+  h1 em { font-style: normal; color: var(--lime); }
+  [dir="rtl"] h1 { font-family: 'Cairo', sans-serif; font-weight: 900; letter-spacing: 0; line-height: 1.25; }
+  [dir="rtl"] .kicker { font-family: 'IBM Plex Sans Arabic', sans-serif; letter-spacing: 0; text-transform: none; }
+  p { font-size: 38px; line-height: 1.5; color: var(--body); margin-top: 32px; max-width: 24ch; }
+  .foot { margin-top: auto; display: flex; justify-content: space-between; font: 500 24px 'JetBrains Mono', monospace; color: var(--mute); letter-spacing: .14em; }
+  /* the φ-curve: lime to the knee (61.8%), red after it */
+  svg.curve { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; }
+</style>
+</head>
+<body>
+  <svg class="curve" viewBox="0 0 1000 400" aria-hidden="true">
+    <defs><linearGradient id="spec" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0">
+      <stop offset=".777" stop-color="#CCFF33"/><stop offset=".86" stop-color="#FF3B2F"/></linearGradient></defs>
+    <path d="M0 380 C 618 380, 854 247, 1000 0" fill="none" stroke="url(#spec)" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="777" cy="232" r="11" fill="#FF3B2F"/>
+  </svg>
+  <div class="pad">
+    <div class="kicker">Kicker</div>
+    <h1>Headline with one <em>result</em>.</h1>
+    <p>One short supporting line.</p>
+    <div class="foot"><span>@HANDLE</span><span>01 / 05</span></div>
+  </div>
+</body>
+</html>
