@@ -31,6 +31,16 @@ import summary
 from store import SKILL_DIR, VERSION, build_id, config, read_json, save_config, state_dir, write_json
 
 UI_DIR = SKILL_DIR / "ui"
+_UI = [0.0, 0]
+
+
+def ui_stamp() -> int:
+    """When the dashboard's own files last changed: an open page reloads itself to pick up fixes."""
+    if time.time() - _UI[0] < 3:
+        return _UI[1]
+    newest = max((f.stat().st_mtime for f in UI_DIR.glob("*") if f.is_file()), default=0)
+    _UI[0], _UI[1] = time.time(), int(newest)
+    return _UI[1]
 ALLOWED_HOSTS = {"127.0.0.1", "localhost"}
 _doctor_cache = {"t": 0, "v": None}
 TOKEN = secrets.token_urlsafe(24)
@@ -764,7 +774,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
         import inbox
         cfg = config()
         data = {
-            "version": VERSION, "build": build_id(),
+            "version": VERSION, "build": build_id(), "ui": ui_stamp(),
             "workspace": ws_id(),
             "boot": BOOT,
             "config": _public_config(cfg),

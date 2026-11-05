@@ -6171,6 +6171,12 @@
         if (state.boot && state.boot !== d.boot) { try { sessionStorage.setItem("bps.quiet", "1"); } catch (e) {} location.reload(); return; }   // dashboard restarted: load the new version
         state.boot = d.boot;
       }
+      if (d.ui) {                                   // the dashboard's files changed: reload quietly when you're not in the middle of something
+        if (state.ui && state.ui !== d.ui) {
+          const ae = document.activeElement, busy = modal.open || !$("#palette").hidden || !$("#drawer").hidden || (ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) && ae.value);
+          if (!busy) { try { sessionStorage.setItem("bps.quiet", "1"); } catch (e) {} location.reload(); return; }
+        } else state.ui = d.ui;
+      }
       const sig = JSON.stringify({ ...d, previousVisit: undefined });
       if (!first && sig === lastSig) return;
       lastSig = sig;
