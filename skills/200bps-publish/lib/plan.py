@@ -511,6 +511,12 @@ def _extra_checks(plan: dict, p: str) -> list[dict]:
         out.append({"id": "linkedin.document_title", "platform": p, "status": "warn", "msg": "Set a document title for the LinkedIn PDF carousel."})
     if p == "linkedin":
         out += _linkedin_kind_checks(plan, pm)
+    if p == "instagram" and pt == "reel" and (plan.get("settings") or {}).get("instagram", {}).get("trial"):
+        manual = plan["settings"]["instagram"].get("graduation") == "MANUAL"
+        out.append({"id": "instagram.trial", "platform": p, "status": "info",
+                    "msg": "🧪 Trial Reel is ON: Instagram shows it to non-followers first; your followers don't see it "
+                           + ("until you share it in the Instagram app." if manual else "unless it does well in its first 72 hours (Automatic).")
+                           + " Turn it off in Network settings → Instagram if that's not what you want."})
     if p == "instagram" and pt == "carousel":
         ars = [m.get("aspect") for m in pm if m.get("aspect")]
         if ars and any(abs(a - ars[0]) > 0.02 for a in ars):

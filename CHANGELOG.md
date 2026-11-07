@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- **Trial is never silent:** a Reel set to Trial shows a clear "🧪 Trial Reel is ON" line in its checks (followers don't see it first). Before 5 Nov the default made every new Reel a Trial; that default is Off now.
 - **What it is on each network:** each post shows its format per network (Reel, Trial Reel, Carousel, Photo, Story, Saved story, Spotlight, Document, Text, Poll, Repost, Video, Short), decided from the media and the settings sent to Zernio (`lib/formats.py`). Calendar chips show every distinct format; day cards show which network gets which.
 - **Trial Reel from one Reel changes only that Reel:** opened from a post, the Trial window shows just that Reel, with **Show all waiting Reels** if you want the rest.
 - **💬 Ask PIX about one post:** a small chat pops up right next to the post (day cards, post window, right-click in Plan and Posts). PIX knows the post and answers in the same box.
