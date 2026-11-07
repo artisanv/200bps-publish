@@ -25,15 +25,38 @@ TIPS = {
 }
 
 
-def _rules(p: str) -> dict:
+def gift_info(plan: dict) -> dict | None:
+    dm = plan.get("dm") or {}
+    if not dm.get("enabled") or not dm.get("keyword"):
+        return None
+    return {"network": "instagram", "keyword": dm["keyword"], "followGate": bool(dm.get("followGate")), "link": bool(dm.get("link"))}
+
+
+def _gift_tip(plan: dict, p: str) -> str:
+    g = gift_info(plan)
+    if not g:
+        return ""
+    if p == "instagram":
+        return (f" GIFT (Instagram only): end with a clear call to action: {'follow us first, then ' if g['followGate'] else ''}"
+                f"comment '{g['keyword']}' and the link comes in your DM{' (the follow is checked inside the DM)' if g['followGate'] else ''}.")
+    return (f" NO DM GIFT on this network: don't ask people to comment '{g['keyword']}' or promise a DM. Use a call to action that "
+            f"works here (e.g. 'the link is in the first comment', or point to the Instagram post).")
+
+
+def _rules(p: str, plan: dict | None = None) -> dict:
     r = checks.RULES.get(p, {})
-    return {"max": r.get("caption_max"), "hashtags": r.get("hashtags_max"), "hook": r.get("hook_chars"), "tip": TIPS.get(p, "")}
+    return {"max": r.get("caption_max"), "hashtags": r.get("hashtags_max"), "hook": r.get("hook_chars"),
+            "tip": TIPS.get(p, "") + (_gift_tip(plan, p) if plan else "")}
+
+
+def eligible(plan: dict) -> list[str]:
+    return [p for p in plan["platforms"] if not (p == "snapchat" and (plan["settings"].get("snapchat") or {}).get("contentType", "story") == "story")]
 
 
 def ask(plan: dict) -> dict:
     if not plans.editable(plan):
         raise ValueError("This post is already scheduled or live.")
-    plats = [p for p in plan["platforms"] if not (p == "snapchat" and (plan["settings"].get("snapchat") or {}).get("contentType", "story") == "story")]
+    plats = eligible(plan)
     if len(plats) < 2:
         raise ValueError("This post goes to one network. Add another network first (⇆ Networks).")
     base = plan["captions"].get(plan["platforms"][0], "")
@@ -42,13 +65,14 @@ def ask(plan: dict) -> dict:
         f"each fitted to that network's rules. Save them as a JSON object {{network: caption}} and run: "
         f"bps.py rewrite --file <json> --note \"<one line what changed>\".",
         {"type": "rewrite_all", "plan": plan["id"], "platforms": plats, "caption": base[:5000],
-         "current": {p: plan["captions"].get(p, "")[:5000] for p in plats}, "rules": {p: _rules(p) for p in plats}})
+         "current": {p: plan["captions"].get(p, "")[:5000] for p in plats}, "rules": {p: _rules(p, plan) for p in plats},
+         "gift": gift_info(plan)})
     plan["rewrite"] = {"status": "asked", "note": n["id"], "ts": int(time.time())}
     plans.save(plan, record=False)
     return {"note": n["id"]}
 
 
-def save(plan: dict, versions: dict, note: str = "", via: str = "claude") -> dict:
+def save(plan: dict, versions: dict, note: str = "", via: str = "claude", checks_fixed: list[str] | None = None) -> dict:
     """Store one version per network for review (nothing changes yet)."""
     if not plans.editable(plan):
         raise ValueError("This post is already scheduled or live.")
@@ -66,7 +90,12 @@ def save(plan: dict, versions: dict, note: str = "", via: str = "claude") -> dic
                      "chars": len(text), "max": checks.RULES.get(p, {}).get("caption_max"), "applied": False})
     if not rows:
         raise ValueError("No versions given.")
-    plan["rewrite"] = {"status": "ready", "rows": rows, "note": note[:300], "via": via, "ts": int(time.time())}
+    plan["rewrite"] = {"status": "ready", "rows": rows, "note": note[:300], "via": via, "ts": int(time.time()), "checks": checks_fixed or []}
+    # a caption fix asked from a check: its Fix button now opens these versions
+    fr = plan.setdefault("fixRequests", {})
+    for k in list(fr):
+        if k.split(":")[0] in (checks_fixed or []):
+            fr[k] = {"status": "rewrite", "ts": int(time.time())}
     plans.save(plan, record=False)
     return plan["rewrite"]
 

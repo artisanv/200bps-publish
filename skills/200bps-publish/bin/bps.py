@@ -136,7 +136,7 @@ def main() -> None:
     db = sub.add_parser("dashboard"); db.add_argument("--no-open", action="store_true"); db.add_argument("--port", type=int, default=4217)
     sub.add_parser("version")
     sub.add_parser("jobs")
-    rw = sub.add_parser("rewrite"); rw.add_argument("--file", required=True); rw.add_argument("--note", default="")
+    rw = sub.add_parser("rewrite"); rw.add_argument("--file", required=True); rw.add_argument("--note", default=""); rw.add_argument("--check", action="append", default=[])
     ab = sub.add_parser("abtest"); ab.add_argument("action", choices=["hook", "start", "list", "results"])
     ab.add_argument("--file", default=""); ab.add_argument("--note", default=""); ab.add_argument("--test", default=""); ab.add_argument("--confirm", action="store_true")
     tr = sub.add_parser("trial"); tr.add_argument("action", choices=["list", "advice", "set"]); tr.add_argument("--post", default="")
@@ -252,7 +252,7 @@ def run(args) -> None:
         vs = json.loads(Path(args.file).read_text(encoding="utf-8"))
         if not isinstance(vs, dict):
             raise ValueError('Give a JSON object: {"instagram": "...", "linkedin": "..."}.')
-        r = rewrite.save(need_plan(), vs, args.note, via="claude")
+        r = rewrite.save(need_plan(), vs, args.note, via="claude", checks_fixed=args.check)
         hitl.say(f"✨ {len(r['rows'])} versions, one per network, are ready. Review them in the Post tab (Versions per network).")
         emit({"ok": True, "rows": [{k: x[k] for k in ("platform", "scoreBefore", "scoreAfter", "chars", "max", "newIssues")} for x in r["rows"]],
               "next": "The user uses all, some or none in the dashboard."})

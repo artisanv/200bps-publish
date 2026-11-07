@@ -495,6 +495,36 @@ def _matches_slot(at_iso: str, bt: dict) -> bool:
     return any(s["day"] == d and s["hour"] == dt.hour for s in (bt.get("slots") or [])[:3])
 
 
+NET_NAMES = {"instagram": "Instagram", "linkedin": "LinkedIn", "facebook": "Facebook", "tiktok": "TikTok", "snapchat": "Snapchat", "threads": "Threads"}
+FOLLOW_WORDS = re.compile(r"follow|تابع|فولو", re.I)
+
+
+def _gift_checks(plan: dict, p: str) -> list[dict]:
+    """The DM gift is Instagram only: follow first, comment the keyword, the
+    link comes by DM (the follow is checked inside the DM). Instagram's caption
+    must say how to get it; other networks must not promise it."""
+    dm = plan.get("dm") or {}
+    kw = str(dm.get("keyword") or "").strip()
+    if not dm.get("enabled") or not kw:
+        return []
+    cap = (plan.get("captions") or {}).get(p, "")
+    if p == "instagram":
+        if kw.lower() not in cap.lower():
+            gate = "Follow us, then comment" if dm.get("followGate") else "Comment"
+            return [{"id": "gift.cta_missing", "platform": p, "status": "warn",
+                     "msg": f"The gift is on, but the caption doesn't say how to get it. Add: \"{gate} '{kw}' and the link comes in your DM.\""}]
+        if dm.get("followGate") and not FOLLOW_WORDS.search(cap):
+            return [{"id": "gift.follow_hint", "platform": p, "status": "warn",
+                     "msg": f"The gift is for followers only: say they must follow first (Instagram checks it inside the DM), then comment '{kw}'."}]
+        return [{"id": "gift.ok", "platform": p, "status": "pass", "msg": f"The caption tells people how to get the gift ('{kw}' → DM)."}]
+    ask_re = re.compile(r"(comment|reply|type|write|dm|علق|علّق|اكتب|كومنت|كمنت|ارسل|أرسل)[^\n]{0,30}" + re.escape(kw), re.I)
+    if ask_re.search(cap):
+        return [{"id": "gift.not_here", "platform": p, "status": "warn",
+                 "msg": f"Only Instagram sends the gift by DM. This {NET_NAMES.get(p, p)} caption asks people to comment '{kw}', "
+                        f"but nothing will be sent here. Use another call to action (for example: the link is in the first comment)."}]
+    return []
+
+
 def _extra_checks(plan: dict, p: str) -> list[dict]:
     out = []
     pm, pt = media_for(plan, p), type_for(plan, p)
@@ -511,6 +541,7 @@ def _extra_checks(plan: dict, p: str) -> list[dict]:
         out.append({"id": "linkedin.document_title", "platform": p, "status": "warn", "msg": "Set a document title for the LinkedIn PDF carousel."})
     if p == "linkedin":
         out += _linkedin_kind_checks(plan, pm)
+    out += _gift_checks(plan, p)
     if p == "instagram" and pt == "reel" and (plan.get("settings") or {}).get("instagram", {}).get("trial"):
         manual = plan["settings"]["instagram"].get("graduation") == "MANUAL"
         out.append({"id": "instagram.trial", "platform": p, "status": "info",

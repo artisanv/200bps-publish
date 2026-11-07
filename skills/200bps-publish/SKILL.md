@@ -290,6 +290,18 @@ language, fitted to that network (hook placement, tone, length, hashtag limits; 
 `bps.py rewrite --file v.json --note "<one line what changed>"`. The user reviews each with its score change
 and uses all, some (editing any) or none; applied captions are backed up in caption_history.
 
+## The DM gift is Instagram only (captions per network)
+
+The gift works on Instagram only: the person **follows first**, then **comments the keyword**, and the link comes
+**by DM**; the follow is checked **inside the DM** (follow-first message + button, then Zernio verifies). Other networks
+have no DM gift. So when the gift is on (`rewrite.gift_info`):
+- **Instagram caption:** must end with that call to action ("Follow us, then comment 'WORD' and the link comes in your
+  DM"). Checks: `gift.cta_missing` (keyword missing), `gift.follow_hint` (follow-first not said), `gift.ok`.
+- **Every other network:** must **not** ask people to comment the keyword or promise a DM (`gift.not_here`). Use a call to
+  action that works there, e.g. "the link is in the first comment" (offer `bps.py set linkedin.firstComment "<link>"`,
+  only on the user's yes) or point to the Instagram post.
+- Rewrites and per-network fixes get these rules in `rules[p].tip` and `gift`; follow them in every version.
+
 ## Hook A/B test (Instagram Trial Reels)
 
 For an Instagram Reel that isn't scheduled yet: version A is the post, version B gets a different first
@@ -466,7 +478,7 @@ returns the unread requests. For each one:
 |---|---|
 | none (plain note) | Follow the instruction; reply in one line in chat **and** in the dashboard with its live status: `bps.py say --to <note id> --status done --text "..."` (see "Live status of every note") |
 | `reply` | The user answered one of your `say` messages (`claudeSaid` = what you asked). Act on it, then confirm with `say --to <id>` |
-| `fix_request` | Write a fix for that check → `suggest` (step 2.4) |
+| `fix_request` | With `action.perNetwork` (the post goes to 2+ networks): write **one caption per network** that fixes that check, each fitted to its network (`action.rules[p]`: length, hashtags, hook, tip, which includes the gift rule) and keeping the user's voice; save `{network: caption}` as JSON and run `bps.py rewrite --file v.json --note "…" --check <check id>`. The Fix button then opens the per-network versions (use all, some, edit, or no). Without `perNetwork` (one network): `suggest` (step 2.4) |
 | `plan_scheduled` | Already applied; just acknowledge and re-run `recheck` |
 | `account_connected` | Say which account is now connected; it is already saved and enabled |
 | `post_cancelled` | The user cancelled a post from the dashboard. Run `bps.py sync` and confirm in one line (for a published Instagram post, remind them to delete it in the app) |

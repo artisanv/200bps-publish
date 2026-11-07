@@ -65,6 +65,8 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 
 ## New in v1.20.0 (the big one)
 
+- **Caption fixes give one version per network**, and the Instagram-only DM gift (follow first, comment the word,
+  link by DM) is respected in every caption.
 - **Every format, per network** (Reel, Trial Reel, Story, Poll, Repost, Spotlight…) and **💬 a small PIX chat
   next to any post**; Trial Reel changes only the Reel you chose.
 - **Plan at a glance.** Each post shows its type, time and networks (grouped per network for many accounts), with

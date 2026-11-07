@@ -282,8 +282,17 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                     q = hitl.get(open_["questionId"]) if open_.get("questionId") else None
                     if not q or q.get("status") == "pending" or open_.get("status") == "requested":
                         return self._json({"ok": True, "duplicate": True, "status": open_.get("status"), "questionId": open_.get("questionId")})
-                n = hitl.add_note(f"Suggest a fix for '{cid}' on {plat or 'all platforms'}: {msg}. {str(data.get('note', ''))[:1000]}".strip(),
-                                  {"type": "fix_request", "check": cid, "platform": plat, "msg": msg})
+                import rewrite
+                plats = rewrite.eligible(p) if p else []
+                if p and len(plats) >= 2 and plans.editable(p):     # one version per network, each fitted to it
+                    n = hitl.add_note(f"Fix '{cid}' ({msg}) with one caption per network ({', '.join(plats)}), each fitted to that network. "
+                                      f"{str(data.get('note', ''))[:1000]}".strip(),
+                                      {"type": "fix_request", "check": cid, "platform": plat, "msg": msg, "perNetwork": True, "platforms": plats,
+                                       "current": {x: p["captions"].get(x, "")[:5000] for x in plats},
+                                       "rules": {x: rewrite._rules(x, p) for x in plats}, "gift": rewrite.gift_info(p)})
+                else:
+                    n = hitl.add_note(f"Suggest a fix for '{cid}' on {plat or 'all platforms'}: {msg}. {str(data.get('note', ''))[:1000]}".strip(),
+                                      {"type": "fix_request", "check": cid, "platform": plat, "msg": msg})
                 if p:
                     p.setdefault("fixRequests", {})[key] = {"status": "requested", "ts": int(time.time()), "note": n["id"]}
                     plans.save(p, record=False)
