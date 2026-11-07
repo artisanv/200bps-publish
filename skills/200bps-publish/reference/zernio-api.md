@@ -32,6 +32,9 @@ Base URL: `https://zernio.com/api/v1`. Auth header: `Authorization: Bearer sk_�
 - **Threads:** `topic_tag`
 - **LinkedIn:** `firstComment`, `documentTitle`, `organizationUrn`, `poll` {question ≤140, options 2-4 ×≤30, duration ONE_DAY|THREE_DAYS|SEVEN_DAYS|FOURTEEN_DAYS}, `reshareUrl` (post link or urn:li:share/ugcPost/groupPost). poll and reshareUrl exclude mediaItems and each other. No long-form articles in the API.
 
+## Audience per account (v1.20)
+- `GET /analytics/instagram/demographics?accountId=` age, gender, city, country (100+ followers). `GET /analytics/facebook/demographics?accountId=&breakdown=country,city` (ISO country codes; Meta removed Page age/gender on 2025-11-15). `GET /analytics/linkedin/demographics?accountId=&breakdown=country,region,industry,function,seniority`: organization pages only; personal profiles answer 400 `personal_account_not_supported`. TikTok/Snapchat: none. Verified 2026-11-07.
+
 ## Hook tests (v1.19)
 - Instagram `platformSpecificData.trialParams` {graduationStrategy: MANUAL | SS_PERFORMANCE}: Trial Reels shown to non-followers only; graduation (share to followers) happens in the Instagram app. Reels only, set at creation only (no API to graduate later; verified 2026-11-05 on docs.zernio.com/platforms/instagram/fields). Read back as `isTrialReel` + `trialGraduationStrategy` on the platform entry.
 - `GET /analytics?postId=<Zernio id>`: one post's analytics incl. `reelsSkipRate` (0-1), `igReelsAvgWatchTime` (ms), views, reach. 202 = sync pending.

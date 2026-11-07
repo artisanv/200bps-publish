@@ -27,7 +27,7 @@
       tabPost: "Post", tabGrowth: "Growth", tabCalendar: "Calendar", tabInbox: "Inbox", tabIdeas: "Ideas", tabSystem: "System",
       preview: "Preview", checks: "Checks", score: "Post score", plan: "Plan", bestTime: "Best time",
       followers: "Followers", goal: "Goal", topPosts: "Top posts", rankedBy: "ranked by follows, then saves + shares",
-      heatmap: "When your audience engages", audience: "Audience", comments: "Comments waiting", automations: "DM automations",
+      heatmap: "When your audience engages", audience: "Audience", ntAudSub: "where this account's followers are", ntAudAll: "{n} of {t} accounts added up", ntAudPersonal: "LinkedIn shares audience data only for company pages, not personal profiles.", ntAudNone: "{p} doesn't share audience data with apps.", ntAudEmpty: "Audience data appears after 100 followers (it can take up to 48 hours).", ntAudErr: "Couldn't read the audience right now. It tries again on the next refresh.", regions: "Regions", industries: "Industries", functions: "Job functions", seniority: "Seniority", comments: "Comments waiting", automations: "DM automations",
       ideaBank: "Idea bank", ideaHint: "from your best posts", readiness: "Readiness", accounts: "Connected accounts",
       credit: "A free gift from Nasser Al-Ostath. Learn and build AI with us.",
       awaiting: "Ready. Type “go” in the pop-up or in Claude Code to publish.",
@@ -235,7 +235,7 @@
       tabPost: "البوست", tabGrowth: "النمو", tabCalendar: "التقويم", tabInbox: "الرسائل", tabIdeas: "أفكار", tabSystem: "النظام",
       preview: "معاينة", checks: "الفحوصات", score: "تقييم البوست", plan: "الخطة", bestTime: "أفضل وقت",
       followers: "المتابعين", goal: "الهدف", topPosts: "أفضل البوستات", rankedBy: "حسب المتابعات ثم الحفظ والمشاركة",
-      heatmap: "متى يتفاعل جمهورك", audience: "الجمهور", comments: "تعليقات تنتظر رد", automations: "رسائل تلقائية",
+      heatmap: "متى يتفاعل جمهورك", audience: "الجمهور", ntAudSub: "وين متابعين هالحساب", ntAudAll: "مجموع {n} من {t} حسابات", ntAudPersonal: "لينكدإن يعطي بيانات الجمهور لصفحات الشركات بس، مو للحسابات الشخصية.", ntAudNone: "{p} ما يشارك بيانات الجمهور مع التطبيقات.", ntAudEmpty: "بيانات الجمهور تطلع بعد 100 متابع (ممكن تاخذ لين 48 ساعة).", ntAudErr: "ما قدرت أقرا الجمهور الحين. بيحاول مرة ثانية بالتحديث الجاي.", regions: "المناطق", industries: "المجالات", functions: "الوظائف", seniority: "المستوى الوظيفي", comments: "تعليقات تنتظر رد", automations: "رسائل تلقائية",
       ideaBank: "بنك الأفكار", ideaHint: "من أفضل بوستاتك", readiness: "الجاهزية", accounts: "الحسابات المربوطة",
       credit: "هدية مجانية من ناصر الأستاذ. تعلّم وابنِ الـAI معنا.",
       awaiting: "جاهز. اكتب «go» في النافذة أو في Claude Code للنشر.",
@@ -1314,6 +1314,31 @@
       tb.append(body); tp.append(el("div", { class: "hscroll" }, tb));
     }
     host.append(el("div", { class: "card" }, el("header", {}, el("h2", {}, t("ntTop")), el("span", { class: "label" }, t("ntTopHint"))), tp));
+    host.append(netAudience(n));
+  }
+  // where this account's followers are (or every account of the network, added up)
+  function netAudience(n) {
+    const box = el("div", { class: "net-aud" });
+    let a = n.audience || {}, sub = t("ntAudSub");
+    if (n.aggregate) {
+      const ok = (n.accounts || []).filter((x) => x.audience && x.audience.status === "ok");
+      if (ok.length) {
+        const merged = {};
+        ok.forEach((x) => Object.entries(x.audience.demo || {}).forEach(([k, rows]) => {
+          const m = (merged[k] ||= {}); rows.forEach((r) => { m[r.name] = (m[r.name] || 0) + r.value; }); }));
+        const demo = {};
+        Object.entries(merged).forEach(([k, m]) => { demo[k] = Object.entries(m).map(([name, value]) => ({ name, value }));
+          if (k !== "ages") demo[k].sort((p, q) => q.value - p.value); else demo[k].sort((p, q) => parseInt(p.name) - parseInt(q.name)); });
+        a = { status: "ok", demo };
+        sub = t("ntAudAll").replace("{n}", ok.length).replace("{t}", (n.accounts || []).length);
+      } else a = (n.accounts || []).map((x) => x.audience || {}).find((x) => x.status) || {};
+    }
+    const msg = { personal: "ntAudPersonal", unsupported: "ntAudNone", empty: "ntAudEmpty", error: "ntAudErr" }[a.status];
+    if (a.status === "ok") {
+      demoBars(box, a.demo || {});
+      if (a.zones && (a.zones.zones || []).length) box.append(audienceStrip(a.zones, {}));
+    } else box.append(el("p", { class: "empty" }, t(msg || "noData").replace("{p}", NET_NAME[n.platform] || n.platform)));
+    return el("div", { class: "card net-audience" }, el("header", {}, el("h2", {}, t("audience")), el("span", { class: "label" }, sub)), box);
   }
 
   // Heatmap shade by rank, not by raw value: one viral hour must not wash every other hour out to the faintest step.
@@ -1456,10 +1481,13 @@
 
 
     const demo = $("#demo"); demo.innerHTML = "";
-    const d = z.demographics || {};
-    const countryName = (c) => { try { return new Intl.DisplayNames([state.lang === "ar" ? "ar" : "en"], { type: "region" }).of(c) || c; } catch (e) { return c; } };
+    demoBars(demo, z.demographics || {});
+  }
+  // audience bars: Instagram (age, gender, city, country), Facebook (country, city), LinkedIn pages (country, region, industry, job, seniority)
+  function demoBars(demo, d) {
     const genderName = (g) => ({ M: t("male"), F: t("female"), U: t("unknown") }[String(g).toUpperCase()] || g);
-    const groups = [["ages", d.ages, 8], ["gender", d.gender, 3], ["cities", d.cities, 6], ["countries", d.countries, 5]].filter(([, v]) => v && v.length);
+    const groups = [["countries", d.countries, 5], ["cities", d.cities, 6], ["ages", d.ages, 8], ["gender", d.gender, 3], ["regions", d.regions, 5],
+      ["industries", d.industries, 5], ["functions", d.functions, 5], ["seniority", d.seniority, 5]].filter(([, v]) => v && v.length);
     if (!groups.length) demo.innerHTML = `<p class="empty">${esc(d.note || t("noData"))}</p>`;
     groups.forEach(([name, rows, limit]) => {
       const shown = rows.slice(0, limit);
@@ -2651,7 +2679,7 @@
         el("small", {}, zn.countries.map(countryName).join(" · ") + (zn.approx ? " ~" : ""))));
     });
     box.append(row);
-    const best = bt.slots && bt.slots[0];
+    const best = bt && bt.slots && bt.slots[0];
     if (best && a.zones.length > 1) {
       const lines = a.zones.map((zn) => `${countryName(zn.countries[0])}: ${hourLabel((best.hour + (zn.offset - acc) + 24) % 24)}`);
       box.append(el("p", { class: "hint" }, t("bestLocal") + " " + lines.join(" · ")));
@@ -5669,6 +5697,8 @@
         "<b>updated …</b> next to followers: when Zernio last refreshed them (about once a day).",
         "<b>Goal:</b> progress from your Zernio follower count, with how many are left. \"How this goal works\" explains it; <b>Change goal</b> sets a new one in two clicks.",
         "Streak (last 14 days), top posts (ranked by follows, then saves + shares) and your audience.",
+        "<b>Audience per account</b> (Growth → a network tab → one account → Audience): where that account's followers are. Instagram: countries, cities, ages, gender and their clocks. Facebook Pages: countries and cities. LinkedIn company pages: country, region, industry, job and seniority. <b>All accounts</b> adds them up. Personal LinkedIn profiles, TikTok and Snapchat don't share it. Refreshed every 6 hours.",
+        "<b>The idea bank is on every Growth tab</b> (All networks and each network), at the bottom.",
         "<b>Idea bank:</b> ideas from your best posts. Click one for hook, outline, hashtags and best time; plan it on a day, or <b>✎ Edit</b> it.",
         "<b>Idea bank tools:</b> tick ideas (or Select all) to <b>Delete</b> them (Undo brings them back) or save them as a readable document (.md) or a backup (.json) wherever you choose. <b>Add an idea</b> writes your own; <b>Load ideas from a file</b> brings a backup back; <b>Clear all</b> empties the bank (with Undo)."]],
       ["Inbox", [
@@ -5789,6 +5819,8 @@
         "<b>تحدّث …</b> جنب المتابعين: متى آخر مرة Zernio حدّثهم (تقريباً مرة باليوم).",
         "<b>الهدف:</b> تقدمك من عدد متابعينك في Zernio وكم باقي. «شلون يشتغل الهدف» يشرحه؛ و<b>غيّر الهدف</b> بضغطتين.",
         "الأيام المتواصلة (آخر 14 يوم)، أفضل البوستات (حسب المتابعين ثم الحفظ والمشاركة) وجمهورك.",
+        "<b>الجمهور لكل حساب</b> (النمو ← تبويب منصة ← حساب ← الجمهور): وين متابعين هالحساب. انستقرام: الدول والمدن والأعمار والجنس وساعاتهم. صفحات فيسبوك: الدول والمدن. صفحات شركات لينكدإن: الدولة والمنطقة والمجال والوظيفة والمستوى. <b>كل الحسابات</b> يجمعهم. لينكدإن الشخصي وتيك توك وسناب ما يشاركونها. تتحدث كل 6 ساعات.",
+        "<b>بنك الأفكار بكل تبويبات النمو</b> (كل المنصات وكل منصة)، تحت.",
         "<b>بنك الأفكار:</b> أفكار من أفضل بوستاتك. اضغط وحدة للافتتاحية والمخطط والهاشتاقات وأفضل وقت؛ خطط لها بيوم، أو <b>✎ عدّلها</b>.",
         "<b>أدوات بنك الأفكار:</b> علّم على الأفكار (أو اختار الكل) عشان <b>تحذفها</b> («تراجع» يرجعها) أو تحفظها كمستند مقروء (‎.md‎) أو نسخة احتياطية (‎.json‎) وين ما تبي. <b>أضف فكرة</b> تكتب فكرتك؛ <b>حمّل أفكار من ملف</b> يرجّع نسخة؛ <b>امسح الكل</b> يفضي البنك (مع تراجع)."]],
       ["الرسائل", [
@@ -6380,6 +6412,7 @@
       lang: ["Language", "Switch between English and Arabic."], clock: ["Time format", "12-hour or 24-hour times."],
       theme: ["Theme", "Light or dark."], version: ["Version", "The installed version of this skill and its build time (updates by itself with every change)."],
       tipsPref: ["Hover tips", "Turn these explanations on or off."],
+      netAudience: ["Audience", "Where this account's followers are: countries, cities, ages and gender on Instagram; countries and cities on Facebook Pages; country, region, industry, job and seniority on LinkedIn company pages. Personal LinkedIn, TikTok and Snapchat don't share it. Refreshed every 6 hours."],
       trialCard: ["Trial Reel", "Show this Reel to non-followers first. After the trial: Automatic shares it to your followers if it does well; Manual lets you share it in the Instagram app. Only when it's first posted."],
       trialPref: ["New Reels as Trial", "Whether every new Reel starts as a Trial Reel, and what happens after the trial. You can still change it per Reel in Network settings."],
       cbPref: ["Color-blind mode", "Safer colors for red-green and blue-yellow color blindness, plus shapes and marks so no status relies on color alone."],
@@ -6552,6 +6585,7 @@
       lang: ["اللغة", "بدّل بين العربي والإنجليزي."], clock: ["صيغة الوقت", "12 ساعة أو 24 ساعة."],
       theme: ["المظهر", "فاتح أو داكن."], version: ["الإصدار", "نسخة السكل المثبتة ووقت البِلد (يتحدّث بروحه مع كل تعديل)."],
       tipsPref: ["الشروحات", "شغّل أو طفّي هالشروحات."],
+      netAudience: ["الجمهور", "وين متابعين هالحساب: الدول والمدن والأعمار والجنس بانستقرام؛ الدول والمدن لصفحات فيسبوك؛ الدولة والمنطقة والمجال والوظيفة والمستوى لصفحات شركات لينكدإن. لينكدإن الشخصي وتيك توك وسناب ما يشاركونها. تتحدث كل 6 ساعات."],
       trialCard: ["Trial Reel", "اعرض هالريل لغير المتابعين أول. بعد التجربة: تلقائي ينشره لمتابعينك إذا أدّى زين؛ يدوي تنشره أنت من تطبيق انستقرام. ينختار بس وقت النشر."],
       trialPref: ["الريلز الجديدة كـ Trial", "هل كل ريل جديد يبدأ كـ Trial Reel، وشنو يصير بعد التجربة. تقدر تغيّره لكل ريل من إعدادات المنصات."],
       cbPref: ["وضع عمى الألوان", "ألوان أوضح لعمى الأحمر والأخضر والأزرق والأصفر، مع أشكال وعلامات عشان ما تعتمد أي حالة على اللون بس."],
@@ -6634,7 +6668,7 @@
     ["#scoreRing, #tipList", "score"], ["#coverCard", "cover"], ["#planList", "planCard"], ["#bestTime", "bestTime"], ["#changes", "changes"],
     ["#connectCard", "connect"], ["#newPostCard", "newPost"],
     [".kpi", "kpi"], ["#folChart", "followers"], ["#topPosts", "topPosts"], ["#demo", "audience"], ["#ideas", "ideas"], ["#comments", "comments"], ["#automations", "automations"],
-    [".ig-trial", "trialCard"], [".trial-pref", "trialPref"],
+    [".net-audience", "netAudience"], [".ig-trial", "trialCard"], [".trial-pref", "trialPref"],
     [".keys-card", "keys"], ["#langBtn", "lang"], ["#h12Btn, #h24Btn", "clock"], ["#themeBtn", "theme"], ["#versionPill", "version"], ["#tipsBtn", "tipsPref"], ["#cbBtn", "cbPref"],
     ["#doctorList", "readiness"], ["#accounts", "accounts"],
   ];

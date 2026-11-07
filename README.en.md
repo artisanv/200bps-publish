@@ -65,6 +65,8 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 
 ## New in v1.20.0 (the big one)
 
+- **🌍 Audience per account.** Each account's own Growth page shows where its followers are (Instagram, Facebook
+  Pages, LinkedIn company pages). The idea bank now shows on every Growth tab.
 - **🧪 Trial Reel switch.** Tick Trial Reel on any Instagram Reel (Network settings) to show it to non-followers
   first, then pick what happens after: Automatic (shared to your followers if it does well) or Manual. New Reels
   start with Trial off; set your default in Settings.

@@ -100,6 +100,8 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - **updated …** next to followers: when Zernio last refreshed them (about once a day).
 - **Goal:** progress from your Zernio follower count, with how many are left. "How this goal works" explains it; **Change goal** sets a new one in two clicks.
 - Streak (last 14 days), top posts (ranked by follows, then saves + shares) and your audience.
+- **Audience per account** (Growth → a network tab → one account → Audience): where that account's followers are. Instagram: countries, cities, ages, gender and their clocks. Facebook Pages: countries and cities. LinkedIn company pages: country, region, industry, job and seniority. **All accounts** adds them up. Personal LinkedIn profiles, TikTok and Snapchat don't share it. Refreshed every 6 hours.
+- **The idea bank is on every Growth tab** (All networks and each network), at the bottom.
 - **Idea bank:** ideas from your best posts. Click one for hook, outline, hashtags and best time; plan it on a day, or **✎ Edit** it.
 - **Idea bank tools:** tick ideas (or Select all) to **Delete** them (Undo brings them back) or save them as a readable document (.md) or a backup (.json) wherever you choose. **Add an idea** writes your own; **Load ideas from a file** brings a backup back; **Clear all** empties the bank (with Undo).
 
@@ -244,6 +246,8 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - **تحدّث …** جنب المتابعين: متى آخر مرة Zernio حدّثهم (تقريباً مرة باليوم).
 - **الهدف:** تقدمك من عدد متابعينك في Zernio وكم باقي. «شلون يشتغل الهدف» يشرحه؛ و**غيّر الهدف** بضغطتين.
 - الأيام المتواصلة (آخر 14 يوم)، أفضل البوستات (حسب المتابعين ثم الحفظ والمشاركة) وجمهورك.
+- **الجمهور لكل حساب** (النمو ← تبويب منصة ← حساب ← الجمهور): وين متابعين هالحساب. انستقرام: الدول والمدن والأعمار والجنس وساعاتهم. صفحات فيسبوك: الدول والمدن. صفحات شركات لينكدإن: الدولة والمنطقة والمجال والوظيفة والمستوى. **كل الحسابات** يجمعهم. لينكدإن الشخصي وتيك توك وسناب ما يشاركونها. تتحدث كل 6 ساعات.
+- **بنك الأفكار بكل تبويبات النمو** (كل المنصات وكل منصة)، تحت.
 - **بنك الأفكار:** أفكار من أفضل بوستاتك. اضغط وحدة للافتتاحية والمخطط والهاشتاقات وأفضل وقت؛ خطط لها بيوم، أو **✎ عدّلها**.
 - **أدوات بنك الأفكار:** علّم على الأفكار (أو اختار الكل) عشان **تحذفها** («تراجع» يرجعها) أو تحفظها كمستند مقروء (‎.md‎) أو نسخة احتياطية (‎.json‎) وين ما تبي. **أضف فكرة** تكتب فكرتك؛ **حمّل أفكار من ملف** يرجّع نسخة؛ **امسح الكل** يفضي البنك (مع تراجع).
 

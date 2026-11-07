@@ -377,7 +377,7 @@ It shows (bilingual, with 12h/24h and light/dark toggles):
 - a pop-up for every pending question, and a "Note to Claude" button
 - readiness
 - the current post: preview, caption per platform, checks, score, plan, best time
-- growth: KPIs, followers, top posts, engagement heatmap, audience; plus one dashboard per connected network (Growth tabs: followers, its own
+- growth: KPIs, followers, top posts, engagement heatmap, audience; the idea bank on every Growth tab; plus one dashboard per connected network (Growth tabs: its own audience (`networks[].audience`: Instagram, Facebook Pages, LinkedIn company pages; status personal/unsupported/empty otherwise; cached 6 h in `.bps/audience_cache.json`), followers, its own
   goal (`/api/goal` with `platform`, stored in `goal.by`), last 30 days vs the 30 before, best times, rhythm, top posts)
 - calendar
 - inbox: comments waiting, DM automations, ice breakers

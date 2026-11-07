@@ -168,6 +168,65 @@ def _eng(m: dict) -> float:
     return sum((m.get(k) or 0) for k in ("likes", "comments", "shares", "saves"))
 
 
+# Where each account's followers are. Zernio has it for Instagram (age, gender,
+# city, country; 100+ followers), Facebook Pages (country, city) and LinkedIn
+# company pages (country, region, industry, job function, seniority). Personal
+# LinkedIn profiles, TikTok and Snapchat have none. Cached 6 h per account:
+# Meta and LinkedIn refresh it at most daily.
+AUDIENCE_TTL = 6 * 3600
+_DEMO_KEYS = {"country": "countries", "city": "cities", "age": "ages", "gender": "gender", "region": "regions",
+              "industry": "industries", "function": "functions", "seniority": "seniority", "company_size": "sizes"}
+
+
+def _demo_rows(raw: dict) -> dict:
+    demo = {}
+    for b, key in _DEMO_KEYS.items():
+        rows = [{"name": str(x.get("dimension")), "value": _num(x.get("value"))}
+                for x in raw.get(b) or [] if x.get("dimension") is not None and _num(x.get("value")) is not None]
+        if not rows:
+            continue
+        if b == "age":
+            rows.sort(key=lambda x: int(re.match(r"\d+", x["name"]).group()) if re.match(r"\d+", x["name"]) else 999)
+        else:
+            rows.sort(key=lambda x: -x["value"])
+        demo[key] = rows
+    return demo
+
+
+def _account_audience(z, a: dict, tz: str) -> dict:
+    """{status: ok | empty | personal | unsupported | error, demo, zones} for one account."""
+    pf, aid = a["platform"], a["id"]
+    cache_p = state_dir() / "audience_cache.json"
+    cache = read_json(cache_p) or {}
+    hit = cache.get(aid)
+    if hit and time.time() - hit.get("ts", 0) < AUDIENCE_TTL:
+        return hit["audience"]
+    try:
+        if pf == "instagram":
+            raw = z.ig_demographics(aid, metric="follower_demographics", breakdown="age,gender,city,country", timeframe="this_month")
+        elif pf == "facebook":
+            raw = z.get("/analytics/facebook/demographics", accountId=aid, breakdown="country,city")
+        elif pf == "linkedin":
+            raw = z.get("/analytics/linkedin/demographics", accountId=aid, breakdown="country,region,industry,function,seniority")
+        else:
+            return {"status": "unsupported"}
+        demo = _demo_rows((raw or {}).get("demographics") or {})
+        res = {"status": "ok" if demo else "empty", "demo": demo}
+        if demo.get("countries"):
+            res["zones"] = audience.zones(demo["countries"], tz)
+    except ZernioError as e:
+        msg = str(e)
+        if "personal_account_not_supported" in msg:
+            res = {"status": "personal"}
+        else:
+            return {"status": "error", "error": msg[:200]}       # not cached: try again next refresh
+    except Exception as e:
+        return {"status": "error", "error": f"{type(e).__name__}: {e}"[:200]}
+    cache[aid] = {"ts": time.time(), "audience": res}
+    write_json(cache_p, cache)
+    return res
+
+
 def _networks(z, section, out: dict, tz: str, today, cfg: dict, bt_done: str) -> list[dict]:
     """One dashboard per connected account: followers (now, 7/30-day change,
     90-day series), its goal, the last 30 days vs the 30 before from its own
@@ -231,6 +290,7 @@ def _networks(z, section, out: dict, tz: str, today, cfg: dict, bt_done: str) ->
                     "since": series[0]["date"] if series and c30 is None else None,
                     "changeSince": (now - series[0]["value"]) if series and c30 is None and now is not None else None, "goal": goals.get(a["id"]) or (goals.get(pf) if same_pf == 1 else None) or ((cfg.get("goal") or {}).get("followers") if pf == "instagram" and a.get("selected") else None),
                     "kpis": k30, "kpisPrev": k30p, "postsTotal": len(posts), "top": top, "weeks": weeks,
+                    "audience": _account_audience(z, a, tz),
                     "bestTime": {"basis": bt.get("basis"), "slots": (bt.get("slots") or [])[:3], "note": bt.get("note"), "average": bt.get("average")}})
     return res
 
@@ -474,8 +534,16 @@ def _build() -> dict:
 
     out["networks"] = _networks(z, section, out, tz, today, cfg, bt_platform)
 
-    # demographics: one call -> {demographics: {age|gender|city|country: [{dimension, value}]}}
-    if ig:
+    # demographics: the main Instagram account's, already read for its network dashboard
+    main_aud = next((n.get("audience") for n in out["networks"] if n.get("accountId") == ig), None) if ig else None
+    if main_aud and main_aud.get("status") in ("ok", "empty"):
+        demo = {k: v for k, v in (main_aud.get("demo") or {}).items() if k in ("cities", "countries", "ages", "gender")}
+        if not any(demo.values()):
+            demo["note"] = "Demographics appear after 100 followers and need the Analytics add-on."
+        out["demographics"] = demo
+        out["audience"] = audience.zones(demo.get("countries") or [], tz)
+    # fallback: one call -> {demographics: {age|gender|city|country: [{dimension, value}]}}
+    elif ig:
         r = section("demographics", lambda: z.ig_demographics(ig, metric="follower_demographics", breakdown="age,gender,city,country", timeframe="this_month")) or {}
         raw = r.get("demographics") or {}
         demo = {}
