@@ -1,6 +1,10 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- **What it is on each network:** each post shows its format per network (Reel, Trial Reel, Carousel, Photo, Story, Saved story, Spotlight, Document, Text, Poll, Repost, Video, Short), decided from the media and the settings sent to Zernio (`lib/formats.py`). Calendar chips show every distinct format; day cards show which network gets which.
+- **Trial Reel from one Reel changes only that Reel:** opened from a post, the Trial window shows just that Reel, with **Show all waiting Reels** if you want the rest.
+- **💬 Ask PIX about one post:** a small chat pops up right next to the post (day cards, post window, right-click in Plan and Posts). PIX knows the post and answers in the same box.
+- **Right-click a post in Posts** for the same actions as Plan: View, Ask PIX, Networks…, Reschedule…, Edit caption…, Trial Reel…, Copy, Cancel.
 - **Plan at a glance:** every post shows its type icon, its time and one badge per network (IG·3 for 3 Instagram accounts; lime ✓ all live, outline waiting, red ! something failed; hover lists every account). Up to 4 network badges, then +N. **Show only** chips: all, one network or one account (with post counts). Day view shows full account names. Month chips: type · time · networks on line 1, caption on line 2.
 - **Click a day** for a card per post: picture, type, time, status, networks and every action (View, Networks…, Reschedule…, Edit caption…, Trial Reel…, Copy, Cancel, report for published posts).
 - **Reschedule…** (day cards, a post's window, Plan right-click): any day and minute, quick picks (+1 day, +1 week, your best hours for that weekday), live From → To with the full day name and date; type **move** for posts in Zernio (read back); local drafts change at once. Dates in move, trial and day windows now show the full day name, date and year.

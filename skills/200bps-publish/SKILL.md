@@ -307,7 +307,7 @@ winner to followers in the Instagram app (no API).
 ## Trial Reels for waiting Reels (Instagram)
 
 Posts → 🧪 Trial Reels (also Ctrl+K, a post's window, Plan right-click, the networks window) lists every Instagram
-Reel not published yet (Zernio scheduled/draft/failed/partial, plus local drafts), with what the user's own results say
+Reel not published yet (opened from one Reel it shows only that Reel, with "Show all") (Zernio scheduled/draft/failed/partial, plus local drafts), with what the user's own results say
 (`bps.py trial advice`: trial vs normal Reels, average views with n and confidence; a verdict only with 3+ of each) and
 what Instagram's Help Center says (`trial.FACTS`). Warnings: same first line as a Reel already live (Instagram limits
 trials of content shared before), duplicates among waiting posts, goes out in under 30 minutes.
@@ -485,6 +485,7 @@ returns the unread requests. For each one:
 | `rewrite_all` | The user pressed "Fit it for every network". Write one caption per network and save with `bps.py rewrite` (see "One post, every network"). Never apply them yourself |
 | `ab_hook` | The user pressed "Ask Claude for hook B" in the Hook test window. `action.caption` is version A. Write B and save it with `bps.py abtest hook` (see "Hook A/B test"). Never start the test yourself |
 | `abtest_started` | The user started a hook test from the dashboard. Already done; acknowledge in one line and say results come after 48 hours |
+| plain note starting with `[About … post …]` | Sent from the small 💬 Ask PIX chat next to a post (day card, post window, right-click in Plan/Posts). The bracket says which post (Zernio id or local draft id, first line, time, status, networks with format). Answer about that post in 1-3 short lines with `say --to <id> --status done`; it shows in the same small chat. Public changes still need the user's yes |
 | `trial_advice` | The user pressed ✨ Ask PIX in the Trial Reels window. Advise per Reel from `action.items` + `action.stats` (see "Trial Reels for waiting Reels"); change nothing without their yes |
 | `trial_changed` | The user switched Trial on/off from the dashboard (typed edit). Already done in Zernio; acknowledge in one line with `say --to <id> --status done` |
 | `recycle_hooks` | The user pressed "Ask Claude for new hooks" in the Recycle window. `action.caption`, `metrics` and `platforms` describe the post. Write 3-5 new versions and save them with `bps.py recycle hooks` (see "Recycle best posts"). Never start recycling yourself |

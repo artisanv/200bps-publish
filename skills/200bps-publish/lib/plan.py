@@ -168,8 +168,26 @@ def list_plans() -> list[dict]:
                     "firstMedia": ({"file": p["media"][0]["file"], "kind": p["media"][0]["kind"]} if p.get("media") else None),
                     "hasCover": bool(p.get("cover")), "mediaCount": len(p.get("media") or []),
                     "mediaList": [{"file": m["file"], "kind": m["kind"]} for m in p.get("media") or []], "captions": p.get("captions"),
-                    "kind": {"reel": "reel", "carousel": "carousel", "single": "post", "document": "document", "text": "text"}.get(p.get("type"), "post")})
+                    "kind": {"reel": "reel", "carousel": "carousel", "single": "post", "document": "document", "text": "text"}.get(p.get("type"), "post"),
+                    "fmts": _fmts(p)})
     return sorted(out, key=lambda x: -(x.get("updated") or 0))
+
+
+def _fmts(p: dict) -> dict:
+    """What this draft is on each of its networks (Reel, Video, Poll, Story…)."""
+    import formats
+    out = {}
+    for pf in p.get("platforms") or []:
+        try:
+            base = type_for(p, pf)
+        except Exception:
+            base = p.get("type") or "single"
+        s = (p.get("settings") or {}).get(pf) or {}
+        psd = {"contentType": s.get("format") if pf == "facebook" else s.get("contentType")}
+        if pf == "linkedin" and s.get("kind") in ("poll", "repost"):
+            psd["poll" if s["kind"] == "poll" else "reshareUrl"] = True
+        out[pf] = formats.fmt_of(pf, base, psd, bool(s.get("trial")))
+    return out
 
 
 SETTABLE = {

@@ -2192,3 +2192,21 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 .rs-pick { display: flex; flex-wrap: wrap; gap: 12px; }
 .rs-pick .field { flex: 1 1 160px; }
 .rs-quick { margin-bottom: 10px; }
+.fmt-chips { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.fmt-chips .kchip small { font: 600 10px var(--bps-font-mono); opacity: .7; }
+
+/* small PIX chat next to a post */
+.mini-chat { position: fixed; z-index: 140; display: grid; grid-template-rows: auto 1fr auto; max-height: min(360px, 70vh); background: var(--bps-panel); color: var(--bps-text);
+  border: 1px solid var(--bps-line-strong); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25); overflow: hidden; font-size: 13px; }
+.mc-head { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--bps-line); }
+.mc-head b { color: var(--accent-ink); font: 700 12px var(--bps-font-mono); }
+.mc-sub { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bps-mute); }
+.mc-x { background: none; border: 0; color: inherit; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 2px; }
+.mc-log { overflow: auto; padding: 10px; display: grid; gap: 6px; align-content: start; min-height: 70px; }
+.mc-hint { margin: 0; color: var(--bps-mute); }
+.mc-msg { max-width: 88%; padding: 6px 10px; border-radius: 12px; overflow-wrap: anywhere; white-space: pre-wrap; }
+.mc-msg.you { justify-self: end; background: var(--bps-lime); color: #0D1113; }
+.mc-msg.pix { justify-self: start; background: var(--bps-slate); }
+.mc-msg.wait { opacity: .7; font-style: italic; }
+.mc-row { display: flex; gap: 6px; padding: 8px; border-top: 1px solid var(--bps-line); }
+.mc-in { flex: 1; min-width: 0; }

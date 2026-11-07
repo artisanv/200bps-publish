@@ -466,6 +466,14 @@ def _build() -> dict:
                           "account": acc_name(acc), "accountId": acc.get("_id") if isinstance(acc, dict) else None,
                           "trial": t.get("isTrialReel") or bool(((t.get("platformSpecificData") or {}).get("trialParams"))),
                           "graduation": t.get("trialGraduationStrategy") or (((t.get("platformSpecificData") or {}).get("trialParams") or {}).get("graduationStrategy"))})
+        import formats
+        base = formats.base_of([x.get("type") for x in mi])
+        li_kind = (li_local.get(p.get("_id")) or {}).get("kind")
+        for t, pl in zip(p.get("platforms") or [], plats):
+            psd_t = dict(t.get("platformSpecificData") or {})
+            if pl["platform"] == "linkedin" and li_kind in ("poll", "repost"):
+                psd_t.setdefault("poll" if li_kind == "poll" else "reshareUrl", True)
+            pl["fmt"] = formats.fmt_of(pl["platform"], base, psd_t, bool(pl.get("trial")))
         n = len(a.get("mediaItems") or []) or len(mi)
         url0 = next((x["url"] for x in plats if x.get("url")), "") or a.get("platformPostUrl") or ""
         out["zposts"].append({
