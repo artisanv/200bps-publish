@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- Fixed: making a Reel a Trial right after editing its caption said "No Instagram Reel waiting"; it now refreshes the post list and finds it.
 - **The gift word works in any letter case:** a comment of publish, Publish or PUBLISH all get the DM gift (the keyword is sent to Zernio in every case, plus close-typo matching).
 - **PIX can prepare a window for you:** a PIX message can carry an **Open it** button that opens the Copy → Paste window already filled in (day, time, networks); you check it and type **go** (`bps.py say --open`).
 - Fixed: a stray "null" next to "Schedule it" in the Paste window.

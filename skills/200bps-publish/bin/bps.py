@@ -284,6 +284,9 @@ def run(args) -> None:
             if not args.confirm:
                 raise PermissionError("Trial Reel changes a post that goes public: only after the user's yes for this exact post (--confirm).")
             it = next((i for i in trial.candidates() if i["id"] == args.post), None)
+            if not it:                              # the post list may have been cleared (e.g. right after a caption edit): refresh once
+                summary.build(force=True)
+                it = next((i for i in trial.candidates() if i["id"] == args.post), None)
             if not it:
                 raise ValueError("No Instagram Reel waiting to go out with that id (bps.py trial list).")
             emit(trial.apply([{"id": it["id"], "where": it["where"], "trial": not args.off, "graduation": args.graduation}], "edit", via="chat"))
