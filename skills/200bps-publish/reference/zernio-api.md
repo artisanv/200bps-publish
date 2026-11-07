@@ -32,6 +32,9 @@ Base URL: `https://zernio.com/api/v1`. Auth header: `Authorization: Bearer sk_�
 - **Threads:** `topic_tag`
 - **LinkedIn:** `firstComment`, `documentTitle`, `organizationUrn`, `poll` {question ≤140, options 2-4 ×≤30, duration ONE_DAY|THREE_DAYS|SEVEN_DAYS|FOURTEEN_DAYS}, `reshareUrl` (post link or urn:li:share/ugcPost/groupPost). poll and reshareUrl exclude mediaItems and each other. No long-form articles in the API.
 
+## Trial Reels on waiting posts (v1.20)
+- `PUT /posts/{id}` with the full `platforms` list (each entry keeps customContent/customMedia/platformSpecificData) and the Instagram entry's `platformSpecificData.trialParams` added or removed. Works on draft/scheduled/failed/partial/cancelled; tested 2026-11-07 on a draft: on, MANUAL, off all read back, firstComment and LinkedIn kept.
+
 ## Audience per account (v1.20)
 - `GET /analytics/instagram/demographics?accountId=` age, gender, city, country (100+ followers). `GET /analytics/facebook/demographics?accountId=&breakdown=country,city` (ISO country codes; Meta removed Page age/gender on 2025-11-15). `GET /analytics/linkedin/demographics?accountId=&breakdown=country,region,industry,function,seniority`: organization pages only; personal profiles answer 400 `personal_account_not_supported`. TikTok/Snapchat: none. Verified 2026-11-07.
 

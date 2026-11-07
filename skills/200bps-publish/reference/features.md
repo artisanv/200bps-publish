@@ -100,6 +100,8 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - **updated …** next to followers: when Zernio last refreshed them (about once a day).
 - **Goal:** progress from your Zernio follower count, with how many are left. "How this goal works" explains it; **Change goal** sets a new one in two clicks.
 - Streak (last 14 days), top posts (ranked by follows, then saves + shares) and your audience.
+- **🧪 Trial Reels for waiting Reels** (Posts → 🧪 Trial Reels, Ctrl+K, a post's window, or right-click it in Plan): every Instagram Reel that isn't live yet. See what your own results say (trial vs normal Reels, with how many and how sure) and what Instagram says. Tick **Trial Reel**, pick **Automatic** or **Manual** (★ = your default), type **edit** and **Apply**: only the Instagram part changes, and it's read back from Zernio. **✨ Ask PIX** gives advice per Reel in the chat.
+- **Every network on each post** (Plan and Posts): each network is its own badge: lime with ✓ = live, outline = waiting, red ! = failed. Click the badges to see where it goes, open it on each network, change its networks or make it a Trial Reel.
 - **Audience per account** (Growth → a network tab → one account → Audience): where that account's followers are. Instagram: countries, cities, ages, gender and their clocks. Facebook Pages: countries and cities. LinkedIn company pages: country, region, industry, job and seniority. **All accounts** adds them up. Personal LinkedIn profiles, TikTok and Snapchat don't share it. Refreshed every 6 hours.
 - **The idea bank is on every Growth tab** (All networks and each network), at the bottom.
 - **Idea bank:** ideas from your best posts. Click one for hook, outline, hashtags and best time; plan it on a day, or **✎ Edit** it.
@@ -246,6 +248,8 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - **تحدّث …** جنب المتابعين: متى آخر مرة Zernio حدّثهم (تقريباً مرة باليوم).
 - **الهدف:** تقدمك من عدد متابعينك في Zernio وكم باقي. «شلون يشتغل الهدف» يشرحه؛ و**غيّر الهدف** بضغطتين.
 - الأيام المتواصلة (آخر 14 يوم)، أفضل البوستات (حسب المتابعين ثم الحفظ والمشاركة) وجمهورك.
+- **🧪 Trial Reels للريلز اللي تنتظر** (المنشورات ← 🧪 Trial Reels، أو Ctrl+K، أو نافذة البوست، أو كليك يمين عليه بالخطة): كل ريل انستقرام لسا ما نزل. تشوف شنو تقول نتايجك (التجريبي ضد العادي، مع كم وحدة وشكثر متأكدين) وشنو يقول انستقرام. فعّل **Trial Reel**، اختار **تلقائي** أو **يدوي** (★ = الافتراضي مالك)، اكتب **edit** واضغط **طبّق**: بس جزء انستقرام يتغير، وينقرا من Zernio. **✨ اسأل PIX** يعطيك نصيحة لكل ريل بالشات.
+- **كل منصات البوست** (الخطة والمنشورات): كل منصة لها شارة: ليموني مع ✓ = منشور، إطار = ينتظر، أحمر ! = فشل. اضغط الشارات عشان تشوف وين ينزل، تفتحه بكل منصة، تغيّر منصاته أو تخليه Trial Reel.
 - **الجمهور لكل حساب** (النمو ← تبويب منصة ← حساب ← الجمهور): وين متابعين هالحساب. انستقرام: الدول والمدن والأعمار والجنس وساعاتهم. صفحات فيسبوك: الدول والمدن. صفحات شركات لينكدإن: الدولة والمنطقة والمجال والوظيفة والمستوى. **كل الحسابات** يجمعهم. لينكدإن الشخصي وتيك توك وسناب ما يشاركونها. تتحدث كل 6 ساعات.
 - **بنك الأفكار بكل تبويبات النمو** (كل المنصات وكل منصة)، تحت.
 - **بنك الأفكار:** أفكار من أفضل بوستاتك. اضغط وحدة للافتتاحية والمخطط والهاشتاقات وأفضل وقت؛ خطط لها بيوم، أو **✎ عدّلها**.

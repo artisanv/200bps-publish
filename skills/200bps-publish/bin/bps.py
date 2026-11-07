@@ -50,6 +50,9 @@
     bps.py abtest hook --file B.txt [--note ".."]   save hook B (full caption) for the open Reel's A/B test
     bps.py abtest start --confirm        create both Instagram Trial Reels (only after the user's go)
     bps.py abtest list | results --test ID   tests and their results (skip rate, watch time, reach)
+    bps.py trial list | advice           Instagram Reels not published yet, their Trial state and advice
+    bps.py trial set --post ID [--off] [--graduation SS_PERFORMANCE|MANUAL] --confirm
+                                         Trial on/off for a waiting Reel (only after the user's yes for that post)
     bps.py cancel --draft PLAN_ID        set a never-uploaded draft aside (.bps/trash; the folder is untouched)
     bps.py dashboard [--no-open] [--port N]
     bps.py version
@@ -136,6 +139,8 @@ def main() -> None:
     rw = sub.add_parser("rewrite"); rw.add_argument("--file", required=True); rw.add_argument("--note", default="")
     ab = sub.add_parser("abtest"); ab.add_argument("action", choices=["hook", "start", "list", "results"])
     ab.add_argument("--file", default=""); ab.add_argument("--note", default=""); ab.add_argument("--test", default=""); ab.add_argument("--confirm", action="store_true")
+    tr = sub.add_parser("trial"); tr.add_argument("action", choices=["list", "advice", "set"]); tr.add_argument("--post", default="")
+    tr.add_argument("--off", action="store_true"); tr.add_argument("--graduation", default="SS_PERFORMANCE"); tr.add_argument("--confirm", action="store_true")
     rc = sub.add_parser("recycle"); rc.add_argument("action", choices=["list", "hooks", "state", "on", "off"]); rc.add_argument("--post", default="")
     rc.add_argument("--file", default=""); rc.add_argument("--note", default=""); rc.add_argument("--every", type=int, default=0)
     rc.add_argument("--unit", default="week", choices=["week", "month"]); rc.add_argument("--times", type=int, default=0); rc.add_argument("--confirm", action="store_true")
@@ -268,6 +273,19 @@ def run(args) -> None:
             emit(abtest.tests())
         elif a == "results":
             emit(abtest.results(args.test))
+    elif c == "trial":
+        import trial
+        if args.action == "list":
+            emit({"ok": True, "items": trial.candidates()})
+        elif args.action == "advice":
+            emit({"ok": True, **trial.advice()})
+        else:
+            if not args.confirm:
+                raise PermissionError("Trial Reel changes a post that goes public: only after the user's yes for this exact post (--confirm).")
+            it = next((i for i in trial.candidates() if i["id"] == args.post), None)
+            if not it:
+                raise ValueError("No Instagram Reel waiting to go out with that id (bps.py trial list).")
+            emit(trial.apply([{"id": it["id"], "where": it["where"], "trial": not args.off, "graduation": args.graduation}], "edit", via="chat"))
     elif c == "recycle":
         import recycle
         a = args.action

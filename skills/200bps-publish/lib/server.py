@@ -393,6 +393,24 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 return self._json({"ok": True, **cancel.cancel_post(str(data.get("postId", "")), str(data.get("confirm", "")))})
             if path == "/api/batch":
                 return self._json(self._batch(data))
+            if path == "/api/trial":            # Trial Reels for Instagram Reels not published yet
+                import trial
+                op = data.get("op")
+                if op == "advice":
+                    return self._json({"ok": True, **trial.advice()})
+                if op == "apply":                # Zernio posts need the typed word "edit"
+                    return self._json({"ok": True, **trial.apply(data.get("changes") or [], str(data.get("typed") or ""))})
+                if op == "ask":                  # Ask PIX: advice in the user's chat, nothing is changed
+                    adv = trial.advice()
+                    ids = set(data.get("ids") or [])
+                    items = [{"id": i["id"], "where": i["where"], "at": i["at"], "trial": i["trial"], "graduation": i["graduation"],
+                              "firstLine": (i["caption"] or "").split("\n")[0][:120], "notes": [n["key"] for n in i["notes"]]}
+                             for i in adv["items"] if not ids or i["id"] in ids]
+                    q = str(data.get("question") or "").strip()[:1000]
+                    n = hitl.add_note(q or "Which of my waiting Reels should be Trial Reels, and Automatic or Manual?",
+                                      {"type": "trial_advice", "items": items, "stats": adv["stats"]})
+                    return self._json({"ok": True, "note": n.get("id")})
+                raise ValueError("Unknown trial op.")
             if path == "/api/reeldefaults":      # Settings: new Instagram Reels start as Trial Reels or not
                 cfg = config()
                 ig = cfg.setdefault("instagram", {})

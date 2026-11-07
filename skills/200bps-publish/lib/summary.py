@@ -464,7 +464,8 @@ def _build() -> dict:
             plats.append({"platform": t.get("platform"), "status": t.get("status"), "url": t.get("platformPostUrl"),
                           "publishedAt": t.get("publishedAt"), "error": t.get("errorMessage"), "errorCategory": t.get("errorCategory"),
                           "account": acc_name(acc), "accountId": acc.get("_id") if isinstance(acc, dict) else None,
-                          "trial": t.get("isTrialReel")})
+                          "trial": t.get("isTrialReel") or bool(((t.get("platformSpecificData") or {}).get("trialParams"))),
+                          "graduation": t.get("trialGraduationStrategy") or (((t.get("platformSpecificData") or {}).get("trialParams") or {}).get("graduationStrategy"))})
         n = len(a.get("mediaItems") or []) or len(mi)
         url0 = next((x["url"] for x in plats if x.get("url")), "") or a.get("platformPostUrl") or ""
         out["zposts"].append({

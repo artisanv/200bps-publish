@@ -304,6 +304,21 @@ winner to followers in the Instagram app (no API).
   not a rewording; the user's voice and language), save it to a file and run
   `bps.py abtest hook --file b.txt --note "<one line why>"`. It appears in the Hook test window.
 
+## Trial Reels for waiting Reels (Instagram)
+
+Posts → 🧪 Trial Reels (also Ctrl+K, a post's window, Plan right-click, the networks window) lists every Instagram
+Reel not published yet (Zernio scheduled/draft/failed/partial, plus local drafts), with what the user's own results say
+(`bps.py trial advice`: trial vs normal Reels, average views with n and confidence; a verdict only with 3+ of each) and
+what Instagram's Help Center says (`trial.FACTS`). Warnings: same first line as a Reel already live (Instagram limits
+trials of content shared before), duplicates among waiting posts, goes out in under 30 minutes.
+- Changing a Zernio post is public: the dashboard asks for the typed word **edit**; it updates only the Instagram entry's
+  `platformSpecificData.trialParams` (everything else kept) and reads it back. From chat:
+  `bps.py trial set --post ID [--off] [--graduation SS_PERFORMANCE|MANUAL] --confirm`, only after the user's yes for that post.
+- When a `trial_advice` request arrives (the user pressed ✨ Ask PIX): look at `action.items` (first line, time, trial,
+  warnings) and `action.stats`; recommend which Reels to try as trials and Automatic or Manual, each with its reason from
+  the data (quote n and confidence; never invent numbers), in one short `say --to <id> --status done` (bullets in the
+  user's language). Offer to apply with `--option "Yes, apply" --option "Not now"`; only on yes run `trial set ... --confirm`.
+
 ## Recycle best posts
 
 Zernio's own `recycling`: a **published** post is re-posted every N weeks/months, rotating new caption
@@ -470,6 +485,8 @@ returns the unread requests. For each one:
 | `rewrite_all` | The user pressed "Fit it for every network". Write one caption per network and save with `bps.py rewrite` (see "One post, every network"). Never apply them yourself |
 | `ab_hook` | The user pressed "Ask Claude for hook B" in the Hook test window. `action.caption` is version A. Write B and save it with `bps.py abtest hook` (see "Hook A/B test"). Never start the test yourself |
 | `abtest_started` | The user started a hook test from the dashboard. Already done; acknowledge in one line and say results come after 48 hours |
+| `trial_advice` | The user pressed ✨ Ask PIX in the Trial Reels window. Advise per Reel from `action.items` + `action.stats` (see "Trial Reels for waiting Reels"); change nothing without their yes |
+| `trial_changed` | The user switched Trial on/off from the dashboard (typed edit). Already done in Zernio; acknowledge in one line with `say --to <id> --status done` |
 | `recycle_hooks` | The user pressed "Ask Claude for new hooks" in the Recycle window. `action.caption`, `metrics` and `platforms` describe the post. Write 3-5 new versions and save them with `bps.py recycle hooks` (see "Recycle best posts"). Never start recycling yourself |
 | (any note) stopped | The user can press ■ Stop on a note or a job. `watch` never returns a stopped note; if one you're already working on shows `status: stopped` (in `bps.py notes`), drop it and don't `say` done. `image claude` refuses a stopped design request |
 | note with `Attached: <paths>` | The user dropped or attached files (photos, video, PDF, zip) in the dashboard; they're in `.bps/uploads/`. Look at them before answering |
