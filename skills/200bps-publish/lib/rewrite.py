@@ -29,7 +29,7 @@ def gift_info(plan: dict) -> dict | None:
     dm = plan.get("dm") or {}
     if not dm.get("enabled") or not dm.get("keyword"):
         return None
-    return {"network": "instagram", "keyword": dm["keyword"], "followGate": bool(dm.get("followGate")), "link": bool(dm.get("link"))}
+    return {"network": "instagram", "keyword": dm["keyword"], "followGate": bool(dm.get("followGate")), "link": dm.get("link") or ""}
 
 
 def _gift_tip(plan: dict, p: str) -> str:
@@ -39,8 +39,12 @@ def _gift_tip(plan: dict, p: str) -> str:
     if p == "instagram":
         return (f" GIFT (Instagram only): end with a clear call to action: {'follow us first, then ' if g['followGate'] else ''}"
                 f"comment '{g['keyword']}' and the link comes in your DM{' (the follow is checked inside the DM)' if g['followGate'] else ''}.")
-    return (f" NO DM GIFT on this network: don't ask people to comment '{g['keyword']}' or promise a DM. Use a call to action that "
-            f"works here (e.g. 'the link is in the first comment', or point to the Instagram post).")
+    no_kw = f" NO DM GIFT here: never ask people to comment '{g['keyword']}' or promise a DM (comment-bait lines lose reach)."
+    if p in ("linkedin", "facebook", "threads"):
+        link = g["link"] or "<the gift link>"
+        return (no_kw + f" Give the gift directly: after the value, type the link in the caption ('🎁 Free: {link}'), then a"
+                f" 'Follow me for more like this' line and a real question to invite comments. Plain URL in the text, no link preview card.")
+    return no_kw + " Links aren't clickable here: say the gift link is in the bio, and invite a follow."
 
 
 def _rules(p: str, plan: dict | None = None) -> dict:

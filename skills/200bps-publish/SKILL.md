@@ -297,9 +297,12 @@ The gift works on Instagram only: the person **follows first**, then **comments 
 have no DM gift. So when the gift is on (`rewrite.gift_info`):
 - **Instagram caption:** must end with that call to action ("Follow us, then comment 'WORD' and the link comes in your
   DM"). Checks: `gift.cta_missing` (keyword missing), `gift.follow_hint` (follow-first not said), `gift.ok`.
-- **Every other network:** must **not** ask people to comment the keyword or promise a DM (`gift.not_here`). Use a call to
-  action that works there, e.g. "the link is in the first comment" (offer `bps.py set linkedin.firstComment "<link>"`,
-  only on the user's yes) or point to the Instagram post.
+- **LinkedIn, Facebook, Threads:** must **not** ask for the keyword or promise a DM (comment-bait lines lose reach;
+  `gift.not_here`). Give the gift **directly**: the link typed at the end of the caption, after the value, then a
+  "Follow me for more like this" line and a real question (`gift.link_missing` if the link is absent). Plain URL in the
+  text, no link preview card. Why: on personal LinkedIn profiles large 2025-26 studies find little reach cost for a typed
+  link, a first-comment link costs about the same and gets fewer clicks, and "comment WORD" posts got about half the reach.
+- **TikTok, Snapchat** (links not clickable): "the link is in my bio" and invite a follow.
 - Rewrites and per-network fixes get these rules in `rules[p].tip` and `gift`; follow them in every version.
 
 ## Hook A/B test (Instagram Trial Reels)

@@ -517,12 +517,17 @@ def _gift_checks(plan: dict, p: str) -> list[dict]:
             return [{"id": "gift.follow_hint", "platform": p, "status": "warn",
                      "msg": f"The gift is for followers only: say they must follow first (Instagram checks it inside the DM), then comment '{kw}'."}]
         return [{"id": "gift.ok", "platform": p, "status": "pass", "msg": f"The caption tells people how to get the gift ('{kw}' → DM)."}]
+    out = []
+    link = str(dm.get("link") or "").strip()
+    if link and p in ("linkedin", "facebook", "threads") and link not in cap:
+        out.append({"id": "gift.link_missing", "platform": p, "status": "warn",
+                    "msg": f"No DM gift on {NET_NAMES.get(p, p)}: give the gift directly. Add the link to the caption (after the value): {link}"})
     ask_re = re.compile(r"(comment|reply|type|write|dm|علق|علّق|اكتب|كومنت|كمنت|ارسل|أرسل)[^\n]{0,30}" + re.escape(kw), re.I)
     if ask_re.search(cap):
-        return [{"id": "gift.not_here", "platform": p, "status": "warn",
-                 "msg": f"Only Instagram sends the gift by DM. This {NET_NAMES.get(p, p)} caption asks people to comment '{kw}', "
-                        f"but nothing will be sent here. Use another call to action (for example: the link is in the first comment)."}]
-    return []
+        out.append({"id": "gift.not_here", "platform": p, "status": "warn",
+                    "msg": f"Only Instagram sends the gift by DM. This {NET_NAMES.get(p, p)} caption asks people to comment '{kw}', "
+                           f"but nothing will be sent here. Give the link directly in the caption instead."})
+    return out
 
 
 def _extra_checks(plan: dict, p: str) -> list[dict]:
