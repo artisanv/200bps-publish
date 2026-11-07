@@ -810,6 +810,16 @@ def publish(plan: dict, confirm: bool, make_current: bool = True) -> dict:
 
 
 # ---------------------------------------------------------------- DM gift
+def keyword_forms(kw: str) -> list:
+    """The gift word in every letter case people type (Zernio doesn't promise case-insensitive matching)."""
+    kw = kw.strip()
+    out = []
+    for v in (kw, kw.lower(), kw.capitalize(), kw.upper(), kw.title()):
+        if v and v not in out:
+            out.append(v)
+    return out
+
+
 def dm_body(plan: dict) -> dict:
     cfg = config()
     dm = plan["dm"]
@@ -820,7 +830,7 @@ def dm_body(plan: dict) -> dict:
         "trigger": "comment",
         "postId": (plan.get("result") or {}).get("postId"),
         "name": f"{plan['id']} · {dm['keyword']}",
-        "keywords": [dm["keyword"]],
+        "keywords": keyword_forms(dm["keyword"]),        # any letter case: publish · Publish · PUBLISH
         "matchMode": dm.get("matchMode", "word"),
         "typoTolerance": True,
         "dmMessage": dm["message"],

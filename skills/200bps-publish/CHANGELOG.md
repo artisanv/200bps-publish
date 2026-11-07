@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- **The gift word works in any letter case:** a comment of publish, Publish or PUBLISH all get the DM gift (the keyword is sent to Zernio in every case, plus close-typo matching).
 - **PIX can prepare a window for you:** a PIX message can carry an **Open it** button that opens the Copy → Paste window already filled in (day, time, networks); you check it and type **go** (`bps.py say --open`).
 - Fixed: a stray "null" next to "Schedule it" in the Paste window.
 - Fixed: in the jobs panel the Stop button was squeezed into a tall oval and long titles were cut off. Stop now sits on its own line and titles wrap to two lines.
