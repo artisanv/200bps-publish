@@ -1,6 +1,8 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- **PIX can prepare a window for you:** a PIX message can carry an **Open it** button that opens the Copy → Paste window already filled in (day, time, networks); you check it and type **go** (`bps.py say --open`).
+- Fixed: a stray "null" next to "Schedule it" in the Paste window.
 - Fixed: in the jobs panel the Stop button was squeezed into a tall oval and long titles were cut off. Stop now sits on its own line and titles wrap to two lines.
 - Fixed: every open dashboard tab started its own "Refreshing from Zernio" (up to 10 at once). Refreshes now run one at a time and share the result.
 - **Every update reaches everyone:** the plugin no longer pins a version number, so Claude Code treats every push as an update (users with auto-update on get each new feature and fix by themselves; others run `/plugin marketplace update 200bps`). The dashboard still shows v1.20.0.

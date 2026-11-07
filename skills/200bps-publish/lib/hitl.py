@@ -303,7 +303,7 @@ def _messages() -> list[dict]:
     return [r for r in rows if r is not None]
 
 
-def say(text: str, to: str = "", options: list | None = None, expect: bool = False, status: str = "") -> dict:
+def say(text: str, to: str = "", options: list | None = None, expect: bool = False, status: str = "", open_: dict | None = None) -> dict:
     """A message from Claude to the user (a reply to a note, a status, or a question that
     needs an answer). The dashboard pops it up; the user's reply comes back as a note.
     With status (and `to`), it also moves that note along: working shows the step
@@ -320,6 +320,8 @@ def say(text: str, to: str = "", options: list | None = None, expect: bool = Fal
     m = {"id": uuid.uuid4().hex[:8], "ts": int(time.time()), "text": text[:4000], "to": to or "",
          "options": [str(o)[:80] for o in (options or []) if str(o).strip()][:6],
          "expect": bool(expect or options), "seen": False, "answered": False}
+    if open_:                     # a window the dashboard opens, ready, on "Open it" (e.g. a filled-in Paste window)
+        m["open"] = {k: open_[k] for k in ("kind", "post", "day", "time", "nets") if k in open_}
     if status:
         m["status"] = status
     _append(_mpath(), m, "messages")

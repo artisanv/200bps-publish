@@ -124,6 +124,7 @@ def main() -> None:
     sy = sub.add_parser("say", help="message the user in the dashboard (pop-up they can answer)")
     sy.add_argument("--text", required=True); sy.add_argument("--to", default="", help="the note id this answers")
     sy.add_argument("--option", action="append", default=[]); sy.add_argument("--expect", action="store_true", help="needs an answer")
+    sy.add_argument("--open", default="", help='JSON: a dashboard window to open ready, e.g. {"kind":"paste","post":ID,"day":"2026-11-27","time":"11:00","nets":["instagram"]}')
     sy.add_argument("--status", default="", choices=["", "working", "done", "failed"],
                     help="with --to: working = show this step under the note (no pop-up); done/failed = close it with this text")
     sub.add_parser("thread")
@@ -405,7 +406,7 @@ def run(args) -> None:
         print(json.dumps({"asked": qq["id"]}), flush=True)
         emit(hitl.wait(qq["id"], timeout=args.timeout))
     elif c == "say":
-        emit({"ok": True, "message": hitl.say(args.text, args.to, args.option, args.expect, args.status),
+        emit({"ok": True, "message": hitl.say(args.text, args.to, args.option, args.expect, args.status, json.loads(args.open) if args.open else None),
               "next": "The user sees it in the dashboard; an answer arrives through watch as a 'reply' request."})
     elif c == "thread":
         emit(hitl.thread())
