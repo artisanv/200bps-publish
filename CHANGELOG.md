@@ -1,6 +1,8 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- Fixed: the **💬 Ask PIX** pop-up on a post cut long chats off and wouldn't scroll. It now scrolls through the whole chat, opens bigger (380 px) with a smooth pop-in, stays on screen as it grows, can be dragged by its title and resized from its corner, and its box grows to 5 lines (Shift+Enter for a new line).
+- Fixed: the big **PIX chat** opened in the middle of the conversation instead of on the newest message (it focused a button inside an older message). It now opens on the latest message and stays there as replies arrive, unless you scroll up to read.
 - Fixed: making a Reel a Trial right after editing its caption said "No Instagram Reel waiting"; it now refreshes the post list and finds it.
 - **The gift word works in any letter case:** a comment of publish, Publish or PUBLISH all get the DM gift (the keyword is sent to Zernio in every case, plus close-typo matching).
 - **PIX can prepare a window for you:** a PIX message can carry an **Open it** button that opens the Copy → Paste window already filled in (day, time, networks); you check it and type **go** (`bps.py say --open`).

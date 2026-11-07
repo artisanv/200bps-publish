@@ -36,7 +36,7 @@
       streak: "day streak", sinceLast: "since your last visit", newFollowers: "followers", newComments: "new comments",
       noData: "No data yet.", zernioOff: "Zernio is not connected yet. Finish setup in the chat.",
       reach7: "Reach · 7 days", views7: "Views · 7 days", eng7: "Engagement · 7 days", follows7: "New follows · 7 days",
-      platforms: "Platforms", when: "When", type: "Type", trial: "Trial Reel", cover: "Cover", location: "Location", trTitle: "Trial Reels", trBtnOne: "Trial Reel…", trHint: "Every Instagram Reel that isn't live yet. Tick Trial to show it to non-followers first, then pick what happens after. Other networks in the post don't change.", trData: "What your own results say", trVerdict_trial: "Your Trial Reels got more views than your normal Reels.", trVerdict_normal: "Your normal Reels got more views than your Trial Reels.", trVerdict_same: "Trial and normal Reels did about the same for you.", trDataLine: "Trial: {tv} views on average ({tn} Reels) · normal: {nv} ({nn} Reels) · {l}%", trLowConf: "Few trial Reels so far, so this can still change. Every trial adds evidence.", trFew: "Not enough to compare yet ({tn} trial and {nn} normal Reels; 3 of each needed).", trFacts: "What Instagram says about Trial Reels", trSource: "Instagram Help Center", trNone: "No Instagram Reels waiting to go out.", trNow: "Now", trLocal: "draft on this computer", trDupPub: "Same first line as a Reel already live: Instagram may limit a trial of content shared before.", trDupSched: "{n} waiting posts share this first line: make each one different.", trSoon: "Goes out in {n} min: change it now or it may be too late.", trRec: "★ Your data: trials got more views", trAsk: "Ask PIX", trAsked: "Sent to PIX: advice comes in the chat", trType: "Type “edit” to change these posts in Zernio", trApply: "Apply {n} changes", trOnly: "Only this Reel changes.", pxOpen: "Open it", pxOpenGone: "That post isn't in the list any more. Refresh from Zernio.", mcAsk: "Ask PIX", mcTitle: "Ask PIX about this post", mcPh: "Ask about this post…", mcSend: "Send", mcHint: "Ask anything about this post: better time, hook, networks, Trial Reel… PIX answers here.", mcGot: "PIX got it…", trShowAll: "Show all waiting Reels ({n})", trJustThis: "Back to just this Reel", trApplied: "{n} Reels updated", trFailed: "{n} failed", platFor: "Caption and checks for", capOf: "{p} caption", trialTick: "Trial Reel: show it to non-followers first", trialHint: "Instagram tries it on people who don't follow you yet. Only when it's first posted.", trialAfter: "After the trial", trialAuto: "Automatic", trialManual: "Manual", trialAutoHint: "Instagram shares it to your followers too if it does well.", trialManualHint: "You decide: share it to followers yourself in the Instagram app.", trialDefault: "New Reels as Trial", trialDefaultAfter: "After the trial (new Reels)", trialSaved: "Saved for new Reels", nsIG: "Instagram Reel",
+      platforms: "Platforms", when: "When", type: "Type", trial: "Trial Reel", cover: "Cover", location: "Location", trTitle: "Trial Reels", trBtnOne: "Trial Reel…", trHint: "Every Instagram Reel that isn't live yet. Tick Trial to show it to non-followers first, then pick what happens after. Other networks in the post don't change.", trData: "What your own results say", trVerdict_trial: "Your Trial Reels got more views than your normal Reels.", trVerdict_normal: "Your normal Reels got more views than your Trial Reels.", trVerdict_same: "Trial and normal Reels did about the same for you.", trDataLine: "Trial: {tv} views on average ({tn} Reels) · normal: {nv} ({nn} Reels) · {l}%", trLowConf: "Few trial Reels so far, so this can still change. Every trial adds evidence.", trFew: "Not enough to compare yet ({tn} trial and {nn} normal Reels; 3 of each needed).", trFacts: "What Instagram says about Trial Reels", trSource: "Instagram Help Center", trNone: "No Instagram Reels waiting to go out.", trNow: "Now", trLocal: "draft on this computer", trDupPub: "Same first line as a Reel already live: Instagram may limit a trial of content shared before.", trDupSched: "{n} waiting posts share this first line: make each one different.", trSoon: "Goes out in {n} min: change it now or it may be too late.", trRec: "★ Your data: trials got more views", trAsk: "Ask PIX", trAsked: "Sent to PIX: advice comes in the chat", trType: "Type “edit” to change these posts in Zernio", trApply: "Apply {n} changes", trOnly: "Only this Reel changes.", pxOpen: "Open it", pxOpenGone: "That post isn't in the list any more. Refresh from Zernio.", mcAsk: "Ask PIX", mcTitle: "Ask PIX about this post", mcPh: "Ask about this post…", mcSend: "Send", mcHint: "Ask anything about this post: better time, hook, networks, Trial Reel… PIX answers here.", mcGot: "PIX got it…", mcDrag: "Drag to move · drag the corner to resize", trShowAll: "Show all waiting Reels ({n})", trJustThis: "Back to just this Reel", trApplied: "{n} Reels updated", trFailed: "{n} failed", platFor: "Caption and checks for", capOf: "{p} caption", trialTick: "Trial Reel: show it to non-followers first", trialHint: "Instagram tries it on people who don't follow you yet. Only when it's first posted.", trialAfter: "After the trial", trialAuto: "Automatic", trialManual: "Manual", trialAutoHint: "Instagram shares it to your followers too if it does well.", trialManualHint: "You decide: share it to followers yourself in the Instagram app.", trialDefault: "New Reels as Trial", trialDefaultAfter: "After the trial (new Reels)", trialSaved: "Saved for new Reels", nsIG: "Instagram Reel",
       firstComment: "First comment", collab: "Collaborators", dmGift: "DM gift", off: "off", on: "on", now: "Now",
       basisData: "from your data", basisNone: "not enough data",
       ready: "ready", issues: "issues", post: "Post", reach: "Reach", saves: "Saves", shares: "Shares", follows: "Follows",
@@ -244,7 +244,7 @@
       streak: "يوم متواصل", sinceLast: "من آخر زيارة", newFollowers: "متابع", newComments: "تعليق جديد",
       noData: "ما في بيانات للحين.", zernioOff: "Zernio مو مربوط للحين. كمّل الإعداد في المحادثة.",
       reach7: "الوصول · 7 أيام", views7: "المشاهدات · 7 أيام", eng7: "التفاعل · 7 أيام", follows7: "متابعين جدد · 7 أيام",
-      platforms: "المنصات", when: "الموعد", type: "النوع", trial: "Trial Reel", cover: "الغلاف", location: "الموقع", trTitle: "Trial Reels", trBtnOne: "Trial Reel…", trHint: "كل ريل انستقرام لسا ما نزل. فعّل Trial عشان ينعرض لغير المتابعين أول، واختار شنو يصير بعدين. المنصات الثانية بالبوست ما تتغير.", trData: "شنو تقول نتايجك", trVerdict_trial: "الـTrial Reels مالتك جابت مشاهدات أكثر من ريلزك العادية.", trVerdict_normal: "ريلزك العادية جابت مشاهدات أكثر من الـTrial Reels.", trVerdict_same: "التجريبي والعادي تقريباً نفس الشي عندك.", trDataLine: "التجريبي: {tv} مشاهدة بالمعدل ({tn} ريلز) · العادي: {nv} ({nn} ريلز) · {l}%", trLowConf: "التجارب لسا قليلة، فممكن يتغير. كل تجربة تزيد الدليل.", trFew: "لسا ما يكفي للمقارنة ({tn} تجريبي و{nn} عادي؛ نحتاج 3 من كل نوع).", trFacts: "شنو يقول انستقرام عن الـTrial Reels", trSource: "مركز مساعدة انستقرام", trNone: "ما في ريلز انستقرام تنتظر النشر.", trNow: "الحين", trLocal: "مسودة على هالجهاز", trDupPub: "نفس أول سطر لريل منشور: انستقرام ممكن يقلل وصول تجربة لمحتوى منشور قبل.", trDupSched: "{n} بوستات تنتظر بنفس أول سطر: خل كل واحد مختلف.", trSoon: "ينزل بعد {n} دقيقة: غيّره الحين أو ممكن يفوت.", trRec: "★ بياناتك: التجارب جابت مشاهدات أكثر", trAsk: "اسأل PIX", trAsked: "انرسل لـPIX: النصيحة بتوصلك بالشات", trType: "اكتب «edit» عشان تتغير هالبوستات بـZernio", trApply: "طبّق {n} تغييرات", trOnly: "بس هالريل يتغير.", pxOpen: "افتحه", pxOpenGone: "هالبوست ما عاد بالقائمة. حدّث من Zernio.", mcAsk: "اسأل PIX", mcTitle: "اسأل PIX عن هالبوست", mcPh: "اسأل عن هالبوست…", mcSend: "أرسل", mcHint: "اسأل أي شي عن هالبوست: وقت أحسن، الهوك، المنصات، Trial Reel… وPIX يرد هني.", mcGot: "PIX استلمها…", trShowAll: "اعرض كل الريلز اللي تنتظر ({n})", trJustThis: "رجوع لهالريل بس", trApplied: "{n} ريلز تحدثت", trFailed: "{n} ما زبطت", platFor: "الكابشن والفحوصات لـ", capOf: "كابشن {p}", trialTick: "Trial Reel: اعرضه لغير المتابعين أول", trialHint: "انستقرام يجربه على ناس ما يتابعونك. ينختار بس وقت النشر.", trialAfter: "بعد التجربة", trialAuto: "تلقائي", trialManual: "يدوي", trialAutoHint: "انستقرام ينشره لمتابعينك بعد إذا أدّى زين.", trialManualHint: "القرار لك: انشره لمتابعينك بنفسك من تطبيق انستقرام.", trialDefault: "الريلز الجديدة كـ Trial", trialDefaultAfter: "بعد التجربة (الريلز الجديدة)", trialSaved: "انحفظ للريلز الجديدة", nsIG: "ريل انستقرام",
+      platforms: "المنصات", when: "الموعد", type: "النوع", trial: "Trial Reel", cover: "الغلاف", location: "الموقع", trTitle: "Trial Reels", trBtnOne: "Trial Reel…", trHint: "كل ريل انستقرام لسا ما نزل. فعّل Trial عشان ينعرض لغير المتابعين أول، واختار شنو يصير بعدين. المنصات الثانية بالبوست ما تتغير.", trData: "شنو تقول نتايجك", trVerdict_trial: "الـTrial Reels مالتك جابت مشاهدات أكثر من ريلزك العادية.", trVerdict_normal: "ريلزك العادية جابت مشاهدات أكثر من الـTrial Reels.", trVerdict_same: "التجريبي والعادي تقريباً نفس الشي عندك.", trDataLine: "التجريبي: {tv} مشاهدة بالمعدل ({tn} ريلز) · العادي: {nv} ({nn} ريلز) · {l}%", trLowConf: "التجارب لسا قليلة، فممكن يتغير. كل تجربة تزيد الدليل.", trFew: "لسا ما يكفي للمقارنة ({tn} تجريبي و{nn} عادي؛ نحتاج 3 من كل نوع).", trFacts: "شنو يقول انستقرام عن الـTrial Reels", trSource: "مركز مساعدة انستقرام", trNone: "ما في ريلز انستقرام تنتظر النشر.", trNow: "الحين", trLocal: "مسودة على هالجهاز", trDupPub: "نفس أول سطر لريل منشور: انستقرام ممكن يقلل وصول تجربة لمحتوى منشور قبل.", trDupSched: "{n} بوستات تنتظر بنفس أول سطر: خل كل واحد مختلف.", trSoon: "ينزل بعد {n} دقيقة: غيّره الحين أو ممكن يفوت.", trRec: "★ بياناتك: التجارب جابت مشاهدات أكثر", trAsk: "اسأل PIX", trAsked: "انرسل لـPIX: النصيحة بتوصلك بالشات", trType: "اكتب «edit» عشان تتغير هالبوستات بـZernio", trApply: "طبّق {n} تغييرات", trOnly: "بس هالريل يتغير.", pxOpen: "افتحه", pxOpenGone: "هالبوست ما عاد بالقائمة. حدّث من Zernio.", mcAsk: "اسأل PIX", mcTitle: "اسأل PIX عن هالبوست", mcPh: "اسأل عن هالبوست…", mcSend: "أرسل", mcHint: "اسأل أي شي عن هالبوست: وقت أحسن، الهوك، المنصات، Trial Reel… وPIX يرد هني.", mcGot: "PIX استلمها…", mcDrag: "اسحب عشان تحركه · اسحب الزاوية عشان تكبّره", trShowAll: "اعرض كل الريلز اللي تنتظر ({n})", trJustThis: "رجوع لهالريل بس", trApplied: "{n} ريلز تحدثت", trFailed: "{n} ما زبطت", platFor: "الكابشن والفحوصات لـ", capOf: "كابشن {p}", trialTick: "Trial Reel: اعرضه لغير المتابعين أول", trialHint: "انستقرام يجربه على ناس ما يتابعونك. ينختار بس وقت النشر.", trialAfter: "بعد التجربة", trialAuto: "تلقائي", trialManual: "يدوي", trialAutoHint: "انستقرام ينشره لمتابعينك بعد إذا أدّى زين.", trialManualHint: "القرار لك: انشره لمتابعينك بنفسك من تطبيق انستقرام.", trialDefault: "الريلز الجديدة كـ Trial", trialDefaultAfter: "بعد التجربة (الريلز الجديدة)", trialSaved: "انحفظ للريلز الجديدة", nsIG: "ريل انستقرام",
       firstComment: "أول تعليق", collab: "تعاون", dmGift: "هدية بالخاص", off: "مطفي", on: "شغّال", now: "الحين",
       basisData: "من بياناتك", basisNone: "البيانات ما تكفي",
       ready: "جاهز", issues: "ملاحظات", post: "البوست", reach: "الوصول", saves: "حفظ", shares: "مشاركة", follows: "متابعة",
@@ -2228,8 +2228,9 @@
     modal.open = key;
     wrap.hidden = false;
     overlay();
-    const f = body.querySelector("textarea, input, .btn.on");
-    if (f) setTimeout(() => f.focus(), 360);
+    // focus the window's own field (a button inside a chat message would scroll the chat away from the newest one)
+    const f = body.querySelector("[autofocus]") || [...body.querySelectorAll("textarea, input, .btn.on")].find((x) => !x.closest(".chat-list"));
+    if (f) setTimeout(() => f.focus({ preventScroll: true }), 360);
   }
   $("#modalDim").addEventListener("click", () => laterQuestion());
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.open) laterQuestion(); });
@@ -2518,11 +2519,30 @@
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && ACT.open) toggleAct(false); });
   window.addEventListener("resize", () => ACT.open && placeAct());
 
+  // keep a chat on its newest message while its content settles (avatars loading, the window opening);
+  // stops as soon as the user scrolls up to read
+  const nearBottom = (box) => box.scrollHeight - box.scrollTop - box.clientHeight < 48;
+  function pinBottom(box) {
+    const go = () => { if (!box.__pinOff) box.scrollTop = box.scrollHeight; };
+    box.__pinOff = false;
+    if (!box.__pinWatch) {                       // a scroll the user makes (wheel / touch / keys) releases the pin
+      box.__pinWatch = true;
+      const release = () => { box.__pinOff = !nearBottom(box); };
+      ["wheel", "touchmove", "keydown"].forEach((ev) => box.addEventListener(ev, () => setTimeout(release, 0), { passive: true }));
+    }
+    go(); requestAnimationFrame(go);
+    const ro = new ResizeObserver(go); ro.observe(box); [...box.children].forEach((c) => ro.observe(c));
+    box.querySelectorAll("img").forEach((i) => { if (!i.complete) i.addEventListener("load", go, { once: true }); });
+    clearTimeout(box.__pinT); box.__pinT = setTimeout(() => ro.disconnect(), 1800);
+  }
+
   // "Note to PIX" is a chat: your notes and Claude's replies, newest at the bottom.
   function openChat() {
     const open = () => showModal("note", (body) => {
       const list = el("div", { class: "chat-list", role: "log", "aria-live": "polite" });
-      const draw = () => {
+      let firstDraw = true;
+      const draw = (force) => {
+        const stick = firstDraw || force === true || nearBottom(list), keep = list.scrollTop;
         list.innerHTML = "";
         const rows = (state.data && state.data.thread) || [];
         if (!rows.length) list.append(el("p", { class: "empty" }, t("chatEmpty")));
@@ -2546,13 +2566,14 @@
           list.append(bubble(m));
           if (m.from === "you") rows.filter((r) => r.from === "claude" && r.to === m.id).forEach((r) => list.append(bubble(r, true)));
         });
-        setTimeout(() => { list.scrollTop = list.scrollHeight; }, 30);
+        if (stick) pinBottom(list); else list.scrollTop = keep;   // newest message in view; reading older ones isn't interrupted
+        firstDraw = false;
         chatPixReact(rows);
         rows.filter((m) => m.from === "claude" && !m.seen).forEach((m) => { m.seen = true; post("/api/chat", { op: "seen", id: m.id }).catch(() => {}); });
         if (state.data) state.data.claudeMsg = null;
         renderHeader();
       };
-      const ta = el("textarea", { rows: 3, placeholder: t("notePh2") });
+      const ta = el("textarea", { rows: 3, placeholder: t("notePh2"), autofocus: "" });
       const err = el("div", { class: "err", role: "alert" });
       const cpix = pixHere("chat-pix", "listen", { zoom: 1.3 });
       state.chatPix = cpix;
@@ -2589,7 +2610,7 @@
           const sentId = (r.note && r.note.id) || to;
           flyNote(ta, cpix, () => { cpix.play([["receive", 650], ["wait", 0]]); if (DOCK.p3) DOCK.p3.play([["receive", 650], ["wait", 2600]]); });
           CHAT.waiting = sentId; CHAT.seenReply = null;
-          ta.value = ""; DOCK.att = []; drawAtts(); draw(); toast(t("noteSent"));
+          ta.value = ""; DOCK.att = []; drawAtts(); draw(true); toast(t("noteSent"));
         } catch (e) { err.textContent = e.message; }
       };
       enterSends(ta, () => send(ta.value));
@@ -3582,15 +3603,19 @@
     const when = at || r.scheduledFor || ((r.platforms || []).map((x) => x.publishedAt).filter(Boolean)[0]);
     const nets = (r.platforms || []).map((x) => (NET_NAME[x.platform] || x.platform) + (x.fmt ? " " + t("kind_" + x.fmt) : "") + (x.account ? " @" + x.account : "")).join(", ");
     const ctx = `[About ${r.local ? "local draft " + r.planId : "Zernio post " + r.id} · "${first}" · ${when ? fullStr(when) : "no time"} · ${t((ZST[r.status] || ZST.draft).key)} · ${nets}]`;
-    const log = el("div", { class: "mc-log", "aria-live": "polite" });
-    const inp = el("input", { type: "text", class: "mc-in", placeholder: t("mcPh"), autocomplete: "off", dir: "auto" });
+    const log = el("div", { class: "mc-log", role: "log", "aria-live": "polite" });
+    const inp = el("textarea", { class: "mc-in", rows: 1, placeholder: t("mcPh"), autocomplete: "off", dir: "auto" });
+    const grow = () => { inp.style.height = "auto"; inp.style.height = Math.min(inp.scrollHeight, 120) + "px"; };   // grows up to ~5 lines
+    inp.addEventListener("input", grow);
     const sendB = el("button", { class: "btn on sm", type: "button", "aria-label": t("mcSend") }, "↑");
     const box = el("div", { class: "mini-chat", role: "dialog", "aria-label": t("mcTitle") },
-      el("div", { class: "mc-head" }, el("b", {}, "PIX"), el("span", { class: "mc-sub", dir: "auto", title: r.caption || "" }, first),
+      el("div", { class: "mc-head", title: t("mcDrag") }, el("b", {}, "PIX"), el("span", { class: "mc-sub", dir: "auto", title: r.caption || "" }, first),
         el("button", { class: "mc-x", type: "button", "aria-label": t("close"), onclick: closeMini }, "×")),
       log, el("div", { class: "mc-row" }, inp, sendB));
-    const draw = () => {
+    let firstDraw = true;
+    const draw = (force) => {
       const thr = (state.data && state.data.thread) || [];
+      const stick = firstDraw || force === true || nearBottom(log), keep = log.scrollTop;
       log.innerHTML = "";
       const mine = thr.filter((m) => m.from === "you" && ids.includes(m.id));
       if (!mine.length) log.append(el("p", { class: "mc-hint" }, t("mcHint")));
@@ -3601,19 +3626,39 @@
         if (m.result && !replies.some((x) => x.text === m.result)) log.append(el("div", { class: "mc-msg pix", dir: "auto" }, m.result));
         else if (!replies.length && !m.result) log.append(el("div", { class: "mc-msg pix wait" }, m.step || (m.status === "received" ? t("mcGot") : "…")));
       });
-      log.scrollTop = log.scrollHeight;
+      if (stick) pinBottom(log); else log.scrollTop = keep;
+      firstDraw = false;
+      fit();
     };
     const send = async () => {
       const q = inp.value.trim(); if (!q) return;
-      inp.value = ""; sendB.disabled = true;
-      try { const j = await post("/api/note", { text: ctx + " " + q }); if (j.note && j.note.id) ids.push(j.note.id); lastSig = ""; await load(false); draw(); }
+      inp.value = ""; grow(); sendB.disabled = true;
+      try { const j = await post("/api/note", { text: ctx + " " + q }); if (j.note && j.note.id) ids.push(j.note.id); lastSig = ""; await load(false); draw(true); }
       catch (e) { toast(e.message); } finally { sendB.disabled = false; inp.focus(); }
     };
     sendB.addEventListener("click", send);
-    inp.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); send(); } if (e.key === "Escape") closeMini(); });
+    inp.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } if (e.key === "Escape") closeMini(); });
     document.body.append(box);
+    // keep the whole box on screen as it grows (new messages, resize by its corner)
+    let moved = false;
+    function fit() {
+      const r = box.getBoundingClientRect(), vw = window.innerWidth, vh = window.innerHeight;
+      if (r.bottom > vh - 12) box.style.top = Math.max(12, vh - 12 - r.height) + "px";
+      if (r.right > vw - 12) box.style.left = Math.max(12, vw - 12 - r.width) + "px";
+    }
+    // drag it by its title bar
+    const head = box.querySelector(".mc-head");
+    head.addEventListener("pointerdown", (e) => {
+      if (e.target.closest("button")) return;
+      const r = box.getBoundingClientRect(), dx = e.clientX - r.left, dy = e.clientY - r.top;
+      head.setPointerCapture(e.pointerId); box.classList.add("dragging"); moved = true;
+      const mv = (ev) => { box.style.left = Math.max(4, Math.min(window.innerWidth - 60, ev.clientX - dx)) + "px"; box.style.top = Math.max(4, Math.min(window.innerHeight - 40, ev.clientY - dy)) + "px"; };
+      const up = () => { head.removeEventListener("pointermove", mv); box.classList.remove("dragging"); fit(); };
+      head.addEventListener("pointermove", mv); head.addEventListener("pointerup", up, { once: true }); head.addEventListener("pointercancel", up, { once: true });
+    });
+    new ResizeObserver(() => { if (!box.classList.contains("dragging")) fit(); }).observe(box);
     // place it next to what was clicked, inside the screen
-    const W = Math.min(320, window.innerWidth - 24), H = box.offsetHeight || 260;
+    const W = Math.min(380, window.innerWidth - 24), H = Math.min(box.offsetHeight || 300, window.innerHeight - 24);
     let x = 12, y = 12;
     if (anchor && anchor.getBoundingClientRect) { const b = anchor.getBoundingClientRect(); x = b.left; y = b.bottom + 6; if (y + H > window.innerHeight - 12) y = Math.max(12, b.top - H - 6); }
     else if (anchor && anchor.x != null) { x = anchor.x; y = anchor.y; }
@@ -6025,7 +6070,7 @@
         "Streak (last 14 days), top posts (ranked by follows, then saves + shares) and your audience.",
         "<b>🧪 Trial Reels for waiting Reels</b> (Posts → 🧪 Trial Reels, Ctrl+K, a post's window, or right-click it in Plan): every Instagram Reel that isn't live yet. See what your own results say (trial vs normal Reels, with how many and how sure) and what Instagram says. Tick <b>Trial Reel</b>, pick <b>Automatic</b> or <b>Manual</b> (★ = your default), type <b>edit</b> and <b>Apply</b>: only the Instagram part changes, and it's read back from Zernio. <b>✨ Ask PIX</b> gives advice per Reel in the chat. Trial Reels are easy to spot: 🧪 and a dashed outline in Plan, a lime 🧪 Trial chip in Posts.",
         "<b>What it is on each network</b>: one video can be a Reel on Instagram, a Video on LinkedIn, a Spotlight on Snapchat. Every post shows its format per network: ▶ Reel, ▷ Trial Reel, ▣ Carousel, ▢ Photo, ◔ Story, ◑ Saved story, ✦ Spotlight, ▤ Document, ¶ Text, ☰ Poll, ↻ Repost (point at the icon, or see the day card).",
-        "<b>💬 Ask PIX about one post</b> (day cards, a post's window, right-click a post in Plan or Posts): a small chat opens right there. PIX knows which post you mean and answers in the same box. Public changes still need your yes.",
+        "<b>💬 Ask PIX about one post</b> (day cards, a post's window, right-click a post in Plan or Posts): a small chat opens right there. PIX knows which post you mean and answers in the same box. Drag it by its title, resize it from its corner, and it scrolls through the whole chat. The big PIX chat always opens on the newest message. Public changes still need your yes.",
         "<b>Plan at a glance</b>: every post shows its type (▶ Reel, ▣ carousel, ▢ photo, ▤ PDF, ¶ text, ☰ poll), its time and one badge per network (IG·3 = 3 Instagram accounts; lime ✓ all live, outline waiting, red ! something failed; point at it for every account). <b>Show only</b> chips at the top: all, one network or one account. Day view shows full account names.",
         "<b>Click a day</b>: a card per post with its picture, type, time, status and networks, and every action: View, Networks…, <b>Reschedule…</b>, Edit caption…, Trial Reel…, Copy, Cancel. <b>Reschedule</b>: pick any day and minute or a quick pick (+1 day, +1 week, your best hours); From → To shows the full day name and date; type <b>move</b> for a post in Zernio.",
         "<b>Every network on each post</b> (Plan and Posts): each network is its own badge: lime with ✓ = live, outline = waiting, red ! = failed. Click the badges to see where it goes, open it on each network, change its networks or make it a Trial Reel.",
@@ -6155,7 +6200,7 @@
         "الأيام المتواصلة (آخر 14 يوم)، أفضل البوستات (حسب المتابعين ثم الحفظ والمشاركة) وجمهورك.",
         "<b>🧪 Trial Reels للريلز اللي تنتظر</b> (المنشورات ← 🧪 Trial Reels، أو Ctrl+K، أو نافذة البوست، أو كليك يمين عليه بالخطة): كل ريل انستقرام لسا ما نزل. تشوف شنو تقول نتايجك (التجريبي ضد العادي، مع كم وحدة وشكثر متأكدين) وشنو يقول انستقرام. فعّل <b>Trial Reel</b>، اختار <b>تلقائي</b> أو <b>يدوي</b> (★ = الافتراضي مالك)، اكتب <b>edit</b> واضغط <b>طبّق</b>: بس جزء انستقرام يتغير، وينقرا من Zernio. <b>✨ اسأل PIX</b> يعطيك نصيحة لكل ريل بالشات. الـTrial Reels واضحة: 🧪 وإطار متقطع بالخطة، وشارة 🧪 تجريبي بالمنشورات.",
         "<b>شنو هو بكل منصة</b>: الفيديو الواحد ممكن يكون ريل بانستقرام، فيديو بلينكدإن، سبوتلايت بسناب. كل بوست يبين نوعه بكل منصة: ▶ ريل، ▷ Trial Reel، ▣ كاروسيل، ▢ صورة، ◔ ستوري، ◑ ستوري محفوظة، ✦ سبوتلايت، ▤ مستند، ¶ نص، ☰ تصويت، ↻ إعادة نشر (أشّر على الأيقونة، أو شوف كرت اليوم).",
-        "<b>💬 اسأل PIX عن بوست</b> (كروت اليوم، نافذة البوست، كليك يمين على بوست بالخطة أو المنشورات): شات صغير يطلع بمكانه. PIX يعرف أي بوست تقصد ويرد بنفس المربع. أي تغيير عام يحتاج موافقتك.",
+        "<b>💬 اسأل PIX عن بوست</b> (كروت اليوم، نافذة البوست، كليك يمين على بوست بالخطة أو المنشورات): شات صغير يطلع بمكانه. PIX يعرف أي بوست تقصد ويرد بنفس المربع. اسحبه من عنوانه، وكبّره من الزاوية، ويتمرر لين آخر الشات. وشات PIX الكبير دايماً يفتح على آخر رسالة. أي تغيير عام يحتاج موافقتك.",
         "<b>الخطة بنظرة</b>: كل بوست يبين نوعه (▶ ريل، ▣ كاروسيل، ▢ صورة، ▤ PDF، ¶ نص، ☰ تصويت)، ووقته، وشارة لكل منصة (IG·3 = 3 حسابات انستقرام؛ ليموني ✓ كله منشور، إطار ينتظر، أحمر ! شي فشل؛ أشّر عليها تطلع كل الحسابات). أزرار <b>اعرض بس</b> فوق: الكل، منصة وحدة أو حساب واحد. عرض اليوم يبين أسماء الحسابات كاملة.",
         "<b>اضغط على يوم</b>: كرت لكل بوست بصورته ونوعه ووقته وحالته ومنصاته، وكل الأفعال: شوفه، المنصات…، <b>أعد الجدولة…</b>، عدّل الكابشن…، Trial Reel…، انسخ، ألغِ. <b>أعد الجدولة</b>: اختار أي يوم ودقيقة أو اختيار سريع (+يوم، +أسبوع، أفضل ساعاتك)؛ من ← إلى يبين اسم اليوم والتاريخ كامل؛ اكتب <b>move</b> لبوست بـZernio.",
         "<b>كل منصات البوست</b> (الخطة والمنشورات): كل منصة لها شارة: ليموني مع ✓ = منشور، إطار = ينتظر، أحمر ! = فشل. اضغط الشارات عشان تشوف وين ينزل، تفتحه بكل منصة، تغيّر منصاته أو تخليه Trial Reel.",
@@ -6763,7 +6808,7 @@
       lang: ["Language", "Switch between English and Arabic."], clock: ["Time format", "12-hour or 24-hour times."],
       theme: ["Theme", "Light or dark."], version: ["Version", "The installed version of this skill and its build time (updates by itself with every change)."],
       tipsPref: ["Hover tips", "Turn these explanations on or off."],
-      miniChat: ["Ask PIX", "A small chat about this post, right here. PIX knows which post you mean and answers in the same box. Anything public still needs your yes."],
+      miniChat: ["Ask PIX", "A small chat about this post, right here. PIX knows which post you mean and answers in the same box. Drag it by its title, resize it from the corner, Shift+Enter for a new line. Anything public still needs your yes."],
       reschedule: ["Reschedule", "Pick any day and minute, or a quick pick (+1 day, +1 week, your best hours for that weekday). From → To shows the full date. A post in Zernio moves after you type move, and is read back."],
       planFilter: ["Show only", "All networks, one network, or one account. The number is how many posts it has. Pick a network to see its accounts."],
       dayCard: ["Post on this day", "Its type, time, status and networks. View it, change its networks, reschedule it, edit the caption, make it a Trial Reel, copy or cancel it."],
@@ -6942,7 +6987,7 @@
       lang: ["اللغة", "بدّل بين العربي والإنجليزي."], clock: ["صيغة الوقت", "12 ساعة أو 24 ساعة."],
       theme: ["المظهر", "فاتح أو داكن."], version: ["الإصدار", "نسخة السكل المثبتة ووقت البِلد (يتحدّث بروحه مع كل تعديل)."],
       tipsPref: ["الشروحات", "شغّل أو طفّي هالشروحات."],
-      miniChat: ["اسأل PIX", "شات صغير عن هالبوست، بمكانه. PIX يعرف أي بوست تقصد ويرد بنفس المربع. أي شي عام يحتاج موافقتك."],
+      miniChat: ["اسأل PIX", "شات صغير عن هالبوست، بمكانه. PIX يعرف أي بوست تقصد ويرد بنفس المربع. اسحبه من عنوانه، وكبّره من الزاوية، وShift+Enter لسطر جديد. أي شي عام يحتاج موافقتك."],
       reschedule: ["أعد الجدولة", "اختار أي يوم وأي دقيقة، أو اختيار سريع (+يوم، +أسبوع، أفضل ساعاتك لهاليوم). من ← إلى يبين التاريخ كامل. بوست Zernio ينتقل بعد ما تكتب move، وينقرا مرة ثانية."],
       planFilter: ["اعرض بس", "كل المنصات، منصة وحدة، أو حساب واحد. الرقم = كم بوست. اختار منصة عشان تطلع حساباتها."],
       dayCard: ["بوست بهاليوم", "نوعه ووقته وحالته ومنصاته. شوفه، غيّر منصاته، أعد جدولته، عدّل الكابشن، خله Trial Reel، انسخه أو ألغِه."],

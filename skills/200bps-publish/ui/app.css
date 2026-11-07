@@ -2196,20 +2196,27 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 .fmt-chips .kchip small { font: 600 10px var(--bps-font-mono); opacity: .7; }
 
 /* small PIX chat next to a post */
-.mini-chat { position: fixed; z-index: 140; display: grid; grid-template-rows: auto 1fr auto; max-height: min(360px, 70vh); background: var(--bps-panel); color: var(--bps-text);
-  border: 1px solid var(--bps-line-strong); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25); overflow: hidden; font-size: 13px; }
-.mc-head { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--bps-line); }
+.mini-chat { position: fixed; z-index: 140; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: min(440px, calc(100vh - 24px));
+  min-width: 280px; min-height: 220px; max-width: calc(100vw - 24px); max-height: calc(100vh - 24px); resize: both; background: var(--bps-panel); color: var(--bps-text);
+  border: 1px solid var(--bps-line-strong); border-radius: 14px; box-shadow: 0 18px 50px rgba(0,0,0,.35); overflow: hidden; font-size: 13.5px;
+  transform-origin: top center; animation: mcIn 220ms var(--bps-ease, cubic-bezier(.2,.8,.2,1)) both; }
+@keyframes mcIn { from { opacity: 0; transform: translateY(6px) scale(.97); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .mini-chat { animation: none; } }
+.mini-chat.dragging { user-select: none; box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+.mc-head { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--bps-line); cursor: grab; touch-action: none; }
+.mini-chat.dragging .mc-head { cursor: grabbing; }
 .mc-head b { color: var(--accent-ink); font: 700 12px var(--bps-font-mono); }
 .mc-sub { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bps-mute); }
-.mc-x { background: none; border: 0; color: inherit; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 2px; }
-.mc-log { overflow: auto; padding: 10px; display: grid; gap: 6px; align-content: start; min-height: 70px; }
+.mc-x { background: none; border: 0; color: inherit; font-size: 20px; line-height: 1; cursor: pointer; padding: 0 4px; }
+.mc-log { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.mc-log > * { flex-shrink: 0; }            /* every message shows in full; the box scrolls instead */
 .mc-hint { margin: 0; color: var(--bps-mute); }
-.mc-msg { max-width: 88%; padding: 6px 10px; border-radius: 12px; overflow-wrap: anywhere; white-space: pre-wrap; }
-.mc-msg.you { justify-self: end; background: var(--bps-lime); color: #0D1113; }
-.mc-msg.pix { justify-self: start; background: var(--bps-slate); }
+.mc-msg { max-width: 88%; padding: 7px 11px; border-radius: 12px; overflow-wrap: anywhere; white-space: pre-wrap; line-height: 1.55; unicode-bidi: plaintext; }
+.mc-msg.you { align-self: flex-end; background: var(--bps-lime); color: #0D1113; }
+.mc-msg.pix { align-self: flex-start; background: var(--bps-slate); }
 .mc-msg.wait { opacity: .7; font-style: italic; }
-.mc-row { display: flex; gap: 6px; padding: 8px; border-top: 1px solid var(--bps-line); }
-.mc-in { flex: 1; min-width: 0; }
+.mc-row { display: flex; align-items: flex-end; gap: 6px; padding: 8px; border-top: 1px solid var(--bps-line); }
+.mc-in { flex: 1; min-width: 0; resize: none; min-height: 38px; max-height: 120px; line-height: 1.45; font: inherit; padding: 8px 10px; border-radius: 10px; }
 
 /* Trial Reels stand out: 🧪 mark, dashed lime outline, Trial chip */
 .cal .ev.is-trial, .tg-ev.is-trial, .daycard.is-trial { outline: 1.5px dashed var(--bps-lime); outline-offset: -1.5px; }
