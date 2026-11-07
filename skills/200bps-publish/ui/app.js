@@ -6543,9 +6543,9 @@
         el("div", { class: "job-main" },
           el("div", { class: "job-top" }, el("b", {}, jobLabel(j)), el("span", { class: "job-pct" }, pct)),
           el("div", { class: "job-bar" + (ind ? " ind" : "") }, el("s", { style: "width:" + (ind ? 35 : run ? j.pct : 100) + "%" })),
-          el("div", { class: "job-sub" }, el("span", {}, step), el("span", { class: "job-time" }, fmtSecs(j.secs) + " · " + (run ? t("jobsWorking") : j.state === "stopped" ? t("jobsStopped") : t("jobsFinished"))))
-        ),
-        run && j.stoppable ? el("button", { class: "btn sm job-stop", type: "button", onclick: (e) => { e.stopPropagation(); stopJob(j.id); } }, "■ " + t("jobsStop")) : null));
+          el("div", { class: "job-sub" }, el("span", {}, step), el("span", { class: "job-time" }, fmtSecs(j.secs) + " · " + (run ? t("jobsWorking") : j.state === "stopped" ? t("jobsStopped") : t("jobsFinished")))),
+          run && j.stoppable ? el("div", { class: "job-acts" }, el("button", { class: "btn sm job-stop", type: "button", onclick: (e) => { e.stopPropagation(); stopJob(j.id); } }, "■ " + t("jobsStop"))) : null
+        )));
     }
     jobsPanel.append(list);
   }

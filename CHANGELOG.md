@@ -1,6 +1,8 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- Fixed: in the jobs panel the Stop button was squeezed into a tall oval and long titles were cut off. Stop now sits on its own line and titles wrap to two lines.
+- Fixed: every open dashboard tab started its own "Refreshing from Zernio" (up to 10 at once). Refreshes now run one at a time and share the result.
 - **Every update reaches everyone:** the plugin no longer pins a version number, so Claude Code treats every push as an update (users with auto-update on get each new feature and fix by themselves; others run `/plugin marketplace update 200bps`). The dashboard still shows v1.20.0.
 - **Fix = one version per network:** on a post going to 2+ networks, "Ask PIX to fix" on any check writes one caption per network (each with its own length, hook, tone and hashtags), and the same Fix button opens them side by side (use all, some, edit or none). `bps.py rewrite --check <id>` links them.
 - **The DM gift is Instagram only, and captions know it:** Instagram's caption must say "follow us, then comment 'WORD' and the link comes in your DM" (`gift.cta_missing`, `gift.follow_hint`); other networks must not ask for the keyword (`gift.not_here`), since nothing is sent there: LinkedIn and Facebook give the link directly in the caption, plus a follow line and a question (`gift.link_missing`); TikTok and Snapchat say "link in bio". Rewrites and fixes follow these rules.

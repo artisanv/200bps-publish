@@ -2217,3 +2217,8 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 .zbadge.trial-chip { background: var(--bps-lime); color: #0D1113; border-color: var(--bps-lime); font-weight: 700; }
 .ztile-badge { display: inline-flex; gap: 4px; flex-wrap: wrap; }
 .cal-key .key-trial { font-size: 12px; }
+
+/* jobs panel: titles wrap (no cut-off), Stop sits on its own line at the end */
+.job-top b { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+.job-acts { display: flex; justify-content: flex-end; }
+.job .job-acts .job-stop { margin: 0; padding: 4px 12px; border-radius: 999px; white-space: nowrap; height: auto; }

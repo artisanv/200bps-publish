@@ -313,15 +313,29 @@ def _sync_plans(zposts: list[dict]) -> None:
             plans.save(pl, record=False, make_current=False)
 
 
+import threading
+_BUILD_LOCK = threading.Lock()
+
+
 def build(force: bool = False) -> dict:
     cache_p = state_dir() / "cache.json"
     cached = read_json(cache_p)
     if cached and not force and time.time() - cached.get("_ts", 0) < CACHE_SECONDS and cached.get("_v") == VERSION:
         return cached
 
-    import jobs
-    with jobs.job("sync", "Refreshing from Zernio", estimate=12, step="Posts, followers, best time…"):
-        return _build()
+    # one refresh at a time: other tabs or requests asking meanwhile wait for it and share its result
+    if not _BUILD_LOCK.acquire(blocking=False):
+        with _BUILD_LOCK:
+            fresh = read_json(cache_p)
+        if fresh:
+            return fresh
+        _BUILD_LOCK.acquire()
+    try:
+        import jobs
+        with jobs.job("sync", "Refreshing from Zernio", estimate=12, step="Posts, followers, best time…"):
+            return _build()
+    finally:
+        _BUILD_LOCK.release()
 
 
 def _build() -> dict:
