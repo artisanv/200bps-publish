@@ -39,7 +39,7 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - Follow the path at the top of the Post tab: **Check → Cover → Time → Gift → Go**. "Next step" always does the next thing.
 - **Check:** red items block publishing. Click one and PIX shows a before/after; approve, edit or reject. Your original is kept.
 - **Score (0-100):** how ready the post is, with the tips that raise it.
-- **Cover** (Reels): a frame, your image, or a design by PIX. "Grid view" shows the profile crop.
+- **Cover** (Reels): a frame, your image, or a design by PIX. It sits on a 3D phone that follows your pointer; "Grid view" lays it flat and shows the profile crop.
 - **Time:** your best time from your own data, or any day/hour you click.
 - **Gift** (optional): people who comment a keyword on Instagram get your DM (with a link button if you like), and you can require them to follow you first. The gift window says it in one sentence and shows each scene people will see, live as you type; it starts only when the post goes live.
 - **Go:** press Publish and type **go**. The dashboard uploads to Zernio, then reads the post back to prove it's there.
@@ -193,7 +193,7 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - امشِ على المسار فوق تبويب البوست: **فحص ← غلاف ← وقت ← هدية ← نشر**. «التالي» دايماً يسوي الخطوة الجاية.
 - **الفحص:** الأحمر يمنع النشر. اضغطه وPIX يوريك قبل/بعد؛ وافق، عدّل أو ارفض. النص الأصلي محفوظ.
 - **التقييم (0-100):** قد إيش البوست جاهز، مع النصايح اللي ترفعه.
-- **الغلاف** (للريلز): لقطة، صورتك، أو تصميم من PIX. «عرض الشبكة» يوريك القص بالبروفايل.
+- **الغلاف** (للريلز): لقطة، صورتك، أو تصميم من PIX. يطلع على جوال 3D يلحق الماوس؛ و«عرض الشبكة» يسطّحه ويوريك القص بالبروفايل.
 - **الوقت:** أفضل وقت من بياناتك، أو أي يوم/ساعة تضغطها.
 - **الهدية** (اختياري): اللي يعلّق بكلمة على Instagram توصله رسالتك بالخاص (مع زر لرابطك إذا تبي)، وتقدر تشترط إنه يتابعك أول. نافذة الهدية تقولها بجملة وحدة وتوريك كل مشهد بيشوفونه الناس وأنت تكتب؛ وما تبدأ إلا لما البوست ينزل.
 - **نشر:** اضغط انشر واكتب **go**. اللوحة ترفعه على Zernio وبعدها تقراه منه عشان تتأكد إنه موجود.

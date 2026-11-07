@@ -2679,6 +2679,14 @@
     if (!(p.coverCandidates || []).length) box.append(el("span", { class: "empty" }, t("noCands")));
   }
   $("#gridToggle").addEventListener("click", () => { const ph = $("#phone"); ph.classList.toggle("grid"); $("#gridToggle").classList.toggle("on", ph.classList.contains("grid")); });
+  // the 3D cover follows the pointer a little and faces you while you look at it
+  { const ph = $("#phone"), stage = ph.parentElement;
+    if (!reduced && matchMedia("(pointer: fine)").matches) {
+      stage.addEventListener("pointermove", (e) => { if (ph.classList.contains("grid")) return; const r = ph.getBoundingClientRect();
+        ph.style.setProperty("--ry", (((e.clientX - r.left) / r.width - .5) * 14).toFixed(1) + "deg");
+        ph.style.setProperty("--rx", (-((e.clientY - r.top) / r.height - .5) * 10).toFixed(1) + "deg"); });
+      stage.addEventListener("pointerleave", () => { ph.style.removeProperty("--ry"); ph.style.removeProperty("--rx"); });
+    } }
 
   /* ---------- 2.5D: tilt, parallax, count-up ---------- */
   // Gentle 2.5D tilt, only on small interactive tiles (steps, ideas, KPIs,
@@ -6015,7 +6023,7 @@
         "Follow the path at the top of the Post tab: <b>Check → Cover → Time → Gift → Go</b>. \"Next step\" always does the next thing.",
         "<b>Check:</b> red items block publishing. Click one and PIX shows a before/after; approve, edit or reject. Your original is kept.",
         "<b>Score (0-100):</b> how ready the post is, with the tips that raise it.",
-        "<b>Cover</b> (Reels): a frame, your image, or a design by PIX. \"Grid view\" shows the profile crop.",
+        "<b>Cover</b> (Reels): a frame, your image, or a design by PIX. It sits on a 3D phone that follows your pointer; \"Grid view\" lays it flat and shows the profile crop.",
         "<b>Time:</b> your best time from your own data, or any day/hour you click.",
         "<b>Gift</b> (optional): people who comment a keyword on Instagram get your DM (with a link button if you like), and you can require them to follow you first. The gift window says it in one sentence and shows each scene people will see, live as you type; it starts only when the post goes live.",
         "<b>Go:</b> press Publish and type <b>go</b>. The dashboard uploads to Zernio, then reads the post back to prove it's there."]],
@@ -6145,7 +6153,7 @@
         "امشِ على المسار فوق تبويب البوست: <b>فحص ← غلاف ← وقت ← هدية ← نشر</b>. «التالي» دايماً يسوي الخطوة الجاية.",
         "<b>الفحص:</b> الأحمر يمنع النشر. اضغطه وPIX يوريك قبل/بعد؛ وافق، عدّل أو ارفض. النص الأصلي محفوظ.",
         "<b>التقييم (0-100):</b> قد إيش البوست جاهز، مع النصايح اللي ترفعه.",
-        "<b>الغلاف</b> (للريلز): لقطة، صورتك، أو تصميم من PIX. «عرض الشبكة» يوريك القص بالبروفايل.",
+        "<b>الغلاف</b> (للريلز): لقطة، صورتك، أو تصميم من PIX. يطلع على جوال 3D يلحق الماوس؛ و«عرض الشبكة» يسطّحه ويوريك القص بالبروفايل.",
         "<b>الوقت:</b> أفضل وقت من بياناتك، أو أي يوم/ساعة تضغطها.",
         "<b>الهدية</b> (اختياري): اللي يعلّق بكلمة على Instagram توصله رسالتك بالخاص (مع زر لرابطك إذا تبي)، وتقدر تشترط إنه يتابعك أول. نافذة الهدية تقولها بجملة وحدة وتوريك كل مشهد بيشوفونه الناس وأنت تكتب؛ وما تبدأ إلا لما البوست ينزل.",
         "<b>نشر:</b> اضغط انشر واكتب <b>go</b>. اللوحة ترفعه على Zernio وبعدها تقراه منه عشان تتأكد إنه موجود."]],

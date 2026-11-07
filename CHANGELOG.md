@@ -1,6 +1,9 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- **The Reel cover is 3D again:** in the Post tab the cover sits on a tilted 3D phone with depth and a light sheen; it follows your pointer and faces you on hover. Grid view lays it flat to check the profile crop.
+- Fixed: in the Cover card, "Ask PIX for frames or a design." was pinned over the **Options** label and cut it off.
+- Fixed: in the jobs panel, a long step (Arabic or English) was cut at the card edge and the progress bar stuck out. The step now shows in full (up to 3 lines) inside the card.
 - Fixed: the **💬 Ask PIX** pop-up on a post cut long chats off and wouldn't scroll. It now scrolls through the whole chat, opens bigger (380 px) with a smooth pop-in, stays on screen as it grows, can be dragged by its title and resized from its corner, and its box grows to 5 lines (Shift+Enter for a new line).
 - Fixed: the big **PIX chat** opened in the middle of the conversation instead of on the newest message (it focused a button inside an older message). It now opens on the latest message and stays there as replies arrive, unless you scroll up to read.
 - Fixed: making a Reel a Trial right after editing its caption said "No Instagram Reel waiting"; it now refreshes the post list and finds it.

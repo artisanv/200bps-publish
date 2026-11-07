@@ -48,13 +48,13 @@ body { background: var(--bps-void); font-feature-settings: "ss01"; }
 .kpi .v, .ring .num, .mono, .pill, .n, .num, td.n, .jcount { font-variant-numeric: tabular-nums; }
 
 /* ---------- no extrusions, bevels, chamfers or tilt anywhere ---------- */
-.card, .kpi, .idea.card, [dir="rtl"] .card, .btn, .btn.on, .pill, .pill.decision, .fab, .note-top, .phone,
+.card, .kpi, .idea.card, [dir="rtl"] .card, .btn, .btn.on, .pill, .pill.decision, .fab, .note-top, .phone:not(#phone),
 .modal-body, :root[data-theme="light"] .modal-body, .modal textarea, .modal input[type="text"], .caption-box, .fixcol,
 .step.current, :root[data-theme="light"] .tip, :root[data-theme="light"] .jobs-panel {
   box-shadow: none !important;
 }
 .btn:active:not(:disabled), .fab:active, .fab:hover, .step:hover, .step:focus-visible, .ztile:hover, .ztile:focus-visible,
-.frames button:hover, .frames button[aria-pressed="true"], .cands button:hover, .phone, .phone:hover, .cover-stage .phone {
+.frames button:hover, .frames button[aria-pressed="true"], .cands button:hover, .phone:not(#phone) {      /* the Reel cover (#phone) keeps its 3D tilt */
   transform: none !important;
 }
 .slope-plate, .modal-plate, .hero::after { display: none !important; }
