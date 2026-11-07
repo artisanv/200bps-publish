@@ -1,6 +1,6 @@
 # 200BPS.ai | Publish
 
-[العربية](README.md) · **English** · [Arabic guide (PDF)](200bps-publish-README-ar.pdf)
+[العربية](README.md) · **English** · [English guide (PDF)](200bps-publish-README-en.pdf) · [Arabic guide (PDF)](200bps-publish-README-ar.pdf)
 
 ![200BPS.ai | Publish](media/splash.png)
 
