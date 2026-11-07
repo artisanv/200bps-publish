@@ -65,6 +65,8 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 
 ## New in v1.20.0 (the big one)
 
+- **Plan at a glance.** Each post shows its type, time and networks (grouped per network for many accounts), with
+  filters; click a day to see every post and reschedule, edit or trial it in one click.
 - **🧪 Trial Reels for waiting Reels.** Turn any scheduled Instagram Reel into a Trial Reel, with advice from your
   own results and Instagram's rules; PIX helps. Plan shows every network of each post as its own badge.
 - **🌍 Audience per account.** Each account's own Growth page shows where its followers are (Instagram, Facebook

@@ -2158,3 +2158,37 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 .netstack .net.nb.s-published { background: var(--bps-lime); color: #0D1113; border-color: var(--bps-lime); }
 .netstack .net.nb.s-failed { border-color: var(--bps-danger); color: var(--bps-danger); }
 .netstack:hover .net.nb, .netstack:focus-visible .net.nb { outline: none; border-color: var(--bps-lime); }
+
+/* Plan: type + time on every post, filter chips, day cards */
+.ev .evkind, .tg-ev .evkind { flex: none; font-size: 11px; line-height: 1; opacity: .85; }
+.ev .evtime { flex: none; font: 600 10.5px var(--bps-font-mono); color: var(--bps-mute); }
+.netstack.full .net.nb { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.plan-filter { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+.plan-filter .chip-f { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; font-size: 13px; }
+.plan-filter .chip-f small { font: 600 11px var(--bps-font-mono); opacity: .7; }
+.plan-filter .chip-f.sub { font-size: 12px; padding: 4px 10px; border-style: dashed; }
+.daylist { display: grid; gap: 10px; }
+.daycard { display: grid; grid-template-columns: 72px 1fr; gap: 12px; align-items: start; border: 1px solid var(--bps-line); border-radius: 14px; padding: 10px; }
+.daycard.st-fail, .daycard.st-warn { border-color: var(--bps-danger); }
+.daycard .zthumb { width: 72px; height: 90px; border-radius: 8px; overflow: hidden; position: relative; }
+.daycard .zthumb img, .daycard .zthumb video { width: 100%; height: 100%; object-fit: cover; }
+.daycard .zthumb .zkind { display: none; }
+.daycard-main { display: grid; gap: 6px; min-width: 0; }
+.daycard-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.daycard-cap { overflow-wrap: anywhere; }
+.daycard-acts { flex-wrap: wrap; gap: 6px; }
+@media (max-width: 560px) { .daycard { grid-template-columns: 56px 1fr; } .daycard .zthumb { width: 56px; height: 70px; } }
+/* month chip: line 1 = type · time · networks, line 2 = caption */
+.cal .ev { display: flex; flex-wrap: wrap; align-items: center; gap: 3px 4px; white-space: normal; }
+.cal .ev .evcap { order: 9; flex: 1 0 100%; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--bps-font-body); }
+.cal .ev .ev-copy, .cal .ev .evcopy { margin-inline-start: auto; }
+.cal .ev .evcap { flex: 1 1 calc(100% - 20px); }
+.cal .ev .ev-copy { order: 10; margin-inline-start: 0; }
+/* Reschedule window */
+.rs-post { display: grid; grid-template-columns: 56px 1fr; gap: 10px; align-items: center; margin: 8px 0; }
+.rs-post .zthumb { width: 56px; height: 70px; border-radius: 8px; overflow: hidden; position: relative; }
+.rs-post .zthumb img, .rs-post .zthumb video { width: 100%; height: 100%; object-fit: cover; }
+.rs-post .zthumb .zkind { display: none; }
+.rs-pick { display: flex; flex-wrap: wrap; gap: 12px; }
+.rs-pick .field { flex: 1 1 160px; }
+.rs-quick { margin-bottom: 10px; }
