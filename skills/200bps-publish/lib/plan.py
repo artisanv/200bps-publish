@@ -776,8 +776,25 @@ def build_body(plan: dict, z: Zernio, dry: bool = False, make_current: bool = Tr
 
 
 def publish(plan: dict, confirm: bool, make_current: bool = True) -> dict:
+    """One publish per post, even when the dashboard's Publish button and the chat run at the same moment:
+    a lock file per plan (across processes), and the plan is re-read inside it, so the second one stops."""
+    import fcntl
+    from store import state_dir
     if not confirm:
         raise PermissionError("Publishing needs confirm=True, given only after the user approves in chat.")
+    lk_dir = state_dir() / "locks"; lk_dir.mkdir(parents=True, exist_ok=True)
+    with open(lk_dir / f"publish-{plan['id']}.lock", "w") as lk:
+        try:
+            fcntl.flock(lk, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise PermissionError("This post is being published right now (from the dashboard or the chat). Wait a moment and check the Posts tab.") from None
+        fresh = load(plan["id"]) or plan
+        if (fresh.get("result") or {}).get("postId"):
+            raise PermissionError(f"Already sent to Zernio as post {fresh['result']['postId']} ({fresh.get('status')}). Not publishing it twice.")
+        return _publish_locked(plan, make_current)
+
+
+def _publish_locked(plan: dict, make_current: bool) -> dict:
     if plan.get("status") != "awaiting_approval":
         raise PermissionError(f"Plan status is '{plan.get('status')}', not 'awaiting_approval'. Show the plan and get approval first.")
     recheck(plan)

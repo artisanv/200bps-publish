@@ -1,6 +1,8 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- Fixed: pressing **Publish** in the dashboard while the chat published the same post at the same moment created it twice in Zernio. Each post now publishes once: a lock per post across the dashboard and the chat, and a post already sent to Zernio is never sent again ("Already sent to Zernio as post …").
+- Note: after updating, restart the dashboard (close it and run the skill again). The dashboard server loads new code only when it starts.
 - **The Reel cover is 3D again:** in the Post tab the cover sits on a tilted 3D phone with depth and a light sheen; it follows your pointer and faces you on hover. Grid view lays it flat to check the profile crop.
 - Fixed: in the Cover card, "Ask PIX for frames or a design." was pinned over the **Options** label and cut it off.
 - Fixed: in the jobs panel, a long step (Arabic or English) was cut at the card edge and the progress bar stuck out. The step now shows in full (up to 3 lines) inside the card.
