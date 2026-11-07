@@ -901,6 +901,79 @@ def running_url() -> str | None:
         return None
 
 
+# ---------------- self-update: a running dashboard picks up new plugin code by itself ----------------
+CODE_DIRS = ("lib", "bin")
+
+
+def code_stamp() -> float:
+    """Newest change to the dashboard's Python code (lib/, bin/)."""
+    newest = 0.0
+    for sub in CODE_DIRS:
+        for f in (SKILL_DIR / sub).glob("*.py"):
+            try:
+                newest = max(newest, f.stat().st_mtime)
+            except OSError:
+                pass
+    return newest
+
+
+class _Server(ThreadingHTTPServer):
+    """Counts requests in flight, so a reload never cuts one off (a publish runs inside a request)."""
+    daemon_threads = True
+
+    def __init__(self, *a, **kw):
+        self.inflight = 0
+        self._il = threading.Lock()
+        super().__init__(*a, **kw)
+
+    def process_request_thread(self, request, client_address):
+        with self._il:
+            self.inflight += 1
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            with self._il:
+                self.inflight -= 1
+
+
+def _busy_here() -> bool:
+    """A job this dashboard process started is still running (refresh, image, publish…)."""
+    import os
+    import jobs
+    try:
+        rows = jobs._load()
+    except Exception:
+        return True
+    return any(j.get("state") == "running" and j.get("pid") == os.getpid() for j in rows.values())
+
+
+def _watch_code(httpd: "_Server", argv: list[str], every: float = 3.0, settle: float = 2.0) -> None:
+    """When the plugin's Python code changes (an update, or a fix), restart this dashboard in place on the
+    same port once it's idle. Open pages see the new boot id and reload themselves."""
+    import os
+    import sys
+    start = code_stamp()
+    seen = start
+    while True:
+        time.sleep(every)
+        now = code_stamp()
+        if now == start:
+            continue
+        if now != seen:                    # still being written (a sync copies many files): wait until it settles
+            seen = now
+            time.sleep(settle)
+            continue
+        if httpd.inflight or _busy_here():
+            continue
+        print("200BPS Publish: new plugin code, restarting the dashboard…", flush=True)
+        try:
+            httpd.server_close()
+        except Exception:
+            pass
+        args = [a for a in argv if a != "--no-open"] + ["--no-open"]   # the page is already open; it reloads itself
+        os.execv(sys.executable, [sys.executable] + args)
+
+
 def serve(port: int = 4217, open_browser: bool = True) -> None:
     existing = running_url()
     if existing:
@@ -910,7 +983,7 @@ def serve(port: int = 4217, open_browser: bool = True) -> None:
         return
     for p in range(port, port + 20):
         try:
-            httpd = ThreadingHTTPServer(("127.0.0.1", p), Handler)
+            httpd = _Server(("127.0.0.1", p), Handler)
             break
         except OSError:
             continue
@@ -921,6 +994,8 @@ def serve(port: int = 4217, open_browser: bool = True) -> None:
     print(f"200BPS Publish dashboard: {url}", flush=True)
     if open_browser:
         threading.Timer(0.6, lambda: webbrowser.open(url)).start()
+    import sys
+    threading.Thread(target=_watch_code, args=(httpd, list(sys.argv)), daemon=True, name="code-watch").start()
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

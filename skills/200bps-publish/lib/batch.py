@@ -428,8 +428,15 @@ def run(items: list[dict], typed: str, via: str = "dashboard", wait: bool = Fals
                 plans.save(p, via=via, make_current=False)
                 p = plans.publish(p, confirm=True, make_current=False)
                 res = p.get("result") or {}
+                gift = None
+                if (p.get("dm") or {}).get("enabled"):          # the gift is part of what the user approved
+                    try:
+                        plans.create_dm(p, confirm=True, make_current=False)
+                        gift = "ok"
+                    except Exception as e:                    # the post is scheduled either way; report the gift
+                        gift = str(e)[:200]
                 with _LOCK:
-                    row.update({"state": "done", "postId": res.get("postId"), "status": p.get("status")})
+                    row.update({"state": "done", "postId": res.get("postId"), "status": p.get("status"), "gift": gift})
             except Exception as e:  # one failure doesn't stop the rest; it is reported
                 try:
                     p = plans.load(row["plan"])

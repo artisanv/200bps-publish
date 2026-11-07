@@ -190,9 +190,9 @@ def apply(changes: list[dict], typed: str = "", via: str = "dashboard") -> dict:
                 p = plans.load(c["id"])
                 if not p:
                     raise ValueError("Draft not found.")
-                plans.set_setting(p, "instagram.trial", "on" if c.get("trial") else "off", via=via)
+                plans.set_setting(p, "instagram.trial", "on" if c.get("trial") else "off", via=via, make_current=False)
                 if c.get("trial"):
-                    plans.set_setting(p, "instagram.graduation", c["graduation"], via=via)
+                    plans.set_setting(p, "instagram.graduation", c["graduation"], via=via, make_current=False)
                 r = {"trial": bool(c.get("trial")), "graduation": c["graduation"] if c.get("trial") else None, "matches": True}
             else:
                 z = z or Zernio()

@@ -81,9 +81,16 @@ def edit_caption(post_id: str, text: str, typed: str) -> dict:
     targets = p.get("platforms") or []
     body: dict = {"content": text[:5000]}
     if any(t.get("customContent") for t in targets):      # per-network captions: update each one too
-        body["platforms"] = [{"platform": t["platform"],
-                              "accountId": t["accountId"]["_id"] if isinstance(t.get("accountId"), dict) else t.get("accountId"),
-                              "customContent": text[:5000]} for t in targets]
+        rows = []
+        for t in targets:                                  # Zernio replaces the whole list: keep each network's own settings
+            acc = t.get("accountId")
+            e = {"platform": t["platform"], "accountId": acc.get("_id") if isinstance(acc, dict) else acc, "customContent": text[:5000]}
+            if t.get("platformSpecificData"):
+                e["platformSpecificData"] = t["platformSpecificData"]       # Trial Reel, cover, first comment, TikTok privacy…
+            if t.get("customMedia"):
+                e["customMedia"] = [{"type": m.get("type"), "url": m.get("url")} for m in t["customMedia"] if m.get("url")]
+            rows.append(e)
+        body["platforms"] = rows
     z.update_post(post_id, body)
     back = _post(z, post_id)
     lp = _local_plan(post_id)

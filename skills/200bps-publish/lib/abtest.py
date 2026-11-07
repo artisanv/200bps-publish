@@ -139,7 +139,16 @@ def start(plan: dict, confirm: str, via: str = "dashboard") -> dict:
     ids = []
     for label, b in (("A", body_a), ("B", body_b)):
         jobs.here(step=f"Creating version {label}", pct=55 if label == "A" else 75)
-        res = z.create_post(b, idempotency_key=f"bps-{tid}-{label}")
+        try:
+            res = z.create_post(b, idempotency_key=f"bps-{tid}-{label}")
+        except Exception:
+            if ids:                                   # A is already out: record it, so a retry can't post it twice
+                plan["result"] = {"postId": ids[0], "status": "scheduled" if body_a.get("scheduledFor") else "published",
+                                  "abtest": tid, "at": int(time.time()), "note": "version B failed"}
+                plan["status"] = plan["result"]["status"]
+                plans.save(plan, record=False)
+                append_log({"event": "abtest_partial", "test": tid, "plan": plan["id"], "posts": ids, "via": via})
+            raise
         post = res.get("post", res)
         ids.append(post.get("_id"))
     test = {"id": tid, "plan": plan["id"], "created": int(time.time()), "at": body_a.get("scheduledFor") or "",

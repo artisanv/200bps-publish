@@ -13,6 +13,22 @@ from datetime import date, datetime, timedelta, timezone
 import audience
 import besttime
 from store import VERSION, config, read_json, read_log, state_dir, write_json
+
+
+def lday(stamp) -> str:
+    """The user's own calendar day (YYYY-MM-DD) of a Zernio time. Zernio sends UTC ("…Z"); a post at
+    01:00 in Kuwait belongs to that Kuwait day, not the UTC day before."""
+    s = str(stamp or "")
+    if len(s) <= 10 or "T" not in s:
+        return s[:10]
+    try:
+        from zoneinfo import ZoneInfo
+        d = datetime.fromisoformat(s.replace("Z", "+00:00"))
+        if d.tzinfo is None:
+            return s[:10]
+        return d.astimezone(ZoneInfo(config().get("timezone") or "UTC")).date().isoformat()
+    except (ValueError, KeyError):
+        return s[:10]
 from zernio import Zernio, ZernioError
 
 CACHE_SECONDS = 300
@@ -263,7 +279,7 @@ def _networks(z, section, out: dict, tz: str, today, cfg: dict, bt_done: str) ->
                  and (p.get("accountId") == a["id"] or (not p.get("accountId") and same_pf == 1))]
 
         def window(lo, hi, posts=posts):
-            ps = [p for p in posts if lo.isoformat() <= str(p["publishedAt"])[:10] <= hi.isoformat()]
+            ps = [p for p in posts if lo.isoformat() <= lday(p["publishedAt"]) <= hi.isoformat()]
             tot = lambda k: sum((p["metrics"].get(k) or 0) for p in ps)
             ers = [p["metrics"]["engagementRate"] for p in ps if p["metrics"].get("engagementRate") is not None]
             return {"posts": len(ps), "impressions": tot("impressions"), "reach": tot("reach"), "views": tot("views"),
@@ -277,7 +293,7 @@ def _networks(z, section, out: dict, tz: str, today, cfg: dict, bt_done: str) ->
         weeks = []
         for w in range(7, -1, -1):
             lo, hi = today - timedelta(days=7 * w + 6), today - timedelta(days=7 * w)
-            ps = [p for p in posts if lo.isoformat() <= str(p["publishedAt"])[:10] <= hi.isoformat()]
+            ps = [p for p in posts if lo.isoformat() <= lday(p["publishedAt"]) <= hi.isoformat()]
             weeks.append({"from": lo.isoformat(), "posts": len(ps), "engagements": sum(_eng(p["metrics"]) for p in ps)})
         if pf == bt_done:
             bt = out.get("besttime") or {}
@@ -350,7 +366,11 @@ def _build() -> dict:
     tz = cfg.get("timezone", "UTC")
     accts = cfg.get("accounts", {})
     ig = (accts.get("instagram") or {}).get("id")
-    today = date.today()
+    try:
+        from zoneinfo import ZoneInfo
+        today = datetime.now(ZoneInfo(config().get("timezone") or "UTC")).date()   # the user's today, not the computer's
+    except Exception:
+        today = date.today()
     d7, d14, d30, d89 = (today - timedelta(days=n) for n in (7, 14, 30, 87))   # Zernio caps history at 88 days
 
     import jobs
@@ -539,9 +559,9 @@ def _build() -> dict:
     ]
 
     # streak: consecutive days with a published post, ending today or yesterday
-    days_with = {(p["publishedAt"] or "")[:10] for p in out["posts"] if p.get("publishedAt")}
+    days_with = {lday(p["publishedAt"]) for p in out["posts"] if p.get("publishedAt")}
     pub = section("published posts", lambda: z.posts(status="published", fromDate=d30.isoformat(), limit=100))
-    days_with |= {(p.get("publishedAt") or p.get("scheduledFor") or "")[:10] for p in _items(pub)}
+    days_with |= {lday(p.get("publishedAt") or p.get("scheduledFor")) for p in _items(pub)}
     last14 = [(today - timedelta(days=13 - i)).isoformat() in days_with for i in range(14)]
     streak, i = 0, 0 if today.isoformat() in days_with else 1
     while (today - timedelta(days=i)).isoformat() in days_with:

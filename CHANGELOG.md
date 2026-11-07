@@ -1,8 +1,23 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- **Self-test:** `bps.py selftest` runs 45 checks of the real plugin against a fake Zernio on your computer, in a throwaway folder. It never touches your workspace, keys or account. It covers the publish flow, the confirm words, no double posts, the DM gift, dashboard security, the caption and best-time rules, and every dashboard tab in a browser. `--quick` skips the browser.
+- **Updates apply by themselves:** a running dashboard notices new plugin code, waits until nothing is running, and restarts itself on the same address; open pages reload.
+- Fixed: re-checking a folder that was already scheduled (Batch → prepare, or analyze) turned it back into a draft, so it could be scheduled twice. Now it stays scheduled.
+- Fixed: editing the caption of a scheduled post that has a caption per network dropped each network's own settings (Trial Reel, cover, first comment, TikTok privacy, LinkedIn PDF). They're kept now.
+- Fixed: `bps.py answer` crashed, so answers given in the chat weren't recorded.
+- Fixed: cancelling a post that was live on only some networks deleted it as if nothing were live, and reset the draft, so re-publishing would post it twice. Now it takes down what it can, says what's left, and keeps the record.
+- Fixed: if version B of a hook test failed to create, version A was live but untracked, and retrying posted A again. A is now recorded right away.
+- Fixed: posts scheduled with **Batch** never got their DM gift. They get it now, like a single post.
+- Fixed: carousel slides were posted in text order (1, 10, 2…). Now 1, 2 … 10.
+- Fixed: a post whose scheduled time had already passed could still be sent. It's now blocked with "Pick a new time".
+- Fixed: Snapchat Stories (which show no caption) were blocked by the 160-character caption limit, which blocked the whole post.
+- Fixed: the DM gift went to the setup Instagram account even when the post was for another account. It now goes to the post's own account(s), one gift each.
+- Fixed: `report` on an old post, or turning on Trial for a draft, silently switched the post you had open.
+- Fixed: retrying Publish after a lost connection could create a second post in Zernio. Retries now reuse the same request id.
+- Fixed: a post that failed (or was cancelled) in Zernio could never be published again from its draft. Now it can, once.
+- Fixed: Growth's daily streak, 30-day numbers and weekly rhythm counted UTC days, so posts after midnight in Kuwait landed on the day before. They use your own timezone now.
 - Fixed: pressing **Publish** in the dashboard while the chat published the same post at the same moment created it twice in Zernio. Each post now publishes once: a lock per post across the dashboard and the chat, and a post already sent to Zernio is never sent again ("Already sent to Zernio as post …").
-- Note: after updating, restart the dashboard (close it and run the skill again). The dashboard server loads new code only when it starts.
 - **The Reel cover is 3D again:** in the Post tab the cover sits on a tilted 3D phone with depth and a light sheen; it follows your pointer and faces you on hover. Grid view lays it flat to check the profile crop.
 - Fixed: in the Cover card, "Ask PIX for frames or a design." was pinned over the **Options** label and cut it off.
 - Fixed: in the jobs panel, a long step (Arabic or English) was cut at the card edge and the progress bar stuck out. The step now shows in full (up to 3 lines) inside the card.

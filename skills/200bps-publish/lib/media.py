@@ -6,6 +6,8 @@ Video:  dimensions, duration, codec come from ffprobe when it is installed;
 """
 from __future__ import annotations
 
+import re
+
 import json
 import shutil
 import struct
@@ -131,7 +133,8 @@ def scan_folder(folder: Path) -> dict:
     """
     folder = folder.resolve()
     captions, media, cover, ignored = {}, [], None, []
-    for p in sorted(folder.iterdir(), key=lambda x: x.name.lower()):
+    natural = lambda x: [int(t) if t.isdigit() else t for t in re.split(r"(\d+)", x.name.lower())]   # 2.png before 10.png
+    for p in sorted(folder.iterdir(), key=natural):
         if p.is_dir() or p.name.startswith("."):
             continue
         stem = p.stem.lower()

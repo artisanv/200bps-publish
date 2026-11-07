@@ -8,9 +8,10 @@ does only after the user says yes in chat.
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -308,7 +309,7 @@ def _coerce(kind, raw: str):
     return raw
 
 
-def set_setting(plan: dict, path: str, raw: str, via: str = "chat") -> dict:
+def set_setting(plan: dict, path: str, raw: str, via: str = "chat", make_current: bool = True) -> dict:
     """Set one plan setting, e.g. instagram.firstComment. Records history and re-checks."""
     if not editable(plan):
         raise PermissionError("This post is already scheduled or live.")
@@ -358,7 +359,7 @@ def set_setting(plan: dict, path: str, raw: str, via: str = "chat") -> dict:
     if plan.get("status") == "awaiting_approval":
         plan["status"] = "draft"
     recheck(plan)
-    save(plan, via=via)
+    save(plan, via=via, make_current=make_current)
     return plan
 
 
@@ -455,6 +456,10 @@ def analyze(folder: str, platforms: list[str] | None = None, connected: list[str
         "skipped_reasons": {p: f"{p} can't show a {t} post" for p, t in unfit.items()},
         "status": "draft",
     }
+    if (old.get("result") or {}).get("postId"):          # already sent to Zernio: keep that, so it can't go out twice
+        for k in ("result", "status", "uploads", "remote", "validation", "abtest", "cancelled"):
+            if k in old:
+                plan[k] = old[k]
     recheck(plan)
     save(plan, record=False, make_current=make_current)
     return plan
@@ -475,12 +480,25 @@ def recheck(plan: dict) -> dict:
     plan["types"] = {p: type_for(plan, p) for p in plan["platforms"]}
     for p in plan["platforms"]:
         cc = checks.check_caption(plan["captions"].get(p, ""), p, cfg) + checks.check_media({**scan, "media": media_for(plan, p)}, p)
+        if p == "snapchat" and ((plan.get("settings") or {}).get("snapchat") or {}).get("contentType", "story") == "story":
+            cc = [c for c in cc if c.get("id") not in ("caption.length", "caption.missing")]   # Stories show no caption
         cc += _extra_checks(plan, p)
         kind = (plan["settings"].get("linkedin") or {}).get("kind") or "post"
         if p == "linkedin" and kind != "post":     # no media is exactly right for a poll or repost
             cc = [{**c, "status": "pass", "msg": f"No media: right for a LinkedIn {kind}."} if c["id"] == "media.none" else c for c in cc]
         all_checks += cc
         plan["score"][p] = checks.score(cc, plan["types"][p], timing_ok, bool(cfg.get("keywords")))
+    at = (plan.get("schedule") or {}).get("at")
+    if at and plan.get("status") in (None, "draft", "awaiting_approval", "failed", "cancelled"):
+        try:
+            when = datetime.fromisoformat(str(at).replace("Z", "+00:00"))
+            if when.tzinfo is None:
+                when = when.replace(tzinfo=ZoneInfo(cfg.get("timezone") or "UTC"))
+            if when < datetime.now(timezone.utc) + timedelta(minutes=10):
+                all_checks.append({"id": "time.past", "platform": "all", "status": "fail",
+                                   "msg": "The scheduled time has passed (or is under 10 minutes away). Pick a new time or post now."})
+        except ValueError:
+            all_checks.append({"id": "time.bad", "platform": "all", "status": "fail", "msg": f"Can't read the scheduled time: {at}"})
     plan["checks"] = all_checks
     plan["blocking"] = [c for c in all_checks if c["status"] == "fail"]
     return plan
@@ -789,6 +807,15 @@ def publish(plan: dict, confirm: bool, make_current: bool = True) -> dict:
         except BlockingIOError:
             raise PermissionError("This post is being published right now (from the dashboard or the chat). Wait a moment and check the Posts tab.") from None
         fresh = load(plan["id"]) or plan
+        gone = fresh.get("status") in ("failed", "cancelled") or (fresh.get("remote") or {}).get("status") in ("failed", "cancelled")
+        if (fresh.get("result") or {}).get("postId") and gone:
+            old = fresh.pop("result")                 # it never went out: keep it in history, allow a new try
+            fresh.pop("remote", None)
+            fresh.setdefault("previous", []).append({**old, "was": fresh.get("status"), "ts": int(time.time())})
+            save(fresh, record=False, make_current=make_current)
+            plan.pop("result", None)
+            plan.pop("remote", None)
+            plan["previous"] = fresh["previous"]
         if (fresh.get("result") or {}).get("postId"):
             raise PermissionError(f"Already sent to Zernio as post {fresh['result']['postId']} ({fresh.get('status')}). Not publishing it twice.")
         return _publish_locked(plan, make_current)
@@ -814,8 +841,11 @@ def _publish_locked(plan: dict, make_current: bool) -> dict:
         raise
     import jobs
     jobs.here(step="Creating the post in Zernio", pct=70)
-    res = z.create_post(body, idempotency_key=f"bps-{plan['id']}-{plan.get('updated', 0)}")
+    tries = len(plan.get("cancelled") or []) + len(plan.get("previous") or [])     # a cancelled post sent again is a new request
+    key = hashlib.sha1((json.dumps(body, sort_keys=True, ensure_ascii=False) + f"#{tries}").encode()).hexdigest()[:16]
+    res = z.create_post(body, idempotency_key=f"bps-{plan['id']}-{key}")
     post = res.get("post", res)
+    plan.pop("remote", None)                      # Zernio's old status belonged to an earlier attempt
     plan["result"] = {"postId": post.get("_id"), "status": post.get("status"), "platforms": post.get("platforms"),
                       "warnings": res.get("warnings"), "at": int(time.time())}
     plan["status"] = "scheduled" if post.get("status") == "scheduled" else "published"
@@ -837,10 +867,10 @@ def keyword_forms(kw: str) -> list:
     return out
 
 
-def dm_body(plan: dict) -> dict:
+def dm_body(plan: dict, account: str | None = None) -> dict:
     cfg = config()
     dm = plan["dm"]
-    ig = (cfg.get("accounts", {}).get("instagram") or {}).get("id")
+    ig = account or (accounts_for(plan, "instagram") or [None])[0] or (cfg.get("accounts", {}).get("instagram") or {}).get("id")
     body = {
         "profileId": cfg.get("profile_id"),
         "accountId": ig,
@@ -871,7 +901,7 @@ def dm_body(plan: dict) -> dict:
     return {k: v for k, v in body.items() if v is not None}
 
 
-def create_dm(plan: dict, confirm: bool) -> dict:
+def create_dm(plan: dict, confirm: bool, make_current: bool = True) -> dict:
     if not confirm:
         raise PermissionError("DM automations need the user's explicit yes in chat.")
     dm = plan.get("dm") or {}
@@ -879,9 +909,14 @@ def create_dm(plan: dict, confirm: bool) -> dict:
         raise ValueError("DM gift is not fully configured (enabled, keyword, message).")
     if not (plan.get("result") or {}).get("postId"):
         raise ValueError("Publish or schedule the post first; the automation attaches to its post id.")
-    res = Zernio().create_automation(dm_body(plan))
-    made = res.get("automation") or res
-    plan["dm"]["automationId"] = made.get("_id") or made.get("id")   # Zernio returns "id" here
-    save(plan)
-    append_log({"event": "dm_automation", "plan": plan["id"], "keyword": dm["keyword"], "automationId": plan["dm"]["automationId"]})
+    z = Zernio()
+    ids, res = [], {}
+    for acc in (accounts_for(plan, "instagram") or [None]):     # one gift per Instagram account the post goes to
+        res = z.create_automation(dm_body(plan, acc))
+        made = res.get("automation") or res
+        ids.append(made.get("_id") or made.get("id"))             # Zernio returns "id" here
+    plan["dm"]["automationId"] = ids[0]
+    plan["dm"]["automationIds"] = ids
+    save(plan, make_current=make_current)
+    append_log({"event": "dm_automation", "plan": plan["id"], "keyword": dm["keyword"], "automationId": ids})
     return res

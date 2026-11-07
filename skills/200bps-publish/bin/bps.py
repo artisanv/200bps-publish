@@ -66,7 +66,8 @@ import shutil
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
+SKILL = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(SKILL / "lib"))
 
 import accounts as acct  # noqa: E402
 import cover as covers  # noqa: E402
@@ -120,7 +121,7 @@ def main() -> None:
     us = sub.add_parser("undo-step"); us.add_argument("step", choices=["cover", "time", "gift", "check"])
     sub.add_parser("history")
     ud = sub.add_parser("undo"); ud.add_argument("--platform", required=True)
-    an = sub.add_parser("answer"); an.add_argument("id"); an.add_argument("text"); an.add_argument("--note", default="")
+    an = sub.add_parser("answer"); an.add_argument("id"); an.add_argument("text"); an.add_argument("--note", default=""); an.add_argument("--edited", default="")
     sy = sub.add_parser("say", help="message the user in the dashboard (pop-up they can answer)")
     sy.add_argument("--text", required=True); sy.add_argument("--to", default="", help="the note id this answers")
     sy.add_argument("--option", action="append", default=[]); sy.add_argument("--expect", action="store_true", help="needs an answer")
@@ -136,6 +137,8 @@ def main() -> None:
     st_ = sub.add_parser("set"); st_.add_argument("path"); st_.add_argument("value")
     db = sub.add_parser("dashboard"); db.add_argument("--no-open", action="store_true"); db.add_argument("--port", type=int, default=4217)
     sub.add_parser("version")
+    stt = sub.add_parser("selftest", help="run the offline self-tests (fake Zernio, throwaway workspace; never touches your account)")
+    stt.add_argument("--quick", action="store_true", help="skip the browser check"); stt.add_argument("-v", action="store_true")
     sub.add_parser("jobs")
     rw = sub.add_parser("rewrite"); rw.add_argument("--file", required=True); rw.add_argument("--note", default=""); rw.add_argument("--check", action="append", default=[])
     ab = sub.add_parser("abtest"); ab.add_argument("action", choices=["hook", "start", "list", "results"])
@@ -172,6 +175,8 @@ def main() -> None:
 
 def run(args) -> None:
     c = args.cmd
+    if c == "selftest":                 # runs before anything touches this workspace
+        return run_selftest(args)
     if c not in ("dashboard", "watch"):
         try:
             hitl.active()          # the dashboard shows "Claude is working" while commands run
@@ -392,7 +397,7 @@ def run(args) -> None:
             raise ValueError("This plan was not published yet.")
         z = Zernio()
         res = {"post": z.post(pid), "analytics": z.analytics(postId=pid)}
-        pl["report"] = res; plans.save(pl)
+        pl["report"] = res; plans.save(pl, make_current=not args.plan)     # a report on an old post doesn't open it
         store.append_log({"event": "report", "plan": pl["id"], "postId": pid, "analytics": res["analytics"]})
         emit(res)
     elif c == "cover":
@@ -511,6 +516,27 @@ def _source(pl: dict, ref: str) -> tuple:
     if not p.exists():
         raise ValueError(f"File not found: {ref}")
     return p, None
+
+
+def run_selftest(args) -> None:
+    """Offline self-tests: the real CLI, dashboard server and dashboard page, against a fake Zernio in a
+    throwaway folder. Never reads or writes this workspace, its keys or the Zernio account."""
+    import unittest
+    tests = SKILL / "tests"
+    if not tests.is_dir():
+        raise RuntimeError("No tests folder in this copy of the plugin.")
+    sys.path.insert(0, str(tests))
+    if args.quick:
+        os.environ["BPS_SKIP_UI"] = "1"
+    suite = unittest.defaultTestLoader.discover(str(tests), pattern="test_*.py", top_level_dir=str(tests))
+    import io
+    buf = io.StringIO()
+    res = unittest.TextTestRunner(stream=buf if not args.v else sys.stderr, verbosity=2 if args.v else 1).run(suite)
+    fails = [f"{t.id()}: {str(e).strip().splitlines()[-1][:300]}" for t, e in res.failures + res.errors]
+    emit({"ok": res.wasSuccessful(), "ran": res.testsRun, "failed": len(res.failures) + len(res.errors),
+          "skipped": [f"{t.id().split('.')[-2]}: {why}" for t, why in res.skipped], "problems": fails})
+    if not res.wasSuccessful():
+        sys.exit(1)
 
 
 def run_cover(args) -> None:

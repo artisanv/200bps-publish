@@ -42,10 +42,11 @@ def cancel_post(post_id: str, typed: str, via: str = "dashboard") -> dict:
     zp = zp.get("post", zp)
     status = zp.get("status")
     out = {"postId": post_id, "before": status, "removed": [], "manual": [], "failed": []}
-    if status != "published":
+    live = [t for t in zp.get("platforms") or [] if t.get("status") == "published"]
+    if status != "published" and not live:          # nothing is live anywhere: delete it from Zernio
         z.delete_post(post_id)
         out["deleted"] = True
-    else:
+    else:                                           # live on some networks (published or partial): take those down
         for t in zp.get("platforms") or []:
             plat, acc = t.get("platform"), t.get("accountId")
             acc = acc.get("_id") if isinstance(acc, dict) else acc
@@ -61,7 +62,8 @@ def cancel_post(post_id: str, typed: str, via: str = "dashboard") -> dict:
                 out["failed"].append({"platform": plat, "error": str(e)[:300]})
     # keep the user's draft, so the same post can be scheduled again
     p = _plan_for(post_id)
-    if p and (out.get("deleted") or out["removed"]):
+    still_live = out["manual"] or out["failed"]       # something is still up: the draft must not post it again
+    if p and (out.get("deleted") or out["removed"]) and not still_live:
         p.setdefault("cancelled", []).append({"postId": post_id, "ts": int(time.time()), "was": status, "via": via})
         p.pop("result", None)
         p["schedule"] = {"mode": "ask"}

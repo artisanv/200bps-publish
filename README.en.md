@@ -310,6 +310,25 @@ Other things you can ask for:
 - TikTok's consent is always yours: Claude can't give it for you.
 - `tools/secret_scan.py` runs before every release build (`tools/package.py`).
 
+## Self-test
+
+```bash
+python3 <skill>/bin/bps.py selftest          # 45 checks, about a minute
+python3 <skill>/bin/bps.py selftest --quick  # skip the browser check
+```
+
+It runs the real plugin (CLI, dashboard server, dashboard page) against a **fake Zernio on your own computer**,
+in a throwaway folder. It never reads your workspace or keys and never contacts Zernio. It checks:
+- the full publish flow;
+- that nothing goes out without your confirm word, and nothing goes out twice;
+- the DM gift;
+- that other websites can't use the dashboard;
+- the caption and best-time rules;
+- every dashboard tab, in a real browser (needs Node + Chrome; otherwise skipped).
+
+**Updates apply by themselves:** a running dashboard notices new plugin code, waits until nothing is in progress,
+and restarts itself on the same address; open pages reload. No need to close and reopen it.
+
 ## License
 
 The code is MIT. The 200BPS.ai name, mark and visual identity are not; see

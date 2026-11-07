@@ -64,6 +64,14 @@ questions from `reference/features.md` (generated from the dashboard Guide; reru
 with PIX: do what it asks with the commands below, keeping every rule (public
 actions still need the user's own yes / typed go).
 
+## Self-test and updates
+
+- `bps.py selftest [--quick]` runs the offline self-tests: the real CLI, server and page against a fake Zernio in a
+  throwaway folder. It never touches the user's workspace, keys or Zernio account. Run it after changing this
+  plugin and before a release, and report the result in one line.
+- A running dashboard restarts itself when the plugin's Python code changes, once nothing is in progress, on the
+  same address; open pages reload. No manual restart after an update.
+
 ## Step 0: open the dashboard + readiness (every run)
 
 Every time the skill runs, first start the dashboard and the listening loop,
