@@ -2210,3 +2210,10 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 .mc-msg.wait { opacity: .7; font-style: italic; }
 .mc-row { display: flex; gap: 6px; padding: 8px; border-top: 1px solid var(--bps-line); }
 .mc-in { flex: 1; min-width: 0; }
+
+/* Trial Reels stand out: 🧪 mark, dashed lime outline, Trial chip */
+.cal .ev.is-trial, .tg-ev.is-trial, .daycard.is-trial { outline: 1.5px dashed var(--bps-lime); outline-offset: -1.5px; }
+.trial-mark { flex: none; font-size: 11px; line-height: 1; }
+.zbadge.trial-chip { background: var(--bps-lime); color: #0D1113; border-color: var(--bps-lime); font-weight: 700; }
+.ztile-badge { display: inline-flex; gap: 4px; flex-wrap: wrap; }
+.cal-key .key-trial { font-size: 12px; }

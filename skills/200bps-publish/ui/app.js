@@ -43,7 +43,7 @@
       ideaOpen: "Open details", ideaKicker: "Idea", ideaHook: "Hook", ideaWhy: "Why it should work", ideaOutline: "Outline", ideaCta: "Call to action",
       ideaTags: "Hashtags", ideaWhen: "Suggested time", ideaBased: "Inspired by", ideaDrop: "Not for me", ideaPlan: "Plan it on a day", ideaPickDay: "Pick a day in the calendar",
       kind_carousel: "Carousel", kind_reel: "Reel", kind_video: "Video", kind_short: "Short", kind_story: "Story", kind_document: "Document", kind_archive: "Zipped post",
-      kind_article: "Article", kind_text: "Text", kind_post: "Post", kind_poll: "Poll", kind_photo: "Photo", kind_repost: "Repost", kind_trial: "Trial Reel", kind_saved_story: "Saved story", kind_spotlight: "Spotlight", fmtTip: "What it is on each network", pollOpensWhen: "Opens when it's posted · open for {d}", pollLeft: "Open · {l} left · closes {c}", pollClosed: "Closed {c}", pollVotes: "See the votes on LinkedIn", pollNoVotes: "LinkedIn doesn't share poll votes with apps, so the votes are on LinkedIn itself.", pollStatImpr: "impressions", pollStatReact: "reactions", pollStatCom: "comments", pollStatShare: "reposts", pollDays: "{n} days", pollHours: "{n} hours", zOutside: "posted outside Zernio", zAccounts: "Accounts", zAllAccounts: "All accounts",
+      kind_article: "Article", kind_text: "Text", kind_post: "Post", kind_poll: "Poll", kind_photo: "Photo", kind_repost: "Repost", kind_trial: "Trial Reel", trialMarkTip: "non-followers see it first", kind_saved_story: "Saved story", kind_spotlight: "Spotlight", fmtTip: "What it is on each network", pollOpensWhen: "Opens when it's posted · open for {d}", pollLeft: "Open · {l} left · closes {c}", pollClosed: "Closed {c}", pollVotes: "See the votes on LinkedIn", pollNoVotes: "LinkedIn doesn't share poll votes with apps, so the votes are on LinkedIn itself.", pollStatImpr: "impressions", pollStatReact: "reactions", pollStatCom: "comments", pollStatShare: "reposts", pollDays: "{n} days", pollHours: "{n} hours", zOutside: "posted outside Zernio", zAccounts: "Accounts", zAllAccounts: "All accounts",
       accKicker: "Accounts", accTitle: "Connect a social account", accHint: "Sign in on the network's own site and approve. Zernio keeps the connection; this skill never sees your password.",
       accNotConnected: "Not connected", accConnect: "Connect", accReconnect: "Reconnect", accAddAnother: "Add another", accSoon: "Coming soon", accConnectShort: "Connect account",
       accWaiting: "Waiting for {n}…", accW1: "Opened the secure sign-in page", accW2: "Approve access on {n} (in the new tab)", accW3: "Saved and ready to post",
@@ -251,7 +251,7 @@
       ideaOpen: "التفاصيل", ideaKicker: "فكرة", ideaHook: "الافتتاحية", ideaWhy: "ليش بتنجح", ideaOutline: "المخطط", ideaCta: "الدعوة للتفاعل",
       ideaTags: "الهاشتاقات", ideaWhen: "الوقت المقترح", ideaBased: "مستوحاة من", ideaDrop: "مو لي", ideaPlan: "خطط لها بيوم", ideaPickDay: "اختار يوم من التقويم",
       kind_carousel: "كاروسيل", kind_reel: "ريل", kind_video: "فيديو", kind_short: "شورت", kind_story: "ستوري", kind_document: "مستند", kind_archive: "بوست مضغوط",
-      kind_article: "مقال", kind_text: "نص", kind_post: "بوست", kind_poll: "تصويت", kind_photo: "صورة", kind_repost: "إعادة نشر", kind_trial: "Trial Reel", kind_saved_story: "ستوري محفوظة", kind_spotlight: "سبوتلايت", fmtTip: "شنو هو بكل منصة", pollOpensWhen: "يفتح لما ينتشر · مفتوح {d}", pollLeft: "مفتوح · باقي {l} · يسكّر {c}", pollClosed: "سكّر {c}", pollVotes: "شوف التصويت في LinkedIn", pollNoVotes: "LinkedIn ما يعطي نتايج التصويت للتطبيقات، فالأصوات تشوفها في LinkedIn نفسه.", pollStatImpr: "مشاهدة", pollStatReact: "تفاعل", pollStatCom: "تعليق", pollStatShare: "إعادة نشر", pollDays: "{n} أيام", pollHours: "{n} ساعات", zOutside: "انتشر برا Zernio", zAccounts: "الحسابات", zAllAccounts: "كل الحسابات",
+      kind_article: "مقال", kind_text: "نص", kind_post: "بوست", kind_poll: "تصويت", kind_photo: "صورة", kind_repost: "إعادة نشر", kind_trial: "Trial Reel", trialMarkTip: "ينعرض لغير المتابعين أول", kind_saved_story: "ستوري محفوظة", kind_spotlight: "سبوتلايت", fmtTip: "شنو هو بكل منصة", pollOpensWhen: "يفتح لما ينتشر · مفتوح {d}", pollLeft: "مفتوح · باقي {l} · يسكّر {c}", pollClosed: "سكّر {c}", pollVotes: "شوف التصويت في LinkedIn", pollNoVotes: "LinkedIn ما يعطي نتايج التصويت للتطبيقات، فالأصوات تشوفها في LinkedIn نفسه.", pollStatImpr: "مشاهدة", pollStatReact: "تفاعل", pollStatCom: "تعليق", pollStatShare: "إعادة نشر", pollDays: "{n} أيام", pollHours: "{n} ساعات", zOutside: "انتشر برا Zernio", zAccounts: "الحسابات", zAllAccounts: "كل الحسابات",
       accKicker: "الحسابات", accTitle: "اربط حساب سوشال ميديا", accHint: "سجّل دخول في موقع الشبكة نفسها ووافق. Zernio يحفظ الربط، والسكل ما يشوف كلمة السر أبداً.",
       accNotConnected: "مو مربوط", accConnect: "اربط", accReconnect: "أعد الربط", accAddAnother: "أضف حساب ثاني", accSoon: "قريباً", accConnectShort: "اربط حساب",
       accWaiting: "بانتظار {n}…", accW1: "انفتحت صفحة الدخول الآمنة", accW2: "وافق على الصلاحية في {n} (بالتبويب الجديد)", accW3: "انحفظ وجاهز للنشر",
@@ -1608,10 +1608,10 @@
       evs.slice(0, 3).forEach((e) => {
         const st = ZST[e.status] || ZST.draft;
         const net = (e.platforms || [])[0];
-        const evEl = el("div", { class: "ev " + st.cls.replace("st-", "ev-") + (e.movable ? " movable" : ""), draggable: e.movable ? "true" : null,
+        const evEl = el("div", { class: "ev " + st.cls.replace("st-", "ev-") + (e.movable ? " movable" : "") + (isTrial(e.row || e) ? " is-trial" : ""), draggable: e.movable ? "true" : null,
           title: t(st.key) + " · " + (e.caption || "").split("\n")[0] },
           el("i", { class: "evdot", "aria-hidden": "true" }),
-          evKind(e), el("b", { class: "evtime" }, shortTime(e.at)),
+          evKind(e), isTrial(e.row || e) ? trialMark() : null, el("b", { class: "evtime" }, shortTime(e.at)),
           netStack(e.row || e),
           el("span", { class: "evcap" }, (e.caption || "").split("\n")[0] || "—"), evCopyBtn(e));
         evEl._ev = e;
@@ -1628,6 +1628,7 @@
     const key = el("div", { class: "cal-key" });
     [["ev-pub", "stPublished"], ["ev-sched", "stScheduled"], ["ev-fail", "zAttention"], ["ev-local", "stLocal"]].forEach(([c, k]) =>
       key.append(el("span", { class: c }, el("i", { class: "evdot", "aria-hidden": "true" }), t(k))));
+    key.append(el("span", { class: "key-trial" }, "🧪 " + t("kind_trial")));
     const host = $("#cal"); host.innerHTML = ""; host.append(cal, key);
   }
 
@@ -3383,6 +3384,7 @@
     const key = el("div", { class: "cal-key" });
     [["ev-pub", "stPublished"], ["ev-sched", "stScheduled"], ["ev-fail", "zAttention"], ["ev-local", "stLocal"]].forEach(([c, k]) =>
       key.append(el("span", { class: c }, el("i", { class: "evdot", "aria-hidden": "true" }), t(k))));
+    key.append(el("span", { class: "key-trial" }, "🧪 " + t("kind_trial")));
     const host = $("#cal"); host.innerHTML = ""; host.append(wrap, key);
     if (!state.tgScrolled) { state.tgScrolled = true; body.scrollTop = 8 * HOUR_PX; } else body.scrollTop = state.tgScroll || 8 * HOUR_PX;
     body.addEventListener("scroll", () => { state.tgScroll = body.scrollTop; }, { passive: true });
@@ -3390,11 +3392,11 @@
   function tgEvent(e) {
     const d = new Date(e.at), min = d.getHours() * 60 + d.getMinutes();
     const st = ZST[e.status] || ZST.draft, net = (e.platforms || [])[0];
-    const b = el("div", { class: "tg-ev ev " + st.cls.replace("st-", "ev-") + (e.movable ? " movable" : ""), style: `top:${min / 60 * HOUR_PX}px`,
+    const b = el("div", { class: "tg-ev ev " + st.cls.replace("st-", "ev-") + (e.movable ? " movable" : "") + (isTrial(e.row || e) ? " is-trial" : ""), style: `top:${min / 60 * HOUR_PX}px`,
       title: t(st.key) + " · " + (e.caption || "").split("\n")[0] + (e.movable ? "" : " · " + t("tgNoChange")), tabindex: "0", role: "button" },
       el("i", { class: "evdot", "aria-hidden": "true" }),
       el("b", {}, d.toLocaleTimeString(loc(), { hour: "numeric", minute: "2-digit", hour12: state.h12 })),
-      evKind(e), netStack(e.row || e, { full: state.calView === "day" }),
+      evKind(e), isTrial(e.row || e) ? trialMark() : null, netStack(e.row || e, { full: state.calView === "day" }),
       el("span", { class: "evcap" }, (e.caption || "").split("\n")[0] || "—"), evCopyBtn(e));
     b._ev = e;
     b.addEventListener("keydown", (x) => { if (x.key === "Enter") openPostDetail(e.row); });
@@ -4058,6 +4060,8 @@
   const KIND_ICON = { poll: "☰", archive: "🗜", carousel: "▣", reel: "▶", trial: "▷", video: "▶", short: "▶", story: "◔", saved_story: "◑", spotlight: "✦",
     document: "▤", article: "¶", text: "¶", post: "▢", photo: "▢", repost: "↻" };
   // what a post is on each of its networks: [{pf, fmt}] (Reel on Instagram, Video on LinkedIn…)
+  const isTrial = (r) => (r.platforms || []).some((p) => p.platform === "instagram" && (p.fmt === "trial" || p.trial));
+  const trialMark = () => el("span", { class: "trial-mark", title: t("kind_trial") + " · " + t("trialMarkTip"), "aria-label": t("kind_trial") }, "🧪");
   const fmtsOf = (r) => (r.platforms || []).map((p) => ({ pf: p.platform, fmt: p.fmt || null })).filter((x) => x.fmt);
   function fmtChips(r) {
     const seen = new Map();
@@ -4094,7 +4098,7 @@
     const tip = (p) => (NET_NAME[p.platform] || p.platform) + (p.account ? " @" + p.account : "") + (p.fmt ? " · " + t("kind_" + p.fmt) : "") + " · " + t((ZST[p.status] || ZST[r.status] || ZST.draft).key);
     const label = (g) => opts.full
       ? (NET[g.pf] || g.pf) + " " + g.items.map((p) => p.account ? "@" + p.account : "").filter(Boolean).slice(0, 2).join(", ") + (g.items.length > 2 ? " +" + (g.items.length - 2) : "") + mark(g.worst)
-      : (NET[g.pf] || g.pf) + (g.items.length > 1 ? "·" + g.items.length : "") + mark(g.worst);
+      : (NET[g.pf] || g.pf) + (g.items.length > 1 ? "·" + g.items.length : "") + (g.items.some((p) => p.fmt === "trial" || (g.pf === "instagram" && p.trial)) ? "🧪" : "") + mark(g.worst);
     const b = el("span", { class: "netstack" + (opts.full ? " full" : ""), role: "button", tabindex: "0", title: ps.map(tip).join("\n") + "\n" + t("nsClick") },
       ...groups.slice(0, 4).map((g) => el("span", { class: "net nb n-" + g.pf + " s-" + g.worst, dir: "ltr" }, label(g))),
       groups.length > 4 ? el("span", { class: "netmore" }, t("nsMore").replace("{n}", groups.length - 4)) : null);
@@ -4513,7 +4517,7 @@
         const card = el("button", { class: "ztile" + (vid ? " has-vid" : ""), type: "button", title: (r.caption || "").split("\n")[0], "data-rid": r.id },
           thumbEl(r),
           vid ? el("span", { class: "ztile-play", "aria-hidden": "true" }, el("i")) : null,
-          el("span", { class: "ztile-badge" }, badge(r.status)),
+          el("span", { class: "ztile-badge" }, badge(r.status), isTrial(r) ? el("span", { class: "zbadge trial-chip" }, "🧪 " + t("trialShort")) : null),
           el("span", { class: "ztile-body" },
             el("span", { class: "zcap2", style: "unicode-bidi:plaintext" }, (r.caption || "").split("\n")[0] || "—"),
             el("span", { class: "ztile-meta" }, netStack(r),
@@ -4542,7 +4546,7 @@
       if (!r.local && (r.status === "failed" || r.status === "partial")) actions.append(el("button", { class: "btn", type: "button",
         onclick: () => sendNote(`Post ${r.id} ${r.status} in Zernio. Explain the error and help me fix and retry it.`) }, t("zAskFix")));
       list.append(el("div", { class: "zrow card", "data-rid": r.id },
-        el("div", { class: "zrow-head" }, el("div", { class: "zrow-thumb" }, thumbEl(r)), badge(r.status), kindChip(r),
+        el("div", { class: "zrow-head" }, el("div", { class: "zrow-thumb" }, thumbEl(r)), badge(r.status), kindChip(r), isTrial(r) ? el("span", { class: "zbadge trial-chip" }, "🧪 " + t("trialShort")) : null,
           el("span", { class: "label" }, r.local ? t("zLocalHint") : r.outside ? t("zOutside") : (r.fromSkill ? t("zFromSkill") : t("zFromZernio"))),
           netStack(r), when ? el("span", { class: "zwhen" }, dtFull(when)) : null),
         el("div", { class: "zcap", style: "unicode-bidi:plaintext" }, (r.caption || "").split("\n")[0] || "—"),
@@ -6003,7 +6007,7 @@
         "<b>updated …</b> next to followers: when Zernio last refreshed them (about once a day).",
         "<b>Goal:</b> progress from your Zernio follower count, with how many are left. \"How this goal works\" explains it; <b>Change goal</b> sets a new one in two clicks.",
         "Streak (last 14 days), top posts (ranked by follows, then saves + shares) and your audience.",
-        "<b>🧪 Trial Reels for waiting Reels</b> (Posts → 🧪 Trial Reels, Ctrl+K, a post's window, or right-click it in Plan): every Instagram Reel that isn't live yet. See what your own results say (trial vs normal Reels, with how many and how sure) and what Instagram says. Tick <b>Trial Reel</b>, pick <b>Automatic</b> or <b>Manual</b> (★ = your default), type <b>edit</b> and <b>Apply</b>: only the Instagram part changes, and it's read back from Zernio. <b>✨ Ask PIX</b> gives advice per Reel in the chat.",
+        "<b>🧪 Trial Reels for waiting Reels</b> (Posts → 🧪 Trial Reels, Ctrl+K, a post's window, or right-click it in Plan): every Instagram Reel that isn't live yet. See what your own results say (trial vs normal Reels, with how many and how sure) and what Instagram says. Tick <b>Trial Reel</b>, pick <b>Automatic</b> or <b>Manual</b> (★ = your default), type <b>edit</b> and <b>Apply</b>: only the Instagram part changes, and it's read back from Zernio. <b>✨ Ask PIX</b> gives advice per Reel in the chat. Trial Reels are easy to spot: 🧪 and a dashed outline in Plan, a lime 🧪 Trial chip in Posts.",
         "<b>What it is on each network</b>: one video can be a Reel on Instagram, a Video on LinkedIn, a Spotlight on Snapchat. Every post shows its format per network: ▶ Reel, ▷ Trial Reel, ▣ Carousel, ▢ Photo, ◔ Story, ◑ Saved story, ✦ Spotlight, ▤ Document, ¶ Text, ☰ Poll, ↻ Repost (point at the icon, or see the day card).",
         "<b>💬 Ask PIX about one post</b> (day cards, a post's window, right-click a post in Plan or Posts): a small chat opens right there. PIX knows which post you mean and answers in the same box. Public changes still need your yes.",
         "<b>Plan at a glance</b>: every post shows its type (▶ Reel, ▣ carousel, ▢ photo, ▤ PDF, ¶ text, ☰ poll), its time and one badge per network (IG·3 = 3 Instagram accounts; lime ✓ all live, outline waiting, red ! something failed; point at it for every account). <b>Show only</b> chips at the top: all, one network or one account. Day view shows full account names.",
@@ -6131,7 +6135,7 @@
         "<b>تحدّث …</b> جنب المتابعين: متى آخر مرة Zernio حدّثهم (تقريباً مرة باليوم).",
         "<b>الهدف:</b> تقدمك من عدد متابعينك في Zernio وكم باقي. «شلون يشتغل الهدف» يشرحه؛ و<b>غيّر الهدف</b> بضغطتين.",
         "الأيام المتواصلة (آخر 14 يوم)، أفضل البوستات (حسب المتابعين ثم الحفظ والمشاركة) وجمهورك.",
-        "<b>🧪 Trial Reels للريلز اللي تنتظر</b> (المنشورات ← 🧪 Trial Reels، أو Ctrl+K، أو نافذة البوست، أو كليك يمين عليه بالخطة): كل ريل انستقرام لسا ما نزل. تشوف شنو تقول نتايجك (التجريبي ضد العادي، مع كم وحدة وشكثر متأكدين) وشنو يقول انستقرام. فعّل <b>Trial Reel</b>، اختار <b>تلقائي</b> أو <b>يدوي</b> (★ = الافتراضي مالك)، اكتب <b>edit</b> واضغط <b>طبّق</b>: بس جزء انستقرام يتغير، وينقرا من Zernio. <b>✨ اسأل PIX</b> يعطيك نصيحة لكل ريل بالشات.",
+        "<b>🧪 Trial Reels للريلز اللي تنتظر</b> (المنشورات ← 🧪 Trial Reels، أو Ctrl+K، أو نافذة البوست، أو كليك يمين عليه بالخطة): كل ريل انستقرام لسا ما نزل. تشوف شنو تقول نتايجك (التجريبي ضد العادي، مع كم وحدة وشكثر متأكدين) وشنو يقول انستقرام. فعّل <b>Trial Reel</b>، اختار <b>تلقائي</b> أو <b>يدوي</b> (★ = الافتراضي مالك)، اكتب <b>edit</b> واضغط <b>طبّق</b>: بس جزء انستقرام يتغير، وينقرا من Zernio. <b>✨ اسأل PIX</b> يعطيك نصيحة لكل ريل بالشات. الـTrial Reels واضحة: 🧪 وإطار متقطع بالخطة، وشارة 🧪 تجريبي بالمنشورات.",
         "<b>شنو هو بكل منصة</b>: الفيديو الواحد ممكن يكون ريل بانستقرام، فيديو بلينكدإن، سبوتلايت بسناب. كل بوست يبين نوعه بكل منصة: ▶ ريل، ▷ Trial Reel، ▣ كاروسيل، ▢ صورة، ◔ ستوري، ◑ ستوري محفوظة، ✦ سبوتلايت، ▤ مستند، ¶ نص، ☰ تصويت، ↻ إعادة نشر (أشّر على الأيقونة، أو شوف كرت اليوم).",
         "<b>💬 اسأل PIX عن بوست</b> (كروت اليوم، نافذة البوست، كليك يمين على بوست بالخطة أو المنشورات): شات صغير يطلع بمكانه. PIX يعرف أي بوست تقصد ويرد بنفس المربع. أي تغيير عام يحتاج موافقتك.",
         "<b>الخطة بنظرة</b>: كل بوست يبين نوعه (▶ ريل، ▣ كاروسيل، ▢ صورة، ▤ PDF، ¶ نص، ☰ تصويت)، ووقته، وشارة لكل منصة (IG·3 = 3 حسابات انستقرام؛ ليموني ✓ كله منشور، إطار ينتظر، أحمر ! شي فشل؛ أشّر عليها تطلع كل الحسابات). أزرار <b>اعرض بس</b> فوق: الكل، منصة وحدة أو حساب واحد. عرض اليوم يبين أسماء الحسابات كاملة.",
@@ -6360,7 +6364,7 @@
           const r = e.row || e, st = ZST[e.status] || ZST.draft;
           const m = e.metrics || {};
           const btn = (label, fn, cls) => el("button", { class: "btn sm" + (cls ? " " + cls : ""), type: "button", onclick: fn }, label);
-          sec.append(el("div", { class: "daycard " + st.cls },
+          sec.append(el("div", { class: "daycard " + st.cls + (isTrial(r) ? " is-trial" : "") },
             thumbEl(r),
             el("div", { class: "daycard-main" },
               el("div", { class: "daycard-top" }, el("b", { class: "evtime" }, shortTime(e.at)), fmtChips(r), badge(e.status), netStack(r)),
