@@ -23,7 +23,7 @@ In Claude Code:
 
 (On Claude Code 2.1.275 or later, one line does both: `/plugin install 200bps-publish --marketplace artisanv/200bps-publish`.)
 
-Then **turn on auto-update** once, so you always get the newest version: `/plugin` → **Marketplaces** → **200bps** →
+Then **turn on auto-update** once, so you always get every new feature and fix (each update we push reaches you, even when the version number stays the same): `/plugin` → **Marketplaces** → **200bps** →
 **Enable auto-update**. Restart Claude Code, open it in your posts folder and type:
 
 ```
@@ -43,7 +43,7 @@ ships as a **plugin**:
 | | Skill (before) | Plugin (now) |
 |---|---|---|
 | Install | download a zip, unzip into `.claude/skills/` | two commands in Claude Code |
-| Updates | download every new zip | automatic (after you enable auto-update) |
+| Updates | download every new zip | automatic, every update we push (after you enable auto-update) |
 | What's inside | the skill | the same skill, in `skills/200bps-publish/` |
 
 The skill still works on its own: you can copy `skills/200bps-publish/` into your project's `.claude/skills/` folder
@@ -134,6 +134,8 @@ See [CHANGELOG.md](CHANGELOG.md) for the full list.
   LinkedIn)**, restricted wording, and media specs (read-only). Zernio's
   validator runs as a second check before anything is sent.
 - **Post score from 0 to 100,** with the tips that raise it.
+- **Fixes per network.** "Ask PIX to fix" on any check writes one caption per network (Instagram in its style, LinkedIn in
+  its own) and shows them side by side: use all, some, edit, or none.
 - **Best time for each day, with evidence.** Each weekday's peak hours come
   with the number of posts behind them, the lift vs your average and a
   confidence level. They're adjusted for where your audience lives (their time
@@ -152,6 +154,16 @@ See [CHANGELOG.md](CHANGELOG.md) for the full list.
   before they go out (your draft stays, so you can reschedule). Published posts
   are removed where the network allows it; Instagram posts are deleted in the
   Instagram app. You type **cancel** to confirm.
+- **Plan at a glance.** Every post shows what it is on each network (▶ Reel, ▣ Carousel, ☰ Poll, ◔ Story…), its time and
+  one badge per network (IG·3 = 3 accounts; ✓ live, outline waiting, ! failed). "Show only" chips for a network or an
+  account; month, week or day view.
+- **Click a day** for a card per post with every action: View, Networks, Reschedule, Edit caption, Trial Reel, Copy, Cancel.
+  Right-click any post in Plan or Posts for the same actions.
+- **Reschedule** to any day and minute, or a quick pick (+1 day, +1 week, your best hours); From → To shows the full day
+  name and date. You type **move**.
+- **🧪 Trial Reels.** Switch Trial on for any Reel (non-followers first) and pick Automatic or Manual after the trial. The
+  🧪 Trial Reels window lists every Reel not live yet with what your own results say (trial vs normal) and what Instagram
+  says, plus Ask PIX. From one post it changes only that Reel. Trials show 🧪 and a dashed outline in Plan and a chip in Posts.
 - **New post, anytime.** Clear the Post tab to start fresh. Nothing is deleted;
   earlier drafts wait under Posts → Not uploaded.
 - **Undo anything before you publish.** Use ↺ on each step, or revert any
@@ -159,8 +171,12 @@ See [CHANGELOG.md](CHANGELOG.md) for the full list.
 - **Growth settings per post:**
   - Instagram: Trial Reels, custom Reel cover, location, first comment, collaborators
   - LinkedIn: document title and company page
-- **DM gifts, only with your permission.** For example, "comment *skill* and
-  get it in your DMs". The gift can require people to follow you first.
+- **DM gifts (Instagram only), only with your permission.** People follow you, comment your word (e.g. *skill*), and the
+  link comes in their DMs; the follow is checked inside the DM. On LinkedIn and Facebook the link goes right in the
+  caption with a follow line and a question; TikTok and Snapchat say "link in bio". Checks warn if a caption gets it wrong.
+- **Audience per account.** Where each account's followers are: countries, cities, ages, gender and their clocks
+  (Instagram), countries and cities (Facebook Pages), industry and job (LinkedIn company pages).
+- **💬 Ask PIX about one post.** A small chat pops up right next to the post; PIX knows which post you mean and answers there.
 - **Caption fixes you approve.** When a check fails, click it (or let Claude
   notice). Claude writes a fix and shows a before/after with the score change.
   You can approve, edit or reject it, and your original is always backed up.
@@ -176,7 +192,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full list.
   - growth KPIs, the follower curve and your goal ring
   - top posts, an engagement heatmap and audience data
   - calendar, comments waiting, automations and ice breakers
-  - an idea bank that refills after every post ("Get ideas" anytime); click an idea for its hook, outline and call to action
+  - an idea bank on every Growth tab that refills after every post ("Get ideas" anytime); click an idea for its hook, outline and call to action
   - your posting streak and what changed since your last visit
   - a journey bar (Check → Cover → Time → Gift → Go) with one "Next step" button
   - a Plan tab: click any calendar day or heatmap hour to schedule, move or plan a post

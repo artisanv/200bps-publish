@@ -7,8 +7,7 @@
       "name": "200bps-publish",
       "source": "./",
       "description": "Publish and grow on five social networks from Claude Code, with a live bilingual dashboard and PIX, a 3D assistant. Nothing goes public without your typed go.",
-      "version": "1.20.0",
-      "author": { "name": "Nasser Al-Ostath" },
+          "author": { "name": "Nasser Al-Ostath" },
       "homepage": "https://github.com/artisanv/200bps-publish",
       "category": "productivity"
     }
