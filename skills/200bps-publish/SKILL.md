@@ -514,7 +514,7 @@ returns the unread requests. For each one:
 | `recycle_hooks` | The user pressed "Ask Claude for new hooks" in the Recycle window. `action.caption`, `metrics` and `platforms` describe the post. Write 3-5 new versions and save them with `bps.py recycle hooks` (see "Recycle best posts"). Never start recycling yourself |
 | (any note) stopped | The user can press ■ Stop on a note or a job. `watch` never returns a stopped note; if one you're already working on shows `status: stopped` (in `bps.py notes`), drop it and don't `say` done. `image claude` refuses a stopped design request |
 | note with `Attached: <paths>` | The user dropped or attached files (photos, video, PDF, zip) in the dashboard; they're in `.bps/uploads/`. Look at them before answering |
-| `claude_image` | The user picked **Claude designs it** in the image window. Design `n` images for `prompt` at `width`×`height` (`shape`): copy `templates/claude-image.html` (brand v2 tokens, φ-curve), write one self-contained HTML file per image (Google Fonts OK, no network-waiting scripts, phone-readable text, Arabic RTL in Cairo/IBM Plex Sans Arabic, technical terms in Latin). Look at any `refs` first. With `editOf`, change the existing design: edit its `html` (a workspace path) and keep everything not asked for. Then `bps.py image claude --html f1.html [--html f2.html] --shape SHAPE --note "<one line what you made>"`, check the PNG it prints by viewing it, and `say --to <id> --status done`. Never publish it yourself |
+| `claude_image` | The user picked **Claude designs it** in the image window. Design `n` images for `prompt` at `width`×`height` (`shape`). `kind: "carousel"` = `n` slides of ONE carousel: one story in order (cover with the hook → one point per slide → closing takeaway/CTA), same layout system, colours and type on every slide, numbered `k / N`, passed to `image claude` in slide order (they become one set). `kind: "single"` = `n` different takes on the same idea. `auto: true` (n = 0) = **you decide how many** (≤ `maxN`): the count the prompt states, else what the story needs (a carousel usually 5-8 slides, single 2-4 takes); say the count and why in `--note`. Otherwise: copy `templates/claude-image.html` (brand v2 tokens, φ-curve), write one self-contained HTML file per image (Google Fonts OK, no network-waiting scripts, phone-readable text, Arabic RTL in Cairo/IBM Plex Sans Arabic, technical terms in Latin). Look at any `refs` first. With `editOf`, change the existing design: edit its `html` (a workspace path) and keep everything not asked for. Then `bps.py image claude --html f1.html [--html f2.html] --shape SHAPE --note "<one line what you made>"`, check the PNG it prints by viewing it, and `say --to <id> --status done`. Never publish it yourself |
 | `image_prompt` | The user pressed "Ask Claude to improve it" in the image window. Turn `action.text` (and any guide pictures in `action.refs`) into one clear, specific image prompt in their language, then `bps.py image prompt --prompt "…" --note "…"`. It appears in the window with a "Use this prompt" button. Don't generate the image yourself |
 
 Then run `bps.py notes --mark-read` and start `watch` again **right away**. `--mark-read` marks only the notes you were shown; anything that arrived meanwhile stays unread and the next `watch` returns it at once. Never leave the dashboard open without a `watch` running: notes then wait on "Waiting for Claude…" with no one to answer them.
@@ -607,7 +607,19 @@ Preview card, or Ctrl+K → "Create an image") opens one window:
 
 - Guide pictures: drop, paste or pick files, or choose from the current post or
   earlier images. With guides the request goes to `/v1/images/edits`, without to
-  `/v1/images/generations`. Up to 10 guides, up to 4 images per run.
+  `/v1/images/generations`. Up to 10 guides, up to 20 images per run (OpenAI draws 4 at a time).
+- **One image or a carousel:** *One image* = N tries of the same picture (keep the best). *Carousel* = N slides
+  that go together: each slide gets the whole brief plus "slide k of N, same style on every slide" (cover first,
+  closing slide last); a `Slide 1: … Slide 2: …` list in the prompt gives each slide its own text and sets the count.
+  Results carry `set`, `slide`, `of`; **▦ Make a carousel post** opens New post with them in order.
+- **How many:** 1, 2, 4, any number (≤20), *As my prompt says* (the number written: "6 slides", "خمس صور", or the
+  Slide list), or *Recommended* (PIX decides for its own designs; for OpenAI the prompt's number, else 5 slides for a
+  carousel, or 4 / 2 / 1 tries for draft / standard / best).
+- **Save together (projects):** 💾 *Save all as a project…* on new results, or ☐ *Select* in Your images (click order =
+  save order). A **new project** is `my-projects/<name>/` with `01-…, 02-…` and `project.json` (prompts, model, slide);
+  or **add to a project** (numbering continues), or a new project folder **anywhere on the computer** (folder window).
+  *Save each to a folder…* copies the picked images as they are. A project folder can become a post (New post → A post
+  folder, plus a caption). Chat: `bps.py image project --id A,B,C --name "…" [--project my-projects/x]`, `bps.py image projects`.
 - Options use plain words: shape square / tall / wide, quality draft / standard /
   best, and the model (from the key's live list; ★ = default, set in Settings →
   Keys → OpenAI → Image model, or "Keep these as my defaults").
@@ -633,8 +645,8 @@ Preview card, or Ctrl+K → "Create an image") opens one window:
 
 From chat:
 ```bash
-python3 "$SKILL/bin/bps.py" image gen --prompt "..." [--ref FILE ...] [--shape square|tall|wide] [--quality draft|standard|best] [--n 1-4] [--model ID]
-python3 "$SKILL/bin/bps.py" image gen --edit FILE --prompt "what to change" [--quality ..] [--n 1-4]
+python3 "$SKILL/bin/bps.py" image gen --prompt "..." [--ref FILE ...] [--shape square|tall|wide] [--quality draft|standard|best] [--n 1-20] [--carousel] [--model ID]
+python3 "$SKILL/bin/bps.py" image gen --edit FILE --prompt "what to change" [--quality ..] [--n 1-20]
 python3 "$SKILL/bin/bps.py" image models | list | set --model ID [--shape ..] [--quality ..]
 python3 "$SKILL/bin/bps.py" image copy --id IMAGE_ID [--to FOLDER]
 python3 "$SKILL/bin/bps.py" image prompt --prompt "<improved prompt>" --note "<one line why>"

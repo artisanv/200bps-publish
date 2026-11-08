@@ -121,7 +121,7 @@
       imgStep3: "Options", imgShape: "Shape", shapeSquare: "Square", shapeTall: "Tall", shapeWide: "Wide",
       shapeHint_square: "Square: Instagram feed and carousels", shapeHint_tall: "Tall: stories and Reel covers", shapeHint_wide: "Wide: LinkedIn and banners", shapeHint_auto: "Auto shape",
       imgQuality: "Quality", qDraft: "Draft", qStandard: "Standard", qBest: "Best", qHint_draft: "Draft is fastest and cheapest, good for trying ideas", qHint_standard: "Standard suits most posts", qHint_best: "Best takes longer and costs more",
-      imgCount: "How many", imgModel: "Model", imgModelsMain: "Models", imgModelsPinned: "Pinned versions (results don't change)", imgMakeDefault: "Keep these as my defaults", imgDefSaved: "Saved as your default",
+      imgCount: "How many", projSaveAll: "Save all as a project…", projSave: "Save as a project…", projLoose: "Save each to a folder…", projSelect: "Select", projPicked: "{n} picked (in this order)", projPickHint: "Click images to pick them; the order you click is the order they're saved.", projClear: "Clear", projTitle: "Save {n} image(s) together", projSub: "They're copied in order (01, 02 …) into one folder, with a project.json of the prompts. Your images stay here too.", projName: "Project name", projNamePh: "e.g. AI news carousel, week 45", projNew: "New project (in my-projects)", projExisting: "Add to a project", projPick: "New project somewhere on my computer…", projSaveGo: "Save", projSaving: "Saving…", projSaved: "Saved {n} image(s)", projAsPost: "This folder can become a post: New post → A post folder (add a caption).", projNeedName: "Give the project a name.", imgCountTries: "How many tries", imgCountSlides: "How many slides", imgCountVersions: "How many versions", imgKind: "Make", kindSingle: "One image", kindCarousel: "Carousel", nImages: "{n} image(s)", nSlides: "{n} slides", nCustomBtn: "Any number", nCustom: "How many", nMax: "up to {max}", nPromptBtn: "As my prompt says", nAutoBtn: "Recommended", nFound: "Your prompt asks for {x}.", nNotFound: "No number in your prompt yet (e.g. \"6 slides\" or \"Slide 1: … Slide 2: …\"), so 1 for now.", nPixImages: "PIX decides how many from your idea (up to {max}) and says why.", nPixSlides: "PIX decides how many slides the story needs (up to {max}) and says why.", nRecFound: "Recommended: {x}, as your prompt asks.", nRecCar: "Recommended: {x} (a cover, 3 points and a closing slide). Write \"Slide 1: … Slide 2: …\" for your own.", nRecQ_draft: "Recommended: {x}. Drafts are cheap, so more tries to choose from.", nRecQ_standard: "Recommended: {x}, enough to choose from without much credit.", nRecQ_best: "Recommended: {x}. Best quality costs the most per image.", nCost: "{n} images, each one uses OpenAI credit. They're made 4 at a time.", imgMakingCar: "Making a {n}-slide carousel…", imgNewCar: "New carousel · {n} slides", imgCarPost: "Make a carousel post ({n} slides)", imgModel: "Model", imgModelsMain: "Models", imgModelsPinned: "Pinned versions (results don't change)", imgMakeDefault: "Keep these as my defaults", imgDefSaved: "Saved as your default",
       imgDefModel: "Image model", imgGo: "Create image", imgGoRefs: "Create image from {n} guide picture(s)", imgMaking: "Creating…", imgMakingN: "Creating {n}…",
       imgNeedPrompt: "Describe the image first.", imgWhere: "Ctrl+Enter also creates. Images are saved in .bps/images in this folder.",
       imgNew: "Just made", imgMine: "Your images", imgNone: "No images yet. Your first one will show up here.", imgGuides: "guides",
@@ -329,7 +329,7 @@
       imgStep3: "الخيارات", imgShape: "الشكل", shapeSquare: "مربع", shapeTall: "طولي", shapeWide: "عرضي",
       shapeHint_square: "مربع: فيد إنستقرام والكاروسيل", shapeHint_tall: "طولي: الستوري وكفر الريل", shapeHint_wide: "عرضي: لينكدإن والبنرات", shapeHint_auto: "شكل تلقائي",
       imgQuality: "الجودة", qDraft: "مسودة", qStandard: "عادية", qBest: "أفضل", qHint_draft: "المسودة أسرع وأرخص، حلوة للتجربة", qHint_standard: "العادية تناسب أغلب البوستات", qHint_best: "الأفضل تاخذ وقت أطول وتكلف أكثر",
-      imgCount: "كم وحدة", imgModel: "الموديل", imgModelsMain: "الموديلات", imgModelsPinned: "نسخ ثابتة (النتيجة ما تتغير)", imgMakeDefault: "خلها الإعدادات الافتراضية", imgDefSaved: "انحفظت كافتراضي",
+      imgCount: "كم وحدة", projSaveAll: "احفظهم كلهم كمشروع…", projSave: "احفظ كمشروع…", projLoose: "احفظ كل وحدة بمجلد…", projSelect: "اختيار", projPicked: "اخترت {n} (بهالترتيب)", projPickHint: "اضغط على الصور عشان تختارها؛ ترتيب ضغطك هو ترتيب الحفظ.", projClear: "امسح", projTitle: "احفظ {n} صورة مع بعض", projSub: "تنسخ بالترتيب (01، 02 …) بمجلد واحد، ومعاها project.json فيه الأوصاف. وصورك تبقى هني بعد.", projName: "اسم المشروع", projNamePh: "مثلاً كاروسيل أخبار الذكاء، أسبوع 45", projNew: "مشروع جديد (في my-projects)", projExisting: "أضفها لمشروع", projPick: "مشروع جديد بأي مكان بجهازي…", projSaveGo: "احفظ", projSaving: "قاعد يحفظ…", projSaved: "انحفظت {n} صورة", projAsPost: "هالمجلد يصير بوست: بوست جديد ← مجلد بوست (وأضف كابشن).", projNeedName: "عط المشروع اسم.", imgCountTries: "كم محاولة", imgCountSlides: "كم شريحة", imgCountVersions: "كم نسخة", imgKind: "سوّ", kindSingle: "صورة وحدة", kindCarousel: "كاروسيل", nImages: "{n} صورة", nSlides: "{n} شرائح", nCustomBtn: "أي عدد", nCustom: "العدد", nMax: "لين {max}", nPromptBtn: "مثل ما كتبت", nAutoBtn: "المقترح", nFound: "كتبت إنك تبي {x}.", nNotFound: "ما في رقم بالوصف للحين (مثلاً «٦ شرائح» أو «شريحة ١: … شريحة ٢: …»)، فبنسوي وحدة.", nPixImages: "PIX يقرر العدد من فكرتك (لين {max}) ويقولك ليش.", nPixSlides: "PIX يقرر كم شريحة تحتاج القصة (لين {max}) ويقولك ليش.", nRecFound: "المقترح: {x}، مثل ما كتبت.", nRecCar: "المقترح: {x} (غلاف، ٣ نقاط، وشريحة ختام). اكتب «شريحة ١: … شريحة ٢: …» إذا تبي ترتيبك.", nRecQ_draft: "المقترح: {x}. المسودة رخيصة، فمحاولات أكثر تختار منها.", nRecQ_standard: "المقترح: {x}، تكفي تختار منها بدون رصيد واجد.", nRecQ_best: "المقترح: {x}. الجودة الأفضل أغلى لكل صورة.", nCost: "{n} صور، كل وحدة تاخذ من رصيد OpenAI. تنسوى ٤ ٤.", imgMakingCar: "قاعد يسوي كاروسيل من {n} شرائح…", imgNewCar: "كاروسيل جديد · {n} شرائح", imgCarPost: "سوّ بوست كاروسيل ({n} شرائح)", imgModel: "الموديل", imgModelsMain: "الموديلات", imgModelsPinned: "نسخ ثابتة (النتيجة ما تتغير)", imgMakeDefault: "خلها الإعدادات الافتراضية", imgDefSaved: "انحفظت كافتراضي",
       imgDefModel: "موديل الصور", imgGo: "سوّ الصورة", imgGoRefs: "سوّ الصورة من {n} صورة مرشدة", imgMaking: "قاعد يسوي…", imgMakingN: "قاعد يسوي {n}…",
       imgNeedPrompt: "اوصف الصورة أول.", imgWhere: "Ctrl+Enter بعد يسويها. الصور تنحفظ في ‎.bps/images‎ بهالمجلد.",
       imgNew: "توها انسوت", imgMine: "صورك", imgNone: "ما في صور للحين. أول وحدة بتطلع هني.", imgGuides: "مرشدة",
@@ -4705,7 +4705,7 @@
   });
   const put = (parent, ...kids) => parent.append(...kids.flat().filter((k) => k != null && k !== false));
   const IMG = { engine: (() => { try { return localStorage.getItem("bps.imgEngine") || "openai"; } catch (e) { return "openai"; } })(), clAsked: 0, clEdit: "", mdBusy: false,
-    st: null, prompt: "", refs: [], edit: "", marks: [], maskOn: true, tool: "mark", brush: .06, forNP: false, shape: null, quality: null, n: null, model: null, busy: false, t0: 0, last: [], err: "", askedAt: 0, note: "" };
+    st: null, prompt: "", refs: [], edit: "", marks: [], maskOn: true, tool: "mark", brush: .06, forNP: false, shape: null, quality: null, n: null, nMode: null, kind: null, nRun: 1, sel: [], selOn: false, proj: null, model: null, busy: false, t0: 0, last: [], err: "", askedAt: 0, note: "" };
   async function imgApi(body) {
     let r, j = {};
     try { r = body ? await fetch("/api/images", { method: "POST", headers: { "Content-Type": "application/json", "X-BPS-Token": TOKEN }, body: JSON.stringify(body) })
@@ -4724,6 +4724,7 @@
     IMG.forNP = !!(preset && preset.forNP);
     const s = IMG.st.settings;
     IMG.shape = IMG.shape || s.shape; IMG.quality = IMG.quality || s.quality; IMG.n = IMG.n || s.n; IMG.model = IMG.model || s.model;
+    IMG.nMode = IMG.nMode || s.nMode || "fixed"; IMG.kind = IMG.kind || s.kind || "single";
     if (preset && preset.refs) IMG.refs = [...new Set([...IMG.refs, ...preset.refs])].slice(0, IMG.st.maxRefs);
     const cl = IMG.st.claude;                 // a Claude design still on its way: keep waiting for it
     if (cl && cl.status === "asked" && !IMG.clAsked) { IMG.clAsked = cl.ts - 1; pollClaude(); }
@@ -4737,6 +4738,68 @@
   function seg(opts, cur, onPick, cls) {
     return el("div", { class: "seg " + (cls || ""), role: "group" }, ...opts.map(([v, lbl]) =>
       el("button", { class: "btn" + (v === cur ? " on" : ""), type: "button", "aria-pressed": String(v === cur), onclick: () => onPick(v) }, lbl)));
+  }
+
+  /* ---------- how many: any number, PIX's pick, or what the prompt says; one image or a carousel ---------- */
+  const NUM_WORDS = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12,
+    fifteen: 15, twenty: 20, "واحدة": 1, "واحد": 1, "وحدة": 1, "اثنتين": 2, "اثنين": 2, "ثنتين": 2, "ثلاثة": 3, "ثلاث": 3, "أربعة": 4, "اربعة": 4,
+    "أربع": 4, "اربع": 4, "خمسة": 5, "خمس": 5, "ستة": 6, "ست": 6, "سبعة": 7, "سبع": 7, "ثمانية": 8, "ثماني": 8, "ثمان": 8, "تسعة": 9, "تسع": 9, "عشرة": 10, "عشر": 10 };
+  const COUNT_NOUNS = "images|image|pictures|picture|photos|photo|pics|slides|slide|versions|version|variations|variation|variants|designs|design|covers|cover|cards|card|options|frames|thumbnails|posters|illustrations|شرائح|شريحة|سلايدات|سلايد|صورة|صوره|صور|نسخة|نسخ|تصاميم|تصميم|كفرات|بطاقات|بطاقة|خيارات|أغلفة|اغلفة";
+  const SLIDE_MARK = /^\s*[#*>\-\s]*(?:slide|شريحة|سلايد|الشريحة|السلايد)\s*[0-9٠-٩]{1,2}\s*[:：.\-–—)]/gim;
+  // the number the prompt asks for ("6 slides", "خمس صور", or a "Slide 1: … Slide 2: …" list); 0 = none
+  function countInPrompt(text, max) {
+    const s = String(text || "").replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+    const marks = (s.match(SLIDE_MARK) || []).length;
+    if (marks >= 2) return Math.min(max, marks);
+    const words = Object.keys(NUM_WORDS).sort((a, b) => b.length - a.length).join("|");
+    const m = s.match(new RegExp("(?:^|[^\\w\\u0600-\\u06FF])(\\d{1,3}|" + words + ")\\s+(?:(?:new|different|separate|square|tall|wide|story|carousel|instagram|linkedin)\\s+)?(?:" + COUNT_NOUNS + ")(?![\\w\\u0600-\\u06FF])", "i"));
+    if (!m) return 0;
+    const n = /^\d+$/.test(m[1]) ? +m[1] : NUM_WORDS[m[1].toLowerCase()] || 0;
+    return n ? Math.max(1, Math.min(max, n)) : 0;
+  }
+  // what will be asked for: { n, why }; n = 0 means "PIX decides" (PIX designs only)
+  function imgCount(claude) {
+    const max = (IMG.st && IMG.st.maxN) || 20, car = IMG.kind === "carousel" && !IMG.edit;
+    const found = countInPrompt(IMG.prompt, max), unit = (k) => t(car ? "nSlides" : "nImages").replace("{n}", k);
+    if (IMG.nMode === "prompt" && !IMG.edit) return found ? { n: found, why: t("nFound").replace("{x}", unit(found)) } : { n: 1, why: t("nNotFound") };
+    if (IMG.nMode === "auto" && !IMG.edit) {
+      if (claude) return { n: 0, why: t(car ? "nPixSlides" : "nPixImages").replace("{max}", max) };
+      if (found) return { n: found, why: t("nRecFound").replace("{x}", unit(found)) };
+      const n = car ? 5 : ({ draft: 4, standard: 2, best: 1 }[IMG.quality] || 2);
+      return { n, why: t(car ? "nRecCar" : "nRecQ_" + IMG.quality).replace("{x}", unit(n)) };
+    }
+    return { n: Math.max(1, Math.min(max, +IMG.n || 1)), why: "" };
+  }
+  function kindControl() {
+    return [el("label", { class: "label" }, t("imgKind")),
+      seg([["single", "◻ " + t("kindSingle")], ["carousel", "▦ " + t("kindCarousel")]], IMG.kind, (v) => { IMG.kind = v; redrawImage(); }, "img-kind")];
+  }
+  function countControl(claude) {
+    const max = (IMG.st && IMG.st.maxN) || 20, mode = IMG.edit ? "fixed" : IMG.nMode || "fixed";
+    const cur = mode !== "fixed" ? mode : [1, 2, 4].includes(+IMG.n) && !IMG.nCustom ? +IMG.n : "custom";
+    const pick = (v) => {
+      if (v === "prompt" || v === "auto") IMG.nMode = v;
+      else { IMG.nMode = "fixed"; IMG.nCustom = v === "custom"; if (v !== "custom") IMG.n = v; else if ([1, 2, 4].includes(+IMG.n)) IMG.n = Math.min(max, IMG.kind === "carousel" ? 6 : 3); }
+      redrawImage();
+    };
+    const set = (v) => { IMG.n = Math.max(1, Math.min(max, parseInt(v, 10) || 1)); IMG.nCustom = true; redrawImage(); };
+    const num = el("input", { type: "number", min: "1", max: String(max), step: "1", value: String(IMG.n), class: "img-n-input", "aria-label": t("nCustom") });
+    num.addEventListener("change", () => set(num.value));
+    num.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); set(num.value); } });
+    const r = imgCount(claude), opts = [[1, "1"], [2, "2"], [4, "4"], ["custom", t("nCustomBtn")]];
+    if (!IMG.edit) opts.push(["prompt", "❝ " + t("nPromptBtn")], ["auto", "✨ " + t("nAutoBtn")]);
+    return [el("label", { class: "label img-n-lbl" }, t(IMG.kind === "carousel" && !IMG.edit ? "imgCountSlides" : IMG.edit ? "imgCountVersions" : "imgCountTries")),
+      el("div", { class: "img-count" }, seg(opts, cur, pick, "img-nseg"),
+        cur === "custom" ? el("div", { class: "img-n-wrap" },
+          el("button", { class: "btn sm", type: "button", "aria-label": "−", onclick: () => set(+IMG.n - 1) }, "−"), num,
+          el("button", { class: "btn sm", type: "button", "aria-label": "+", onclick: () => set(+IMG.n + 1) }, "+"),
+          el("span", { class: "hint" }, t("nMax").replace("{max}", max))) : null,
+        el("p", { class: "hint img-n-why" }, r.why),
+        !claude && r.n > 4 ? el("p", { class: "hint img-n-cost" }, t("nCost").replace("{n}", r.n)) : null)];
+  }
+  function refreshCountHint() {            // typing changes what "from the prompt" finds; update it without a redraw
+    const why = $(".img-n-why");
+    if (why && (IMG.nMode === "prompt" || IMG.nMode === "auto")) why.textContent = imgCount(IMG.engine === "claude" && !IMG.edit).why;
   }
 
   function drawImage(body) {
@@ -4768,7 +4831,7 @@
     // 1 · describe
     const ta = el("textarea", { rows: "5", class: "img-prompt", placeholder: IMG.edit ? t("imgEditPh") : t("imgPh"), "aria-label": IMG.edit ? t("imgEditStep") : t("imgStep1") });
     ta.value = IMG.prompt;
-    ta.addEventListener("input", () => { IMG.prompt = ta.value; });
+    ta.addEventListener("input", () => { IMG.prompt = ta.value; refreshCountHint(); });
     ta.addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); IMG.engine === "claude" && !IMG.edit ? runClaude() : runImage(); } });
     const sug = st.suggested && st.suggested.ts >= IMG.askedAt && IMG.askedAt ? st.suggested : null;
     if (!IMG.edit) put(left, el("div", { class: "img-step" }, el("span", { class: "n1" }, "1"), el("b", {}, t("imgStep1"))), ta,
@@ -4808,7 +4871,8 @@
       el("optgroup", { label: t("imgModelsMain") }, ...st.models.main.map((m) => el("option", { value: m, selected: m === IMG.model ? "" : null }, m + (m === st.settings.model ? "  ★" : "")))),
       st.models.pinned.length ? el("optgroup", { label: t("imgModelsPinned") }, ...st.models.pinned.map((m) => el("option", { value: m, selected: m === IMG.model ? "" : null }, m))) : null);
     sel.addEventListener("change", () => { IMG.model = sel.value; redrawImage(); });
-    const isDefault = IMG.model === st.settings.model && IMG.shape === st.settings.shape && IMG.quality === st.settings.quality && +IMG.n === +st.settings.n;
+    const isDefault = IMG.model === st.settings.model && IMG.shape === st.settings.shape && IMG.quality === st.settings.quality && +IMG.n === +st.settings.n
+      && IMG.nMode === (st.settings.nMode || "fixed") && IMG.kind === (st.settings.kind || "single");
     if (claude) {
       const cs = st.claudeShapes || { square: [1080, 1080], tall: [1080, 1350], wide: [1920, 1080], story: [1080, 1920] };
       if (!cs[IMG.shape]) IMG.shape = "tall";
@@ -4816,7 +4880,7 @@
         el("div", { class: "img-opts" },
           clRow ? null : el("label", { class: "label" }, t("imgShape")),
           clRow ? null : seg([["square", "■ " + t("shapeSquare")], ["tall", "▮ " + t("shapeTall")], ["wide", "▬ " + t("shapeWide")], ["story", "▯ " + t("shapeStory")]], IMG.shape, (v) => { IMG.shape = v; redrawImage(); }),
-          clRow ? null : el("label", { class: "label" }, t("imgCount")), clRow ? null : seg([1, 2, 4].map((n) => [n, String(n)]), +IMG.n, (v) => { IMG.n = v; redrawImage(); })),
+          ...(clRow ? [] : kindControl()), ...(clRow ? [] : countControl(true))),
         el("p", { class: "hint img-shapehint" }, t("clShapeHint").replace("{w}", (cs[(clRow && clRow.shape) || IMG.shape] || [])[0]).replace("{h}", (cs[(clRow && clRow.shape) || IMG.shape] || [])[1])));
       const waiting = IMG.clAsked && st.claude && st.claude.status === "asked";
       const go = el("button", { class: "btn on img-go cl-go", type: "button", disabled: waiting ? "" : null, onclick: runClaude },
@@ -4832,7 +4896,7 @@
         IMG.edit ? null : el("label", { class: "label" }, t("imgShape")),
         IMG.edit ? null : seg([["square", "■ " + t("shapeSquare")], ["tall", "▮ " + t("shapeTall")], ["wide", "▬ " + t("shapeWide")]], IMG.shape, (v) => { IMG.shape = v; redrawImage(); }),
         el("label", { class: "label" }, t("imgQuality")), seg([["draft", t("qDraft")], ["standard", t("qStandard")], ["best", t("qBest")]], IMG.quality, (v) => { IMG.quality = v; redrawImage(); }),
-        el("label", { class: "label" }, t("imgCount")), seg([1, 2, 4].map((n) => [n, String(n)]), +IMG.n, (v) => { IMG.n = v; redrawImage(); }),
+        ...(IMG.edit ? [] : kindControl()), ...countControl(false),
         el("label", { class: "label" }, t("imgModel")), sel),
       el("p", { class: "hint img-shapehint" }, IMG.edit ? "" : t("shapeHint_" + IMG.shape) + " · ", t("qHint_" + IMG.quality)),
       !isDefault ? el("button", { class: "btn sm ghost", type: "button", onclick: saveImgDefaults }, "★ " + t("imgMakeDefault")) : null,
@@ -4848,15 +4912,28 @@
     imgResults(right, st);
   }
   function imgResults(right, st) {
+    if (IMG.proj) put(right, projPanel());
     // results + your images
-    if (IMG.busy) put(right, el("div", { class: "img-step" }, el("b", {}, t("imgMakingN").replace("{n}", IMG.n))),
-      el("div", { class: "img-tiles" }, ...Array.from({ length: +IMG.n }, () => el("div", { class: "img-tile ghost shape-" + (IMG.edit ? "square" : IMG.shape) }))));
-    if (IMG.last.length) put(right, el("div", { class: "img-step" }, el("b", {}, t("imgNew"))), el("div", { class: "img-tiles" }, ...IMG.last.map((g) => imgTile(g, true))));
+    if (IMG.busy) put(right, el("div", { class: "img-step" }, el("b", {}, t(IMG.runKind === "carousel" ? "imgMakingCar" : "imgMakingN").replace("{n}", IMG.nRun))),
+      el("div", { class: "img-tiles" }, ...Array.from({ length: Math.min(+IMG.nRun || 1, 20) }, () => el("div", { class: "img-tile ghost shape-" + (IMG.edit ? "square" : IMG.shape) }))));
+    const set = IMG.last.length > 1 && IMG.last.every((g) => g.set && g.set === IMG.last[0].set)
+      ? [...IMG.last].sort((a, b) => (a.slide || 0) - (b.slide || 0)) : null;
+    if (set) put(right, el("div", { class: "img-step" }, el("b", {}, t("imgNewCar").replace("{n}", set.length))),
+      el("div", { class: "row2 img-car-acts" },
+        el("button", { class: "btn on sm img-car-post", type: "button", onclick: () => carouselToPost(set) }, "▦ " + t("imgCarPost").replace("{n}", set.length)),
+        el("button", { class: "btn sm img-proj-btn", type: "button", onclick: () => openProject(set.map((g) => g.id), set[0].prompt) }, "💾 " + t("projSaveAll"))),
+      el("div", { class: "img-tiles img-car" }, ...set.map((g) => el("div", { class: "img-car-slide" }, el("span", { class: "img-car-n" }, (g.slide || 0) + " / " + set.length), imgTile(g, true)))));
+    else if (IMG.last.length) put(right, el("div", { class: "img-step" }, el("b", {}, t("imgNew")),
+        IMG.last.length > 1 ? el("button", { class: "btn sm img-proj-btn", type: "button", onclick: () => openProject(IMG.last.map((g) => g.id), IMG.last[0].prompt) }, "💾 " + t("projSaveAll")) : null),
+      el("div", { class: "img-tiles" }, ...IMG.last.map((g) => imgTile(g, true))));
     if (IMG.last.length && IMG.engine === "claude" && st.claude && st.claude.note && st.claude.status === "ready") put(right, el("p", { class: "img-claude-note" }, st.claude.note));
-    const older = st.gallery.filter((g) => !IMG.last.some((x) => x.id === g.id));
-    put(right, el("div", { class: "img-step" }, el("b", {}, t("imgMine")), el("span", { class: "label" }, String(st.gallery.length))),
-      st.gallery.length > 1 ? el("button", { class: "btn sm", type: "button", onclick: () => openNewPost({ pick: "mine" }) }, "▦ " + t("npCarouselFromMine")) : null,
-      older.length ? el("div", { class: "img-tiles small" }, ...older.slice(0, 24).map((g) => imgTile(g))) : el("p", { class: "hint" }, t("imgNone")));
+    const older = IMG.selOn ? st.gallery : st.gallery.filter((g) => !IMG.last.some((x) => x.id === g.id));
+    put(right, el("div", { class: "img-step" }, el("b", {}, t("imgMine")), el("span", { class: "label" }, String(st.gallery.length)),
+      st.gallery.length ? el("button", { class: "btn sm img-select-btn" + (IMG.selOn ? " on" : ""), type: "button", "aria-pressed": String(IMG.selOn),
+        onclick: () => { IMG.selOn = !IMG.selOn; if (!IMG.selOn) IMG.sel = []; redrawImage(); } }, (IMG.selOn ? "✓ " : "☐ ") + t("projSelect")) : null),
+      !IMG.selOn && st.gallery.length > 1 ? el("button", { class: "btn sm", type: "button", onclick: () => openNewPost({ pick: "mine" }) }, "▦ " + t("npCarouselFromMine")) : null,
+      IMG.selOn ? selBar(st) : null,
+      older.length ? el("div", { class: "img-tiles small" }, ...older.slice(0, IMG.selOn ? 120 : 24).map((g) => IMG.selOn ? selTile(g) : imgTile(g))) : el("p", { class: "hint" }, t("imgNone")));
   }
 
   /* ---------- edit with marks: pins and areas on the picture, a note each ---------- */
@@ -5150,6 +5227,8 @@
       if (ed.err) { IMG.err = ed.err; redrawImage(); return; }
       if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
     } else if (!IMG.prompt.trim()) { IMG.err = t("imgNeedPrompt"); redrawImage(); $(".img-prompt") && $(".img-prompt").focus(); return; }
+    const cnt = imgCount(false);
+    IMG.nRun = cnt.n; IMG.runKind = IMG.edit ? "single" : IMG.kind;
     IMG.busy = true; IMG.err = ""; IMG.t0 = Date.now(); IMG.picker = null; redrawImage();
     try {
       const masked = ed && IMG.maskOn && IMG.marks.length;
@@ -5157,7 +5236,7 @@
       const mask = masked ? await editMask(src) : "";
       const r = await imgApi({ op: "generate", prompt: ed ? ed.prompt : IMG.prompt, refs: IMG.refs, model: IMG.model,
                                shape: src ? src.shape : IMG.edit ? "auto" : IMG.shape,
-                               quality: IMG.quality, n: IMG.n, editOf: src ? src.path : IMG.edit || "", mask, notes: ed ? ed.notes : [] });
+                               quality: IMG.quality, n: IMG.nRun, kind: IMG.runKind, editOf: src ? src.path : IMG.edit || "", mask, notes: ed ? ed.notes : [] });
       if (mask && r.images.length) {
         IMG.keeping = true; redrawImage();
         r.images = await Promise.all(r.images.map((g) => keepOutside(g).catch((e) => { IMG.err = e.message; return g; })));
@@ -5225,8 +5304,78 @@
     catch (e) { toast(e.message); }
   }
 
+  /* ---------- save together: a project folder, or each image as it is ---------- */
+  function selTile(g) {
+    const k = IMG.sel.indexOf(g.id);
+    return el("button", { class: "img-tile img-seltile shape-" + g.shape + (k >= 0 ? " picked" : ""), type: "button", "aria-pressed": String(k >= 0), title: g.prompt,
+      onclick: () => { IMG.sel = k >= 0 ? IMG.sel.filter((x) => x !== g.id) : [...IMG.sel, g.id]; redrawImage(); } },
+      el("img", { src: imgUrl(g), alt: g.prompt.slice(0, 120), loading: "lazy" }), k >= 0 ? el("span", { class: "img-selno" }, String(k + 1)) : null);
+  }
+  function selBar(st) {
+    const n = IMG.sel.length, picked = IMG.sel.map((id) => st.gallery.find((g) => g.id === id)).filter(Boolean);
+    return el("div", { class: "img-selbar" },
+      el("span", { class: "label" }, n ? t("projPicked").replace("{n}", n) : t("projPickHint")),
+      el("button", { class: "btn on sm img-proj-btn", type: "button", disabled: n ? null : "", onclick: () => openProject(IMG.sel, picked[0] && picked[0].prompt) }, "💾 " + t("projSave")),
+      el("button", { class: "btn sm img-loose-btn", type: "button", disabled: n ? null : "", onclick: () => saveProject({ ids: IMG.sel, mode: "loose" }) }, "📁 " + t("projLoose")),
+      n > 1 ? el("button", { class: "btn sm", type: "button", onclick: () => carouselToPost(picked) }, "▦ " + t("imgCarPost").replace("{n}", n)) : null,
+      n ? el("button", { class: "btn sm ghost", type: "button", onclick: () => { IMG.sel = []; redrawImage(); } }, t("projClear")) : null);
+  }
+  async function openProject(ids, prompt) {
+    const name = String(prompt || "").replace(/[#*\n\r]+/g, " ").trim().split(/\s+/).slice(0, 5).join(" ").slice(0, 40);
+    IMG.proj = { ids: [...ids], name, mode: "new", folder: "", list: [], busy: false, done: null };
+    redrawImage();
+    try { const r = await imgApi({ op: "projects" }); if (IMG.proj) { IMG.proj.list = r.projects; IMG.proj.folder = (r.projects[0] || {}).folder || ""; redrawImage(); } } catch (e) {}
+    const box = $(".img-proj"); if (box) box.scrollIntoView({ block: "nearest", behavior: reduced ? "auto" : "smooth" });
+  }
+  function projPanel() {
+    const P = IMG.proj;
+    if (!P) return null;
+    if (P.done) return el("div", { class: "img-proj done", role: "status" },
+      el("b", {}, "✓ " + t("projSaved").replace("{n}", P.done.files.length)), el("code", { class: "img-proj-path" }, P.done.folder),
+      el("p", { class: "hint" }, t("projAsPost")),
+      el("div", { class: "row2" }, el("button", { class: "btn sm", type: "button", onclick: () => { IMG.proj = null; redrawImage(); } }, t("close"))));
+    const nm = el("input", { type: "text", class: "img-proj-name", value: P.name, placeholder: t("projNamePh"), maxlength: "60", "aria-label": t("projName") });
+    nm.addEventListener("input", () => { P.name = nm.value; });
+    const opt = (v, lbl, extra) => el("label", { class: "img-proj-opt" + (P.mode === v ? " on" : "") },
+      el("input", { type: "radio", name: "projmode", checked: P.mode === v ? "" : null, onchange: () => { P.mode = v; redrawImage(); } }), el("span", {}, lbl), extra || null);
+    const sel = P.list.length ? el("select", { class: "img-proj-list", "aria-label": t("projExisting"), onchange: (e) => { P.folder = e.target.value; P.mode = "existing"; } },
+      ...P.list.map((x) => el("option", { value: x.folder, selected: x.folder === P.folder ? "" : null }, x.name + " (" + x.images + ")"))) : null;
+    return el("div", { class: "img-proj" },
+      el("div", { class: "img-step" }, el("b", {}, "💾 " + t("projTitle").replace("{n}", P.ids.length))),
+      el("p", { class: "hint" }, t("projSub")),
+      P.mode !== "existing" ? el("label", { class: "label" }, t("projName")) : null, P.mode !== "existing" ? nm : null,
+      el("div", { class: "img-proj-opts" },
+        opt("new", t("projNew")),
+        P.list.length ? opt("existing", t("projExisting"), P.mode === "existing" ? sel : null) : null,
+        opt("pick", t("projPick"))),
+      el("div", { class: "row2" },
+        el("button", { class: "btn on sm img-proj-go", type: "button", disabled: P.busy ? "" : null, onclick: () => saveProject(P) }, P.busy ? t("projSaving") : "💾 " + t("projSaveGo")),
+        el("button", { class: "btn sm ghost", type: "button", onclick: () => { IMG.proj = null; redrawImage(); } }, t("cancel"))));
+  }
+  async function saveProject(P) {
+    if (P.mode === "new" || P.mode === "pick") { if (!String(P.name || "").trim()) { toast(t("projNeedName")); return; } }
+    if (IMG.proj === P) { P.busy = true; redrawImage(); }
+    try {
+      const r = await imgApi({ op: "project", ids: P.ids, name: P.name || "", mode: P.mode, folder: P.folder || "" });
+      if (r.cancelled) { if (IMG.proj === P) P.busy = false; redrawImage(); return; }
+      toast(t("projSaved").replace("{n}", r.files.length) + " · " + r.folder);
+      if (IMG.proj === P) { P.done = r; P.busy = false; } else IMG.proj = { done: r };
+      IMG.sel = []; IMG.selOn = false; redrawImage();
+    } catch (e) {
+      if (IMG.proj === P) P.busy = false;
+      toast(e.message === "no-native-picker" ? t("imgNoPicker") : e.message); redrawImage();
+    }
+  }
+  function carouselToPost(set) {          // the slides, in order, as one carousel post
+    if (IMG.forNP) {
+      IMG.forNP = false;
+      set.forEach((g) => { if (!NP.items.some((x) => x.image === g.id)) NP.items.push({ image: g.id, name: g.prompt.slice(0, 40), kind: "image" }); });
+      closeModal(() => showModal("np", (b) => drawNewPost(b))); return;
+    }
+    openNewPost({ images: set });
+  }
   async function saveImgDefaults() {
-    try { const r = await imgApi({ op: "settings", model: IMG.model, shape: IMG.shape, quality: IMG.quality, n: IMG.n }); IMG.st.settings = r.settings; toast(t("imgDefSaved")); redrawImage(); }
+    try { const r = await imgApi({ op: "settings", model: IMG.model, shape: IMG.shape, quality: IMG.quality, n: IMG.n, nMode: IMG.nMode, kind: IMG.kind }); IMG.st.settings = r.settings; toast(t("imgDefSaved")); redrawImage(); }
     catch (e) { toast(e.message); }
   }
 
@@ -5260,7 +5409,8 @@
   async function runClaude() {
     if (!IMG.prompt.trim()) { IMG.err = t("imgNeedPrompt"); redrawImage(); $(".img-prompt") && $(".img-prompt").focus(); return; }
     try {
-      await imgApi({ op: "claude", prompt: IMG.prompt, shape: IMG.shape, n: IMG.n, refs: IMG.refs, editOf: IMG.clEdit || "" });
+      const cnt = imgCount(true);
+      await imgApi({ op: "claude", prompt: IMG.prompt, shape: IMG.shape, n: IMG.clEdit ? 1 : cnt.n || "auto", kind: IMG.clEdit ? "single" : IMG.kind, refs: IMG.refs, editOf: IMG.clEdit || "" });
       IMG.clAsked = Math.floor(Date.now() / 1000) - 2; IMG.err = ""; IMG.last = [];
       flyToClaude(lastBtn); await imgRefresh(); redrawImage(); pollClaude();
     } catch (e) { IMG.err = e.message; redrawImage(); }
@@ -6032,6 +6182,9 @@
         "<b>Two engines:</b> <b>OpenAI image</b> paints photos and illustrations (needs your OpenAI key, uses its credit). <b>PIX designs it</b> builds the picture in code (text, carousel slides, quote cards, charts) at the exact post size (square, tall 4:5, wide or story), free. Claude Code must be open; the design appears in the window by itself. <b>✦ Ask PIX to change</b> edits a PIX design.",
         "<b>New models:</b> the OpenAI model list refreshes by itself once a day. A new model shows a notice: <b>Try it</b>, <b>Make it my default</b> or <b>Got it</b>. <b>↻ Check now</b> (in the window and in Settings → Keys → OpenAI) asks OpenAI right away.",
         "<b>Create:</b> describe the picture (or press \"Ask PIX to improve it\"), add guide pictures to keep a style, face or product, pick shape, quality and how many.",
+        "<b>One image or a carousel:</b> <b>One image</b> makes several tries of the same picture so you keep the best. <b>Carousel</b> makes slides that go together (same style, in order: cover, points, closing) and <b>▦ Make a carousel post</b> opens New post with them in order. Write <b>Slide 1: … Slide 2: …</b> to say what each slide shows.",
+        "<b>Save as a project:</b> <b>💾 Save all as a project…</b> on new results, or <b>☐ Select</b> in Your images to pick any (click order = save order). Save them as a <b>new project</b> (my-projects/<name>, files 01, 02 … plus project.json with the prompts), <b>add to a project</b>, or make the project <b>anywhere on your computer</b>. <b>Save each to a folder…</b> copies them one by one without a project folder; one image still has <b>Save to folder</b> and <b>Save as…</b>.",
+        "<b>How many:</b> 1, 2, 4 or <b>Any number</b> (up to 20). <b>As my prompt says</b> uses the number you wrote (\"6 slides\", \"خمس صور\", or your Slide list). <b>Recommended</b>: PIX decides for its designs; with OpenAI it uses your prompt's number, else a sensible count (5 slides for a carousel; for one image 4 drafts, 2 standard, 1 best). OpenAI makes 4 at a time, and each image uses credit.",
         "<b>Edit:</b> press <b>✎ Edit</b> on any image, or <b>Edit a picture from my computer</b>. Mark the picture with <b>Pin / Area</b> (click or drag), <b>Paint</b> (brush S, M, L) or <b>Surround</b> (draw a loop), and write a note for each numbered mark.",
         "<b>Only change the marked spots</b> (on by default): only your marks change, and everything else stays pixel-for-pixel the original. The edit keeps the original's size.",
         "<b>Full screen</b> shows the picture large with your notes beside it. The edited version appears right in the editor; the original is never changed.",
@@ -6162,6 +6315,9 @@
         "<b>طريقتين:</b> <b>صورة OpenAI</b> ترسم صور ورسومات (تحتاج مفتاح OpenAI وتستهلك رصيده). <b>PIX يصممها</b> تبني الصورة بالكود (كتابة، سلايدات كاروسيل، اقتباسات، رسوم بيانية) بنفس مقاس البوست (مربع، طولي 4:5، عرضي أو ستوري)، ببلاش. لازم Claude Code يكون مفتوح؛ والتصميم يطلع بالنافذة بروحه. <b>✦ خل PIX يعدّلها</b> يعدّل تصميم PIX.",
         "<b>موديلات جديدة:</b> قائمة موديلات OpenAI تتحدث بروحها مرة باليوم. أي موديل جديد يطلع له تنبيه: <b>جرّبه</b>، <b>خله الافتراضي</b> أو <b>تمام</b>. <b>↻ افحص الحين</b> (بالنافذة وبالإعدادات ← المفاتيح ← OpenAI) يسأل OpenAI على طول.",
         "<b>سوّ:</b> اوصف الصورة (أو اضغط «خل PIX يحسّنه»)، أضف صور مرشدة عشان تحافظ على أسلوب أو وجه أو منتج، واختار الشكل والجودة والعدد.",
+        "<b>صورة وحدة أو كاروسيل:</b> <b>صورة وحدة</b> تسوي كذا محاولة لنفس الصورة وتختار الأحلى. <b>كاروسيل</b> يسوي شرائح تمشي مع بعض (نفس الأسلوب وبالترتيب: غلاف، نقاط، ختام)، و<b>▦ سوّ بوست كاروسيل</b> يفتح بوست جديد فيها بالترتيب. اكتب <b>شريحة ١: … شريحة ٢: …</b> عشان تحدد شنو بكل شريحة.",
+        "<b>احفظ كمشروع:</b> <b>💾 احفظهم كلهم كمشروع…</b> على النتايج الجديدة، أو <b>☐ اختيار</b> في صورك عشان تختار اللي تبي (ترتيب الضغط = ترتيب الحفظ). احفظها <b>مشروع جديد</b> (my-projects/<الاسم>، ملفات 01، 02 … ومعاها project.json فيه الأوصاف)، أو <b>أضفها لمشروع</b>، أو سوّ المشروع <b>بأي مكان بجهازك</b>. <b>احفظ كل وحدة بمجلد…</b> ينسخها وحدة وحدة بدون مجلد مشروع؛ والصورة الوحدة بعدها فيها <b>احفظ بمجلد</b> و<b>احفظ باسم…</b>.",
+        "<b>كم وحدة:</b> ١، ٢، ٤ أو <b>أي عدد</b> (لين ٢٠). <b>مثل ما كتبت</b> ياخذ الرقم اللي بالوصف («٦ شرائح»، «خمس صور»، أو قائمة الشرائح). <b>المقترح</b>: PIX يقرر لتصاميمه؛ وفي OpenAI ياخذ رقم الوصف، وإذا ما في عدد مناسب (٥ شرائح للكاروسيل؛ ولصورة وحدة ٤ مسودة، ٢ عادية، ١ أفضل). OpenAI يسوي ٤ ٤، وكل صورة تاخذ رصيد.",
         "<b>عدّل:</b> اضغط <b>✎ عدّل</b> على أي صورة، أو <b>عدّل صورة من جهازك</b>. علّم على الصورة بـ<b>دبوس / مربع</b> (ضغطة أو سحب)، <b>لوّن</b> (فرشاة S، M، L) أو <b>حوّط</b> (ارسم دايرة)، واكتب ملاحظة لكل علامة مرقّمة.",
         "<b>غيّر بس الأماكن المحددة</b> (شغّال من البداية): بس علاماتك تتغيّر، وكل شي ثاني يبقى نفس الأصلية بالضبط. والتعديل يحافظ على مقاس الأصلية.",
         "<b>ملء الشاشة</b> يكبّر الصورة وملاحظاتك جنبها. النسخة المعدّلة تطلع داخل المحرر نفسه؛ والأصلية ما تتغيّر أبداً.",
@@ -6827,6 +6983,12 @@
       trialPref: ["New Reels as Trial", "Whether every new Reel starts as a Trial Reel, and what happens after the trial. You can still change it per Reel in Network settings."],
       cbPref: ["Color-blind mode", "Safer colors for red-green and blue-yellow color blindness, plus shapes and marks so no status relies on color alone."],
       viewer: ["Post viewer", "The whole post: swipe a carousel (‹ › arrows, dots, or ← → keys), play the full video with sound, or read the PDF. The full-screen button opens it large."],
+      imgProj: ["Save as a project", "Copies the images, in order, into one folder: a new project in my-projects, an existing project, or a new folder anywhere on your computer. A project.json keeps the prompts."],
+      imgSelect: ["Select images", "Pick several images (the click order is the save order), then save them as a project, each to a folder, or make a carousel post."],
+      imgLoose: ["Save each to a folder", "Pick any folder on your computer; each image is copied in with its own name, no project folder."],
+      imgKind: ["One image or a carousel", "One image: several tries of the same picture, you keep the best. Carousel: slides that go together (same style, in order), ready to become one carousel post."],
+      imgCountCtl: ["How many", "1, 2, 4 or any number up to 20. \"As my prompt says\" reads the number you wrote (\"6 slides\", \"خمس صور\", or a Slide 1: … Slide 2: … list). \"Recommended\": PIX decides for its designs; for OpenAI it uses your prompt's number, else a sensible count for the quality."],
+      imgCarPost: ["Make a carousel post", "Opens New post with these slides in order as one carousel. Drag to reorder there."],
       imgEditBtn: ["Edit this picture", "Mark the places to change (pin, box, paint or loop), write a note for each, and get a new version. The original is never changed."],
       imgEditPc: ["Edit a picture from your computer", "Pick any PNG, JPG or WEBP and edit it the same way: mark it, write notes, make the edited version."],
       imgSaveAs: ["Save as…", "Your computer's own Save window opens: choose any folder and file name."],
@@ -7006,6 +7168,12 @@
       trialPref: ["الريلز الجديدة كـ Trial", "هل كل ريل جديد يبدأ كـ Trial Reel، وشنو يصير بعد التجربة. تقدر تغيّره لكل ريل من إعدادات المنصات."],
       cbPref: ["وضع عمى الألوان", "ألوان أوضح لعمى الأحمر والأخضر والأزرق والأصفر، مع أشكال وعلامات عشان ما تعتمد أي حالة على اللون بس."],
       viewer: ["عارض البوست", "البوست كامل: قلّب الكاروسيل (الأسهم ‹ › أو النقاط أو ← →)، شغّل الفيديو كامل بالصوت، أو اقرا الـPDF. زر ملء الشاشة يكبّره."],
+      imgProj: ["احفظ كمشروع", "تنسخ الصور بالترتيب بمجلد واحد: مشروع جديد في my-projects، أو مشروع موجود، أو مجلد جديد بأي مكان بجهازك. وملف project.json يحفظ الأوصاف."],
+      imgSelect: ["اختار صور", "اختار كذا صورة (ترتيب الضغط = ترتيب الحفظ)، وبعدين احفظها كمشروع، أو كل وحدة بمجلد، أو سوّ منها بوست كاروسيل."],
+      imgLoose: ["احفظ كل وحدة بمجلد", "اختار أي مجلد بجهازك؛ كل صورة تنسخ باسمها، بدون مجلد مشروع."],
+      imgKind: ["صورة وحدة أو كاروسيل", "صورة وحدة: كذا محاولة لنفس الصورة وتختار الأحلى. كاروسيل: شرائح تمشي مع بعض (نفس الأسلوب وبالترتيب)، جاهزة تصير بوست كاروسيل واحد."],
+      imgCountCtl: ["كم وحدة", "١، ٢، ٤ أو أي عدد لين ٢٠. «مثل ما كتبت» ياخذ الرقم اللي بالوصف («٦ شرائح»، «خمس صور»، أو قائمة شريحة ١: … شريحة ٢: …). «المقترح»: PIX يقرر لتصاميمه؛ وفي OpenAI ياخذ رقم الوصف، وإذا ما في ياخذ عدد مناسب للجودة."],
+      imgCarPost: ["سوّ بوست كاروسيل", "يفتح بوست جديد وفيه هالشرائح بالترتيب ككاروسيل واحد. تقدر تغيّر الترتيب هناك بالسحب."],
       imgEditBtn: ["عدّل هالصورة", "علّم الأماكن اللي تبيها تتغيّر (دبوس، مربع، تلوين أو تحويط)، اكتب ملاحظة لكل وحدة، وتطلع لك نسخة جديدة. الأصلية ما تتغيّر أبداً."],
       imgEditPc: ["عدّل صورة من جهازك", "اختار أي PNG أو JPG أو WEBP وعدّلها بنفس الطريقة: علّم، اكتب ملاحظات، وسوّ النسخة المعدّلة."],
       imgSaveAs: ["احفظ باسم…", "تنفتح نافذة الحفظ بجهازك: اختار أي مجلد وأي اسم."],
@@ -7063,7 +7231,7 @@
   // where each tip applies (first match wins, most specific first)
   const HELP_MAP = [
     [".pv-wrap", "viewer"], [".img-edit-btn", "imgEditBtn"], [".img-editpc-btn", "imgEditPc"], [".img-saveas-btn", "imgSaveAs"], [".img-folder-btn", "imgFolder"],
-    [".img-tonp-btn", "imgToNP"], [".np-createimg", "npCreateImg"], [".ann-tools", "annTools"], [".ann-stage", "annStage"], [".ann-list", "annList"],
+    [".img-proj-btn, .img-proj", "imgProj"], [".img-select-btn, .img-seltile", "imgSelect"], [".img-loose-btn", "imgLoose"], [".img-kind", "imgKind"], [".img-count", "imgCountCtl"], [".img-car-post", "imgCarPost"], [".img-tonp-btn", "imgToNP"], [".np-createimg", "npCreateImg"], [".ann-tools", "annTools"], [".ann-stage", "annStage"], [".ann-list", "annList"],
     [".ann-mask", "annMask"], [".ann-fs", "annFs"], [".ann-result", "annResult"],
     [".ib-all", "ibAll"], [".ib-pick", "ibPick"], [".ib-del", "ibDel"], [".ib-md", "ibMd"], [".ib-json", "ibJson"], [".ib-add", "ibAdd"],
     [".ib-load", "ibLoad"], [".ib-clear", "ibClear"], [".ib-undo", "ibUndo"], [".ib-editone", "ibEditOne"],

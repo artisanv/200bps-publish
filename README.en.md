@@ -65,6 +65,11 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 
 ## New in v1.20.0 (the big one)
 
+- **🎠 Create a whole carousel, not just one image:** in Create an image pick **One image** (several tries, keep
+  the best) or **Carousel** (slides in one style, in order). Any count: **Any number** up to 20, **As my prompt
+  says**, or PIX's **Recommended**. One click: **▦ Make a carousel post**.
+- **💾 Save images as a project:** save a carousel or any images you pick into one project folder, in order
+  (01, 02 …): a new project, an existing one, or anywhere on your computer; or each image on its own.
 - **Caption fixes give one version per network**, and the Instagram-only DM gift (follow first, comment the word,
   link by DM) is respected in every caption.
 - **Every format, per network** (Reel, Trial Reel, Story, Poll, Repost, Spotlight…) and **💬 a small PIX chat

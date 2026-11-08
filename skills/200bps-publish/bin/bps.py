@@ -150,7 +150,7 @@ def main() -> None:
     rc.add_argument("--unit", default="week", choices=["week", "month"]); rc.add_argument("--times", type=int, default=0); rc.add_argument("--confirm", action="store_true")
     rc.add_argument("--start", default="", help="first repost date (ISO); default today")
     cx = sub.add_parser("cancel"); cx.add_argument("--post"); cx.add_argument("--draft"); cx.add_argument("--confirm", action="store_true")
-    im = sub.add_parser("image"); im.add_argument("action", choices=["gen", "models", "list", "set", "copy", "prompt", "claude"])
+    im = sub.add_parser("image"); im.add_argument("action", choices=["gen", "models", "list", "set", "copy", "prompt", "claude", "project", "projects"])
     im.add_argument("--html", action="append", default=[], help="claude: one HTML design file per image (rendered at the shape's size)")
     im.add_argument("--refresh", action="store_true", help="models: ask OpenAI for the model list now")
     im.add_argument("--prompt", default=""); im.add_argument("--ref", action="append", default=[])
@@ -158,6 +158,9 @@ def main() -> None:
     im.add_argument("--quality", default="", choices=["", "draft", "standard", "best"]); im.add_argument("--n", type=int, default=0)
     im.add_argument("--id", default=""); im.add_argument("--to", default=""); im.add_argument("--note", default="")
     im.add_argument("--edit", default="", help="gen: change this picture (workspace path) as --prompt says")
+    im.add_argument("--name", default="", help="project: the project (folder) name")
+    im.add_argument("--project", default="", help="project: add to this existing project folder (my-projects/…)")
+    im.add_argument("--carousel", action="store_true", help="gen: --n slides that go together (one set, in order), not --n tries of one image")
     ix = sub.add_parser("inbox", help="Inbox: list waiting comments, save Claude's reply drafts")
     ix.add_argument("action", choices=["waiting", "draft", "drop"]); ix.add_argument("--comment", default=""); ix.add_argument("--text", default="")
     bt_ = sub.add_parser("batch"); bt_.add_argument("action", choices=["scan", "prepare", "suggest", "run"]); bt_.add_argument("folders", nargs="*")
@@ -326,7 +329,7 @@ def run(args) -> None:
     elif c == "image":
         import images
         if args.action == "gen":
-            emit({"ok": True, **images.generate(args.prompt, args.ref, args.model, args.shape or ("auto" if args.edit else ""), args.quality, args.n, via="chat", edit_of=args.edit)})
+            emit({"ok": True, **images.generate(args.prompt, args.ref, args.model, args.shape or ("auto" if args.edit else ""), args.quality, args.n, via="chat", edit_of=args.edit, kind="carousel" if args.carousel else "single")})
         elif args.action == "models":
             if args.refresh:
                 images.refresh_models(force=True)
@@ -339,6 +342,11 @@ def run(args) -> None:
             emit(images.save_settings(model=args.model, shape=args.shape, quality=args.quality, n=args.n or None))
         elif args.action == "copy":
             emit(images.copy_to(args.id, args.to))
+        elif args.action == "projects":
+            emit(images.projects())
+        elif args.action == "project":          # --id A,B,C (in order) --name "…" [--project my-projects/x]
+            emit(images.save_project([x.strip() for x in args.id.split(",") if x.strip()], args.name,
+                                     "existing" if args.project else "new", args.project))
         else:                                   # answer an "Ask Claude for a prompt" request
             emit(images.suggest_prompt(args.prompt, args.note))
     elif c == "inbox":

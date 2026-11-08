@@ -162,6 +162,87 @@ class Regressions(Workspace):
         self.assertEqual(summary.lday("2026-11-07"), "2026-11-07")
 
 
+class ImageCountAndCarousel(Workspace):
+    """2026-11-08: How many was stuck at 1/2/4 and there was no carousel."""
+    def setUp(self):
+        self._old = {k: os.environ.get(k) for k in ("BPS_WORKSPACE", "OPENAI_API_KEY")}
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        os.environ["OPENAI_API_KEY"] = "sk-test"
+
+    def tearDown(self):
+        for k, v in self._old.items():
+            os.environ.pop(k, None) if v is None else os.environ.__setitem__(k, v)
+
+    def test_15_any_count_and_slides_in_order(self):
+        import base64 as b64
+        import time as _t
+        images = fresh("images")
+        self.assertGreaterEqual(images.MAX_N, 20)
+        self.assertEqual(images.save_settings(n=9, nMode="auto", kind="carousel")["n"], 9)
+        self.assertEqual(images.settings()["kind"], "carousel")
+        brief, own = images.split_slides("Black and lime.\nSlide 1: the hook\nSlide 2: the point\nشريحة ٣: الخلاصة")
+        self.assertEqual((brief, own), ("Black and lime.", ["the hook", "the point", "الخلاصة"]))
+        seen = []
+        png = b64.b64encode(b"\x89PNG\r\n\x1a\n" + b"0" * 20).decode()
+
+        def fake_one(key, prompt, *a, **k):            # later slides finish first: order must still hold
+            k_ = int(prompt.rsplit("Slide ", 1)[1].split(" of")[0]) if " of " in prompt else 4
+            _t.sleep(0.05 * (4 - k_) if k_ < 4 else 0)
+            seen.append(prompt)
+            return {"data": [{"b64_json": png}], "size": "1024x1024"}
+        images.load_env = lambda: {"OPENAI_API_KEY": "sk-test"}
+        images._one = fake_one
+        out = images.generate("Black and lime.\nSlide 1: hook\nSlide 2: point\nSlide 3: close", kind="carousel", via="test")
+        self.assertEqual([r["slide"] for r in out["images"]], [1, 2, 3])
+        self.assertEqual(len({r["set"] for r in out["images"]}), 1)
+        self.assertTrue(all("of 3" in p for p in seen) and len(seen) == 3)
+        self.assertTrue(any(p.endswith("Slide 2 of 3: point") for p in seen))
+        seen.clear()
+        out = images.generate("a cat", n=7, kind="single", via="test")
+        self.assertEqual(len(out["images"]), 7)
+        self.assertNotIn("set", out["images"][0])
+
+    def test_16_pix_decides_how_many(self):
+        images, hitl = fresh("images"), fresh("hitl")
+        q = images.ask_claude("a carousel about weights", shape="square", n=0, kind="carousel")
+        note = [x for x in hitl.notes() if x["id"] == q["queued"]][0] if hasattr(hitl, "notes") else None
+        st = images.claude_state()
+        self.assertEqual((st["n"], st["kind"], st["auto"]), (0, "carousel", True))
+        long = "x" * 7000                                  # a long brief (4 news items) reached PIX cut at 4000
+        images.ask_claude(long, shape="square", n=3, kind="carousel")
+        self.assertEqual(len(images.claude_state()["prompt"]), 7000)
+        if note:
+            self.assertTrue(note["action"]["auto"])
+            self.assertIn("you decide how many slides", note["text"])
+
+
+    def test_17_save_images_as_a_project(self):
+        images = fresh("images")
+        d = images.img_dir(); d.mkdir(parents=True, exist_ok=True)
+        rows = images.gallery()
+        for k in range(3):
+            f = f"p{k}.png"; (d / f).write_bytes(b"\x89PNG\r\n\x1a\n" + bytes([k]) * 10)
+            rows.append({"id": f"pid{k}", "file": f, "prompt": f"slide {k}", "model": "m", "shape": "square", "quality": "draft", "ts": 1})
+        images._save_index(rows)
+        r = images.save_project(["pid2", "pid0"], "أخبار AI · week 45", "new")
+        folder = self.ws / r["folder"]
+        self.assertTrue(r["folder"].startswith("my-projects/"))
+        self.assertEqual(sorted(x.name for x in folder.iterdir() if x.suffix == ".png"), r["files"])
+        self.assertTrue(r["files"][0].startswith("01-") and r["files"][1].startswith("02-"))
+        self.assertEqual((folder / r["files"][0]).read_bytes()[-1], 2)          # click order kept
+        again = images.save_project(["pid0"], "أخبار AI · week 45", "new")       # same name -> a new folder, nothing overwritten
+        self.assertNotEqual(again["folder"], r["folder"])
+        more = images.save_project(["pid1"], "", "existing", r["folder"])      # numbering continues
+        self.assertTrue(more["files"][0].startswith("03-"))
+        meta = json.loads((folder / "project.json").read_text())
+        self.assertEqual([m["id"] for m in meta["images"]], ["pid2", "pid0", "pid1"])
+        self.assertEqual(len(images.projects()), 2)
+        with self.assertRaises(ValueError):
+            images.save_project(["pid0"], "", "existing", "../../etc")
+        with self.assertRaises(ValueError):
+            images.save_project(["nope"], "x", "new")
+
+
 class SnapchatStory(unittest.TestCase):
     def test_09_story_caption_length_doesnt_block(self):
         import checks

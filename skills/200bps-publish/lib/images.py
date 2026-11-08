@@ -31,7 +31,31 @@ SHAPES = {"square": "1024x1024", "tall": "1024x1536", "wide": "1536x1024", "auto
 QUALITY = {"draft": "low", "standard": "medium", "best": "high"}
 DEFAULTS = {"model": DEFAULT_MODEL, "shape": "square", "quality": "standard", "n": 1}
 MAX_REFS = 10
-MAX_N = 4
+MAX_N = 20                       # images per run: tries of one image, or carousel slides
+PARALLEL = 4                     # OpenAI calls at the same time
+KINDS = ("single", "carousel")   # one image (pick the best try) or a carousel (slides that go together)
+N_MODES = ("fixed", "prompt", "auto")
+_SLIDE_MARK = re.compile(r"(?im)^\s*(?:[#*>\-\s]*)(?:slide|شريحة|سلايد|الشريحة|السلايد)\s*([0-9٠-٩]{1,2})\s*[:：.\-–—)]")
+
+
+def split_slides(prompt: str) -> tuple[str, list[str]]:
+    """'Slide 1: … Slide 2: …' (or شريحة ١:) in the prompt -> (the shared brief before them, one text per
+    slide in order). No slide list -> (prompt, [])."""
+    prompt = prompt or ""
+    marks = list(_SLIDE_MARK.finditer(prompt))
+    if len(marks) < 2:
+        return prompt, []
+    return (prompt[:marks[0].start()].strip() or prompt,
+            [prompt[m.end():(marks[i + 1].start() if i + 1 < len(marks) else len(prompt))].strip()
+             for i, m in enumerate(marks)][:MAX_N])
+
+
+def slide_prompt(base: str, k: int, n: int, own: str = "") -> str:
+    """What OpenAI gets for slide k of n: the whole brief, then which slide this is."""
+    role = own or ("the cover: the hook, big and clear" if k == 1 else
+                   "the last slide: the takeaway and a call to action" if k == n else f"slide {k}: the next point of the story")
+    return (f"{base}\n\nThis is slide {k} of {n} of ONE carousel. Use the same style, colors, fonts, margins and layout "
+            f"system on every slide so they look like one set. Show only this slide. Slide {k} of {n}: {role}")
 IMG_EXT = {".png", ".jpg", ".jpeg", ".webp"}
 TIMEOUT = 300
 
@@ -62,15 +86,29 @@ def settings() -> dict:
         s["shape"] = DEFAULTS["shape"]
     if s["quality"] not in QUALITY:
         s["quality"] = DEFAULTS["quality"]
+    try:
+        s["n"] = max(1, min(MAX_N, int(s.get("n") or 1)))
+    except (TypeError, ValueError):
+        s["n"] = 1
+    if s.get("nMode") not in N_MODES:
+        s["nMode"] = "fixed"
+    if s.get("kind") not in KINDS:
+        s["kind"] = "single"
     return s
 
 
 def save_settings(**kw) -> dict:
     cfg = config()
     cur = cfg.setdefault("images", {})
-    for k in ("model", "shape", "quality", "n"):
+    for k in ("model", "shape", "quality", "n", "nMode", "kind"):
         if kw.get(k) not in (None, ""):
             cur[k] = kw[k]
+    if "n" in cur:
+        cur["n"] = max(1, min(MAX_N, int(cur["n"] or 1)))
+    if cur.get("nMode") and cur["nMode"] not in N_MODES:
+        raise ValueError("How many must be fixed, prompt or auto.")
+    if cur.get("kind") and cur["kind"] not in KINDS:
+        raise ValueError("Kind must be single or carousel.")
     if cur.get("shape") and cur["shape"] not in SHAPES:
         raise ValueError("Shape must be square, tall, wide or auto.")
     if cur.get("quality") and cur["quality"] not in QUALITY:
@@ -239,7 +277,8 @@ def _one(key: str, prompt: str, model: str, size: str, quality: str, refs: list[
 
 
 def generate(prompt: str, refs: list[str] | None = None, model: str = "", shape: str = "", quality: str = "",
-             n: int = 0, via: str = "chat", edit_of: str = "", mask: str = "", notes: list | None = None) -> dict:
+             n: int = 0, via: str = "chat", edit_of: str = "", mask: str = "", notes: list | None = None,
+             kind: str = "single") -> dict:
     """Make new images. With edit_of, the first picture is changed as the
     prompt says and everything else is kept (other refs are extra guides).
     mask (base64 PNG, same size as the picture): its transparent parts are
@@ -259,6 +298,9 @@ def generate(prompt: str, refs: list[str] | None = None, model: str = "", shape:
     quality = quality or s["quality"]
     if shape not in SHAPES or quality not in QUALITY:
         raise ValueError("Unknown shape or quality.")
+    kind = "carousel" if kind == "carousel" and not edit_of else "single"
+    brief, own = split_slides(prompt) if kind == "carousel" else (prompt, [])
+    n = len(own) if own and not n else n
     n = max(1, min(MAX_N, int(n or s["n"] or 1)))
     refs = list(dict.fromkeys(([edit_of] if edit_of else []) + list(refs or [])))
     if len(refs) > MAX_REFS:
@@ -274,18 +316,22 @@ def generate(prompt: str, refs: list[str] | None = None, model: str = "", shape:
         mask_path.write_bytes(raw)
     ask = (f"Edit the first image. Keep everything that isn't mentioned exactly as it is. Change: {prompt}"
            if edit_of else prompt)
+    asks = ([slide_prompt(brief, k + 1, n, own[k] if k < len(own) else "") for k in range(n)]
+            if kind == "carousel" else [ask] * n)
     t0 = time.time()
     import jobs
     from concurrent.futures import as_completed
     expect = {"draft": 15, "standard": 30, "best": 60}.get(quality, 30) + (10 if ref_paths else 0)
-    jid = jobs.start("image", (f"Editing a picture ({n} version{'s' if n > 1 else ''})" if edit_of else f"Making {n} image{'s' if n > 1 else ''}") + (f" from {len(ref_paths)} guide{'s' if len(ref_paths) > 1 else ''}" if ref_paths else ""),
+    jid = jobs.start("image", (f"Editing a picture ({n} version{'s' if n > 1 else ''})" if edit_of else
+                              f"Making a {n}-slide carousel" if kind == "carousel" else f"Making {n} image{'s' if n > 1 else ''}") + (f" from {len(ref_paths)} guide{'s' if len(ref_paths) > 1 else ''}" if ref_paths else ""),
                      total=n if n > 1 else None, estimate=expect, step=f"OpenAI {model} is drawing…")
-    with ThreadPoolExecutor(max_workers=n) as ex:      # n images in parallel
-        futs = [ex.submit(_one, key, ask, model, SHAPES[shape], QUALITY[quality], ref_paths, bool(edit_of), mask_path) for _ in range(n)]
+    with ThreadPoolExecutor(max_workers=min(n, PARALLEL)) as ex:      # up to PARALLEL at a time
+        futs = {ex.submit(_one, key, asks[k], model, SHAPES[shape], QUALITY[quality], ref_paths, bool(edit_of), mask_path): k
+                for k in range(n)}
         results, errors = [], []
         for f in as_completed(futs):
             try:
-                results.append(f.result())
+                results.append((futs[f], f.result()))
             except RuntimeError as e:
                 errors.append(str(e))
             jobs.progress(jid, done=len(results) + len(errors), step=f"{len(results)} of {n} ready")
@@ -297,6 +343,8 @@ def generate(prompt: str, refs: list[str] | None = None, model: str = "", shape:
     jobs.finish(jid, step=f"{len(results)} image{'s' if len(results) > 1 else ''} made in {round(time.time() - t0)}s")
     stamp = time.strftime("%Y%m%d-%H%M%S")
     slug = re.sub(r"[^a-z0-9]+", "-", prompt.lower())[:36].strip("-") or "image"
+    results = [d for _, d in sorted(results, key=lambda x: x[0])]      # slide order, not arrival order
+    set_id = uuid.uuid4().hex[:8] if kind == "carousel" else ""
     rows, made = gallery(), []
     for i, d in enumerate(results):
         item = (d.get("data") or [{}])[0]
@@ -308,7 +356,8 @@ def generate(prompt: str, refs: list[str] | None = None, model: str = "", shape:
         row = {"id": uuid.uuid4().hex[:10], "file": fname, "prompt": prompt, "model": model, "shape": shape,
                "quality": quality, "size": d.get("size") or SHAPES[shape], "refs": refs, "ts": int(time.time()),
                "secs": round(time.time() - t0, 1), "via": via, **({"editOf": edit_of} if edit_of else {}),
-               **({"notes": notes[:20]} if notes else {}), **({"masked": True} if mask_path else {})}
+               **({"notes": notes[:20]} if notes else {}), **({"masked": True} if mask_path else {}),
+               **({"kind": "carousel", "set": set_id, "slide": i + 1, "of": n} if set_id else {})}
         rows.append(row)
         made.append(row)
     _save_index(rows)
@@ -442,6 +491,98 @@ def copy_to(image_id: str, folder: str = "", pick: bool = False) -> dict:
     return out
 
 
+# ---------------- projects: several images saved together in one folder ----------------
+PROJECTS_DIR = "my-projects"
+
+
+def _project_root() -> Path:
+    return workspace() / PROJECTS_DIR
+
+
+def _slugify(name: str) -> str:
+    keep = re.sub(r"[^\w\s\-]+", "", (name or "").strip(), flags=re.UNICODE)
+    return re.sub(r"[\s_]+", "-", keep).strip("-")[:60] or time.strftime("project-%Y%m%d-%H%M")
+
+
+def projects() -> list[dict]:
+    """Existing projects (folders in my-projects), newest first."""
+    root = _project_root()
+    if not root.is_dir():
+        return []
+    out = []
+    for d in root.iterdir():
+        if d.is_dir():
+            meta = read_json(d / "project.json", {}) or {}
+            n = sum(1 for f in d.iterdir() if f.suffix.lower() in IMG_EXT)
+            out.append({"name": meta.get("name") or d.name, "folder": rel(d), "images": n, "ts": int(d.stat().st_mtime)})
+    return sorted(out, key=lambda x: -x["ts"])
+
+
+def save_project(ids: list[str], name: str = "", mode: str = "new", folder: str = "") -> dict:
+    """Save images together. mode:
+    new      -> a new folder my-projects/<name>/ (01-…, 02-… in the given order + project.json)
+    existing -> add them to the project at `folder` (numbering continues)
+    pick     -> the user chooses a place on the computer; a <name> folder is made inside it
+    loose    -> the user chooses a folder; each image is copied in as it is (no project folder)"""
+    rows = {r["id"]: r for r in gallery()}
+    ids = [i for i in dict.fromkeys(ids or []) if i in rows]
+    if not ids:
+        raise ValueError("Pick at least one image.")
+    if mode not in ("new", "existing", "pick", "loose"):
+        raise ValueError("Unknown save mode.")
+    if mode in ("pick", "loose"):
+        got = _native(str(Path.home() / "Pictures" if (Path.home() / "Pictures").is_dir() else Path.home()), "--folder",
+                      "Save the images into which folder?" if mode == "loose" else "Make the project folder inside which folder?")
+        if not got.get("ok"):
+            raise ValueError("no-native-picker" if got.get("error") == "no-native-picker" else got.get("error") or "The folder window failed.")
+        if not got.get("folders"):
+            return {"cancelled": True}
+        base = Path(got["folders"][0]).expanduser().resolve()
+    if mode == "loose":
+        d = base
+        files = []
+        for i in ids:
+            src = img_dir() / rows[i]["file"]
+            dest = d / src.name
+            if dest.exists():
+                dest = d / _next_name(d, src.suffix)
+            shutil.copy2(src, dest)
+            files.append(dest.name)
+        return {"folder": str(d), "files": files, "mode": mode}
+    if mode == "existing":
+        root = _project_root().resolve()
+        d = (workspace() / folder).resolve() if folder else None
+        if not d or not d.is_dir() or root not in d.parents:
+            raise ValueError("Pick one of your projects.")
+    else:
+        parent = base if mode == "pick" else _project_root()
+        parent.mkdir(parents=True, exist_ok=True)
+        slug, d, k = _slugify(name), None, 1
+        while d is None or d.exists():
+            d = parent / (slug if k == 1 else f"{slug}-{k}")
+            k += 1
+        d.mkdir(parents=True)
+    meta_p = d / "project.json"
+    meta = read_json(meta_p, {}) or {}
+    meta.setdefault("name", (name or "").strip() or d.name)
+    meta.setdefault("created", int(time.time()))
+    meta.setdefault("images", [])
+    start = len([f for f in d.iterdir() if f.suffix.lower() in IMG_EXT])
+    files = []
+    for k, i in enumerate(ids, start + 1):
+        r = rows[i]
+        src = img_dir() / r["file"]
+        dest = d / f"{k:02d}-{_slugify(meta['name'])[:30]}{src.suffix}"
+        shutil.copy2(src, dest)
+        files.append(dest.name)
+        meta["images"].append({"file": dest.name, "id": i, "prompt": r.get("prompt", "")[:2000], "model": r.get("model"),
+                               "shape": r.get("shape"), **({"slide": r["slide"], "of": r["of"]} if r.get("set") else {})})
+    meta["updated"] = int(time.time())
+    write_json(meta_p, meta)
+    root = workspace()
+    return {"folder": rel(d) if root in d.parents else str(d), "files": files, "mode": mode, "name": meta["name"]}
+
+
 def suggest_prompt(text: str, note: str = "") -> dict:
     """Claude's answer to "Help me write the prompt": shown in the image window."""
     if not (text or "").strip():
@@ -466,7 +607,7 @@ def state() -> dict:
         pass
     return {"hasKey": has_key(), "settings": settings(), "models": models(),
             "claude": claude_state(), "claudeShapes": {k: list(v) for k, v in CLAUDE_SIZES.items()},
-            "shapes": list(SHAPES), "qualities": list(QUALITY), "maxRefs": MAX_REFS, "maxN": MAX_N,
+            "shapes": list(SHAPES), "qualities": list(QUALITY), "maxRefs": MAX_REFS, "maxN": MAX_N, "parallel": PARALLEL,
             "gallery": list(reversed(gallery()))[:60],
             "suggested": read_json(img_dir() / "suggested.json"),
             "post": {"id": p["id"], "folder": rel(Path(p["folder"])) if p else None, "media": post_media,
@@ -496,15 +637,18 @@ def claude_state() -> dict | None:
     return s
 
 
-def ask_claude(prompt: str, shape: str = "tall", n: int = 1, refs: list[str] | None = None, edit_of: str = "") -> dict:
-    """Queue "Claude, design this" for the listening loop."""
+def ask_claude(prompt: str, shape: str = "tall", n: int = 1, refs: list[str] | None = None, edit_of: str = "",
+               kind: str = "single") -> dict:
+    """Queue "Claude, design this" for the listening loop. n=0: PIX decides how many."""
     import hitl
     import jobs
     prompt = (prompt or "").strip()
     if not prompt:
         raise ValueError("Describe the image you want.")
     shape = shape if shape in CLAUDE_SIZES else "tall"
-    n = max(1, min(MAX_N, int(n or 1)))
+    kind = "carousel" if kind == "carousel" and not edit_of else "single"
+    auto = not edit_of and int(n or 0) == 0
+    n = 0 if auto else max(1, min(MAX_N, int(n or 1)))
     refs = [rel(ref_path(r)) for r in (refs or [])][:MAX_REFS]
     src = None
     if edit_of:
@@ -514,15 +658,21 @@ def ask_claude(prompt: str, shape: str = "tall", n: int = 1, refs: list[str] | N
         src = row
         shape = row.get("shape") or shape
     w, h = CLAUDE_SIZES[shape]
-    jid = jobs.start("image", ("PIX is changing a design" if src else f"PIX is designing {n} image{'s' if n > 1 else ''}"),
-                     estimate=90 * n, step="Waiting for Claude Code…")
-    action = {"type": "claude_image", "prompt": prompt[:4000], "shape": shape, "width": w, "height": h, "n": n,
-              "refs": refs, "job": jid, "template": "templates/claude-image.html"}
+    what = (("a carousel" if auto else f"a {n}-slide carousel") if kind == "carousel" else
+            ("images" if auto else f"{n} image{'s' if n > 1 else ''}"))
+    jid = jobs.start("image", ("PIX is changing a design" if src else f"PIX is designing {what}"),
+                     estimate=90 * (n or 5), step="Waiting for Claude Code…")
+    action = {"type": "claude_image", "prompt": prompt[:8000], "shape": shape, "width": w, "height": h, "n": n,
+              "kind": kind, "auto": auto, "maxN": MAX_N, "refs": refs, "job": jid, "template": "templates/claude-image.html"}
     if src:
         action.update(editOf=src["id"], html=src["html"], file=rel(img_dir() / src["file"]))
-    note = hitl.add_note(("Change this Claude design: " if src else f"Design {n} image{'s' if n > 1 else ''} ({shape} {w}x{h}): ") + prompt[:300], action)
+    head = ("Change this Claude design: " if src else
+            (f"Design a carousel ({'you decide how many slides, up to ' + str(MAX_N) if auto else str(n) + ' slides'}, {shape} {w}x{h}): "
+             if kind == "carousel" else
+             f"Design {'the right number of images (you decide, up to ' + str(MAX_N) + ')' if auto else str(n) + ' image' + ('s' if n > 1 else '')} ({shape} {w}x{h}): "))
+    note = hitl.add_note(head + prompt[:300], action)
     write_json(_claude_path(), {"status": "asked", "ts": int(time.time()), "noteId": note["id"], "job": jid, "n": n,
-                                "shape": shape, "prompt": prompt[:4000], **({"editOf": src["id"]} if src else {})})
+                                "kind": kind, "auto": auto, "shape": shape, "prompt": prompt[:8000], **({"editOf": src["id"]} if src else {})})
     return {"queued": note["id"], "job": jid}
 
 
@@ -553,6 +703,7 @@ def claude_render(html_files: list[str], prompt: str = "", shape: str = "", note
     prompt = (prompt or st.get("prompt") or "").strip()
     slug = re.sub(r"[^a-z0-9]+", "-", prompt.lower())[:30].strip("-") or "design"
     rows, made, errors = gallery(), [], []
+    set_id = uuid.uuid4().hex[:8] if st.get("kind") == "carousel" and st.get("status") == "asked" and len(html_files) > 1 else ""
     for i, f in enumerate(html_files):
         src = Path(f).expanduser()
         if not src.is_file() or src.suffix.lower() not in (".html", ".htm"):
@@ -572,7 +723,8 @@ def claude_render(html_files: list[str], prompt: str = "", shape: str = "", note
         row = {"id": uuid.uuid4().hex[:10], "file": out.name, "prompt": prompt, "model": CLAUDE_MODEL, "engine": "claude",
                "shape": shape, "quality": "design", "size": f"{w}x{h}", "refs": [], "ts": int(time.time()),
                "secs": round(time.time() - t0, 1), "via": "claude", "html": rel(html_keep),
-               **({"note": note.strip()[:500]} if note else {}), **({"editOf": st["editOf"]} if st.get("editOf") else {})}
+               **({"note": note.strip()[:500]} if note else {}), **({"editOf": st["editOf"]} if st.get("editOf") else {}),
+               **({"kind": "carousel", "set": set_id, "slide": i + 1, "of": len(html_files)} if set_id else {})}
         rows.append(row)
         made.append(row)
     _save_index(rows)

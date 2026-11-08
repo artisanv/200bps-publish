@@ -601,7 +601,8 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 out = images.generate(str(data.get("prompt", "")), [str(r) for r in (data.get("refs") or [])][:images.MAX_REFS],
                                       str(data.get("model") or ""), str(data.get("shape") or ""), str(data.get("quality") or ""),
                                       int(data.get("n") or 0), via="dashboard", edit_of=str(data.get("editOf") or ""),
-                                      mask=str(data.get("mask") or ""), notes=[str(x)[:500] for x in (data.get("notes") or [])][:20])
+                                      mask=str(data.get("mask") or ""), notes=[str(x)[:500] for x in (data.get("notes") or [])][:20],
+                                      kind=str(data.get("kind") or "single"))
             except (RuntimeError, ValueError) as e:
                 from store import append_log
                 append_log({"ts": int(time.time()), "event": "image_failed", "edit": bool(data.get("editOf")), "error": str(e)[:300]})
@@ -610,7 +611,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
         if op == "upload":
             return {"ok": True, **images.save_upload(str(data.get("name", "")), str(data.get("data", "")))}
         if op == "settings":
-            return {"ok": True, "settings": images.save_settings(**{k: data.get(k) for k in ("model", "shape", "quality", "n")})}
+            return {"ok": True, "settings": images.save_settings(**{k: data.get(k) for k in ("model", "shape", "quality", "n", "nMode", "kind")})}
         if op == "delete":
             images.delete(str(data.get("id", "")))
             return {"ok": True}
@@ -618,6 +619,11 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             return {"ok": True, **images.copy_to(str(data.get("id", "")), str(data.get("folder") or ""), bool(data.get("pick")))}
         if op == "keep_outside":
             return {"ok": True, "image": images.keep_outside(str(data.get("id", "")), str(data.get("data", "")))}
+        if op == "projects":                 # your saved projects (folders in my-projects)
+            return {"ok": True, "projects": images.projects()}
+        if op == "project":                  # save several images together (a project folder) or each as it is
+            return {"ok": True, **images.save_project([str(x) for x in (data.get("ids") or [])][:200], str(data.get("name") or ""),
+                                                      str(data.get("mode") or "new"), str(data.get("folder") or ""))}
         if op == "saveas":
             return {"ok": True, **images.save_as(str(data.get("id", "")))}
         if op == "models_refresh":           # "Check now": read OpenAI's model list again
@@ -630,10 +636,11 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             return {"ok": True, "models": images.mark_models_seen([str(x) for x in (data.get("ids") or [])][:50] or None)}
         if op == "claude":                   # "Claude designs it": queue it for the listening loop
             return {"ok": True, **images.ask_claude(str(data.get("prompt", "")), str(data.get("shape") or "tall"),
-                                                    int(data.get("n") or 1), [str(r) for r in (data.get("refs") or [])][:images.MAX_REFS],
-                                                    str(data.get("editOf") or ""))}
+                                                    0 if data.get("n") in ("auto", 0, "0") else int(data.get("n") or 1),
+                                                    [str(r) for r in (data.get("refs") or [])][:images.MAX_REFS],
+                                                    str(data.get("editOf") or ""), str(data.get("kind") or "single"))}
         if op == "ask":                      # "Ask Claude to write the prompt"
-            idea = str(data.get("text", ""))[:2000]
+            idea = str(data.get("text", ""))[:8000]
             n = hitl.add_note(f"Write an image prompt for: {idea}", {"type": "image_prompt", "text": idea,
                                                                        "refs": [str(r) for r in (data.get("refs") or [])][:10]})
             return {"ok": True, "queued": n["id"]}
