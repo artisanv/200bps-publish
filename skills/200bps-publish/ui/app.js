@@ -121,7 +121,7 @@
       imgStep3: "Options", imgShape: "Shape", shapeSquare: "Square", shapeTall: "Tall", shapeWide: "Wide",
       shapeHint_square: "Square: Instagram feed and carousels", shapeHint_tall: "Tall: stories and Reel covers", shapeHint_wide: "Wide: LinkedIn and banners", shapeHint_auto: "Auto shape",
       imgQuality: "Quality", qDraft: "Draft", qStandard: "Standard", qBest: "Best", qHint_draft: "Draft is fastest and cheapest, good for trying ideas", qHint_standard: "Standard suits most posts", qHint_best: "Best takes longer and costs more",
-      imgCount: "How many", projSaveAll: "Save all as a project…", projSave: "Save as a project…", projLoose: "Save each to a folder…", projSelect: "Select", projPicked: "{n} picked (in this order)", projPickHint: "Click images to pick them; the order you click is the order they're saved.", projClear: "Clear", projTitle: "Save {n} image(s) together", projSub: "They're copied in order (01, 02 …) into one folder, with a project.json of the prompts. Your images stay here too.", projName: "Project name", projNamePh: "e.g. AI news carousel, week 45", projNew: "New project (in my-projects)", projExisting: "Add to a project", projPick: "New project somewhere on my computer…", projSaveGo: "Save", projSaving: "Saving…", projSaved: "Saved {n} image(s)", projAsPost: "This folder can become a post: New post → A post folder (add a caption).", projNeedName: "Give the project a name.", imgCountTries: "How many tries", imgCountSlides: "How many slides", imgCountVersions: "How many versions", imgKind: "Make", kindSingle: "One image", kindCarousel: "Carousel", nImages: "{n} image(s)", nSlides: "{n} slides", nCustomBtn: "Any number", nCustom: "How many", nMax: "up to {max}", nPromptBtn: "As my prompt says", nAutoBtn: "Recommended", nFound: "Your prompt asks for {x}.", nNotFound: "No number in your prompt yet (e.g. \"6 slides\" or \"Slide 1: … Slide 2: …\"), so 1 for now.", nPixImages: "PIX decides how many from your idea (up to {max}) and says why.", nPixSlides: "PIX decides how many slides the story needs (up to {max}) and says why.", nRecFound: "Recommended: {x}, as your prompt asks.", nRecCar: "Recommended: {x} (a cover, 3 points and a closing slide). Write \"Slide 1: … Slide 2: …\" for your own.", nRecQ_draft: "Recommended: {x}. Drafts are cheap, so more tries to choose from.", nRecQ_standard: "Recommended: {x}, enough to choose from without much credit.", nRecQ_best: "Recommended: {x}. Best quality costs the most per image.", nCost: "{n} images, each one uses OpenAI credit. They're made 4 at a time.", imgMakingCar: "Making a {n}-slide carousel…", imgNewCar: "New carousel · {n} slides", imgCarPost: "Make a carousel post ({n} slides)", imgModel: "Model", imgModelsMain: "Models", imgModelsPinned: "Pinned versions (results don't change)", imgMakeDefault: "Keep these as my defaults", imgDefSaved: "Saved as your default",
+      imgCount: "How many", ivOpen: "View here", ivTitle: "Image viewer", ivAll: "All images", ivSlide: "Slide", ivDownload: "Download", ivKeys: "← → or the mouse wheel to scroll · swipe on a phone · click a thumbnail · Esc to close", ivKeys1: "Esc to close", projSaveAll: "Save all as a project…", projSave: "Save as a project…", projLoose: "Save each to a folder…", projSelect: "Select", projPicked: "{n} picked (in this order)", projPickHint: "Click images to pick them; the order you click is the order they're saved.", projClear: "Clear", projTitle: "Save {n} image(s) together", projSub: "They're copied in order (01, 02 …) into one folder, with a project.json of the prompts. Your images stay here too.", projName: "Project name", projNamePh: "e.g. AI news carousel, week 45", projNew: "New project (in my-projects)", projExisting: "Add to a project", projPick: "New project somewhere on my computer…", projSaveGo: "Save", projSaving: "Saving…", projSaved: "Saved {n} image(s)", projAsPost: "This folder can become a post: New post → A post folder (add a caption).", projNeedName: "Give the project a name.", imgCountTries: "How many tries", imgCountSlides: "How many slides", imgCountVersions: "How many versions", imgKind: "Make", kindSingle: "One image", kindCarousel: "Carousel", nImages: "{n} image(s)", nSlides: "{n} slides", nCustomBtn: "Any number", nCustom: "How many", nMax: "up to {max}", nPromptBtn: "As my prompt says", nAutoBtn: "Recommended", nFound: "Your prompt asks for {x}.", nNotFound: "No number in your prompt yet (e.g. \"6 slides\" or \"Slide 1: … Slide 2: …\"), so 1 for now.", nPixImages: "PIX decides how many from your idea (up to {max}) and says why.", nPixSlides: "PIX decides how many slides the story needs (up to {max}) and says why.", nRecFound: "Recommended: {x}, as your prompt asks.", nRecCar: "Recommended: {x} (a cover, 3 points and a closing slide). Write \"Slide 1: … Slide 2: …\" for your own.", nRecQ_draft: "Recommended: {x}. Drafts are cheap, so more tries to choose from.", nRecQ_standard: "Recommended: {x}, enough to choose from without much credit.", nRecQ_best: "Recommended: {x}. Best quality costs the most per image.", nCost: "{n} images, each one uses OpenAI credit. They're made 4 at a time.", imgMakingCar: "Making a {n}-slide carousel…", imgNewCar: "New carousel · {n} slides", imgCarPost: "Make a carousel post ({n} slides)", imgModel: "Model", imgModelsMain: "Models", imgModelsPinned: "Pinned versions (results don't change)", imgMakeDefault: "Keep these as my defaults", imgDefSaved: "Saved as your default",
       imgDefModel: "Image model", imgGo: "Create image", imgGoRefs: "Create image from {n} guide picture(s)", imgMaking: "Creating…", imgMakingN: "Creating {n}…",
       imgNeedPrompt: "Describe the image first.", imgWhere: "Ctrl+Enter also creates. Images are saved in .bps/images in this folder.",
       imgNew: "Just made", imgMine: "Your images", imgNone: "No images yet. Your first one will show up here.", imgGuides: "guides",
@@ -329,7 +329,7 @@
       imgStep3: "الخيارات", imgShape: "الشكل", shapeSquare: "مربع", shapeTall: "طولي", shapeWide: "عرضي",
       shapeHint_square: "مربع: فيد إنستقرام والكاروسيل", shapeHint_tall: "طولي: الستوري وكفر الريل", shapeHint_wide: "عرضي: لينكدإن والبنرات", shapeHint_auto: "شكل تلقائي",
       imgQuality: "الجودة", qDraft: "مسودة", qStandard: "عادية", qBest: "أفضل", qHint_draft: "المسودة أسرع وأرخص، حلوة للتجربة", qHint_standard: "العادية تناسب أغلب البوستات", qHint_best: "الأفضل تاخذ وقت أطول وتكلف أكثر",
-      imgCount: "كم وحدة", projSaveAll: "احفظهم كلهم كمشروع…", projSave: "احفظ كمشروع…", projLoose: "احفظ كل وحدة بمجلد…", projSelect: "اختيار", projPicked: "اخترت {n} (بهالترتيب)", projPickHint: "اضغط على الصور عشان تختارها؛ ترتيب ضغطك هو ترتيب الحفظ.", projClear: "امسح", projTitle: "احفظ {n} صورة مع بعض", projSub: "تنسخ بالترتيب (01، 02 …) بمجلد واحد، ومعاها project.json فيه الأوصاف. وصورك تبقى هني بعد.", projName: "اسم المشروع", projNamePh: "مثلاً كاروسيل أخبار الذكاء، أسبوع 45", projNew: "مشروع جديد (في my-projects)", projExisting: "أضفها لمشروع", projPick: "مشروع جديد بأي مكان بجهازي…", projSaveGo: "احفظ", projSaving: "قاعد يحفظ…", projSaved: "انحفظت {n} صورة", projAsPost: "هالمجلد يصير بوست: بوست جديد ← مجلد بوست (وأضف كابشن).", projNeedName: "عط المشروع اسم.", imgCountTries: "كم محاولة", imgCountSlides: "كم شريحة", imgCountVersions: "كم نسخة", imgKind: "سوّ", kindSingle: "صورة وحدة", kindCarousel: "كاروسيل", nImages: "{n} صورة", nSlides: "{n} شرائح", nCustomBtn: "أي عدد", nCustom: "العدد", nMax: "لين {max}", nPromptBtn: "مثل ما كتبت", nAutoBtn: "المقترح", nFound: "كتبت إنك تبي {x}.", nNotFound: "ما في رقم بالوصف للحين (مثلاً «٦ شرائح» أو «شريحة ١: … شريحة ٢: …»)، فبنسوي وحدة.", nPixImages: "PIX يقرر العدد من فكرتك (لين {max}) ويقولك ليش.", nPixSlides: "PIX يقرر كم شريحة تحتاج القصة (لين {max}) ويقولك ليش.", nRecFound: "المقترح: {x}، مثل ما كتبت.", nRecCar: "المقترح: {x} (غلاف، ٣ نقاط، وشريحة ختام). اكتب «شريحة ١: … شريحة ٢: …» إذا تبي ترتيبك.", nRecQ_draft: "المقترح: {x}. المسودة رخيصة، فمحاولات أكثر تختار منها.", nRecQ_standard: "المقترح: {x}، تكفي تختار منها بدون رصيد واجد.", nRecQ_best: "المقترح: {x}. الجودة الأفضل أغلى لكل صورة.", nCost: "{n} صور، كل وحدة تاخذ من رصيد OpenAI. تنسوى ٤ ٤.", imgMakingCar: "قاعد يسوي كاروسيل من {n} شرائح…", imgNewCar: "كاروسيل جديد · {n} شرائح", imgCarPost: "سوّ بوست كاروسيل ({n} شرائح)", imgModel: "الموديل", imgModelsMain: "الموديلات", imgModelsPinned: "نسخ ثابتة (النتيجة ما تتغير)", imgMakeDefault: "خلها الإعدادات الافتراضية", imgDefSaved: "انحفظت كافتراضي",
+      imgCount: "كم وحدة", ivOpen: "شوفها هني", ivTitle: "عارض الصور", ivAll: "كل الصور", ivSlide: "شريحة", ivDownload: "نزّلها", ivKeys: "← → أو عجلة الماوس عشان تقلّب · اسحب بالجوال · اضغط صورة مصغّرة · Esc للإغلاق", ivKeys1: "Esc للإغلاق", projSaveAll: "احفظهم كلهم كمشروع…", projSave: "احفظ كمشروع…", projLoose: "احفظ كل وحدة بمجلد…", projSelect: "اختيار", projPicked: "اخترت {n} (بهالترتيب)", projPickHint: "اضغط على الصور عشان تختارها؛ ترتيب ضغطك هو ترتيب الحفظ.", projClear: "امسح", projTitle: "احفظ {n} صورة مع بعض", projSub: "تنسخ بالترتيب (01، 02 …) بمجلد واحد، ومعاها project.json فيه الأوصاف. وصورك تبقى هني بعد.", projName: "اسم المشروع", projNamePh: "مثلاً كاروسيل أخبار الذكاء، أسبوع 45", projNew: "مشروع جديد (في my-projects)", projExisting: "أضفها لمشروع", projPick: "مشروع جديد بأي مكان بجهازي…", projSaveGo: "احفظ", projSaving: "قاعد يحفظ…", projSaved: "انحفظت {n} صورة", projAsPost: "هالمجلد يصير بوست: بوست جديد ← مجلد بوست (وأضف كابشن).", projNeedName: "عط المشروع اسم.", imgCountTries: "كم محاولة", imgCountSlides: "كم شريحة", imgCountVersions: "كم نسخة", imgKind: "سوّ", kindSingle: "صورة وحدة", kindCarousel: "كاروسيل", nImages: "{n} صورة", nSlides: "{n} شرائح", nCustomBtn: "أي عدد", nCustom: "العدد", nMax: "لين {max}", nPromptBtn: "مثل ما كتبت", nAutoBtn: "المقترح", nFound: "كتبت إنك تبي {x}.", nNotFound: "ما في رقم بالوصف للحين (مثلاً «٦ شرائح» أو «شريحة ١: … شريحة ٢: …»)، فبنسوي وحدة.", nPixImages: "PIX يقرر العدد من فكرتك (لين {max}) ويقولك ليش.", nPixSlides: "PIX يقرر كم شريحة تحتاج القصة (لين {max}) ويقولك ليش.", nRecFound: "المقترح: {x}، مثل ما كتبت.", nRecCar: "المقترح: {x} (غلاف، ٣ نقاط، وشريحة ختام). اكتب «شريحة ١: … شريحة ٢: …» إذا تبي ترتيبك.", nRecQ_draft: "المقترح: {x}. المسودة رخيصة، فمحاولات أكثر تختار منها.", nRecQ_standard: "المقترح: {x}، تكفي تختار منها بدون رصيد واجد.", nRecQ_best: "المقترح: {x}. الجودة الأفضل أغلى لكل صورة.", nCost: "{n} صور، كل وحدة تاخذ من رصيد OpenAI. تنسوى ٤ ٤.", imgMakingCar: "قاعد يسوي كاروسيل من {n} شرائح…", imgNewCar: "كاروسيل جديد · {n} شرائح", imgCarPost: "سوّ بوست كاروسيل ({n} شرائح)", imgModel: "الموديل", imgModelsMain: "الموديلات", imgModelsPinned: "نسخ ثابتة (النتيجة ما تتغير)", imgMakeDefault: "خلها الإعدادات الافتراضية", imgDefSaved: "انحفظت كافتراضي",
       imgDefModel: "موديل الصور", imgGo: "سوّ الصورة", imgGoRefs: "سوّ الصورة من {n} صورة مرشدة", imgMaking: "قاعد يسوي…", imgMakingN: "قاعد يسوي {n}…",
       imgNeedPrompt: "اوصف الصورة أول.", imgWhere: "Ctrl+Enter بعد يسويها. الصور تنحفظ في ‎.bps/images‎ بهالمجلد.",
       imgNew: "توها انسوت", imgMine: "صورك", imgNone: "ما في صور للحين. أول وحدة بتطلع هني.", imgGuides: "مرشدة",
@@ -4922,10 +4922,10 @@
       el("div", { class: "row2 img-car-acts" },
         el("button", { class: "btn on sm img-car-post", type: "button", onclick: () => carouselToPost(set) }, "▦ " + t("imgCarPost").replace("{n}", set.length)),
         el("button", { class: "btn sm img-proj-btn", type: "button", onclick: () => openProject(set.map((g) => g.id), set[0].prompt) }, "💾 " + t("projSaveAll"))),
-      el("div", { class: "img-tiles img-car" }, ...set.map((g) => el("div", { class: "img-car-slide" }, el("span", { class: "img-car-n" }, (g.slide || 0) + " / " + set.length), imgTile(g, true)))));
+      el("div", { class: "img-tiles img-car" }, ...set.map((g) => el("div", { class: "img-car-slide" }, el("span", { class: "img-car-n" }, (g.slide || 0) + " / " + set.length), imgTile(g, true, set)))));
     else if (IMG.last.length) put(right, el("div", { class: "img-step" }, el("b", {}, t("imgNew")),
         IMG.last.length > 1 ? el("button", { class: "btn sm img-proj-btn", type: "button", onclick: () => openProject(IMG.last.map((g) => g.id), IMG.last[0].prompt) }, "💾 " + t("projSaveAll")) : null),
-      el("div", { class: "img-tiles" }, ...IMG.last.map((g) => imgTile(g, true))));
+      el("div", { class: "img-tiles" }, ...IMG.last.map((g) => imgTile(g, true, IMG.last))));
     if (IMG.last.length && IMG.engine === "claude" && st.claude && st.claude.note && st.claude.status === "ready") put(right, el("p", { class: "img-claude-note" }, st.claude.note));
     const older = IMG.selOn ? st.gallery : st.gallery.filter((g) => !IMG.last.some((x) => x.id === g.id));
     put(right, el("div", { class: "img-step" }, el("b", {}, t("imgMine")), el("span", { class: "label" }, String(st.gallery.length)),
@@ -4933,7 +4933,7 @@
         onclick: () => { IMG.selOn = !IMG.selOn; if (!IMG.selOn) IMG.sel = []; redrawImage(); } }, (IMG.selOn ? "✓ " : "☐ ") + t("projSelect")) : null),
       !IMG.selOn && st.gallery.length > 1 ? el("button", { class: "btn sm", type: "button", onclick: () => openNewPost({ pick: "mine" }) }, "▦ " + t("npCarouselFromMine")) : null,
       IMG.selOn ? selBar(st) : null,
-      older.length ? el("div", { class: "img-tiles small" }, ...older.slice(0, IMG.selOn ? 120 : 24).map((g) => IMG.selOn ? selTile(g) : imgTile(g))) : el("p", { class: "hint" }, t("imgNone")));
+      older.length ? el("div", { class: "img-tiles small" }, ...older.slice(0, IMG.selOn ? 120 : 24).map((g) => IMG.selOn ? selTile(g) : imgTile(g, false, older))) : el("p", { class: "hint" }, t("imgNone")));
   }
 
   /* ---------- edit with marks: pins and areas on the picture, a note each ---------- */
@@ -5165,12 +5165,14 @@
     }, 500);
   }
 
-  function imgTile(g, big) {
+  function imgTile(g, big, list) {
     const st = IMG.st, canPost = st.post && st.post.editable;
     const byClaude = g.engine === "claude";
     const fig = el("figure", { class: "img-tile shape-" + g.shape + (big ? " big" : ""), style: "position:relative" },
       byClaude ? el("span", { class: "img-badge" }, "PIX") : null,
-      el("a", { href: imgUrl(g), target: "_blank", rel: "noopener", title: g.prompt }, el("img", { src: imgUrl(g), alt: g.prompt.slice(0, 120), loading: "lazy" })),
+      el("button", { class: "img-open", type: "button", title: t("ivOpen"), "aria-label": t("ivOpen") + ": " + g.prompt.slice(0, 80),
+        onclick: () => { const L = list && list.length ? list : IMG.st.gallery; openImgViewer(L, Math.max(0, L.findIndex((x) => x.id === g.id))); } },
+        el("img", { src: imgUrl(g), alt: g.prompt.slice(0, 120), loading: "lazy" })),
       el("figcaption", {}, el("span", { class: "label" }, g.model + " · " + t("q" + g.quality[0].toUpperCase() + g.quality.slice(1)) + (g.refs && g.refs.length ? " · " + g.refs.length + " " + t("imgGuides") : "")),
         el("div", { class: "row2 img-acts" },
           IMG.forNP ? el("button", { class: "btn sm on keep img-tonp-btn", type: "button", onclick: () => imgToNewPost(g) }, "＋ " + t("imgToNP")) : null,
@@ -5184,6 +5186,83 @@
           el("a", { class: "btn sm", href: imgUrl(g), download: g.file }, "⤓"),
           el("button", { class: "btn sm danger-ghost", type: "button", "aria-label": t("remove"), onclick: () => imgDelete(g) }, "🗑"))));
     return fig;
+  }
+
+  /* ---------- in-app viewer: scroll through a carousel, the new results or all your images ---------- */
+  let IV = null;
+  function openImgViewer(list, start) {
+    if (!list || !list.length) return;
+    closeImgViewer();
+    const back = document.activeElement;
+    const rtl = () => document.documentElement.dir === "rtl";
+    const isSet = list.length > 1 && list.every((g) => g.set && g.set === list[0].set);
+    const big = el("img", { class: "iv-img", alt: "" });
+    const count = el("span", { class: "iv-count mono", "aria-live": "polite" });
+    const cap = el("p", { class: "iv-cap" });
+    const meta = el("span", { class: "iv-meta label" });
+    const strip = el("div", { class: "iv-strip", role: "listbox", "aria-label": t("ivAll") });
+    const dl = el("a", { class: "btn sm", download: "" }, "⤓ " + t("ivDownload"));
+    const show = (n) => {
+      IV.i = (n + list.length) % list.length;
+      const g = list[IV.i];
+      big.src = imgUrl(g); big.alt = g.prompt.slice(0, 160);
+      count.textContent = (isSet ? t("ivSlide") + " " : "") + (IV.i + 1) + " / " + list.length;
+      cap.textContent = g.prompt.length > 220 ? g.prompt.slice(0, 220) + "…" : g.prompt;
+      meta.textContent = [g.engine === "claude" ? "PIX" : g.model, g.size || g.shape].filter(Boolean).join(" · ");
+      dl.href = imgUrl(g); dl.setAttribute("download", g.file);
+      strip.querySelectorAll("button").forEach((b, k) => { b.classList.toggle("on", k === IV.i); b.setAttribute("aria-selected", String(k === IV.i)); });
+      const on = strip.children[IV.i]; if (on) on.scrollIntoView({ block: "nearest", inline: "center", behavior: reduced ? "auto" : "smooth" });
+    };
+    list.forEach((g, k) => strip.append(el("button", { type: "button", role: "option", "aria-label": (k + 1) + " / " + list.length, onclick: () => show(k) },
+      el("img", { src: imgUrl(g), alt: "", loading: "lazy" }), isSet ? el("span", {}, String(k + 1)) : null)));
+    const step = (d) => list.length > 1 && show(IV.i + d);
+    const stage = el("div", { class: "iv-stage" }, big,
+      list.length > 1 ? el("button", { class: "iv-nav prev", type: "button", "aria-label": t("vPrev"), title: t("vPrev") + " (←)", onclick: () => step(rtl() ? 1 : -1) }, "‹") : null,
+      list.length > 1 ? el("button", { class: "iv-nav next", type: "button", "aria-label": t("vNext"), title: t("vNext") + " (→)", onclick: () => step(rtl() ? -1 : 1) }, "›") : null);
+    const closeB = el("button", { class: "btn sm iv-close", type: "button", "aria-label": t("close"), title: t("close") + " (Esc)", onclick: closeImgViewer }, "✕");
+    const box = el("div", { class: "iv", role: "dialog", "aria-modal": "true", "aria-label": t("ivTitle") },
+      el("div", { class: "iv-top" }, count, meta, el("span", { class: "iv-gap" }), dl,
+        el("button", { class: "btn sm", type: "button", onclick: () => { const g = list[IV.i]; closeImgViewer(); useAsGuide(g); } }, t("imgUseGuide")),
+        isSet ? el("button", { class: "btn sm on", type: "button", onclick: () => { closeImgViewer(); carouselToPost(list); } }, "▦ " + t("imgCarPost").replace("{n}", list.length)) : null,
+        closeB),
+      stage, cap, list.length > 1 ? strip : null,
+      el("p", { class: "hint iv-keys" }, t(list.length > 1 ? "ivKeys" : "ivKeys1")));
+    box.addEventListener("click", (e) => { if (e.target === box) closeImgViewer(); });
+    let x0 = null, wheelAt = 0;
+    stage.addEventListener("pointerdown", (e) => { x0 = e.clientX; });
+    stage.addEventListener("pointerup", (e) => { if (x0 == null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 40) step((dx < 0) !== rtl() ? 1 : -1); });
+    box.addEventListener("wheel", (e) => {
+      if (list.length < 2 || strip.contains(e.target)) return;
+      e.preventDefault();
+      const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (Math.abs(d) < 8 || Date.now() - wheelAt < 280) return;
+      wheelAt = Date.now(); step(d > 0 ? 1 : -1);
+    }, { passive: false });
+    const keys = (e) => {
+      const k = e.key;
+      if (k === "Escape") { e.preventDefault(); e.stopImmediatePropagation(); closeImgViewer(); return; }
+      if (k === "ArrowRight" || k === "ArrowLeft") { e.preventDefault(); e.stopImmediatePropagation(); step((k === "ArrowRight") !== rtl() ? 1 : -1); }
+      else if (k === "ArrowDown" || k === "PageDown" || (k === " " && e.target.tagName !== "BUTTON")) { e.preventDefault(); e.stopImmediatePropagation(); step(1); }
+      else if (k === "ArrowUp" || k === "PageUp") { e.preventDefault(); e.stopImmediatePropagation(); step(-1); }
+      else if (k === "Home") { e.preventDefault(); show(0); } else if (k === "End") { e.preventDefault(); show(list.length - 1); }
+      else if (k === "Tab") {                    // keep focus inside the viewer
+        const f = [...box.querySelectorAll("button, a[href]")].filter((x) => x.offsetParent);
+        if (f.length && e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (f.length && !e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+      }
+    };
+    window.addEventListener("keydown", keys, true);
+    IV = { box, keys, back, i: 0 };
+    document.body.append(box);
+    show(start || 0);
+    closeB.focus();
+  }
+  function closeImgViewer() {
+    if (!IV) return;
+    window.removeEventListener("keydown", IV.keys, true);
+    IV.box.remove();
+    const back = IV.back; IV = null;
+    if (back && back.isConnected) back.focus();
   }
 
   async function useAsGuide(g) {
@@ -6183,6 +6262,7 @@
         "<b>New models:</b> the OpenAI model list refreshes by itself once a day. A new model shows a notice: <b>Try it</b>, <b>Make it my default</b> or <b>Got it</b>. <b>↻ Check now</b> (in the window and in Settings → Keys → OpenAI) asks OpenAI right away.",
         "<b>Create:</b> describe the picture (or press \"Ask PIX to improve it\"), add guide pictures to keep a style, face or product, pick shape, quality and how many.",
         "<b>One image or a carousel:</b> <b>One image</b> makes several tries of the same picture so you keep the best. <b>Carousel</b> makes slides that go together (same style, in order: cover, points, closing) and <b>▦ Make a carousel post</b> opens New post with them in order. Write <b>Slide 1: … Slide 2: …</b> to say what each slide shows.",
+        "<b>View here:</b> click any image to see it big inside Publish, not in a new tab. Scroll through the carousel (Slide 2 / 6), the new results or all your images with <b>← →</b>, the mouse wheel, a swipe or the thumbnail strip. <b>⤓ Download</b>, <b>Use as guide</b> and <b>▦ Make a carousel post</b> are right there; <b>Esc</b> closes.",
         "<b>Save as a project:</b> <b>💾 Save all as a project…</b> on new results, or <b>☐ Select</b> in Your images to pick any (click order = save order). Save them as a <b>new project</b> (my-projects/<name>, files 01, 02 … plus project.json with the prompts), <b>add to a project</b>, or make the project <b>anywhere on your computer</b>. <b>Save each to a folder…</b> copies them one by one without a project folder; one image still has <b>Save to folder</b> and <b>Save as…</b>.",
         "<b>How many:</b> 1, 2, 4 or <b>Any number</b> (up to 20). <b>As my prompt says</b> uses the number you wrote (\"6 slides\", \"خمس صور\", or your Slide list). <b>Recommended</b>: PIX decides for its designs; with OpenAI it uses your prompt's number, else a sensible count (5 slides for a carousel; for one image 4 drafts, 2 standard, 1 best). OpenAI makes 4 at a time, and each image uses credit.",
         "<b>Edit:</b> press <b>✎ Edit</b> on any image, or <b>Edit a picture from my computer</b>. Mark the picture with <b>Pin / Area</b> (click or drag), <b>Paint</b> (brush S, M, L) or <b>Surround</b> (draw a loop), and write a note for each numbered mark.",
@@ -6316,6 +6396,7 @@
         "<b>موديلات جديدة:</b> قائمة موديلات OpenAI تتحدث بروحها مرة باليوم. أي موديل جديد يطلع له تنبيه: <b>جرّبه</b>، <b>خله الافتراضي</b> أو <b>تمام</b>. <b>↻ افحص الحين</b> (بالنافذة وبالإعدادات ← المفاتيح ← OpenAI) يسأل OpenAI على طول.",
         "<b>سوّ:</b> اوصف الصورة (أو اضغط «خل PIX يحسّنه»)، أضف صور مرشدة عشان تحافظ على أسلوب أو وجه أو منتج، واختار الشكل والجودة والعدد.",
         "<b>صورة وحدة أو كاروسيل:</b> <b>صورة وحدة</b> تسوي كذا محاولة لنفس الصورة وتختار الأحلى. <b>كاروسيل</b> يسوي شرائح تمشي مع بعض (نفس الأسلوب وبالترتيب: غلاف، نقاط، ختام)، و<b>▦ سوّ بوست كاروسيل</b> يفتح بوست جديد فيها بالترتيب. اكتب <b>شريحة ١: … شريحة ٢: …</b> عشان تحدد شنو بكل شريحة.",
+        "<b>شوفها هني:</b> اضغط على أي صورة وتشوفها كبيرة داخل Publish، مو بتبويب جديد. قلّب بالكاروسيل (شريحة ٢ / ٦) أو النتايج الجديدة أو كل صورك بـ<b>← →</b>، أو عجلة الماوس، أو السحب، أو شريط الصور المصغّرة. و<b>⤓ نزّلها</b> و<b>استخدمها كمرشدة</b> و<b>▦ سوّ بوست كاروسيل</b> موجودين هناك؛ و<b>Esc</b> يسكّر.",
         "<b>احفظ كمشروع:</b> <b>💾 احفظهم كلهم كمشروع…</b> على النتايج الجديدة، أو <b>☐ اختيار</b> في صورك عشان تختار اللي تبي (ترتيب الضغط = ترتيب الحفظ). احفظها <b>مشروع جديد</b> (my-projects/<الاسم>، ملفات 01، 02 … ومعاها project.json فيه الأوصاف)، أو <b>أضفها لمشروع</b>، أو سوّ المشروع <b>بأي مكان بجهازك</b>. <b>احفظ كل وحدة بمجلد…</b> ينسخها وحدة وحدة بدون مجلد مشروع؛ والصورة الوحدة بعدها فيها <b>احفظ بمجلد</b> و<b>احفظ باسم…</b>.",
         "<b>كم وحدة:</b> ١، ٢، ٤ أو <b>أي عدد</b> (لين ٢٠). <b>مثل ما كتبت</b> ياخذ الرقم اللي بالوصف («٦ شرائح»، «خمس صور»، أو قائمة الشرائح). <b>المقترح</b>: PIX يقرر لتصاميمه؛ وفي OpenAI ياخذ رقم الوصف، وإذا ما في عدد مناسب (٥ شرائح للكاروسيل؛ ولصورة وحدة ٤ مسودة، ٢ عادية، ١ أفضل). OpenAI يسوي ٤ ٤، وكل صورة تاخذ رصيد.",
         "<b>عدّل:</b> اضغط <b>✎ عدّل</b> على أي صورة، أو <b>عدّل صورة من جهازك</b>. علّم على الصورة بـ<b>دبوس / مربع</b> (ضغطة أو سحب)، <b>لوّن</b> (فرشاة S، M، L) أو <b>حوّط</b> (ارسم دايرة)، واكتب ملاحظة لكل علامة مرقّمة.",
@@ -6983,6 +7064,7 @@
       trialPref: ["New Reels as Trial", "Whether every new Reel starts as a Trial Reel, and what happens after the trial. You can still change it per Reel in Network settings."],
       cbPref: ["Color-blind mode", "Safer colors for red-green and blue-yellow color blindness, plus shapes and marks so no status relies on color alone."],
       viewer: ["Post viewer", "The whole post: swipe a carousel (‹ › arrows, dots, or ← → keys), play the full video with sound, or read the PDF. The full-screen button opens it large."],
+      imgView: ["View it here", "Opens the image big, inside Publish (no new tab). Scroll through the carousel, the new results or all your images with ← →, the mouse wheel, a swipe or the thumbnails; Esc closes."],
       imgProj: ["Save as a project", "Copies the images, in order, into one folder: a new project in my-projects, an existing project, or a new folder anywhere on your computer. A project.json keeps the prompts."],
       imgSelect: ["Select images", "Pick several images (the click order is the save order), then save them as a project, each to a folder, or make a carousel post."],
       imgLoose: ["Save each to a folder", "Pick any folder on your computer; each image is copied in with its own name, no project folder."],
@@ -7168,6 +7250,7 @@
       trialPref: ["الريلز الجديدة كـ Trial", "هل كل ريل جديد يبدأ كـ Trial Reel، وشنو يصير بعد التجربة. تقدر تغيّره لكل ريل من إعدادات المنصات."],
       cbPref: ["وضع عمى الألوان", "ألوان أوضح لعمى الأحمر والأخضر والأزرق والأصفر، مع أشكال وعلامات عشان ما تعتمد أي حالة على اللون بس."],
       viewer: ["عارض البوست", "البوست كامل: قلّب الكاروسيل (الأسهم ‹ › أو النقاط أو ← →)، شغّل الفيديو كامل بالصوت، أو اقرا الـPDF. زر ملء الشاشة يكبّره."],
+      imgView: ["شوفها هني", "تفتح الصورة كبيرة داخل Publish (بدون تبويب جديد). قلّب بالكاروسيل أو النتايج الجديدة أو كل صورك بـ← →، أو عجلة الماوس، أو السحب، أو الصور المصغّرة؛ وEsc يسكّرها."],
       imgProj: ["احفظ كمشروع", "تنسخ الصور بالترتيب بمجلد واحد: مشروع جديد في my-projects، أو مشروع موجود، أو مجلد جديد بأي مكان بجهازك. وملف project.json يحفظ الأوصاف."],
       imgSelect: ["اختار صور", "اختار كذا صورة (ترتيب الضغط = ترتيب الحفظ)، وبعدين احفظها كمشروع، أو كل وحدة بمجلد، أو سوّ منها بوست كاروسيل."],
       imgLoose: ["احفظ كل وحدة بمجلد", "اختار أي مجلد بجهازك؛ كل صورة تنسخ باسمها، بدون مجلد مشروع."],
@@ -7231,7 +7314,7 @@
   // where each tip applies (first match wins, most specific first)
   const HELP_MAP = [
     [".pv-wrap", "viewer"], [".img-edit-btn", "imgEditBtn"], [".img-editpc-btn", "imgEditPc"], [".img-saveas-btn", "imgSaveAs"], [".img-folder-btn", "imgFolder"],
-    [".img-proj-btn, .img-proj", "imgProj"], [".img-select-btn, .img-seltile", "imgSelect"], [".img-loose-btn", "imgLoose"], [".img-kind", "imgKind"], [".img-count", "imgCountCtl"], [".img-car-post", "imgCarPost"], [".img-tonp-btn", "imgToNP"], [".np-createimg", "npCreateImg"], [".ann-tools", "annTools"], [".ann-stage", "annStage"], [".ann-list", "annList"],
+    [".img-open", "imgView"], [".img-proj-btn, .img-proj", "imgProj"], [".img-select-btn, .img-seltile", "imgSelect"], [".img-loose-btn", "imgLoose"], [".img-kind", "imgKind"], [".img-count", "imgCountCtl"], [".img-car-post", "imgCarPost"], [".img-tonp-btn", "imgToNP"], [".np-createimg", "npCreateImg"], [".ann-tools", "annTools"], [".ann-stage", "annStage"], [".ann-list", "annList"],
     [".ann-mask", "annMask"], [".ann-fs", "annFs"], [".ann-result", "annResult"],
     [".ib-all", "ibAll"], [".ib-pick", "ibPick"], [".ib-del", "ibDel"], [".ib-md", "ibMd"], [".ib-json", "ibJson"], [".ib-add", "ibAdd"],
     [".ib-load", "ibLoad"], [".ib-clear", "ibClear"], [".ib-undo", "ibUndo"], [".ib-editone", "ibEditOne"],

@@ -615,6 +615,8 @@ Preview card, or Ctrl+K → "Create an image") opens one window:
 - **How many:** 1, 2, 4, any number (≤20), *As my prompt says* (the number written: "6 slides", "خمس صور", or the
   Slide list), or *Recommended* (PIX decides for its own designs; for OpenAI the prompt's number, else 5 slides for a
   carousel, or 4 / 2 / 1 tries for draft / standard / best).
+- **View here:** clicking any image opens it big inside the dashboard (no new tab), with ← → / mouse wheel / swipe /
+  thumbnails through the carousel, the new results or all images; Download, Use as guide, Make a carousel post; Esc closes.
 - **Save together (projects):** 💾 *Save all as a project…* on new results, or ☐ *Select* in Your images (click order =
   save order). A **new project** is `my-projects/<name>/` with `01-…, 02-…` and `project.json` (prompts, model, slide);
   or **add to a project** (numbering continues), or a new project folder **anywhere on the computer** (folder window).

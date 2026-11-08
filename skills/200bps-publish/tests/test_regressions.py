@@ -243,6 +243,17 @@ class ImageCountAndCarousel(Workspace):
             images.save_project(["nope"], "x", "new")
 
 
+class ImageViewerInApp(unittest.TestCase):
+    def test_18_images_open_inside_publish(self):
+        """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""
+        from helpers import SKILL
+        js = (SKILL / "ui" / "app.js").read_text(encoding="utf-8")
+        self.assertNotIn('el("a", { href: imgUrl(g), target: "_blank"', js)
+        self.assertIn("openImgViewer(L,", js)
+        for k in ("ivOpen", "ivKeys", "imgView"):
+            self.assertGreaterEqual(js.count(k + ":"), 2, k)          # English + Arabic
+
+
 class SnapchatStory(unittest.TestCase):
     def test_09_story_caption_length_doesnt_block(self):
         import checks
