@@ -554,6 +554,9 @@ def save_project(ids: list[str], name: str = "", mode: str = "new", folder: str 
         d = (workspace() / folder).resolve() if folder else None
         if not d or not d.is_dir() or root not in d.parents:
             raise ValueError("Pick one of your projects.")
+    elif mode == "pick" and not any(not x.name.startswith(".") for x in base.iterdir()):
+        d = base                                  # an empty folder you picked (or just made) IS the project
+        name = (name or "").strip() or d.name
     else:
         parent = base if mode == "pick" else _project_root()
         parent.mkdir(parents=True, exist_ok=True)

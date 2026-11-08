@@ -2,6 +2,7 @@
 import json
 import os
 import unittest
+from pathlib import Path
 
 from helpers import CAPTION, IG, JPEG, LI_CAPTION, Workspace
 
@@ -241,6 +242,48 @@ class ImageCountAndCarousel(Workspace):
             images.save_project(["pid0"], "", "existing", "../../etc")
         with self.assertRaises(ValueError):
             images.save_project(["nope"], "x", "new")
+
+
+class ProjectFolderToPost(Workspace):
+    """2026-11-08: a carousel saved as a project in a folder the user picked went into a hidden subfolder,
+    and New post → A post folder on the picked folder said it had no photos."""
+    def setUp(self):
+        self._old = os.environ.get("BPS_WORKSPACE")
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+
+    def tearDown(self):
+        os.environ.pop("BPS_WORKSPACE", None) if self._old is None else os.environ.__setitem__("BPS_WORKSPACE", self._old)
+
+    def _gallery(self, images):
+        d = images.img_dir(); d.mkdir(parents=True, exist_ok=True)
+        rows = images.gallery()
+        for k in range(2):
+            (d / f"q{k}.png").write_bytes(JPEG)
+            rows.append({"id": f"qid{k}", "file": f"q{k}.png", "prompt": "p", "model": "m", "shape": "square", "quality": "draft", "ts": 1})
+        images._save_index(rows)
+
+    def test_19_empty_picked_folder_is_the_project(self):
+        import tempfile
+        images = fresh("images"); self._gallery(images)
+        picked = Path(tempfile.mkdtemp(prefix="bps-pick-"))
+        images._native = lambda *a, **k: {"ok": True, "folders": [str(picked)]}
+        r = images.save_project(["qid0", "qid1"], "carousel-2026-11-08", "pick")
+        self.assertEqual(Path(r["folder"]), picked)                       # straight into it, no subfolder
+        self.assertEqual(sorted(x.name for x in picked.glob("*.png")), r["files"])
+        (picked / "notes.txt").write_text("x")
+        r2 = images.save_project(["qid0"], "second", "pick")              # a folder with files gets a project inside
+        self.assertEqual(Path(r2["folder"]).parent, picked)
+
+    def test_20_post_folder_one_level_down(self):
+        import tempfile
+        newpost = fresh("newpost")
+        outer = Path(tempfile.mkdtemp(prefix="bps-outer-"))
+        inner = outer / "Task-create-one-Instagram"; inner.mkdir()
+        for k in range(3):
+            (inner / f"0{k + 1}-slide.jpg").write_bytes(JPEG)
+        out = newpost.from_folder(str(outer))
+        self.assertIn("Task-create-one-Instagram", out["folder"])
+        self.assertNotIn("posts", out)
 
 
 class ImageViewerInApp(unittest.TestCase):

@@ -619,7 +619,8 @@ Preview card, or Ctrl+K → "Create an image") opens one window:
   thumbnails through the carousel, the new results or all images; Download, Use as guide, Make a carousel post; Esc closes.
 - **Save together (projects):** 💾 *Save all as a project…* on new results, or ☐ *Select* in Your images (click order =
   save order). A **new project** is `my-projects/<name>/` with `01-…, 02-…` and `project.json` (prompts, model, slide);
-  or **add to a project** (numbering continues), or a new project folder **anywhere on the computer** (folder window).
+  or **add to a project** (numbering continues), or a new project folder **anywhere on the computer** (folder window; an empty picked folder IS the project, a folder
+  with files gets a `<name>` subfolder). New post → A post folder looks one level down if the folder only holds post folders.
   *Save each to a folder…* copies the picked images as they are. A project folder can become a post (New post → A post
   folder, plus a caption). Chat: `bps.py image project --id A,B,C --name "…" [--project my-projects/x]`, `bps.py image projects`.
 - Options use plain words: shape square / tall / wide, quality draft / standard /

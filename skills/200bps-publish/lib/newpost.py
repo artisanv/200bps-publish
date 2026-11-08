@@ -209,9 +209,22 @@ def from_folder(path: str, via: str = "dashboard") -> dict:
         return _open(posts[0], "", "unpacked from an archive", via)
     if not p.is_dir():
         raise ValueError(f"Folder not found: {path}")
-    has_media = any(f.suffix.lower() in MEDIA_EXT for f in p.iterdir() if f.is_file())
-    if not has_media and not archive.archives_in(p) and not batch._has_caption(p):
-        raise ValueError("That folder has no photos, video, PDF, archive (.zip…) or caption. A post folder holds the media and caption.txt (a caption alone makes a text post).")
+    def _postable(d: Path) -> bool:
+        return (any(f.suffix.lower() in MEDIA_EXT for f in d.iterdir() if f.is_file())
+                or bool(archive.archives_in(d)) or batch._has_caption(d))
+    if not _postable(p):
+        # a folder that only holds post folders (e.g. a project saved inside the folder you picked): look one level down
+        subs = sorted([c for c in p.iterdir() if c.is_dir() and not c.name.startswith(".") and _postable(c)], key=lambda c: c.name)
+        if not subs:
+            raise ValueError("That folder has no photos, video, PDF, archive (.zip…) or caption. A post folder holds the media and caption.txt (a caption alone makes a text post).")
+        top = batch.import_folder(p)
+        subs = [top / c.name for c in subs]
+        if len(subs) == 1:
+            return _open(subs[0], "", f"the post is in the subfolder {subs[0].name}", via)
+        rels = [_rel(d) for d in subs]
+        n = hitl.add_note(f"I picked a folder with {len(subs)} post folders inside: {', '.join(rels)}. They're in Batch schedule now.",
+                          {"type": "archive_posts", "folders": rels})
+        return {"folder": rels[0], "opened": False, "posts": rels, "note": n["id"]}
     p = batch.import_folder(p)      # outside the project → copied into my-posts/ (everything stays local)
     posts = archive.resolve(p)      # a folder holding a .zip: unpacked inside it
     if len(posts) > 1:

@@ -71,7 +71,7 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 - **🖼 Scroll through your images inside Publish:** click any image to open it big in the dashboard (no new
   tab) and scroll the carousel or all your images with the arrows, the mouse wheel or a swipe.
 - **💾 Save images as a project:** save a carousel or any images you pick into one project folder, in order
-  (01, 02 …): a new project, an existing one, or anywhere on your computer; or each image on its own.
+  (01, 02 …): a new project, an existing one, or anywhere on your computer; or each image on its own. An empty folder you pick becomes the project, and one click makes a post from it.
 - **Caption fixes give one version per network**, and the Instagram-only DM gift (follow first, comment the word,
   link by DM) is respected in every caption.
 - **Every format, per network** (Reel, Trial Reel, Story, Poll, Repost, Spotlight…) and **💬 a small PIX chat
