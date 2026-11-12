@@ -286,6 +286,23 @@ class ProjectFolderToPost(Workspace):
         self.assertNotIn("posts", out)
 
 
+class InboxDrafts(Workspace):
+    def test_21_drafted_comment_stays_waiting(self):
+        """2026-11-12: a PIX draft on a comment the automation already answered was hidden in Handled."""
+        from store import state_dir, write_json
+        inbox = fresh("inbox")
+        write_json(state_dir() / "cache.json", {
+            "comments": [{"id": "c1", "postId": "p", "text": "Python thanks"}, {"id": "c2", "postId": "p", "text": "Python"}],
+            "autoLog": {"c1": {"how": "auto-sent"}, "c2": {"how": "auto-sent"}}})
+        self.assertEqual(inbox.waiting(), [])
+        inbox.save_draft("c1", "Thank you!")
+        self.assertEqual([x["id"] for x in inbox.waiting()], ["c1"])
+        inbox.ignore(["c1"])                                              # the user's own mark still wins
+        self.assertEqual(inbox.waiting(), [])
+        js = (Path(inbox.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("!(ib.drafts || {})[x.id] && auto[x.id]", js)
+
+
 class ImageViewerInApp(unittest.TestCase):
     def test_18_images_open_inside_publish(self):
         """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""

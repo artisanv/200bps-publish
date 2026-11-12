@@ -1716,7 +1716,8 @@
     const S = state.ibx, ib = (state.data && state.data.inbox) || { labels: {}, catalog: [], handled: {} };
     const all = z.comments || [];
     const auto = z.autoLog || {};
-    const handled = (x) => ib.handled[x.id] || (auto[x.id] && auto[x.id].how !== "auto-failed" ? auto[x.id] : null);
+    // A comment with a PIX draft waits for the user even if the automation or the app already handled it.
+    const handled = (x) => ib.handled[x.id] || (!(ib.drafts || {})[x.id] && auto[x.id] && auto[x.id].how !== "auto-failed" ? auto[x.id] : null);
     const waiting = all.filter((x) => !handled(x));
     $("#cmtCount").textContent = waiting.length ? String(waiting.length) : "";
     c.innerHTML = "";

@@ -159,14 +159,16 @@ def drop_draft(comment_id: str) -> dict:
 
 
 def waiting() -> list:
-    """Comments still waiting (not handled here, not handled by an automation)."""
+    """Comments still waiting: not handled here, and not handled by an automation
+    or in the app (unless PIX drafted a reply for it, which the user still has to send)."""
     c = read_json(state_dir() / "cache.json", {}) or {}
     st, auto = state(), c.get("autoLog") or {}
     posts = c.get("commentPosts") or {}
     return [{**x, "post": ((posts.get(x.get("postId")) or {}).get("caption") or "").split("\n")[0][:120],
              "draft": (st["drafts"].get(x["id"]) or {}).get("text")}
             for x in c.get("comments") or []
-            if x["id"] not in st["handled"] and (x["id"] not in auto or auto[x["id"]].get("how") == "auto-failed")]
+            if x["id"] not in st["handled"] and (x["id"] in st["drafts"] or x["id"] not in auto
+                                               or auto[x["id"]].get("how") == "auto-failed")]
 
 
 def unhandle(comment_id: str) -> dict:
