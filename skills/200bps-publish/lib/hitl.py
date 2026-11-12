@@ -321,7 +321,7 @@ def say(text: str, to: str = "", options: list | None = None, expect: bool = Fal
          "options": [str(o)[:80] for o in (options or []) if str(o).strip()][:6],
          "expect": bool(expect or options), "seen": False, "answered": False}
     if open_:                     # a window the dashboard opens, ready, on "Open it" (e.g. a filled-in Paste window)
-        m["open"] = {k: open_[k] for k in ("kind", "post", "day", "time", "nets") if k in open_}
+        m["open"] = {k: open_[k] for k in ("kind", "post", "day", "time", "nets", "filter", "label") if k in open_}
     if status:
         m["status"] = status
     _append(_mpath(), m, "messages")

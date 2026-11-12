@@ -289,6 +289,7 @@ class ProjectFolderToPost(Workspace):
 class InboxDrafts(Workspace):
     def test_21_drafted_comment_stays_waiting(self):
         """2026-11-12: a PIX draft on a comment the automation already answered was hidden in Handled."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)                      # never the skill folder
         from store import state_dir, write_json
         inbox = fresh("inbox")
         write_json(state_dir() / "cache.json", {
@@ -301,6 +302,15 @@ class InboxDrafts(Workspace):
         self.assertEqual(inbox.waiting(), [])
         js = (Path(inbox.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
         self.assertIn("!(ib.drafts || {})[x.id] && auto[x.id]", js)
+
+    def test_22_pix_opens_inbox_on_a_label(self):
+        """2026-11-12: PIX could only open the Paste window; it can now open the Inbox filtered to a label."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        hitl = fresh("hitl")
+        m = hitl.say("Who needs a gift", None, [], False, None, {"kind": "inbox", "filter": "all", "label": "🎁 Send gift", "x": 1})
+        self.assertEqual(m["open"], {"kind": "inbox", "filter": "all", "label": "🎁 Send gift"})
+        js = (Path(hitl.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
+        self.assertIn('o.kind === "inbox"', js)
 
 
 class ImageViewerInApp(unittest.TestCase):

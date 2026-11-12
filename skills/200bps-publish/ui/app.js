@@ -2391,6 +2391,11 @@
       renderClipBar(); go("plan");
       openPaste(o.day || localDay(), o.time || null, { nets: o.nets });
     }
+    if (o.kind === "inbox") {          // the Inbox, filtered to what PIX picked (e.g. the label "🎁 Send gift")
+      state.ibx.filter = ["all", "waiting", "done"].includes(o.filter) ? o.filter : "all";
+      state.ibx.label = o.label || null;
+      go("inbox"); renderComments();
+    }
   }
   const openBtn = (m, after) => m.open ? el("button", { class: "btn on big px-open", type: "button", onclick: () => (after ? after(() => runOpen(m.open)) : runOpen(m.open)) }, "▶ " + t("pxOpen")) : null;
   function renderQuestion() {

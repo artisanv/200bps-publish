@@ -534,7 +534,7 @@ done/failed shows as "Handled".
 A note that needs the user's decision first gets a normal `say --to … --expect`
 (or `--option`) question instead; finish it with done/failed after the answer.
 
-**Open a window ready for the user.** For anything public the user must finish (they type the word themselves), prepare it and send `bps.py say --text "…" --open '{"kind":"paste","post":"<Zernio id>","day":"YYYY-MM-DD","time":"HH:MM","nets":["instagram"]}'`: PIX's pop-up and chat get an **Open it** button that opens the Copy → Paste window filled in; the user checks it and types **go**.
+**Open a window ready for the user.** For anything public the user must finish (they type the word themselves), prepare it and send `bps.py say --text "…" --open '{"kind":"paste","post":"<Zernio id>","day":"YYYY-MM-DD","time":"HH:MM","nets":["instagram"]}'`: PIX's pop-up and chat get an **Open it** button that opens the Copy → Paste window filled in; the user checks it and types **go**. To show the user certain comments, label them (`inbox.label`) and send `--open '{"kind":"inbox","filter":"all","label":"🎁 Send gift"}'`: **Open it** shows the Inbox filtered to that label.
 
 **Talking back in the dashboard.** The user may not be looking at the terminal.
 After handling a dashboard request, send a short reply they see as a pop-up (and
