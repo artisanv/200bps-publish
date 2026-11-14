@@ -65,6 +65,7 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 
 ## New in v1.20.0 (the big one)
 
+- **📊 Followers per day, week or month:** every Followers chart in Growth now switches between **Total**, **Daily**, **Weekly** and **Monthly**. The bars show how many followers you gained in each period, with your average, your best period and the latest one. Your choice is remembered.
 - **🎠 Create a whole carousel, not just one image:** in Create an image pick **One image** (several tries, keep
   the best) or **Carousel** (slides in one style, in order). Any count: **Any number** up to 20, **As my prompt
   says**, or PIX's **Recommended**. One click: **▦ Make a carousel post**.
@@ -196,7 +197,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full list.
   account to prove it's there (status, time, links).
 - **Dashboard in Arabic and English:**
   - the post preview and plan
-  - growth KPIs, the follower curve and your goal ring
+  - growth KPIs, the follower curve (or followers gained per day, week or month) and your goal ring
   - top posts, an engagement heatmap and audience data
   - calendar, comments waiting, automations and ice breakers
   - an idea bank on every Growth tab that refills after every post ("Get ideas" anytime); click an idea for its hook, outline and call to action

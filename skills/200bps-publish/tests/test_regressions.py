@@ -333,6 +333,37 @@ class GoalShowsAtOnce(Workspace):
         self.assertIn('toast(t("goalSaved")); lastSig = ""; load(false); lastZSig = ""; loadZernio();', js)
 
 
+class FollowersPerPeriod(unittest.TestCase):
+    def test_24_followers_daily_weekly_monthly(self):
+        """2026-11-14: Growth's Followers chart shows the followers gained per day, week or month."""
+        import json, shutil, subprocess
+        from helpers import SKILL
+        js = (SKILL / "ui" / "app.js").read_text(encoding="utf-8")
+        a = js.index("  function folGains("); b = js.index("  function gainChart(")
+        if not shutil.which("node"):
+            self.skipTest("node not found")
+        # 1 Oct .. 14 Nov: +2 a day, and a loss of 5 on 20 Oct
+        days, v, series = [], 100, []
+        import datetime as dt
+        d = dt.date(2026, 10, 1)
+        while d <= dt.date(2026, 11, 14):
+            series.append({"date": d.isoformat(), "value": v})
+            v += -5 if d == dt.date(2026, 10, 19) else 2
+            d += dt.timedelta(days=1)
+        code = js[a:b] + "\nconst s = " + json.dumps(series) + ";\nprocess.stdout.write(JSON.stringify({day: folGains(s, 'day'), week: folGains(s, 'week'), month: folGains(s, 'month')}));"
+        out = json.loads(subprocess.run(["node", "-e", code], capture_output=True, text=True, check=True).stdout)
+        self.assertEqual(len(out["day"]), 30)                               # last 30 days
+        self.assertEqual(out["day"][-1]["gain"], 2)
+        self.assertIn(-5, [x["gain"] for x in out["day"]])                  # a loss shows as a loss
+        self.assertEqual(out["week"][-1]["gain"], 14)                       # the last 7 days
+        self.assertTrue(out["week"][0]["partial"])                          # history starts mid-week
+        self.assertEqual([x["gain"] for x in out["month"]], [29 * 2 - 5, 28])   # Oct (from its first day), Nov so far
+        self.assertTrue(out["month"][1]["soFar"])
+        self.assertEqual(series[-1]["value"] - series[0]["value"], sum(x["gain"] for x in out["month"]))
+        for k in ("folV_day", "folV_week", "folV_month", "folSeg:"):
+            self.assertGreaterEqual(js.count(k), 2, k)                       # English + Arabic
+
+
 class ImageViewerInApp(unittest.TestCase):
     def test_18_images_open_inside_publish(self):
         """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""

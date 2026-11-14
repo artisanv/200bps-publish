@@ -2297,3 +2297,16 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 .iv-strip span { position: absolute; bottom: 2px; inset-inline-end: 3px; font: 700 11px/1 monospace; background: rgba(0,0,0,.75); color: #fff; padding: 2px 4px; border-radius: 4px; }
 .iv-keys { margin: 0; text-align: center; color: #8A949B; font-size: 12px; }
 @media (max-width: 600px) { .iv { padding: 10px; } .iv-nav { width: 38px; height: 56px; font-size: 30px; } .iv-keys { display: none; } }
+
+/* Followers: Total / Daily / Weekly / Monthly */
+.fol-seg { margin: 0 0 10px; flex-wrap: wrap; }
+.fol-seg .btn { min-height: 30px; padding: 4px 12px; font-size: 12.5px; }
+.fol-gains .fol-bar rect { fill: var(--bps-lime); opacity: .55; transition: opacity var(--bps-dur-state, 150ms); }
+.fol-gains .fol-bar.now rect { opacity: 1; }
+.fol-gains .fol-bar.neg rect { fill: var(--bps-red, var(--bps-danger)); }
+.fol-gains .fol-bar:hover rect { opacity: 1; }
+.fol-gains .fol-bar text.v { fill: var(--bps-text); font-size: 10px; }
+.fol-sum { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 8px 0 0; font-size: 12.5px; color: var(--bps-mute); }
+.fol-sum:empty { display: none; }
+.fol-sum span:first-child { color: var(--bps-text); font-weight: 600; }
+.fol-gains { direction: ltr; }
