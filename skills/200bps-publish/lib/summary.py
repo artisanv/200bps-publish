@@ -256,7 +256,6 @@ def _networks(z, section, out: dict, tz: str, today, cfg: dict, bt_done: str) ->
                                                                     toDate=today.isoformat(), granularity="daily")) or {}
     stats = st.get("stats") or {}
     meta = {a.get("_id"): a for a in st.get("accounts") or []}
-    goals = ((cfg.get("goal") or {}).get("by") or {})
     res = []
     for a in accs:
         pf = a["platform"]
@@ -304,11 +303,24 @@ def _networks(z, section, out: dict, tz: str, today, cfg: dict, bt_done: str) ->
                     "picture": m.get("profilePicture"), "followers": now, "followersUpdated": a.get("followersUpdated"),
                     "change7": c7, "change30": c30, "series": series, "selected": bool(a.get("selected")),
                     "since": series[0]["date"] if series and c30 is None else None,
-                    "changeSince": (now - series[0]["value"]) if series and c30 is None and now is not None else None, "goal": goals.get(a["id"]) or (goals.get(pf) if same_pf == 1 else None) or ((cfg.get("goal") or {}).get("followers") if pf == "instagram" and a.get("selected") else None),
+                    "changeSince": (now - series[0]["value"]) if series and c30 is None and now is not None else None, "goal": None,
                     "kpis": k30, "kpisPrev": k30p, "postsTotal": len(posts), "top": top, "weeks": weeks,
                     "audience": _account_audience(z, a, tz),
                     "bestTime": {"basis": bt.get("basis"), "slots": (bt.get("slots") or [])[:3], "note": bt.get("note"), "average": bt.get("average")}})
-    return res
+    return _apply_goals(res, cfg)
+
+
+def _apply_goals(nets: list[dict], cfg: dict) -> list[dict]:
+    """Each network dashboard's goal, read from the settings every time (not
+    frozen in the cache), so a goal the user just changed shows at once."""
+    goals = ((cfg.get("goal") or {}).get("by") or {})
+    main = (cfg.get("goal") or {}).get("followers")
+    for n in nets or []:
+        pf = n.get("platform")
+        same_pf = sum(1 for x in nets if x.get("platform") == pf)
+        n["goal"] = (goals.get(n.get("accountId")) or (goals.get(pf) if same_pf == 1 else None)
+                     or (main if pf == "instagram" and n.get("selected") else None))
+    return nets
 
 
 def _sync_plans(zposts: list[dict]) -> None:
@@ -337,6 +349,7 @@ def build(force: bool = False) -> dict:
     cache_p = state_dir() / "cache.json"
     cached = read_json(cache_p)
     if cached and not force and time.time() - cached.get("_ts", 0) < CACHE_SECONDS and cached.get("_v") == VERSION:
+        _apply_goals(cached.get("networks"), config())     # goals change between syncs
         return cached
 
     # one refresh at a time: other tabs or requests asking meanwhile wait for it and share its result
@@ -344,6 +357,7 @@ def build(force: bool = False) -> dict:
         with _BUILD_LOCK:
             fresh = read_json(cache_p)
         if fresh:
+            _apply_goals(fresh.get("networks"), config())
             return fresh
         _BUILD_LOCK.acquire()
     try:

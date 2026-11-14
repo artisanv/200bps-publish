@@ -975,7 +975,7 @@
           const r = await fetch("/api/goal", { method: "POST", headers: { "Content-Type": "application/json", "X-BPS-Token": TOKEN }, body: JSON.stringify({ followers: n, platform: pf || "", account: acc || "" }) });
           const j = await r.json().catch(() => ({}));
           if (!r.ok || !j.ok) throw new Error(j.error || "HTTP " + r.status);
-          closeModal(() => { toast(t("goalSaved")); lastSig = ""; load(false); });
+          closeModal(() => { toast(t("goalSaved")); lastSig = ""; load(false); lastZSig = ""; loadZernio(); });
         } catch (e) { err.textContent = e.message; }
       };
       const picks = el("div", { class: "opts goal-picks" });

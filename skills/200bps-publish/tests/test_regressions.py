@@ -313,6 +313,26 @@ class InboxDrafts(Workspace):
         self.assertIn('o.kind === "inbox"', js)
 
 
+class GoalShowsAtOnce(Workspace):
+    def test_23_new_goal_shows_without_a_sync(self):
+        """2026-11-14: a new goal picked in a network dashboard didn't show until the next Zernio sync (cached)."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        import time as _t
+        from store import VERSION, config, save_config, state_dir, write_json
+        summary = fresh("summary")
+        write_json(state_dir() / "cache.json", {"_ts": _t.time(), "_v": VERSION, "ok": True, "networks": [
+            {"platform": "instagram", "accountId": "ig1", "selected": True, "followers": 120, "goal": 500},
+            {"platform": "linkedin", "accountId": "li1", "followers": 80, "goal": None}]})
+        cfg = config()
+        cfg.setdefault("goal", {})["followers"] = 1000
+        cfg["goal"].setdefault("by", {})["li1"] = 250
+        save_config(cfg)
+        nets = {n["accountId"]: n["goal"] for n in summary.build()["networks"]}
+        self.assertEqual(nets, {"ig1": 1000, "li1": 250})
+        js = (Path(summary.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
+        self.assertIn('toast(t("goalSaved")); lastSig = ""; load(false); lastZSig = ""; loadZernio();', js)
+
+
 class ImageViewerInApp(unittest.TestCase):
     def test_18_images_open_inside_publish(self):
         """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""
