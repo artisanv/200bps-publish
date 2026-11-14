@@ -162,7 +162,7 @@ def main() -> None:
     im.add_argument("--project", default="", help="project: add to this existing project folder (my-projects/…)")
     im.add_argument("--carousel", action="store_true", help="gen: --n slides that go together (one set, in order), not --n tries of one image")
     ix = sub.add_parser("inbox", help="Inbox: list waiting comments, save Claude's reply drafts")
-    ix.add_argument("action", choices=["waiting", "draft", "drop"]); ix.add_argument("--comment", default=""); ix.add_argument("--text", default="")
+    ix.add_argument("action", choices=["waiting", "draft", "drop", "hide-gifted", "show-gifted"]); ix.add_argument("--comment", default=""); ix.add_argument("--text", default="")
     bt_ = sub.add_parser("batch"); bt_.add_argument("action", choices=["scan", "prepare", "suggest", "run"]); bt_.add_argument("folders", nargs="*")
     bt_.add_argument("--count", type=int, default=0); bt_.add_argument("--start", default=""); bt_.add_argument("--every", type=int, default=1)
     bt_.add_argument("--days", default=""); bt_.add_argument("--mode", default="best", choices=["best", "fixed"]); bt_.add_argument("--hour", type=int, default=20)
@@ -355,6 +355,8 @@ def run(args) -> None:
             emit(inbox.waiting())
         elif args.action == "draft":
             emit({"ok": True, **inbox.save_draft(args.comment, args.text)})
+        elif args.action in ("hide-gifted", "show-gifted"):      # local Inbox view only
+            emit({"ok": True, "hideGifted": inbox.set_hide_gifted(args.action == "hide-gifted")["prefs"]["hideGifted"]})
         else:
             inbox.drop_draft(args.comment); emit({"ok": True})
     elif c == "batch":

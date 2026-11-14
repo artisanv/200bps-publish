@@ -364,6 +364,23 @@ class FollowersPerPeriod(unittest.TestCase):
             self.assertGreaterEqual(js.count(k), 2, k)                       # English + Arabic
 
 
+class HideGiftReceived(Workspace):
+    def test_25_hide_comments_that_got_the_gift(self):
+        """2026-11-14: the user asked to remove from the Inbox everyone who already got the gift (local only)."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        inbox = fresh("inbox")
+        self.assertFalse(inbox.state()["prefs"].get("hideGifted", False))     # off by default
+        self.assertTrue(inbox.set_hide_gifted(True)["prefs"]["hideGifted"])
+        self.assertFalse(fresh("inbox").set_hide_gifted(False)["prefs"]["hideGifted"])
+        js = (Path(inbox.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
+        self.assertIn('!(hideG && gifted(x) && handled(x))', js)              # only handled ones hide; a PIX draft keeps it waiting
+        self.assertIn('auto[x.id].how === "auto-sent"', js)
+        for k in ("ibxHideGifted:", "ibxShowGifted:", "hideGifted: ["):
+            self.assertGreaterEqual(js.count(k), 2, k)                          # English + Arabic
+        srv = (Path(inbox.__file__).parent / "server.py").read_text(encoding="utf-8")
+        self.assertIn('op == "hide_gifted"', srv)
+
+
 class ImageViewerInApp(unittest.TestCase):
     def test_18_images_open_inside_publish(self):
         """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""

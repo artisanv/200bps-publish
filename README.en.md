@@ -65,6 +65,7 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 
 ## New in v1.20.0 (the big one)
 
+- **🎁 Hide gift received in the Inbox:** one button takes everyone who already got your gift by DM out of the Inbox list, so you see only what still needs you. Local only: nothing changes on Instagram. Press again to bring them back.
 - **📊 Followers per day, week or month:** every Followers chart in Growth now switches between **Total**, **Daily**, **Weekly** and **Monthly**. The bars show how many followers you gained in each period, with your average, your best period and the latest one. Your choice is remembered.
 - **🎠 Create a whole carousel, not just one image:** in Create an image pick **One image** (several tries, keep
   the best) or **Carousel** (slides in one style, in order). Any count: **Any number** up to 20, **As my prompt

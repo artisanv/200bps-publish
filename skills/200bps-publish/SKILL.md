@@ -584,7 +584,7 @@ a button only if they choose it), **hide/show**, **delete** (typed "delete")
 and add **labels**. Labels and "handled" marks are local (`.bps/inbox.json`).
 When asked to answer comments from chat, draft the replies and let the user
 send them (or send only after their explicit yes per comment).
-`bps.py inbox waiting` lists the comments still waiting (with any draft); `bps.py inbox draft --comment ID --text "…"`
+`bps.py inbox waiting` lists the comments still waiting (with any draft); `bps.py inbox hide-gifted | show-gifted` hides or shows the comments whose authors already got the gift (local view only, nothing changes on Instagram; the dashboard's 🎁 button does the same); `bps.py inbox draft --comment ID --text "…"`
 saves a draft the user sees on that comment. Comments a Zernio DM automation already answered (from its log) move to
 Handled by themselves; each automation shows its gift funnel (Zernio's stats). Comments the user answered in the Instagram app (a reply under it,
 an @mention in their own comment, or a DM they sent afterwards) also move to Handled (`ig-replied` / `ig-mentioned` / `ig-dm`).

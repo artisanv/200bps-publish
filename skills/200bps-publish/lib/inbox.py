@@ -23,7 +23,16 @@ def _path():
 def state() -> dict:
     s = read_json(_path(), {}) or {}
     return {"labels": s.get("labels", {}), "catalog": s.get("catalog") or LABELS, "handled": s.get("handled", {}),
-            "drafts": s.get("drafts", {})}
+            "drafts": s.get("drafts", {}), "prefs": s.get("prefs", {})}
+
+
+def set_hide_gifted(on: bool) -> dict:
+    """Hide (or show again) the comments whose authors already got the gift by DM.
+    Local only: nothing changes on Instagram."""
+    s = read_json(_path(), {}) or {}
+    s.setdefault("prefs", {})["hideGifted"] = bool(on)
+    _save(s)
+    return state()
 
 
 def _save(s: dict) -> None:

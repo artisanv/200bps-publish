@@ -122,6 +122,7 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 
 - **Comments waiting:** each comment shows the post it's on (click to open it) and that post's gift. Filter Waiting · Handled · All, or by label.
 - **Reply** answers publicly under the comment. **Send gift** sends the post's gift (or any message) privately: one per comment, within 7 days. The link goes in the text; a link button is optional, because Instagram may refuse buttons to non-followers and a refused try uses up the message.
+- **🎁 Hide gift received**: takes the comments whose authors already got the gift by DM (from the automation or from here) out of the list, so you see only what still needs you. The number says how many. Local only: nothing is hidden or deleted on Instagram. **Show gift received** brings them back. PIX can switch it for you.
 - **Labels** (Question, Lead, Spam… or your own) stay on this computer. **Hide** keeps a comment from others; **Delete** removes it for good after you type **delete**. Handled comments move to Handled; "Back to waiting" undoes the mark.
 - **🕒 Times in:** comment times on your clock, an audience country's, or any time zone.
 - **Auto-handled:** comments your DM gift already answered move to Handled by themselves.
@@ -281,6 +282,7 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 
 - **تعليقات تنتظر:** كل تعليق يوريك البوست اللي عليه (اضغط عشان تفتحه) وهدية البوست. فلتر تنتظر · انتهت · الكل، أو حسب التصنيف.
 - **رد** يجاوب علناً تحت التعليق. **أرسل الهدية** يرسل هدية البوست (أو أي رسالة) بالخاص: وحدة لكل تعليق، خلال 7 أيام. الرابط ينحط في النص؛ والزر اختياري، لأن Instagram ممكن يرفض الأزرار للي ما يتابعونك والمحاولة المرفوضة تستهلك الرسالة.
+- **🎁 اخفِ اللي وصلتهم الهدية**: يخفي من القائمة التعليقات اللي أصحابها وصلتهم الهدية بالخاص (من الأتمتة أو من هني)، عشان تشوف بس اللي يحتاجك. الرقم يبين كم وحدة. محلي بس: ولا شي ينخفي أو ينحذف بانستقرام. اضغط «أظهر اللي وصلتهم الهدية» عشان يرجعون. وPIX يقدر يشغّله لك.
 - **التصنيفات** (سؤال، عميل، سبام… أو تصنيفك) تظل على هالجهاز. **اخفِ** يخفي التعليق عن الناس؛ **احذف** يشيله نهائياً بعد ما تكتب **delete**. اللي خلصت تروح لـ«انتهت»؛ و«رجّعه للانتظار» يلغي العلامة.
 - **🕒 الوقت حسب:** وقت التعليقات على ساعتك، أو دولة من جمهورك، أو أي منطقة زمنية.
 - **تلقائي:** التعليقات اللي ردّت عليها هدية الرسائل تنتقل لـ«انتهت» بروحها.

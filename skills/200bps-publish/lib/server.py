@@ -321,6 +321,8 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                     return self._json({"ok": True, "inbox": inbox.ignore([str(x) for x in (data.get("ids") or [a[2]])][:200])})
                 if op == "unhandle":
                     return self._json({"ok": True, "inbox": inbox.unhandle(a[2])})
+                if op == "hide_gifted":             # local view setting: hide comments whose authors got the gift
+                    return self._json({"ok": True, "inbox": inbox.set_hide_gifted(bool(data.get("on", True)))})
                 if op == "ask_drafts":
                     return self._json({"ok": True, **inbox.ask_drafts(data.get("items") or [])})
                 if op == "drop_draft":
