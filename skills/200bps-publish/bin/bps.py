@@ -52,6 +52,7 @@
     bps.py abtest list | results --test ID   tests and their results (skip rate, watch time, reach)
     bps.py trial list | advice           Instagram Reels not published yet, their Trial state and advice
     bps.py trial set --post ID [--off] [--graduation SS_PERFORMANCE|MANUAL] --confirm
+    bps.py trial due | done --post ID --as shared|keep   3-day reminder for live Trial Reels
                                          Trial on/off for a waiting Reel (only after the user's yes for that post)
     bps.py cancel --draft PLAN_ID        set a never-uploaded draft aside (.bps/trash; the folder is untouched)
     bps.py dashboard [--no-open] [--port N]
@@ -143,7 +144,7 @@ def main() -> None:
     rw = sub.add_parser("rewrite"); rw.add_argument("--file", required=True); rw.add_argument("--note", default=""); rw.add_argument("--check", action="append", default=[])
     ab = sub.add_parser("abtest"); ab.add_argument("action", choices=["hook", "start", "list", "results"])
     ab.add_argument("--file", default=""); ab.add_argument("--note", default=""); ab.add_argument("--test", default=""); ab.add_argument("--confirm", action="store_true")
-    tr = sub.add_parser("trial"); tr.add_argument("action", choices=["list", "advice", "set"]); tr.add_argument("--post", default="")
+    tr = sub.add_parser("trial"); tr.add_argument("action", choices=["list", "advice", "set", "due", "done"]); tr.add_argument("--as", dest="answer", default=""); tr.add_argument("--post", default="")
     tr.add_argument("--off", action="store_true"); tr.add_argument("--graduation", default="SS_PERFORMANCE"); tr.add_argument("--confirm", action="store_true")
     rc = sub.add_parser("recycle"); rc.add_argument("action", choices=["list", "hooks", "state", "on", "off"]); rc.add_argument("--post", default="")
     rc.add_argument("--file", default=""); rc.add_argument("--note", default=""); rc.add_argument("--every", type=int, default=0)
@@ -288,6 +289,10 @@ def run(args) -> None:
             emit({"ok": True, "items": trial.candidates()})
         elif args.action == "advice":
             emit({"ok": True, **trial.advice()})
+        elif args.action == "due":            # live Trial Reels 3+ days old, not answered yet
+            emit({"ok": True, "items": trial.due()})
+        elif args.action == "done":           # --post ID --as shared|keep
+            emit(trial.remind_done(args.post, args.answer))
         else:
             if not args.confirm:
                 raise PermissionError("Trial Reel changes a post that goes public: only after the user's yes for this exact post (--confirm).")

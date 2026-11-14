@@ -337,6 +337,7 @@ trials of content shared before), duplicates among waiting posts, goes out in un
 - Changing a Zernio post is public: the dashboard asks for the typed word **edit**; it updates only the Instagram entry's
   `platformSpecificData.trialParams` (everything else kept) and reads it back. From chat:
   `bps.py trial set --post ID [--off] [--graduation SS_PERFORMANCE|MANUAL] --confirm`, only after the user's yes for that post.
+- **3-day reminder:** no app can share a live Trial Reel with followers (Instagram allows only the comment setting to change after publishing). `bps.py trial due` lists live Trial Reels 72 h+ old (last 30 days) not answered yet; the dashboard shows them in a card at the top. `bps.py trial done --post ID --as shared|keep` records the user's answer. Never claim a Reel was shared unless the user says so. Settings → Preferences turns it off (`instagram.trial_remind`).
 - When a `trial_advice` request arrives (the user pressed ✨ Ask PIX): look at `action.items` (first line, time, trial,
   warnings) and `action.stats`; recommend which Reels to try as trials and Automatic or Manual, each with its reason from
   the data (quote n and confidence; never invent numbers), in one short `say --to <id> --status done` (bullets in the

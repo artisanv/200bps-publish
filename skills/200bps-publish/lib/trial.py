@@ -45,6 +45,55 @@ def _ig(zp: dict) -> dict | None:
     return next((x for x in zp.get("platforms") or [] if x.get("platform") == "instagram"), None)
 
 
+REMIND_HOURS = 72          # Instagram's own trial window: Automatic decides within the first 72 hours
+
+
+def _rem_path():
+    return state_dir() / "trial_reminders.json"
+
+
+def due(cache: dict | None = None, now: float | None = None) -> list[dict]:
+    """Live Instagram Trial Reels that are 3 days (72 hours) old or more and that the
+    user hasn't answered yet ("I shared it" / "keep it a trial"). No app can share a
+    live trial with followers (Instagram doesn't allow it), so this only reminds the
+    user to do it in the Instagram app, which keeps its views. Last 30 days only."""
+    if ((config().get("instagram") or {}).get("trial_remind", True)) is False:
+        return []
+    cache = cache if cache is not None else (read_json(state_dir() / "cache.json") or {})
+    done = read_json(_rem_path(), {}) or {}
+    now = now or time.time()
+    out = []
+    for zp in cache.get("zposts") or []:
+        ig = _ig(zp)
+        if not ig or not ig.get("trial") or ig.get("status") != "published" or zp["id"] in done:
+            continue
+        try:
+            from datetime import datetime
+            t = datetime.fromisoformat((ig.get("publishedAt") or "").replace("Z", "+00:00")).timestamp()
+        except ValueError:
+            continue
+        hours = (now - t) / 3600
+        if REMIND_HOURS <= hours <= 30 * 24:
+            out.append({"id": zp["id"], "firstLine": (zp.get("caption") or "").split("\n")[0][:120], "url": ig.get("url"),
+                        "publishedAt": ig.get("publishedAt"), "graduation": ig.get("graduation") or "SS_PERFORMANCE",
+                        "days": int(hours // 24), "thumbs": zp.get("thumbs") or [], "video": zp.get("video")})
+    return sorted(out, key=lambda x: x["publishedAt"] or "")
+
+
+def remind_done(post_id: str, how: str) -> dict:
+    """The user answered a 3-day reminder: "shared" (shared it to followers in the app) or "keep" (stays a trial)."""
+    if how not in ("shared", "keep"):
+        raise ValueError("Answer shared or keep.")
+    if not post_id:
+        raise ValueError("No post.")
+    done = read_json(_rem_path(), {}) or {}
+    done[post_id] = {"how": how, "ts": int(time.time())}
+    from store import write_json
+    write_json(_rem_path(), done)
+    append_log({"ts": int(time.time()), "event": "trial_reminder", "postId": post_id, "how": how})
+    return {"ok": True, "due": due()}
+
+
 def candidates(cache: dict | None = None) -> list[dict]:
     """Every Instagram Reel not published yet: Zernio posts and local drafts."""
     cache = cache if cache is not None else (read_json(state_dir() / "cache.json") or {})

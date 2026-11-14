@@ -2310,3 +2310,17 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 .fol-sum:empty { display: none; }
 .fol-sum span:first-child { color: var(--bps-text); font-weight: 600; }
 .fol-gains { direction: ltr; }
+
+/* 3-day Trial Reel reminder */
+.trial-due { max-width: var(--maxw, 1200px); margin: 12px auto 0; padding: 14px 16px; border: 1px solid var(--bps-line); border-left: 4px solid var(--bps-lime); border-radius: var(--bps-radius, 12px); background: var(--bps-panel); display: grid; gap: 10px; }
+.trial-due[hidden] { display: none; }
+.td-head { display: grid; gap: 4px; }
+.td-head .hint { font-size: 12.5px; color: var(--bps-mute); }
+.td-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid var(--bps-line); }
+.td-thumb { width: 40px; height: 56px; border-radius: 6px; flex: none; overflow: hidden; background: var(--bps-line); }
+.td-thumb img, .td-thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.td-thumb.none { background: var(--bps-line); }
+.td-txt { flex: 1 1 200px; min-width: 0; }
+.td-line { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.td-acts { display: flex; gap: 6px; flex-wrap: wrap; }
+@media (max-width: 640px) { .trial-due { margin: 12px 16px 0; } }

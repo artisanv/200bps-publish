@@ -65,6 +65,7 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 
 ## New in v1.20.0 (the big one)
 
+- **🧪 3-day Trial Reel reminder:** Instagram shares a Trial Reel with your followers only if it does well in its first 72 hours, and no app can share it later. So 3 days after a Trial Reel goes live, a card at the top of the dashboard reminds you: open it in Instagram → ··· → Share to followers (it keeps its views), then press **I shared it** or **Keep it a trial**. Turn it off in Settings.
 - **🎁 Hide gift received in the Inbox:** one button takes everyone who already got your gift by DM out of the Inbox list, so you see only what still needs you. **↩ Hide replied** does the same for comments you already answered (here or in the Instagram app). Local only: nothing changes on Instagram. Press again to bring them back.
 - **📊 Followers per day, week or month:** every Followers chart in Growth now switches between **Total**, **Daily**, **Weekly** and **Monthly**. The bars show how many followers you gained in each period, with your average, your best period and the latest one. Your choice is remembered.
 - **🎠 Create a whole carousel, not just one image:** in Create an image pick **One image** (several tries, keep

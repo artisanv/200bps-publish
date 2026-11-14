@@ -73,12 +73,22 @@ def _public_config(cfg: dict) -> dict:
     out = {k: cfg.get(k) for k in keep if k in cfg}
     out["accounts"] = {p: {"username": (a or {}).get("username")} for p, a in (cfg.get("accounts") or {}).items()}
     ig = cfg.get("instagram") or {}
-    out["reelDefaults"] = {"trial": bool(ig.get("trial_reels", False)), "graduation": ig.get("trial_graduation") or "SS_PERFORMANCE"}
+    out["reelDefaults"] = {"trial": bool(ig.get("trial_reels", False)), "graduation": ig.get("trial_graduation") or "SS_PERFORMANCE",
+                           "remind": ig.get("trial_remind", True) is not False}
     import accounts as acct
     out["connectable"] = list(acct.CONNECTABLE)
     out["comingSoon"] = list(acct.COMING_SOON)
     return out
 
+
+
+def _trial_due() -> list:
+    """Live Trial Reels 3+ days old that the user hasn't answered (never breaks the page)."""
+    try:
+        import trial
+        return trial.due()
+    except Exception:
+        return []
 
 class Handler(BaseHTTPRequestHandler):
     server_version = "200bps-publish"
@@ -411,6 +421,8 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 op = data.get("op")
                 if op == "advice":
                     return self._json({"ok": True, **trial.advice()})
+                if op == "remind_done":          # 3-day reminder answered: shared in the app, or keep it a trial
+                    return self._json(trial.remind_done(str(data.get("postId", "")), str(data.get("how", ""))))
                 if op == "apply":                # Zernio posts need the typed word "edit"
                     return self._json({"ok": True, **trial.apply(data.get("changes") or [], str(data.get("typed") or ""))})
                 if op == "ask":                  # Ask PIX: advice in the user's chat, nothing is changed
@@ -429,6 +441,8 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 ig = cfg.setdefault("instagram", {})
                 if "trial" in data:
                     ig["trial_reels"] = bool(data.get("trial"))
+                if "remind" in data:
+                    ig["trial_remind"] = bool(data.get("remind"))
                 if "graduation" in data:
                     g = str(data.get("graduation") or "")
                     if g not in ("MANUAL", "SS_PERFORMANCE"):
@@ -436,7 +450,8 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                     ig["trial_graduation"] = g
                 save_config(cfg)
                 return self._json({"ok": True, "reelDefaults": {"trial": bool(ig.get("trial_reels", False)),
-                                                                 "graduation": ig.get("trial_graduation") or "SS_PERFORMANCE"}})
+                                                                 "graduation": ig.get("trial_graduation") or "SS_PERFORMANCE",
+                                                                 "remind": ig.get("trial_remind", True) is not False}})
             if path == "/api/goal":
                 try:
                     n = int(data.get("followers"))
@@ -822,7 +837,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             return {"ok": True, "at": at, "queued": n["id"]}
         raise ValueError("Unknown action.")
 
-    def _state(self, visit: bool) -> dict:
+    def _state(self, visit: bool) -> dict:  # noqa: C901
         import ideas
         import inbox
         cfg = config()
@@ -842,6 +857,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             "keys": keys.listing(),
             "plans": plans.list_plans(),
             "notes": hitl.notes(unread_only=False)[-5:],
+            "trialDue": _trial_due(),
         }
         if visit:
             snap_p = state_dir() / "snapshot.json"

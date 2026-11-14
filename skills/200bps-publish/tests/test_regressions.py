@@ -396,6 +396,33 @@ class HideReplied(Workspace):
             self.assertGreaterEqual(js.count(k), 2, k)
 
 
+class TrialThreeDayReminder(Workspace):
+    def test_27_trial_reel_three_day_reminder(self):
+        """2026-11-14: no app can share a live Trial Reel with followers, so PIX reminds the user after 3 days."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        import time as _t
+        from datetime import datetime, timezone
+        from store import config, save_config
+        trial = fresh("trial")
+        now = _t.time()
+        iso = lambda h: datetime.fromtimestamp(now - h * 3600, timezone.utc).isoformat().replace("+00:00", "Z")
+        zp = lambda i, h, tr=True: {"id": i, "caption": "Hook " + i + "\nmore", "thumbs": [], "platforms": [
+            {"platform": "instagram", "status": "published", "trial": tr, "graduation": "SS_PERFORMANCE", "publishedAt": iso(h), "url": "https://x/" + i}]}
+        cache = {"zposts": [zp("old", 80), zp("young", 60), zp("ancient", 40 * 24), zp("normal", 90, tr=False)]}
+        self.assertEqual([x["id"] for x in trial.due(cache, now)], ["old"])          # 72 h+, under 30 days, trials only
+        self.assertEqual(trial.due(cache, now)[0]["firstLine"], "Hook old")
+        from store import write_json, state_dir
+        write_json(state_dir() / "cache.json", cache)
+        self.assertEqual(trial.remind_done("old", "shared")["due"], [])               # answered: never shown again
+        with self.assertRaises(ValueError):
+            trial.remind_done("old", "graduate")
+        cfg = config(); cfg.setdefault("instagram", {})["trial_remind"] = False; save_config(cfg)
+        self.assertEqual(trial.due({"zposts": [zp("x", 100)]}, now), [])               # switched off in Settings
+        js = (Path(trial.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
+        for k in ("tdTitle:", "tdShared:", "tdKeep:", "trialRemindPref:", "trialDue: ["):
+            self.assertGreaterEqual(js.count(k), 2, k)                                  # English + Arabic
+
+
 class ImageViewerInApp(unittest.TestCase):
     def test_18_images_open_inside_publish(self):
         """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""
