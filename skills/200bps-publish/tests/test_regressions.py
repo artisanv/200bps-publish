@@ -373,12 +373,27 @@ class HideGiftReceived(Workspace):
         self.assertTrue(inbox.set_hide_gifted(True)["prefs"]["hideGifted"])
         self.assertFalse(fresh("inbox").set_hide_gifted(False)["prefs"]["hideGifted"])
         js = (Path(inbox.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
-        self.assertIn('!(hideG && gifted(x) && handled(x))', js)              # only handled ones hide; a PIX draft keeps it waiting
+        self.assertIn('const hidden = (x) => !!handled(x) && ((hideG && gifted(x))', js)   # only handled ones hide; a PIX draft keeps it waiting
         self.assertIn('auto[x.id].how === "auto-sent"', js)
         for k in ("ibxHideGifted:", "ibxShowGifted:", "hideGifted: ["):
             self.assertGreaterEqual(js.count(k), 2, k)                          # English + Arabic
         srv = (Path(inbox.__file__).parent / "server.py").read_text(encoding="utf-8")
         self.assertIn('op == "hide_gifted"', srv)
+
+
+class HideReplied(Workspace):
+    def test_26_hide_comments_already_replied(self):
+        """2026-11-14: the user asked to hide the comments they already replied to (local only)."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        inbox = fresh("inbox")
+        self.assertTrue(inbox.set_hide_replied(True)["prefs"]["hideReplied"])
+        self.assertTrue(inbox.set_hide_gifted(True)["prefs"]["hideReplied"])      # the two switches are independent
+        self.assertFalse(inbox.set_hide_replied(False)["prefs"]["hideReplied"])
+        js = (Path(inbox.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
+        self.assertIn('["ig-replied", "ig-mentioned", "ig-dm"].includes', js)       # replied in the Instagram app counts too
+        self.assertIn("const hidden = (x) => !!handled(x) &&", js)                  # never hides what still waits
+        for k in ("ibxHideReplied:", "ibxShowReplied:", "hideReplied: ["):
+            self.assertGreaterEqual(js.count(k), 2, k)
 
 
 class ImageViewerInApp(unittest.TestCase):

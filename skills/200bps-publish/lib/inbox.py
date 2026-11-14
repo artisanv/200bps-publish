@@ -29,8 +29,18 @@ def state() -> dict:
 def set_hide_gifted(on: bool) -> dict:
     """Hide (or show again) the comments whose authors already got the gift by DM.
     Local only: nothing changes on Instagram."""
+    return _set_pref("hideGifted", on)
+
+
+def set_hide_replied(on: bool) -> dict:
+    """Hide (or show again) the comments you already replied to (here, or in the
+    Instagram app: a reply, an @mention or a DM). Local only."""
+    return _set_pref("hideReplied", on)
+
+
+def _set_pref(key: str, on: bool) -> dict:
     s = read_json(_path(), {}) or {}
-    s.setdefault("prefs", {})["hideGifted"] = bool(on)
+    s.setdefault("prefs", {})[key] = bool(on)
     _save(s)
     return state()
 
