@@ -423,6 +423,107 @@ class TrialThreeDayReminder(Workspace):
             self.assertGreaterEqual(js.count(k), 2, k)                                  # English + Arabic
 
 
+class DmThreadMatching(unittest.TestCase):
+    def test_28_dm_answer_found_without_a_username(self):
+        """2026-11-15: Instagram often sends a DM thread with no participantUsername (the username is in
+        participantName, or the thread is just "Instagram User"). A comment answered by DM stayed in Waiting."""
+        import summary
+
+        class Z:
+            def __init__(self):
+                self.pages = 0
+
+            def get(self, path, **q):
+                if path == "/inbox/conversations":
+                    self.pages += 1
+                    if q.get("cursor") == "p2":
+                        return {"data": [{"id": "old", "participantId": "9", "participantUsername": "old.one", "updatedTime": "2026-10-01T00:00:00.000Z"}],
+                                "pagination": {"hasMore": True, "nextCursor": "p3"}}
+                    if q.get("cursor") == "p3":
+                        raise AssertionError("kept paging past threads older than every waiting comment")
+                    return {"data": [
+                        {"id": "c-name", "participantId": "101", "participantName": "name.only", "updatedTime": "2026-11-14T12:00:00.000Z"},
+                        {"id": "c-anon", "participantId": "102", "participantName": "Instagram User", "updatedTime": "2026-11-14T12:00:00.000Z"},
+                        {"id": "c-user", "participantId": "103", "participantUsername": "has.user", "participantName": "Display Name", "updatedTime": "2026-11-14T12:00:00.000Z"},
+                        {"id": "c-other", "participantId": "777", "participantName": "same.name", "updatedTime": "2026-11-14T12:00:00.000Z"},
+                        {"id": "c-auto", "participantId": "105", "participantName": "auto.only", "updatedTime": "2026-11-14T12:00:00.000Z"},
+                    ], "pagination": {"hasMore": True, "nextCursor": "p2"}}
+                via = "comment_automation" if path.endswith("/c-auto/messages") else None
+                return {"data": [{"direction": "outgoing", "createdAt": "2026-11-14T11:00:00.000Z", "message": "here you go", "metadata": {"sentVia": via}}]}
+
+        cm = lambda i, author, aid: {"id": i, "accountId": "acc", "platform": "instagram", "author": author, "authorId": aid,
+                                     "createdAt": "2026-11-14T10:00:00+0000"}
+        comments = [cm("1", "name.only", "101"),        # username only in participantName
+                    cm("2", "renamed.since", "102"),    # "Instagram User": found by id alone
+                    cm("3", "Has.User", None),          # old cache without ids: username still works
+                    cm("4", "same.name", "104"),        # same name, another person's id: not theirs
+                    cm("5", "auto.only", "105"),        # only an automation wrote: not the user's own answer
+                    cm("6", "nobody", "106")]
+        log, z = {}, Z()
+        summary._dm_answers(z, lambda name, fn: fn(), comments, log)
+        self.assertEqual(sorted(log), ["1", "2", "3"])
+        self.assertTrue(all(v["how"] == "ig-dm" for v in log.values()))
+        self.assertEqual(z.pages, 2)                    # stopped at the page older than the comments
+        src = Path(summary.__file__).read_text(encoding="utf-8")
+        self.assertIn('"authorId": str(frm.get("id") or "") or None', src)   # the cache keeps who wrote each comment
+
+
+class GiftReachedThemByDm(Workspace):
+    def test_29_second_comment_of_someone_who_got_the_gift(self):
+        """2026-11-15: people comment twice (a nice word or a misspelled keyword, then the keyword). The automation
+        sends the gift once; the other comment stayed waiting. The user asked: got the gift AND follows → hide it."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        summary = fresh("summary")
+        GIFT = "Hello! Here is your free Python course, sign up here https://example.com/form"
+        asked = []
+
+        class Z:
+            def get(self, path, **q):
+                if path == "/inbox/conversations":
+                    return {"data": [{"id": "t" + i, "participantId": i, "participantName": "Instagram User", "updatedTime": "2026-11-14T12:00:00.000Z"}
+                                     for i in ("1", "2", "3", "4", "5")], "pagination": {"hasMore": False}}
+                if "/follow-status/" in path:
+                    uid = path.rsplit("/", 1)[1]
+                    asked.append(uid)
+                    return {"userId": uid, "isFollower": {"1": True, "2": None, "3": False}.get(uid), "unavailableReason": "consent_required" if uid == "2" else None}
+                tid = path.split("/")[3]
+                if tid == "t4":       # the follow-first message, then the gift: Zernio saw the follow
+                    return {"data": [{"direction": "outgoing", "createdAt": "2026-11-14T11:00:00.000Z", "message": "Follow us first, then press the button",
+                                      "metadata": {"sentVia": "comment_automation"}},
+                                     {"direction": "outgoing", "createdAt": "2026-11-14T11:01:00.000Z", "message": "Gated gift: the plugin link is below",
+                                      "metadata": {"sentVia": "comment_automation"}}]}
+                at = "2026-11-14T09:00:00.000Z" if tid == "t5" else "2026-11-14T11:00:00.000Z"
+                return {"data": [{"direction": "outgoing", "createdAt": at, "message": GIFT, "metadata": {"sentVia": "comment_automation", "automationId": "a1"}}]}
+
+        autos = [{"id": "a1", "postId": "P", "message": GIFT, "followGate": False},
+                 {"id": "a2", "postId": "G", "message": "Gated gift: the plugin link is below", "followGate": True}]
+        cm = lambda i, uid, post="P": {"id": i, "postId": post, "accountId": "acc", "platform": "instagram", "author": "u" + uid, "authorId": uid,
+                                       "createdAt": "2026-11-14T10:00:00+0000"}
+        comments = [cm("c1", "1"), cm("c1b", "1"),     # follows: both comments handled, one follow check
+                    cm("c2", "2"),                     # Instagram won't say: stays waiting, marked
+                    cm("c3", "3"),                     # doesn't follow: stays waiting, marked
+                    cm("c4", "4", post="G"),           # follow-first gift: the follow was checked by Zernio
+                    cm("c5", "5"),                     # commented after the gift went out: stays for the user
+                    cm("c6", "1", post="other")]       # a post with no gift of its own
+        log = {}
+        gifts = summary._dm_answers(Z(), lambda name, fn: fn(), comments, log, autos)
+        self.assertEqual({k: v["how"] for k, v in log.items()}, {"c1": "dm-gift", "c1b": "dm-gift", "c4": "dm-gift"})
+        self.assertEqual({k: v["follows"] for k, v in gifts.items()}, {"c2": None, "c3": False})
+        self.assertEqual(asked.count("1"), 1)                                     # asked once per person
+        n = len(asked)
+        summary._dm_answers(Z(), lambda name, fn: fn(), comments, {}, autos)
+        self.assertEqual(len(asked), n)                                           # remembered for 6 hours
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        from store import state_dir, write_json
+        write_json(state_dir() / "cache.json", {"comments": [cm("c2", "2")], "giftLog": gifts, "autoLog": log})
+        self.assertEqual(fresh("inbox").waiting()[0]["gift"], {"at": "2026-11-14T11:00:00.000Z", "follows": None})   # PIX sees it too
+        js = (Path(summary.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
+        self.assertIn('auto[x.id].how === "dm-gift"', js)                         # hides with 🎁 Hide gift received
+        self.assertIn("gi && !done", js)                                          # the waiting ones say the gift arrived
+        for k in ('"ibxSt_dm-gift":', "ibxGotGift:", "ibxFollowUnknown:", "ibxNoFollow:", "ibxFollowTip:", "gotGift: [", "followQ: ["):
+            self.assertGreaterEqual(js.count(k), 2, k)                            # English + Arabic
+
+
 class ImageViewerInApp(unittest.TestCase):
     def test_18_images_open_inside_publish(self):
         """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""

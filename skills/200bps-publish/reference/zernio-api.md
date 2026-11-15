@@ -14,6 +14,8 @@ Base URL: `https://zernio.com/api/v1`. Auth header: `Authorization: Bearer sk_â€
 | IG insights | `GET /analytics/instagram/account-insights`, `/follower-history`, `/demographics` |
 | Follower stats | `GET /accounts/follower-stats?accountIds=` |
 | Comments | `GET /inbox/comments`, `GET /inbox/comments/{postId}?accountId=` |
+| DM threads | `GET /inbox/conversations?accountId=` (newest first), `GET /inbox/conversations/{id}/messages?accountId=`. `participantUsername` is often missing: the username is then in `participantName`, or the thread is "Instagram User". A comment's `from.id` equals the thread's `participantId` (verified 2026-11-15 on 128 comments) |
+| Follow status | `GET /accounts/{id}/follow-status/{userId}` â†’ `isFollower` true / false, or null with `unavailableReason: consent_required` (Instagram answers only for people who have messaged the account; verified 2026-11-15) |
 | DM automations | `GET/POST /comment-automations`, `PATCH/DELETE /comment-automations/{id}` |
 | Ice breakers | `GET/PUT /accounts/{id}/instagram-ice-breakers` |
 

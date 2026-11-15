@@ -589,6 +589,12 @@ send them (or send only after their explicit yes per comment).
 saves a draft the user sees on that comment. Comments a Zernio DM automation already answered (from its log) move to
 Handled by themselves; each automation shows its gift funnel (Zernio's stats). Comments the user answered in the Instagram app (a reply under it,
 an @mention in their own comment, or a DM they sent afterwards) also move to Handled (`ig-replied` / `ig-mentioned` / `ig-dm`).
+**Commented twice (gift already received).** Each sync reads the DM thread of every commenter still waiting (matched by Instagram id, then
+username; `summary._dm_answers`). If the post's gift reached them by DM after that comment and they follow the account
+(`GET /accounts/{id}/follow-status/{userId}`, kept 6 h in `.bps/follow_cache.json`; a follow-first gift counts as following), the comment is
+handled by itself (`autoLog` `dm-gift`) and hides with 🎁 Hide gift received. If the follow isn't confirmed (Instagram answers only for people
+who have messaged the account) it stays waiting and `cache.giftLog[commentId] = {at, follows}` shows the chips "🎁 Got the gift by DM" +
+"Follow not confirmed"; `bps.py inbox waiting` returns the same as `gift`. Answer "who got the gift / who follows" from that; never guess a follow.
 
 ## Background jobs meter
 

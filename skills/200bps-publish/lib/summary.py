@@ -145,31 +145,119 @@ def _auto_log(z, section, automations: list[dict], post_ids: set) -> dict:
     return res
 
 
-def _dm_answers(z, section, comments: list[dict], log: dict) -> None:
-    """Mark comments you answered by DM in the Instagram/Facebook app: an
-    outgoing message you sent yourself (not an automation) after the comment."""
-    left = [c for c in comments if c["id"] not in log and c.get("platform") in ("instagram", "facebook") and c.get("author")]
+def _conv_index(convs: list[dict]) -> tuple[dict, dict]:
+    """DM threads by the person's Instagram id and by username. Instagram often
+    sends a thread with no participantUsername: the username is then in
+    participantName, or the thread is just "Instagram User" (id only)."""
+    by_id, by_user = {}, {}
+    for cv in convs:
+        if cv.get("participantId"):
+            by_id.setdefault(str(cv["participantId"]), cv)
+        name = cv.get("participantUsername") or cv.get("participantName") or ""
+        if name and name != "Instagram User":
+            by_user.setdefault(name.lower(), cv)
+    return by_id, by_user
+
+
+def _conv_for(c: dict, by_id: dict, by_user: dict):
+    """The commenter's DM thread: by id first (a comment's from.id is the thread's
+    participantId), else by username. A name match with a different id is someone else."""
+    aid_ = str(c.get("authorId") or "")
+    if aid_ and aid_ in by_id:
+        return by_id[aid_]
+    cv = by_user.get((c.get("author") or "").lower())
+    if cv and aid_ and cv.get("participantId") and str(cv["participantId"]) != aid_:
+        return None
+    return cv
+
+
+FOLLOW_TTL = 6 * 3600
+
+
+def _follows(z, section, account_id: str, user_id: str, memo: dict):
+    """Does this person follow the account? True / False, or None when Instagram
+    won't say (it answers only for people who have messaged the account).
+    Kept 6 h in .bps/follow_cache.json so a refresh doesn't ask again."""
+    if not user_id:
+        return None
+    key = f"{account_id}:{user_id}"
+    if key in memo:
+        return memo[key]
+    path = state_dir() / "follow_cache.json"
+    cache = read_json(path, {}) or {}
+    hit = cache.get(key)
+    if hit and time.time() - (hit.get("ts") or 0) < FOLLOW_TTL:
+        memo[key] = hit.get("follows")
+        return memo[key]
+    r = section("follow status", lambda: z.get(f"/accounts/{account_id}/follow-status/{user_id}"))
+    if not isinstance(r, dict):
+        return None                               # the call failed: don't remember it
+    memo[key] = r.get("isFollower") if isinstance(r.get("isFollower"), bool) else None
+    cache[key] = {"follows": memo[key], "ts": int(time.time())}
+    write_json(path, {k: v for k, v in cache.items() if time.time() - (v.get("ts") or 0) < 30 * 86400})
+    return memo[key]
+
+
+def _gift_needles(automations: list[dict]) -> dict:
+    """Per post: how its gift message starts, to recognise that gift in a DM thread."""
+    out: dict = {}
+    for a in automations or []:
+        head = " ".join(re.split(r"\{\{", a.get("message") or "")[0].split())[:40]
+        if a.get("postId") and len(head) >= 12:
+            out.setdefault(a["postId"], []).append((head, bool(a.get("followGate"))))
+    return out
+
+
+def _dm_answers(z, section, comments: list[dict], log: dict, automations: list[dict] | None = None) -> dict:
+    """What happened in DMs after each comment still waiting.
+    - You wrote to them yourself (not an automation): the comment is answered (ig-dm).
+    - The post's gift reached them by DM (the automation sent it for another of their
+      comments) and they follow you: handled (dm-gift).
+    - The gift reached them but the follow isn't confirmed: the comment stays waiting;
+      the returned {commentId: {at, follows}} lets the Inbox say so."""
+    left = [c for c in comments if c["id"] not in log and c.get("platform") in ("instagram", "facebook") and (c.get("author") or c.get("authorId"))]
+    needles, gifts, msgs, follow_memo = _gift_needles(automations or []), {}, {}, {}
     for aid in {c["accountId"] for c in left}:
+        mine = [c for c in left if c["accountId"] == aid]
+        oldest = min(_iso(c.get("createdAt")) for c in mine)
         convs, cursor = [], None
-        for _page in range(4):
+        for _page in range(20):
             q = {"accountId": aid, "limit": 50, **({"cursor": cursor} if cursor else {})}
             r = section("DM conversations", lambda q=q: z.get("/inbox/conversations", **q)) or {}
-            convs += r.get("data") or []
+            page = r.get("data") or []
+            convs += page
             pg = r.get("pagination") or {}
             cursor = pg.get("nextCursor") or pg.get("cursor")
-            if not pg.get("hasMore") or not cursor:
+            # newest first: a page with nothing touched since the oldest waiting comment ends the search
+            if not pg.get("hasMore") or not cursor or (page and all((cv.get("updatedTime") or "") < oldest for cv in page)):
                 break
-        by_user = {(cv.get("participantUsername") or "").lower(): cv for cv in convs if cv.get("participantUsername")}
-        for c in [c for c in left if c["accountId"] == aid]:
-            cv = by_user.get(c["author"].lower())
+        by_id, by_user = _conv_index(convs)
+        for c in mine:
+            cv = _conv_for(c, by_id, by_user)
             if not cv or (cv.get("updatedTime") or "") < _iso(c.get("createdAt")):
                 continue
-            m = section("DM messages", lambda cv=cv: z.get(f"/inbox/conversations/{cv['id']}/messages", accountId=aid, limit=20)) or {}
-            for msg in m.get("data") or m.get("messages") or []:
-                if (msg.get("direction") == "outgoing" and (msg.get("createdAt") or "") >= _iso(c.get("createdAt"))
-                        and ((msg.get("metadata") or {}).get("sentVia") or "") != "comment_automation"):
-                    log[c["id"]] = {"how": "ig-dm", "at": msg.get("createdAt"), "text": (msg.get("message") or "")[:200]}
-                    break
+            if cv["id"] not in msgs:              # two comments by one person: read the thread once
+                m = section("DM messages", lambda cv=cv: z.get(f"/inbox/conversations/{cv['id']}/messages", accountId=aid, limit=20)) or {}
+                msgs[cv["id"]] = m.get("data") or m.get("messages") or []
+            after = [x for x in msgs[cv["id"]] if x.get("direction") == "outgoing" and (x.get("createdAt") or "") >= _iso(c.get("createdAt"))]
+            own = next((x for x in after if ((x.get("metadata") or {}).get("sentVia") or "") != "comment_automation"), None)
+            if own:
+                log[c["id"]] = {"how": "ig-dm", "at": own.get("createdAt"), "text": (own.get("message") or "")[:200]}
+                continue
+            for x in after:
+                text = " ".join((x.get("message") or "").split())
+                hit = next((gated for head, gated in needles.get(c.get("postId"), []) if text.startswith(head)), None)
+                if hit is None:
+                    continue
+                follows = _follows(z, section, aid, str(cv.get("participantId") or c.get("authorId") or ""), follow_memo) if c.get("platform") == "instagram" else None
+                if follows is None and hit:
+                    follows = True                # a follow-first gift only goes out after Zernio saw the follow
+                if follows:
+                    log[c["id"]] = {"how": "dm-gift", "at": x.get("createdAt"), "follows": True, "text": (x.get("message") or "")[:200]}
+                else:
+                    gifts[c["id"]] = {"at": x.get("createdAt"), "follows": follows}
+                break
+    return gifts
 
 
 def _iso(t) -> str:
@@ -661,6 +749,7 @@ def _build() -> dict:
                 done_on[c.get("id")] = {"how": "ig-mentioned"}
             comments.append({"id": c.get("id"), "postId": pid, "accountId": aid, "platform": cp.get("platform"),
                              "author": frm.get("username") or frm.get("name"),
+                             "authorId": str(frm.get("id") or "") or None,   # matches a DM thread's participantId
                              "text": c.get("message") or "", "createdAt": c.get("createdTime"), "url": c.get("url"),
                              "hidden": bool(c.get("isHidden")), "likes": c.get("likeCount") or 0, "liked": bool(c.get("isLiked")),
                              "can": {k: bool(c.get("can" + k.capitalize(), True)) for k in ("reply", "delete", "hide")}})
@@ -679,7 +768,9 @@ def _build() -> dict:
     # @mentioned them in your own comment, or wrote to them in DMs afterwards.
     for cid, v in done_on.items():
         out["autoLog"].setdefault(cid, v)
-    _dm_answers(z, section, comments, out["autoLog"])
+    # ... or the gift reached them by DM for another comment of theirs: handled when they
+    # follow (dm-gift); otherwise it stays waiting and giftLog says the gift arrived.
+    out["giftLog"] = _dm_answers(z, section, comments, out["autoLog"], out["automations"])
     if ig:
         ib = section("ice breakers", lambda: z.ice_breakers(ig))
         out["iceBreakers"] = (ib or {}).get("ice_breakers", []) if isinstance(ib, dict) else []

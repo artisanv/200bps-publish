@@ -182,9 +182,10 @@ def waiting() -> list:
     or in the app (unless PIX drafted a reply for it, which the user still has to send)."""
     c = read_json(state_dir() / "cache.json", {}) or {}
     st, auto = state(), c.get("autoLog") or {}
-    posts = c.get("commentPosts") or {}
+    posts, gifts = c.get("commentPosts") or {}, c.get("giftLog") or {}
+    # "gift": the post's gift already reached this person by DM ({at, follows: true/false/None = Instagram won't say})
     return [{**x, "post": ((posts.get(x.get("postId")) or {}).get("caption") or "").split("\n")[0][:120],
-             "draft": (st["drafts"].get(x["id"]) or {}).get("text")}
+             "draft": (st["drafts"].get(x["id"]) or {}).get("text"), "gift": gifts.get(x["id"])}
             for x in c.get("comments") or []
             if x["id"] not in st["handled"] and (x["id"] in st["drafts"] or x["id"] not in auto
                                                or auto[x["id"]].get("how") == "auto-failed")]
