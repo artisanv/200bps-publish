@@ -139,8 +139,9 @@ def add_roots(paths: list[str], native: bool = False) -> list[str]:
     return found
 
 
-def pick() -> dict:
-    """The computer's own folder picker (blocks until the user closes it)."""
+def pick(add: bool = True) -> dict:
+    """The computer's own folder picker (blocks until the user closes it).
+    add=False only returns the chosen folder (New post imports it itself, once)."""
     import subprocess
     import sys
     import json as _json
@@ -150,7 +151,7 @@ def pick() -> dict:
         out = _json.loads((r.stdout or "").strip().splitlines()[-1])
     except Exception as e:
         return {"ok": False, "error": str(e)[:200]}
-    if out.get("ok") and out.get("folders"):
+    if add and out.get("ok") and out.get("folders"):
         out["found"] = add_roots(out["folders"], native=True)
     return out
 

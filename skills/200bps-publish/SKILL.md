@@ -150,7 +150,9 @@ Then start the dashboard in the background (Step 3) and give the URL.
 
 A post can also be an **archive** (.zip, .7z, .rar, .tar.gz…): `bps.py analyze post.zip` unpacks it safely into
 `my-posts/<name>/` (`lib/archive.py`) and analyzes the post inside; an archive with several post folders returns
-their paths for `batch prepare` (which also accepts archives). A folder with a **PDF and photos/video** is split:
+their paths for `batch prepare` (which also accepts archives). A caption at the top with the slides one folder down
+(`slides/`, `export/`…) is **one** post: the slides are moved up next to the caption in the unpacked copy; design folders
+(assets, fonts, src, css, js, icons, logos) are never posts. A folder with a **PDF and photos/video** is split:
 LinkedIn gets the PDF (document post), every other network gets the photos/video (`plan.media_for`, Zernio `customMedia`).
 PDFs never go to Instagram, Facebook, TikTok or Snapchat; a PDF-only post skips them with the reason.
 

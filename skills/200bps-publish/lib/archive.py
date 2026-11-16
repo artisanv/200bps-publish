@@ -138,6 +138,31 @@ def _has_media(d: Path) -> bool:
     return any(f.is_file() and media.kind(f) for f in d.iterdir())
 
 
+# design files that travel with a post (a logo in assets/, fonts/, the HTML source…): never a post of their own
+SUPPORT_DIRS = {"assets", "asset", "fonts", "font", "src", "source", "sources", "css", "js", "static", "lib",
+                "icons", "logo", "logos", "brand", "templates", "node_modules"}
+
+
+def _has_caption(d: Path) -> bool:
+    return any(f.is_file() and f.suffix.lower() in (".txt", ".md") and f.stem.lower().split(".")[0] in media.CAPTION_NAMES
+               for f in d.iterdir())
+
+
+def _bring_up(post: Path, sub: Path) -> bool:
+    """The caption is in `post` and its media one folder down in `sub` (slides/, export/…): move the media
+    up next to the caption so the folder is a normal post folder. Only our unpacked copy changes."""
+    files = [f for f in sub.iterdir() if f.is_file() and media.kind(f)]
+    if any((post / f.name).exists() for f in files):
+        return False
+    for f in files:
+        f.rename(post / f.name)
+    try:
+        sub.rmdir()                               # only if nothing else is left in it
+    except OSError:
+        pass
+    return True
+
+
 def _post_folders(root: Path) -> list[Path]:
     """The post folder(s) inside an unpacked archive."""
     d = root
@@ -151,6 +176,11 @@ def _post_folders(root: Path) -> list[Path]:
     if _has_media(d):
         return [d]
     found = [x for x in sorted(d.rglob("*")) if x.is_dir() and _has_media(x)]
+    posts = [x for x in found if not {part.lower() for part in x.relative_to(d).parts} & SUPPORT_DIRS]
+    found = posts or found
+    # one post exported by a design tool: caption at the top, the slides in one folder below it
+    if len(found) == 1 and found[0] != d and _has_caption(d) and not _has_caption(found[0]) and _bring_up(d, found[0]):
+        return [d]
     return found
 
 

@@ -274,7 +274,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 if data.get("op") == "folder":
                     return self._json({"ok": True, **newpost.from_folder(str(data.get("path", "")))})
                 if data.get("op") == "pick":
-                    r = batch.pick()
+                    r = batch.pick(add=False)      # from_folder copies it in; adding it here too made two copies
                     return self._json({"ok": True, "pick": r})
                 return self._json({"ok": True, **newpost.create([str(f) for f in (data.get("files") or [])][:newpost.MAX_FILES + 1],
                                                                 str(data.get("name") or ""), str(data.get("caption") or "")[:5000])})

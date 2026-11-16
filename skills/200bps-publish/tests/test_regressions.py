@@ -558,6 +558,64 @@ class ChangeDuringARefresh(Workspace):
                 self.assertNotIn('"cache.json").unlink', f.read_text(encoding="utf-8"), f.name)
 
 
+class CarouselZipIsOnePost(Workspace):
+    """2026-11-16: a folder with caption.md + a zip exported by a design tool (caption at the top, the slides in
+    slides/, a logo in assets/, fonts/, the HTML source) was read as 2 posts ("assets" and "slides"), and picking
+    it with the computer's folder window copied it into my-posts twice."""
+    def setUp(self):
+        self._old = os.environ.get("BPS_WORKSPACE")
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+
+    def tearDown(self):
+        os.environ.pop("BPS_WORKSPACE", None) if self._old is None else os.environ.__setitem__("BPS_WORKSPACE", self._old)
+
+    def _picked(self):
+        import tempfile, zipfile
+        outer = Path(tempfile.mkdtemp(prefix="bps-zip-")) / "mobile_ai_factory"
+        outer.mkdir()
+        (outer / "caption.md").write_text(CAPTION, encoding="utf-8")
+        with zipfile.ZipFile(outer / "mobile-ai-factory.zip", "w") as z:
+            z.writestr("mobile-ai-factory/caption.md", CAPTION)
+            z.writestr("mobile-ai-factory/slides.html", "<html></html>")
+            z.writestr("mobile-ai-factory/assets/mark.webp", JPEG)
+            z.writestr("mobile-ai-factory/fonts/cairo.woff2", b"x")
+            for k in range(1, 10):
+                z.writestr(f"mobile-ai-factory/slides/{k:02d}.png", JPEG)
+        return outer
+
+    def test_31_caption_on_top_slides_one_folder_down(self):
+        fresh("archive"); fresh("batch")
+        newpost = fresh("newpost")
+        outer = self._picked()
+        out = newpost.from_folder(str(outer))
+        self.assertNotIn("posts", out, "one carousel was split into several posts")
+        self.assertTrue(out["opened"])
+        post = self.ws / out["folder"]
+        self.assertEqual(post.name, "mobile-ai-factory")
+        self.assertEqual(sorted(f.name for f in post.glob("*.png")), [f"{k:02d}.png" for k in range(1, 10)])
+        self.assertTrue((post / "assets" / "mark.webp").is_file())           # the design files stay where they were
+        p = self.plan()
+        self.assertEqual(len(p["media"]), 9)
+        self.assertEqual(newpost.from_folder(str(outer)).get("posts"), None)  # picked again: still one post
+
+    def test_32_picked_folder_is_copied_once(self):
+        import subprocess
+        batch = fresh("batch")
+        outer = self._picked()
+        copies = lambda: sorted(d.name for d in (self.ws / "my-posts").glob("mobile_ai_factory*"))
+        before = copies()
+        real = subprocess.run
+        subprocess.run = lambda *a, **k: type("R", (), {"stdout": json.dumps({"ok": True, "folders": [str(outer)]}), "returncode": 0})()
+        try:
+            pk = batch.pick(add=False)                 # what New post → A post folder asks the server for
+        finally:
+            subprocess.run = real
+        self.assertEqual(pk["folders"], [str(outer)])
+        self.assertEqual(copies(), before, "the folder window already copied the folder; opening it copies it again")
+        src = (Path(batch.__file__).parent / "server.py").read_text(encoding="utf-8")
+        self.assertIn("batch.pick(add=False)", src)
+
+
 class ImageViewerInApp(unittest.TestCase):
     def test_18_images_open_inside_publish(self):
         """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""
