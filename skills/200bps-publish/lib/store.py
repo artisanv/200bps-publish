@@ -42,8 +42,31 @@ def build_id() -> str:
     return _BUILD[1]
 
 
+_WS: dict[str, Path] = {}
+
+
 def workspace() -> Path:
-    return Path(os.environ.get("BPS_WORKSPACE", os.getcwd())).resolve()
+    """The project folder. A command run from a folder inside it (a post folder, the plugin's own folder…)
+    still means the project: the nearest folder above that is set up (.bps/config.json) wins. Without
+    that, `watch` listened in the wrong place and dashboard notes waited for ever."""
+    env = os.environ.get("BPS_WORKSPACE")
+    if env:
+        return Path(env).resolve()
+    cwd = os.getcwd()
+    hit = _WS.get(cwd)
+    if hit is None:
+        here = Path(cwd).resolve()
+        hit = here
+        if not (here / ".bps" / "config.json").is_file():
+            home = Path.home().resolve()
+            for up in here.parents:
+                if up == home or up == Path(up.anchor):
+                    break
+                if (up / ".bps" / "config.json").is_file():
+                    hit = up
+                    break
+        _WS[cwd] = hit
+    return hit
 
 
 def state_dir() -> Path:

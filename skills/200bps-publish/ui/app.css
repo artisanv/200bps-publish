@@ -1543,6 +1543,8 @@ pre.code { background: var(--bps-void); border: 1px solid var(--bps-line); borde
 .jobs-ic.done { background: var(--bps-lime); color: var(--on-lime, #08090A); }
 .jobs-ic.failed { background: var(--bps-danger); color: #fff; }
 .jobs-ic.lost { background: var(--bps-warn); color: #08090A; }
+.jobs-ic.waiting { background: var(--bps-warn); color: #08090A; }
+.pill.jobs-pill.wait { border-color: var(--bps-warn); }
 .job-main { display: grid; gap: 6px; min-width: 0; }
 .job-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
 .job-top b { font: 600 13.5px var(--bps-font-body); min-width: 0; overflow-wrap: anywhere; }

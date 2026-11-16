@@ -1,6 +1,11 @@
 # Changelog
 
 ## 1.20.0 (2026-11-04)
+- Fixed: **jobs that kept spinning in the dashboard** until you went to Claude Code. Four causes, all closed:
+  - **Dead jobs never left the list.** A job whose process had ended (or a dashboard that restarted itself) stayed as "Stopped" for weeks and kept the jobs pill red. It's now shown once as stopped, then leaves the list after a minute.
+  - **PIX could listen in the wrong folder.** If a command ran from a folder inside your project (a post folder, the plugin's own folder), the listener watched that folder, so your notes waited for ever while the dashboard said nothing. Every command now finds the project from any folder inside it.
+  - **A note nobody is listening for no longer spins.** When Claude Code is closed, the note shows **⏸ Waiting** with what to do (open Claude Code and type `/200bps-publish`; the note is saved and picked up then), and you can still stop it. A note PIX took and never finished (Claude Code closed for 30 minutes) is closed as "not finished" instead of looping.
+  - **Fix can be pressed again.** A Fix request that ended without a suggestion blocked the button for 6 hours. Pressing Fix again now sends a new request.
 - Fixed: a post exported by a design tool as a zip (the caption at the top, the slides in a `slides/` folder, a logo in `assets/`, fonts and the HTML source) was read as **2 posts** ("assets" and "slides") and sent to Batch schedule instead of opening. It now opens as **one carousel**: the slides are brought up next to the caption (in the unpacked copy only; your zip is untouched), and design folders (assets, fonts, src, css, js, icons, logos…) are never treated as posts.
 - Fixed: New post → A post folder with the computer's folder window copied a folder from outside the project into `my-posts/` **twice** on every pick. It's copied once now.
 - Fixed: a post you copied to another day (or scheduled, moved, edited or cancelled) sometimes didn't show in **Plan** or **Posts** for up to 5 minutes, although it was safely in Zernio. It happened when the dashboard was in the middle of its own refresh from Zernio at that moment: the refresh had read the posts just before your change and then saved that older list as the fresh one. A refresh now notices that something changed while it was reading and reads again, so the change shows right away.

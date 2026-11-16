@@ -89,6 +89,7 @@
       jobsTitle: "Background jobs", jobsSub: "What's working behind the scenes, and how far along it is.", jobsRunning: "{n} running",
       jobsDoneShort: "Done", jobsNone: "Nothing running right now. Making images, publishing, uploads, key tests and Zernio refreshes show here while they work.",
       jobsFailed: "Didn't finish", jobsLost: "Stopped", jobsWorking: "working…", jobsFinished: "finished",
+      jobsWaiting: "Waiting", jobsWaitingN: "{n} waiting for Claude Code", jobsWaitStep: "Claude Code isn't listening. Open it and type /200bps-publish. Your note is saved and PIX picks it up then.",
       jk_image: "Making images", jk_publish: "Publishing your post", jk_batch: "Scheduling posts", jk_upload: "Adding a file", jk_keytest: "Testing a key",
       jk_sync: "Refreshing from Zernio", jk_newpost: "Making a post folder", jk_claude: "PIX is working",
       imgShort: "Image", imgOpen: "Create image", imgNoKey: "Add your OpenAI key to create images", imgNoKeyHint: "Paste it below and press Save. It's tested right away.",
@@ -301,6 +302,7 @@
       jobsTitle: "الشغل بالخلفية", jobsSub: "شنو قاعد يشتغل ورا الكواليس، ووين وصل.", jobsRunning: "{n} شغّال",
       jobsDoneShort: "خلص", jobsNone: "ما في شي شغّال الحين. الصور، النشر، رفع الملفات، فحص المفاتيح وتحديث Zernio يطلعون هني وهم يشتغلون.",
       jobsFailed: "ما كمل", jobsLost: "وقف", jobsWorking: "يشتغل…", jobsFinished: "خلص",
+      jobsWaiting: "ينتظر", jobsWaitingN: "{n} ينتظر Claude Code", jobsWaitStep: "Claude Code مو قاعد يسمع. افتحه واكتب ‎/200bps-publish. ملاحظتك محفوظة وPIX ياخذها وقتها.",
       jk_image: "صنع صور", jk_publish: "نشر البوست", jk_batch: "جدولة بوستات", jk_upload: "إضافة ملف", jk_keytest: "فحص مفتاح",
       jk_sync: "تحديث من Zernio", jk_newpost: "مجلد بوست جديد", jk_claude: "طلب لـPIX",
       imgShort: "صورة", imgOpen: "سوّ صورة", imgNoKey: "أضف مفتاح OpenAI عشان تسوي صور", imgNoKeyHint: "الصقه تحت واضغط حفظ. ينختبر على طول.",
@@ -6985,7 +6987,7 @@
     try { JOBS.data = await (await fetch("/api/jobs", { cache: "no-store" })).json(); } catch (e) { /* keep the last view */ }
     // PIX reacts when something in the background finishes
     const nowSt = {}; ((JOBS.data && JOBS.data.items) || []).forEach((j) => { nowSt[j.id] = j.state; });
-    if (JOBS.prev && DOCK.p3) for (const [id, s_] of Object.entries(nowSt)) if (JOBS.prev[id] === "running" && s_ !== "running")
+    if (JOBS.prev && DOCK.p3) for (const [id, s_] of Object.entries(nowSt)) if (JOBS.prev[id] === "running" && s_ !== "running" && s_ !== "waiting")
       DOCK.p3.play(s_ === "done" ? [["done", 1600], ["party", 900]] : s_ === "stopped" ? [["sad", 1400]] : [["fail", 1800]]);
     JOBS.prev = nowSt;
     drawJobs();
@@ -7002,9 +7004,10 @@
       pill.hidden = !items.length;
       pill.classList.toggle("busy", d.running > 0);
       pill.classList.toggle("bad", !d.running && items.some((j) => j.state === "failed" || j.state === "lost"));
+      pill.classList.toggle("wait", !d.running && d.waiting > 0);
       pill.querySelector("span").textContent = d.running
         ? t("jobsRunning").replace("{n}", d.running) + (d.pct != null ? " · " + d.pct + "%" : "")
-        : "✓ " + t("jobsDoneShort");
+        : d.waiting ? "⏸ " + t("jobsWaitingN").replace("{n}", d.waiting) : "✓ " + t("jobsDoneShort");
       const mini = pill.querySelector(".jobs-mini s");
       mini.style.width = (d.running ? (d.pct ?? 30) : 100) + "%";
       pill.querySelector(".jobs-mini").classList.toggle("ind", d.running > 0 && d.pct == null);
@@ -7015,17 +7018,17 @@
     if (!items.length) { jobsPanel.append(el("p", { class: "jobs-none" }, t("jobsNone"))); return; }
     const list = el("ul", { class: "jobs-list" });
     for (const j of items) {
-      const run = j.state === "running", ind = run && (j.pct == null || j.indeterminate);
-      const icon = run ? el("i", { class: "jobs-spin" }) : el("i", { class: "jobs-ic " + j.state }, j.state === "done" ? "✓" : j.state === "lost" || j.state === "stopped" ? "■" : "✕");
-      const pct = run ? (ind ? "" : j.pct + "%") : j.state === "done" ? "100%" : t(j.state === "lost" ? "jobsLost" : j.state === "stopped" ? "jobsStopped" : "jobsFailed");
-      const step = !run && j.error ? j.error : j.step || (j.text || "");
+      const run = j.state === "running", wait = j.state === "waiting", ind = run && (j.pct == null || j.indeterminate);
+      const icon = run ? el("i", { class: "jobs-spin" }) : el("i", { class: "jobs-ic " + j.state }, j.state === "done" ? "✓" : wait ? "⏸" : j.state === "lost" || j.state === "stopped" ? "■" : "✕");
+      const pct = run ? (ind ? "" : j.pct + "%") : j.state === "done" ? "100%" : t(wait ? "jobsWaiting" : j.state === "lost" ? "jobsLost" : j.state === "stopped" ? "jobsStopped" : "jobsFailed");
+      const step = wait ? t("jobsWaitStep") : !run && j.error ? j.error : j.step || (j.text || "");
       list.append(el("li", { class: "job " + j.state },
         icon,
         el("div", { class: "job-main" },
           el("div", { class: "job-top" }, el("b", {}, jobLabel(j)), el("span", { class: "job-pct" }, pct)),
-          el("div", { class: "job-bar" + (ind ? " ind" : "") }, el("s", { style: "width:" + (ind ? 35 : run ? j.pct : 100) + "%" })),
-          el("div", { class: "job-sub" }, el("span", {}, step), el("span", { class: "job-time" }, fmtSecs(j.secs) + " · " + (run ? t("jobsWorking") : j.state === "stopped" ? t("jobsStopped") : t("jobsFinished")))),
-          run && j.stoppable ? el("div", { class: "job-acts" }, el("button", { class: "btn sm job-stop", type: "button", onclick: (e) => { e.stopPropagation(); stopJob(j.id); } }, "■ " + t("jobsStop"))) : null
+          el("div", { class: "job-bar" + (ind ? " ind" : "") }, el("s", { style: "width:" + (ind ? 35 : run ? j.pct : wait ? 0 : 100) + "%" })),
+          el("div", { class: "job-sub" }, el("span", {}, step), el("span", { class: "job-time" }, fmtSecs(j.secs) + " · " + (run ? t("jobsWorking") : wait ? t("jobsWaiting") : j.state === "stopped" ? t("jobsStopped") : t("jobsFinished")))),
+          (run || wait) && j.stoppable ? el("div", { class: "job-acts" }, el("button", { class: "btn sm job-stop", type: "button", onclick: (e) => { e.stopPropagation(); stopJob(j.id); } }, "■ " + t("jobsStop"))) : null
         )));
     }
     jobsPanel.append(list);

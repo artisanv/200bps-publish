@@ -27,6 +27,8 @@ from store import read_json, state_dir, write_json
 
 KEEP_DONE = 60          # seconds a finished job stays in the list
 STALE = 600             # no update for this long → stopped
+NOTE_STALL = 30 * 60    # a note Claude took and never finished, with Claude Code gone this long → closed as not finished
+BOOT = uuid.uuid4().hex[:10]     # one per run of this process: a dashboard that restarts itself keeps its pid
 _LOCK = threading.RLock()
 _LOCAL = threading.local()
 
@@ -53,6 +55,34 @@ def _alive(pid: int) -> bool:
         return True
 
 
+def _pstart(pid: int) -> str | None:
+    """When that process started (Linux): tells a reused pid from the process that made the job."""
+    try:
+        with open(f"/proc/{pid}/stat", encoding="utf-8", errors="replace") as f:
+            return f.read().rsplit(")", 1)[1].split()[19]
+    except (OSError, IndexError):
+        return None
+
+
+def _lost(j: dict, now: float) -> bool:
+    """A job marked running whose process is gone (or was replaced), or that went silent."""
+    if now - j.get("updated", 0) > STALE:
+        return True
+    pid = int(j.get("pid") or 0)
+    if pid == os.getpid():
+        return j.get("boot") not in (None, BOOT)          # made by this dashboard before it restarted itself
+    if not _alive(pid):
+        return True
+    then, now_ = j.get("pstart"), _pstart(pid)
+    return bool(then and now_ and then != now_)           # the pid belongs to another program now
+
+
+def mine_running() -> bool:
+    """Is a job of this very process still running? (The dashboard waits for it before restarting itself.)"""
+    now = time.time()
+    return any(j.get("state") == "running" and j.get("pid") == os.getpid() and not _lost(j, now) for j in _load().values())
+
+
 def _update(jid: str, **fields) -> dict | None:
     with _LOCK:
         rows = _load()
@@ -73,7 +103,7 @@ def start(kind: str, label: str, total: int | None = None, estimate: float | Non
         rows = {k: v for k, v in rows.items() if not _gone(v, now)}
         rows[jid] = {"id": jid, "kind": kind, "label": label[:120], "state": "running", "step": step[:160],
                      "total": total, "done": 0, "pct": 0, "estimate": estimate, "started": now, "updated": now,
-                     "pid": os.getpid()}
+                     "pid": os.getpid(), "boot": BOOT, "pstart": _pstart(os.getpid())}
         _save(rows)
     return jid
 
@@ -170,7 +200,7 @@ def _gone(j: dict, now: float) -> bool:
 
 def _view(j: dict, now: float) -> dict:
     j = dict(j)
-    if j["state"] == "running" and (now - j.get("updated", 0) > STALE or not _alive(int(j.get("pid") or 0))):
+    if j["state"] == "running" and _lost(j, now):
         j["state"], j["error"] = "lost", "Stopped before it finished."
     pct = j.get("pct") or 0
     if j["state"] == "running":
@@ -182,7 +212,8 @@ def _view(j: dict, now: float) -> dict:
     j["pct"] = round(pct)
     j["secs"] = round((j.get("finished") or now) - j["started"], 1)
     j["stoppable"] = j["state"] == "running" and j.get("kind") in STOPPABLE
-    j.pop("pid", None)
+    for k in ("pid", "boot", "pstart"):
+        j.pop(k, None)
     return j
 
 
@@ -193,16 +224,26 @@ def _claude() -> list[dict]:
               "ideas_request": "Thinking of ideas", "report": "Preparing a report", "idea": "Drafting a post",
               "assign": "Preparing a post", "reschedule": "Moving a post"}
     out, now = [], time.time()
-    listening = hitl.listening()
+    presence = hitl.presence()            # listening / working (busy between two watches) / closed
     for n in hitl.notes(unread_only=False):
-        if n.get("status") in ("done", "failed") or (n.get("read") and n.get("status") != "working"):
+        if n.get("status") in ("done", "failed", "stopped") or (n.get("read") and n.get("status") != "working"):
             continue
         a = n.get("action") or {}
         typ = a.get("type") or "note"
         label = labels.get(typ, "Reading your note")
-        out.append({"id": "n-" + n["id"], "kind": "claude", "stoppable": True, "label": "PIX: " + label,
-                    "step": n.get("step") or ("Working on it…" if listening else "Waiting for Claude to start listening"),
-                    "state": "running", "pct": None, "indeterminate": True, "started": n["ts"],
+        state, step = "running", n.get("step") or ("Working on it…" if presence == "listening" else "PIX is busy with another step; yours is next")
+        if presence == "closed":
+            if n.get("read"):             # Claude said "working", then went away: say so instead of spinning for ever
+                if now - max(n.get("statusTs") or 0, n["ts"]) > NOTE_STALL:
+                    try:
+                        hitl.note_status(n["id"], "failed", "PIX stopped before finishing this one. Send it again when Claude Code is open.")
+                    except Exception:
+                        pass
+                    continue
+            else:                         # saved, and delivered as soon as Claude Code listens again
+                state, step = "waiting", "Claude Code isn't listening. Open it and type /200bps-publish; your note is saved."
+        out.append({"id": "n-" + n["id"], "kind": "claude", "stoppable": True, "label": "PIX: " + label, "step": step,
+                    "state": state, "pct": None, "indeterminate": True, "started": n["ts"],
                     "secs": round(now - n["ts"]), "text": (n.get("text") or "")[:160]})
     return out
 
@@ -212,8 +253,11 @@ def active() -> list[dict]:
     now = time.time()
     with _LOCK:
         rows = _load()
+        dead = [v for v in rows.values() if v.get("state") == "running" and _lost(v, now)]
+        for v in dead:                    # say it once, then let it leave the list like any finished job
+            v.update(state="lost", error="Stopped before it finished.", finished=now)
         keep = {k: v for k, v in rows.items() if not _gone(v, now)}
-        if len(keep) != len(rows):
+        if dead or len(keep) != len(rows):
             _save(keep)
     views = [_view(j, now) for j in keep.values()]
     try:
@@ -228,4 +272,5 @@ def summary() -> dict:
     items = active()
     run = [j for j in items if j["state"] == "running"]
     known = [j["pct"] for j in run if j.get("pct") is not None]
-    return {"running": len(run), "pct": round(sum(known) / len(known)) if known else None, "items": items}
+    return {"running": len(run), "waiting": sum(1 for j in items if j["state"] == "waiting"),
+            "pct": round(sum(known) / len(known)) if known else None, "items": items}

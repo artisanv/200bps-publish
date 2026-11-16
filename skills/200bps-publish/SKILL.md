@@ -550,7 +550,13 @@ request. Public actions still need their own typed "go".
 "Claude is working": Claude Code is open and busy (between two watches; any
 `bps.py` command counts). Grey "Claude Code is closed": no sign of Claude Code
 for 10 minutes; requests are saved and wait until the user opens Claude Code and
-runs `/200bps-publish`.
+runs `/200bps-publish`. In the jobs meter such a note shows **⏸ Waiting** (not a spinner) with that same
+instruction; a note marked `working` and never finished, with Claude Code closed for 30 minutes, is closed as
+failed by itself. So: always finish a note with done/failed, and always restart `watch`.
+
+**Where commands run.** `bps.py` finds the project from any folder inside it (the nearest folder above with
+`.bps/config.json`), so a `watch` started after a `cd` into a post folder or the plugin still listens to the
+right dashboard. Still start it from the project folder.
 
 ## Facebook, TikTok and Snapchat
 

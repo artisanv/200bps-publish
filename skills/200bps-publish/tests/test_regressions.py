@@ -616,6 +616,91 @@ class CarouselZipIsOnePost(Workspace):
         self.assertIn("batch.pick(add=False)", src)
 
 
+class JobsNeverLoop(Workspace):
+    """2026-11-16: jobs kept spinning in the dashboard until the user went to Claude Code. Dead jobs never left the
+    list, a listener started from a folder inside the project watched the wrong place, a note nobody was listening
+    for spun for ever, and a Fix request that ended without a suggestion couldn't be pressed again for 6 hours."""
+    def setUp(self):
+        self._old = os.environ.get("BPS_WORKSPACE")
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        for f in ("jobs.json", "notes.jsonl", "watch.json", "active.json"):
+            (self.ws / ".bps" / f).unlink(missing_ok=True)
+
+    def tearDown(self):
+        os.environ.pop("BPS_WORKSPACE", None) if self._old is None else os.environ.__setitem__("BPS_WORKSPACE", self._old)
+
+    def test_33_dead_jobs_leave_the_list(self):
+        import time as _t
+        from store import state_dir, write_json
+        jobs = fresh("jobs")
+        now = _t.time()
+        row = lambda **k: {"kind": "sync", "label": "Refreshing from Zernio", "state": "running", "step": "", "done": 0, "pct": 0,
+                           "started": now - 5, "updated": now - 5, **k}
+        write_json(state_dir() / "jobs.json", {
+            "dead": row(id="dead", pid=2 ** 22 + 12345),                                  # its process is gone
+            "old": row(id="old", pid=os.getpid(), boot="an-earlier-run"),                  # this dashboard, before it restarted itself
+            "live": row(id="live", pid=os.getpid(), boot=jobs.BOOT)})
+        states = {j["id"]: j["state"] for j in jobs.active()}
+        self.assertEqual(states, {"dead": "lost", "old": "lost", "live": "running"})
+        self.assertTrue(jobs.mine_running())
+        saved = jobs._load()
+        self.assertEqual(saved["dead"]["state"], "lost")                                  # written down, so it can expire
+        for k in ("dead", "old"):
+            saved[k]["finished"] = now - jobs.KEEP_DONE - 5
+        jobs._save(saved)
+        self.assertEqual([j["id"] for j in jobs.active()], ["live"])                      # gone, not "Stopped" for weeks
+        jobs.finish("live")
+        self.assertFalse(jobs.mine_running())                                             # nothing keeps the dashboard from restarting
+
+    def test_34_listener_finds_the_project_from_a_folder_inside_it(self):
+        import subprocess, sys
+        from helpers import BPS
+        hitl = fresh("hitl")
+        n = hitl.add_note("from the dashboard")
+        inside = self.ws / "my-posts" / "a-post"
+        inside.mkdir(parents=True, exist_ok=True)
+        env = {k: v for k, v in self.env.items() if k != "BPS_WORKSPACE"}
+        r = subprocess.run([sys.executable, str(BPS), "watch", "--timeout", "5"], cwd=inside, env=env, capture_output=True, text=True, timeout=60)
+        self.assertIn(n["id"], r.stdout, "watch run from inside the project didn't see the project's notes")
+        self.assertFalse((inside / ".bps").exists(), "a second state folder was made inside the project")
+
+    def test_35_a_note_nobody_listens_for_waits_and_a_stalled_one_closes(self):
+        import time as _t
+        hitl = fresh("hitl"); jobs = fresh("jobs")
+        a = hitl.add_note("please shorten the caption")                    # Claude Code closed: no watch, no command
+        b = hitl.add_note("make a cover")
+        hitl.note_status(b["id"], "working", "Designing")
+        hitl.notes(mark_read=True, ids=[b["id"]])
+        s = jobs.summary()
+        st = {j["id"]: j["state"] for j in s["items"]}
+        self.assertEqual(st["n-" + a["id"]], "waiting")                    # shown as waiting, with what to do: no endless spinner
+        self.assertEqual((s["running"], s["waiting"]), (1, 1))
+        rows, raw = hitl._read_rows(self.ws / ".bps" / "notes.jsonl")      # Claude took b long ago and never finished it
+        for r in rows:
+            if r and r["id"] == b["id"]:
+                r["statusTs"] = r["ts"] = int(_t.time()) - jobs.NOTE_STALL - 60
+        hitl._write_rows(self.ws / ".bps" / "notes.jsonl", rows, raw)
+        self.assertNotIn("n-" + b["id"], [j["id"] for j in jobs.summary()["items"]])
+        done = next(r for r in hitl.notes(unread_only=False) if r["id"] == b["id"])
+        self.assertEqual(done["status"], "failed")
+        hitl.heartbeat()                                                   # Claude Code listens again: a normal running note
+        self.assertEqual({j["id"]: j["state"] for j in jobs.summary()["items"]}["n-" + a["id"]], "running")
+        js = (Path(jobs.__file__).parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
+        for k in ('wait = j.state === "waiting"', "jobsWaitStep", "(run || wait) && j.stoppable"):
+            self.assertIn(k, js)
+
+    def test_36_fix_can_be_pressed_again_after_its_note_ended(self):
+        hitl = fresh("hitl")
+        n = hitl.add_note("Fix 'hook.length'", {"type": "fix_request", "check": "hook.length"})
+        req = {"status": "requested", "ts": 1, "note": n["id"]}
+        self.assertFalse(hitl.note_over(req))                              # PIX is still on it
+        hitl.cancel_note(n["id"])                                          # stopped (or finished) without a suggestion
+        self.assertTrue(hitl.note_over(req))
+        self.assertFalse(hitl.note_over({"status": "suggested", "questionId": "q1", "note": n["id"]}))
+        src = (Path(hitl.__file__).parent / "server.py").read_text(encoding="utf-8")
+        self.assertIn("not hitl.note_over(open_)", src)
+
+
 class ImageViewerInApp(unittest.TestCase):
     def test_18_images_open_inside_publish(self):
         """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""

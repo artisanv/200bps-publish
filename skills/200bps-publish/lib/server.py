@@ -288,7 +288,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                 p = plans.load()
                 key = f"{cid}:{plat}"
                 open_ = (p or {}).get("fixRequests", {}).get(key)
-                if open_ and time.time() - open_.get("ts", 0) < 6 * 3600:
+                if open_ and time.time() - open_.get("ts", 0) < 6 * 3600 and not hitl.note_over(open_):
                     q = hitl.get(open_["questionId"]) if open_.get("questionId") else None
                     if not q or q.get("status") == "pending" or open_.get("status") == "requested":
                         return self._json({"ok": True, "duplicate": True, "status": open_.get("status"), "questionId": open_.get("questionId")})
@@ -965,13 +965,11 @@ class _Server(ThreadingHTTPServer):
 
 def _busy_here() -> bool:
     """A job this dashboard process started is still running (refresh, image, publish…)."""
-    import os
     import jobs
     try:
-        rows = jobs._load()
+        return jobs.mine_running()    # a job left "running" by an earlier run never blocks the restart
     except Exception:
         return True
-    return any(j.get("state") == "running" and j.get("pid") == os.getpid() for j in rows.values())
 
 
 def _watch_code(httpd: "_Server", argv: list[str], every: float = 3.0, settle: float = 2.0) -> None:

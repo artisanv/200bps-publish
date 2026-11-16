@@ -240,6 +240,15 @@ def note_status(nid: str, status: str, text: str = "") -> dict:
     return hit
 
 
+def note_over(req: dict) -> bool:
+    """A fix request that is still "requested" (no suggestion came) although its note is finished,
+    failed or stopped: pressing Fix again must send a new request, not wait for six hours."""
+    if not req or req.get("status") != "requested" or not req.get("note"):
+        return False
+    n = next((r for r in notes(unread_only=False) if r.get("id") == req["note"]), None)
+    return n is None or n.get("status") in ("done", "failed", "stopped")
+
+
 def cancel_note(nid: str) -> dict:
     """The user stopped a note: Claude won't get it (or should drop it)."""
     p = state_dir() / "notes.jsonl"
@@ -430,7 +439,10 @@ def watch(timeout: int = 3600, poll: float = 1.0) -> list[dict]:
     structured request), then return the unread items. The agent runs this in
     the background so dashboard clicks wake it up."""
     end = time.time() + timeout
+    parent = os.getppid()
     while time.time() < end:
+        if os.getppid() != parent:        # Claude Code is gone: don't pretend to listen, and take no note
+            return []
         heartbeat()
         try:
             items = notes(unread_only=True)
