@@ -10,7 +10,7 @@ from __future__ import annotations
 import time
 
 import hitl
-from store import append_log, read_json, state_dir, write_json
+from store import append_log, drop_cache, read_json, state_dir, write_json
 from zernio import Zernio, ZernioError
 
 LABELS = ["Question", "Lead", "Thanks", "Follow up", "Spam"]
@@ -64,7 +64,7 @@ def _handled(comment_id: str, how: str) -> None:
 
 
 def _drop_cache() -> None:
-    (state_dir() / "cache.json").unlink(missing_ok=True)
+    drop_cache()
 
 
 def reply(post_id: str, account_id: str, comment_id: str, text: str) -> dict:

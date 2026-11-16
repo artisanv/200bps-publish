@@ -524,6 +524,40 @@ class GiftReachedThemByDm(Workspace):
             self.assertGreaterEqual(js.count(k), 2, k)                            # English + Arabic
 
 
+class ChangeDuringARefresh(Workspace):
+    def test_30_post_made_during_a_refresh_shows_in_plan(self):
+        """2026-11-16: a post copied to another day didn't show in Plan. A refresh from Zernio was already running
+        (it had read the posts before the copy) and saved its older list over the cleared cache for 5 more minutes."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        fresh("store")
+        import zernio
+        from store import drop_cache, read_json, state_dir
+        summary = fresh("summary")
+        real, made = zernio.Zernio.best_time, []
+
+        def best_time(z, **q):                       # runs after the refresh has read the posts
+            if not made:                             # ... and right then the user pastes a copy on another day
+                r = z.create_post({"content": "copied while refreshing", "scheduledFor": "2030-03-01T10:30:00+00:00",
+                                   "platforms": [{"platform": "instagram", "accountId": IG}]})
+                made.append((r.get("post") or r).get("_id"))
+                drop_cache()
+            return real(z, **q)
+        zernio.Zernio.best_time = best_time
+        try:
+            out = summary.build(force=True)
+        finally:
+            zernio.Zernio.best_time = real
+        self.assertTrue(made, "the refresh never reached best time")
+        self.assertIn(made[0], [p["id"] for p in out["scheduled"]], "the new post is missing from Plan")
+        cached = read_json(state_dir() / "cache.json") or {}
+        self.assertIn(made[0], [p["id"] for p in cached.get("zposts") or []], "the saved cache is older than the change")
+        # every change in Zernio clears the cache through the one helper that leaves the stamp
+        lib = Path(summary.__file__).parent
+        for f in lib.glob("*.py"):
+            if f.name != "store.py":
+                self.assertNotIn('"cache.json").unlink', f.read_text(encoding="utf-8"), f.name)
+
+
 class ImageViewerInApp(unittest.TestCase):
     def test_18_images_open_inside_publish(self):
         """2026-11-08: clicking an image opened it in a new browser tab; it opens in the in-app viewer now."""

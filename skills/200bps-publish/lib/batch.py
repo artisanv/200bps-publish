@@ -21,7 +21,7 @@ from zoneinfo import ZoneInfo
 
 import media
 import plan as plans
-from store import append_log, config, read_json, state_dir, workspace
+from store import append_log, config, drop_cache, read_json, state_dir, workspace
 
 SKIP_DIRS = {".bps", ".claude", ".git", "node_modules", "__pycache__", "dist", ".venv", "venv"}
 MAX_DEPTH = 4
@@ -454,7 +454,7 @@ def run(items: list[dict], typed: str, via: str = "dashboard", wait: bool = Fals
             bad = [r for r in _JOB["items"] if r["state"] == "failed"]
         jobs.finish(jid, ok=bool(ok) or not bad, error=f"{len(bad)} failed" if bad else "",
                     step=f"{len(ok)} scheduled" + (f", {len(bad)} failed" if bad else ""))
-        (state_dir() / "cache.json").unlink(missing_ok=True)      # Posts tab and calendar show them on next load
+        drop_cache()      # Posts tab and calendar show them on next load
         append_log({"event": "batch_schedule", "id": job_id, "ok": [r["postId"] for r in ok], "failed": [r["plan"] for r in bad]})
         lines = [f"- {r['name']}: {r['at']}" for r in ok] + [f"- FAILED {r['name']}: {r.get('error')}" for r in bad]
         hitl.add_note(f"Batch scheduled from the {via}: {len(ok)} scheduled, {len(bad)} failed.\n" + "\n".join(lines),

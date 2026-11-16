@@ -17,7 +17,7 @@ import time
 from pathlib import Path
 
 import plan as plans
-from store import append_log, read_json, state_dir
+from store import append_log, drop_cache, read_json, state_dir
 from zernio import Zernio, ZernioError
 
 NO_UNPUBLISH = {"instagram", "tiktok", "snapchat"}
@@ -70,7 +70,7 @@ def cancel_post(post_id: str, typed: str, via: str = "dashboard") -> dict:
         p["status"] = "draft"
         plans.save(p, via=via, make_current=False)
         out["plan"] = p["id"]
-    (state_dir() / "cache.json").unlink(missing_ok=True)
+    drop_cache()
     append_log({"event": "cancel", "postId": post_id, "was": status, "via": via,
                 "removed": out["removed"], "manual": [m["platform"] for m in out["manual"]]})
     hitl.add_note(f"Cancelled from the {via}: Zernio post {post_id} (was {status}). "

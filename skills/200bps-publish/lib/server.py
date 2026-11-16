@@ -28,7 +28,7 @@ import hitl
 import keys
 import plan as plans
 import summary
-from store import SKILL_DIR, VERSION, build_id, config, read_json, save_config, state_dir, write_json
+from store import SKILL_DIR, VERSION, build_id, config, drop_cache, read_json, save_config, state_dir, write_json
 
 UI_DIR = SKILL_DIR / "ui"
 _UI = [0.0, 0]
@@ -263,7 +263,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                     raise PermissionError("Type go to publish.")
                 with jobs.job("publish", "Publishing your post", estimate=40, step="Checking the post"):
                     out = plans.publish_from_dashboard(str(data.get("confirm", "")))
-                (state_dir() / "cache.json").unlink(missing_ok=True)      # Posts tab shows it on next load
+                drop_cache()      # Posts tab shows it on next load
                 return self._json({"ok": True, **out})
             if path == "/api/keys":
                 return self._json(self._keys(data))
@@ -548,7 +548,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
         if new:
             acct.enable_platform(new[0]["platform"])
             (state_dir() / "connecting.json").unlink(missing_ok=True)
-            (state_dir() / "cache.json").unlink(missing_ok=True)
+            drop_cache()
             _doctor_cache["t"] = 0
             hitl.add_note(f"Connected {new[0]['platform']} @{new[0].get('username')} from the dashboard.",
                           {"type": "account_connected", "platform": new[0]["platform"], "username": new[0].get("username")})
@@ -607,7 +607,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             raise ValueError("Unknown action.")
         _doctor_cache["t"] = 0                       # re-check readiness now
         if op != "test" or (test and test["name"] == "ZERNIO_API_KEY"):
-            (state_dir() / "cache.json").unlink(missing_ok=True)
+            drop_cache()
         return {"ok": True, "saved": saved, "test": test, "keys": keys.listing()}
 
     def _images(self, data: dict) -> dict:

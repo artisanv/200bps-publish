@@ -451,9 +451,21 @@ def build(force: bool = False) -> dict:
     try:
         import jobs
         with jobs.job("sync", "Refreshing from Zernio", estimate=12, step="Posts, followers, best time…"):
-            return _build()
+            for _ in range(3):
+                out = _build()
+                if not out.get("_stale"):      # nothing changed in Zernio while it was reading
+                    break
+            return out
     finally:
         _BUILD_LOCK.release()
+
+
+def _changed_since(ts: float) -> bool:
+    """Did store.drop_cache() run (a post made, moved, cancelled…) after this refresh started?"""
+    try:
+        return float((state_dir() / "cache.dirty").read_text(encoding="utf-8")) >= ts
+    except (OSError, ValueError):
+        return False
 
 
 def _build() -> dict:
@@ -775,5 +787,13 @@ def _build() -> dict:
         ib = section("ice breakers", lambda: z.ice_breakers(ig))
         out["iceBreakers"] = (ib or {}).get("ice_breakers", []) if isinstance(ib, dict) else []
 
+    # A change made while this was reading (it may have listed the posts before it): never keep
+    # this older picture as the fresh one. build() reads again.
+    if _changed_since(out["_ts"]):
+        out["_stale"] = True
+        return out
     write_json(cache_p, out)
+    if _changed_since(out["_ts"]):
+        cache_p.unlink(missing_ok=True)
+        out["_stale"] = True
     return out

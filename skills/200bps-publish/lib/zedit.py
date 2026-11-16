@@ -14,7 +14,7 @@ from zoneinfo import ZoneInfo
 
 import hitl
 import plan as plans
-from store import append_log, config, state_dir
+from store import append_log, config, drop_cache, state_dir
 from zernio import Zernio
 
 EDITABLE = ("scheduled", "draft", "failed", "partial", "cancelled")
@@ -66,7 +66,7 @@ def move(post_id: str, at_local: str, typed: str) -> dict:
         lp["schedule"] = {"mode": "at", "at": at, "via": "dashboard"}
         plans.save(lp, via="dashboard", make_current=False)
     append_log({"ts": int(time.time()), "event": "reschedule", "postId": post_id, "at": at, "via": "dashboard"})
-    (state_dir() / "cache.json").unlink(missing_ok=True)
+    drop_cache()
     hitl.add_note(f"I moved post {post_id} to {at} from the Plan tab. It's already done in Zernio.",
                   {"type": "post_moved", "postId": post_id, "at": at})
     return {"at": back.get("scheduledFor") or at, "status": back.get("status"), "notMoved": off}
@@ -99,7 +99,7 @@ def edit_caption(post_id: str, text: str, typed: str) -> dict:
             lp["captions"][pl] = text
         plans.save(lp, via="dashboard", make_current=False)
     append_log({"ts": int(time.time()), "event": "caption_edited", "postId": post_id, "via": "dashboard"})
-    (state_dir() / "cache.json").unlink(missing_ok=True)
+    drop_cache()
     hitl.add_note(f"I edited the caption of post {post_id} from the Plan tab. It's already saved in Zernio.",
                   {"type": "post_edited", "postId": post_id})
     return {"caption": back.get("content"), "status": back.get("status")}
@@ -163,7 +163,7 @@ def set_networks(post_id: str, wanted: list[dict], typed: str) -> dict:
         plans.save(lp, via="dashboard", make_current=False)
     before = sorted(cur)
     append_log({"ts": int(time.time()), "event": "networks_changed", "postId": post_id, "before": before, "after": now, "via": "dashboard"})
-    (state_dir() / "cache.json").unlink(missing_ok=True)
+    drop_cache()
     off = [k[0] for k in before if k not in want]
     on = [k[0] for k in want if k not in cur]
     hitl.add_note(f"I changed the networks of post {post_id} from the dashboard"
@@ -183,7 +183,7 @@ def remove_published(post_id: str, platform: str, account_id: str, typed: str) -
     z.unpublish_post(post_id, platform, account_id or None)
     back = _post(z, post_id)
     append_log({"ts": int(time.time()), "event": "unpublished_one", "postId": post_id, "platform": platform, "via": "dashboard"})
-    (state_dir() / "cache.json").unlink(missing_ok=True)
+    drop_cache()
     hitl.add_note(f"I removed post {post_id} from {platform} from the dashboard (typed remove). It's already done.",
                   {"type": "post_networks", "postId": post_id, "off": [platform], "on": [], "published": True})
     st = next((t.get("status") for t in back.get("platforms") or [] if t.get("platform") == platform), None)

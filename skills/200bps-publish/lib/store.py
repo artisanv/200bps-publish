@@ -83,6 +83,18 @@ def write_json(path: Path, data) -> None:
     tmp.replace(path)
 
 
+def drop_cache() -> None:
+    """Something changed in Zernio (a post made, moved, edited, cancelled…): forget the cached
+    numbers. The stamp also tells a refresh that is already running that what it read may be
+    older than the change, so summary.build reads again instead of saving the old list."""
+    d = state_dir()
+    try:
+        (d / "cache.dirty").write_text(repr(time.time()), encoding="utf-8")
+    except OSError:
+        pass
+    (d / "cache.json").unlink(missing_ok=True)
+
+
 def config() -> dict:
     return read_json(state_dir() / "config.json", {}) or {}
 

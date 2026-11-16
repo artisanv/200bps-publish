@@ -14,7 +14,7 @@ import time
 
 import hitl
 import plan as plans
-from store import append_log, config, read_json, state_dir
+from store import append_log, config, drop_cache, read_json, state_dir
 from zernio import Zernio
 
 EDITABLE = ("scheduled", "draft", "failed", "partial", "cancelled")
@@ -251,7 +251,7 @@ def apply(changes: list[dict], typed: str = "", via: str = "dashboard") -> dict:
             results.append({"id": c["id"], "ok": False, "error": str(e)[:300]})
     done = [r for r in results if r["ok"]]
     if any(c.get("where") != "local" for c in changes):
-        (state_dir() / "cache.json").unlink(missing_ok=True)
+        drop_cache()
     append_log({"ts": int(time.time()), "event": "trial_changed", "via": via,
                 "changes": [{k: c.get(k) for k in ("id", "where", "trial", "graduation")} for c in changes], "ok": len(done)})
     if via == "dashboard" and done:

@@ -20,7 +20,7 @@ from zoneinfo import ZoneInfo
 
 import hitl
 import plan as plans
-from store import append_log, config, state_dir, workspace
+from store import append_log, config, drop_cache, state_dir, workspace
 from zernio import Zernio
 
 
@@ -98,7 +98,7 @@ def copy_zernio(post_id: str, at_local: str, text: str | None, platforms: list[s
     gifts = _copy_gifts(z, src, new_id, when) if with_gift and new_id else []
     append_log({"ts": int(time.time()), "event": "post_copied", "from": post_id, "postId": new_id, "at": when.isoformat(),
                 "draft": draft, "via": "dashboard"})
-    (state_dir() / "cache.json").unlink(missing_ok=True)
+    drop_cache()
     hitl.add_note(f"I copied post {post_id} to {when.isoformat()} from the dashboard"
                   f"{' as a draft in Zernio' if draft else ' and scheduled it (typed go)'}"
                   f"{', with its DM gift copied too' if gifts else ''}. It's already done.",
