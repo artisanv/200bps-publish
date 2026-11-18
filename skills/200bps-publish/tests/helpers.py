@@ -99,3 +99,16 @@ CAPTION = ("Claude Code ينشر لك على خمس منصات 🚀\n\nسطر ث
            "تابعنا وعلّق «publish» ويوصلك الرابط بالخاص 🎁\nشنو أول بوست بتجهزه؟ 👇\n\n#ClaudeCode #AI #Kuwait")
 LI_CAPTION = ("Claude Code publishes to five networks.\n\nShort lines, a takeaway.\n\n"
               "Get it here: https://github.com/example/repo\n\nWhat would you post first?\n\n#ClaudeCode #AI")
+
+
+def ig_comment(cid: str, user: str | None, text: str, minute: int, replies: list | None = None, owner: bool = False,
+               parent: str | None = None, stub: bool = False) -> dict:
+    """One Instagram comment as Zernio sends it (invented people). `parent` makes it the copy inside a
+    thread's replies; `stub` is that copy when the reply is also a row of its own: no author, isOwner false."""
+    frm = {"isOwner": False} if stub else {"id": "9" + cid, "name": user, "username": user, "isOwner": owner} if user else {"isOwner": owner}
+    c = {"id": cid, "message": text, "createdTime": f"2026-11-18T{6 + minute // 60:02d}:{minute % 60:02d}:00+0000", "from": frm,
+         "likeCount": 0, "replyCount": len(replies or []), "platform": "instagram", "url": f"https://www.instagram.com/p/X/c/{cid}/",
+         "replies": replies or [], "isHidden": False, "canReply": True, "canDelete": True, "canHide": True, "isLiked": False}
+    if parent:
+        c["parentId"] = parent
+    return c

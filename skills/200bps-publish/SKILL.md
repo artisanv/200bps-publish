@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
 description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram, LinkedIn, Facebook, TikTok and Snapchat through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.20.0
+version: 1.20.1
 ---
 
 # 200BPS Publish
@@ -421,7 +421,7 @@ It shows (bilingual, with 12h/24h and light/dark toggles):
 - growth: KPIs, followers (Total / Daily / Weekly / Monthly switch: the follower curve or the followers gained per period as bars, with average, best and latest period; remembered), top posts, engagement heatmap, audience; the idea bank on every Growth tab; plus one dashboard per connected network (Growth tabs: its own audience (`networks[].audience`: Instagram, Facebook Pages, LinkedIn company pages; status personal/unsupported/empty otherwise; cached 6 h in `.bps/audience_cache.json`), followers, its own
   goal (`/api/goal` with `platform`, stored in `goal.by`), last 30 days vs the 30 before, best times, rhythm, top posts)
 - calendar
-- inbox: comments waiting, DM automations, ice breakers
+- inbox: comments (and replies inside their threads) waiting, DM automations, ice breakers
 - idea bank
 - streak, goal ring, "since last visit"
 
@@ -506,7 +506,7 @@ returns the unread requests. For each one:
 | `idea` | Draft caption + media plan for that idea and date; show it; nothing is published |
 | `report` | `bps.py report --plan …` or summarise that post's analytics |
 | `new_post` | The user started a post from the dashboard's **New post** window (files, made images, or a folder). If `opened`, the post is already the current plan: run the step 2 flow from point 3 (report findings, fixes, time, gift). If `needsCaption`, look at the media (and `hint`, the image prompts), write a caption in the user's voice, save it as `caption.txt` in `folder`, show it in chat, then `analyze` that folder and continue step 2 |
-| `reply_drafts` | The user pressed "Ask Claude to draft replies" in the Inbox. `action.comments` lists the waiting comments (id, author, text, post, platform). Write one short public reply per comment in the user's voice and language (match the comment's language), and save each with `bps.py inbox draft --comment ID --text "…"`. Never send them: the user presses Use it → Send reply. Skip spam or comments that need no answer, and say so in the `say --status done` line |
+| `reply_drafts` | The user pressed "Ask Claude to draft replies" in the Inbox. `action.comments` lists the waiting comments (id, author, text, post, platform; a reply inside a thread also has `parentId` and `replyTo {author, text}`: answer what they wrote there, in that context). Write one short public reply per comment in the user's voice and language (match the comment's language), and save each with `bps.py inbox draft --comment ID --text "…"`. Never send them: the user presses Use it → Send reply. Skip spam or comments that need no answer, and say so in the `say --status done` line |
 | `post_copied` | The user copied a post to another day from the dashboard (Copy → Paste). It's **already done** in Zernio (a new scheduled post after typed go, or a Zernio draft). Acknowledge in one line with `say --to <id> --status done`; never repeat it |
 | `rewrite_all` | The user pressed "Fit it for every network". Write one caption per network and save with `bps.py rewrite` (see "One post, every network"). Never apply them yourself |
 | `ab_hook` | The user pressed "Ask Claude for hook B" in the Hook test window. `action.caption` is version A. Write B and save it with `bps.py abtest hook` (see "Hook A/B test"). Never start the test yourself |
@@ -585,7 +585,7 @@ commands or the dashboard's Network settings.
 
 ## Inbox (dashboard)
 
-The Inbox lists comments waiting (last 7 days, the 5 posts with comments),
+The Inbox lists comments waiting (posts published in the last 30 days: the 10 newest with comments plus the 5 busiest older ones),
 each with its post and that post's gift. From the dashboard the user can
 **reply** (public), **send the gift** as a private reply (`lib/inbox.py`;
 Instagram/Facebook, one per comment within 7 days; the link goes in the text,
@@ -597,6 +597,13 @@ send them (or send only after their explicit yes per comment).
 saves a draft the user sees on that comment. Comments a Zernio DM automation already answered (from its log) move to
 Handled by themselves; each automation shows its gift funnel (Zernio's stats). Comments the user answered in the Instagram app (a reply under it,
 an @mention in their own comment, or a DM they sent afterwards) also move to Handled (`ig-replied` / `ig-mentioned` / `ig-dm`).
+**Replies inside a thread** are Inbox items of their own (the dashboard shows "↳ Reply to @name" plus the comment it answers): `parentId` is
+the thread's top comment and `replyTo {author, text}` is that comment; both are `null` on a top-level comment. Reply, gift, label, hide and
+delete work on them like on any comment, and `bps.py inbox waiting` returns them too. A reply moves to Handled by itself when the user
+answered at or after it (a reply in the same thread, or an @mention of its author: `ig-replied` / `ig-mentioned`); a reply written after
+the user's last answer in that thread is waiting.
+**Every comment of a post is read** (all pages, not just the newest 100). Safety cap: 2,000 per post. `commentPosts[pid].more` is true when
+the read stopped early; the Inbox says so on that post, so never tell the user "that is every comment" for it.
 **Commented twice (gift already received).** Each sync reads the DM thread of every commenter still waiting (matched by Instagram id, then
 username; `summary._dm_answers`). If the post's gift reached them by DM after that comment and they follow the account
 (`GET /accounts/{id}/follow-status/{userId}`, kept 6 h in `.bps/follow_cache.json`; a follow-first gift counts as following), the comment is

@@ -63,6 +63,15 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 | ![Post window](media/post-window.png) | ![Images](media/image-window.png) |
 | **Posts**: play a Reel with sound inside the dashboard, with its results per network. | **Images**: OpenAI paints, or **PIX designs it** in code at the exact post size, free. |
 
+## New in v1.20.1 (two Inbox fixes, 18 Nov 2026)
+
+Did a reply show in your Instagram notifications but never in the dashboard's Inbox? There were two causes, and both are fixed. With auto-update on, the fix reaches you by itself; by hand: `/plugin marketplace update 200bps`.
+
+- **↳ Replies inside a comment thread show in the Inbox.** The Inbox listed only top-level comments. When someone answered under a comment (for example after you replied to them), nothing appeared. Now each such reply is its own Inbox item, with a line above it, **↳ Reply to @name**, plus the comment it answers. You can reply, send the gift, label, hide or delete it like any comment. A reply written after your last answer in that thread waits for you; one you answered afterwards (a reply in the same thread, or an @mention) moves to Handled by itself.
+- **Every comment of a post is read.** Only the newest 100 comments of a post were read. On a busy post (a Reel with over 900 comments) the older comments dropped out of the Inbox, together with their labels. The Inbox now reads every comment of a post. Safety limit: 2,000 per post; the Inbox says so on a post that passes it. A busy post also no longer leaves the Inbox after a week: the Inbox now covers posts from the last 30 days (the 10 newest with comments, plus the 5 busiest older ones).
+
+Both are explained in the dashboard's hover tips and Guide, in English and Arabic.
+
 ## New in v1.20.0 (the big one)
 
 - **🧪 3-day Trial Reel reminder:** Instagram shares a Trial Reel with your followers only if it does well in its first 72 hours, and no app can share it later. So 3 days after a Trial Reel goes live, a card at the top of the dashboard reminds you: open it in Instagram → ··· → Share to followers (it keeps its views), then press **I shared it** or **Keep it a trial**. Turn it off in Settings.
@@ -261,7 +270,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.20.0.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.20.1.zip -d .claude/skills/
 claude
 ```
 
@@ -324,7 +333,7 @@ Other things you can ask for:
 ## Self-test
 
 ```bash
-python3 <skill>/bin/bps.py selftest          # 45 checks, about a minute
+python3 <skill>/bin/bps.py selftest          # 75 checks, about a minute
 python3 <skill>/bin/bps.py selftest --quick  # skip the browser check
 ```
 

@@ -13,11 +13,19 @@ Base URL: `https://zernio.com/api/v1`. Auth header: `Authorization: Bearer sk_�
 | Post analytics | `GET /analytics?postId|fromDate|toDate|limit` |
 | IG insights | `GET /analytics/instagram/account-insights`, `/follower-history`, `/demographics` |
 | Follower stats | `GET /accounts/follower-stats?accountIds=` |
-| Comments | `GET /inbox/comments`, `GET /inbox/comments/{postId}?accountId=` |
-| DM threads | `GET /inbox/conversations?accountId=` (newest first), `GET /inbox/conversations/{id}/messages?accountId=`. `participantUsername` is often missing: the username is then in `participantName`, or the thread is "Instagram User". A comment's `from.id` equals the thread's `participantId` (verified 2026-11-15 on 128 comments) |
+| Comments | `GET /inbox/comments?since=&limit=`, `GET /inbox/comments/{postId}?accountId=&limit=&cursor=` (see Inbox comments below) |
+| DM threads | `GET /inbox/conversations?accountId=` (newest first), `GET /inbox/conversations/{id}/messages?accountId=&limit=&sortOrder=desc` → `messages[]`; the default order is oldest first, so without `sortOrder=desc` a long thread returns its oldest messages (verified 2026-11-18). `participantUsername` is often missing: the username is then in `participantName`, or the thread is "Instagram User". A comment's `from.id` equals the thread's `participantId` (verified 2026-11-15 on 128 comments) |
 | Follow status | `GET /accounts/{id}/follow-status/{userId}` → `isFollower` true / false, or null with `unavailableReason: consent_required` (Instagram answers only for people who have messaged the account; verified 2026-11-15) |
 | DM automations | `GET/POST /comment-automations`, `PATCH/DELETE /comment-automations/{id}` |
 | Ice breakers | `GET/PUT /accounts/{id}/instagram-ice-breakers` |
+
+## Inbox comments (verified 2026-11-18 on a post with 917 comments and replies)
+- **List** `GET /inbox/comments`: `data[{id (post id), accountId, platform, commentCount, createdTime, content, permalink, picture}]`. `since` is the **post's publish date** ("posts created after this date"), not the date of its comments: the Inbox asks 30 days back, so a post people still comment on doesn't leave when it turns a week old. Instagram's `commentCount` includes replies.
+- **One post** `GET /inbox/comments/{postId}`: `{comments[], pagination{hasMore, cursor}, post, meta{lastUpdated}}`, newest first. `limit` is 100 at most (a larger number is cut to 100) and counts comments and replies together: about 55 rows a page. `cursor` comes only while `hasMore` is true. Read every page (the plugin stops at 2000 rows and marks the post `more`).
+- **Replies** sit inside their comment's `replies[]`, each with `parentId` (the top comment); threads are one level deep. Rows have no `parentId`.
+- **A reply can come twice:** as a row of its own (full `from`) and inside the thread, where that copy is a stub: `from` is just `{"isOwner": false}`, even on the account's own reply. Match by `id` and believe the row. Which replies come twice changes with the page size. Other replies come only inside the thread, with their `from.username`.
+- **Caching:** Zernio keeps each page up to 10 minutes; a reply, hide or delete made through the API refreshes it at once. A page costs about 0.7 s from that cache and about 3 s fresh from Instagram (10 pages: 7 s or about 33 s).
+- `view=summary` cuts each thread to 3 replies: don't use it for the Inbox.
 
 ## Required plan and add-ons
 - **Analytics add-on:** best time, insights, demographics and post analytics.

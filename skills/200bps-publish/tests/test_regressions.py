@@ -4,7 +4,7 @@ import os
 import unittest
 from pathlib import Path
 
-from helpers import CAPTION, IG, JPEG, LI_CAPTION, Workspace
+from helpers import CAPTION, IG, JPEG, LI_CAPTION, Workspace, ig_comment
 
 
 def fresh(mod):
@@ -423,10 +423,11 @@ class TrialThreeDayReminder(Workspace):
             self.assertGreaterEqual(js.count(k), 2, k)                                  # English + Arabic
 
 
-class DmThreadMatching(unittest.TestCase):
+class DmThreadMatching(Workspace):
     def test_28_dm_answer_found_without_a_username(self):
         """2026-11-15: Instagram often sends a DM thread with no participantUsername (the username is in
         participantName, or the thread is just "Instagram User"). A comment answered by DM stayed in Waiting."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)                      # DM threads are remembered in .bps: never the real one
         import summary
 
         class Z:
@@ -699,6 +700,226 @@ class JobsNeverLoop(Workspace):
         self.assertFalse(hitl.note_over({"status": "suggested", "questionId": "q1", "note": n["id"]}))
         src = (Path(hitl.__file__).parent / "server.py").read_text(encoding="utf-8")
         self.assertIn("not hitl.note_over(open_)", src)
+
+
+class InboxThreads(Workspace):
+    """2026-11-18: the Inbox read only the comment rows of a post, and only its newest 100."""
+
+    def _sync(self, posts: dict, days_old: dict | None = None):
+        """Serve these posts' comments from the fake Zernio, refresh, and return (cache, summary, inbox)."""
+        from datetime import datetime, timedelta, timezone
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        fresh("store")
+        import zernio
+        from store import read_json, state_dir
+        summary, inbox = fresh("summary"), fresh("inbox")
+        self.assertEqual(zernio.Zernio().base, self.fz.base)            # the fake, never the real Zernio
+        made = lambda pid: (datetime.now(timezone.utc) - timedelta(days=(days_old or {}).get(pid, 1))).strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        self.fz.comments = posts
+        self.fz.comment_posts = [{"id": pid, "accountId": IG, "platform": "instagram", "commentCount": len(rows), "createdTime": made(pid),
+                                  "content": "Caption of " + pid} for pid, rows in posts.items()]
+        self.fz.calls.clear()
+        out = summary.build(force=True)
+        self.assertEqual(out.get("warnings"), [])
+        return read_json(state_dir() / "cache.json") or {}, summary, inbox
+
+    def test_37_reply_inside_a_thread_reaches_the_inbox(self):
+        """2026-11-18: someone answered inside a comment's thread (after the user's own reply) and the Inbox never
+        showed it: replies that Zernio sends only inside `replies` were dropped."""
+        rows = [
+            ig_comment("own1", "test.account", "@noura_h thank you!", 50, owner=True),
+            ig_comment("t1", "sara.k", "Where is the link?", 40),
+            ig_comment("t2", "omar.dev", "Does it work on Windows? " + "x" * 200, 10, replies=[
+                ig_comment("r2", "lina.codes", "I have the same question", 30, parent="t2"),
+                ig_comment("r1", "test.account", "@omar.dev yes it does", 20, owner=True, parent="t2")]),
+            ig_comment("t3", "noura_h", "Great post", 5),
+        ]
+        cache, summary, inbox = self._sync({"P37": rows})
+        items = {x["id"]: x for x in cache["comments"]}
+        self.assertEqual(sorted(items), ["r2", "t1", "t2", "t3"])                 # your own comment and reply are never items
+        for x in items.values():
+            self.assertEqual(set(x), {"id", "postId", "accountId", "platform", "author", "authorId", "text", "createdAt", "url",
+                                      "hidden", "likes", "liked", "can", "parentId", "replyTo"})
+        self.assertEqual((items["r2"]["parentId"], items["r2"]["author"], items["r2"]["postId"]), ("t2", "lina.codes", "P37"))
+        self.assertEqual(items["r2"]["replyTo"], {"author": "omar.dev", "text": ("Does it work on Windows? " + "x" * 200)[:140]})
+        self.assertEqual([(items[i]["parentId"], items[i]["replyTo"]) for i in ("t1", "t2", "t3")], [(None, None)] * 3)
+        # top comments as before: your reply under it, or your @mention at or after it, answers it
+        self.assertEqual({k: v["how"] for k, v in cache["autoLog"].items()}, {"t2": "ig-replied", "t3": "ig-mentioned"})
+        self.assertEqual(cache["autoLog"]["t2"]["text"], "@omar.dev yes it does")
+        waiting = {x["id"]: x for x in inbox.waiting()}
+        self.assertEqual(sorted(waiting), ["r2", "t1"])                           # the reply written after yours is waiting
+        self.assertEqual(waiting["r2"]["replyTo"]["author"], "omar.dev")
+        self.assertEqual(waiting["r2"]["post"], "Fake post caption")
+        self.assertEqual(cache["commentPosts"]["P37"]["count"], 4)
+        self.assertNotIn("more", cache["commentPosts"]["P37"])
+        # a draft, a label and "ignore" work on a reply like on any comment; Claude is told what the reply answers
+        inbox.save_draft("r2", "Yes, on Windows too")
+        self.assertEqual({x["id"]: x["draft"] for x in inbox.waiting()}["r2"], "Yes, on Windows too")
+        self.assertEqual(inbox.label("r2", "Question", True)["labels"]["r2"], ["Question"])
+        inbox.ask_drafts(list(waiting.values()))
+        from store import state_dir
+        note = [json.loads(line) for line in (state_dir() / "notes.jsonl").read_text(encoding="utf-8").splitlines()][-1]
+        asked = {c["id"]: c for c in note["action"]["comments"]}
+        self.assertEqual((asked["r2"]["parentId"], asked["r2"]["replyTo"]["author"]), ("t2", "omar.dev"))
+        self.assertNotIn("replyTo", asked["t1"])
+        inbox.drop_draft("r2")
+        inbox.ignore(["r2"])
+        self.assertEqual([x["id"] for x in inbox.waiting()], ["t1"])
+
+    def test_38_your_later_reply_answers_a_reply_an_earlier_one_does_not(self):
+        """2026-11-18: in a thread, what a person wrote before your reply is answered; what they wrote after
+        your last reply is waiting again (the comment on top stays answered)."""
+        import summary
+        rows = [
+            ig_comment("t1", "omar.dev", "First question", 0, replies=[
+                ig_comment("r4", "omar.dev", "And one more thing?", 40, parent="t1"),
+                ig_comment("r3", "test.account", "@omar.dev here you go", 30, owner=True, parent="t1"),
+                ig_comment("r2", "lina.codes", "Same for me", 20, parent="t1"),
+                ig_comment("r1", "test.account", "@omar.dev welcome", 10, owner=True, parent="t1")]),
+            ig_comment("t2", "sara.k", "Nice", 5, replies=[
+                ig_comment("r5", "khalid_77", "Agree", 6, parent="t2"),
+                ig_comment("r6", "hessa.a", "Me too", 50, parent="t2")]),
+            ig_comment("t3", "test.account", "Thank you all", 1, owner=True, replies=[
+                ig_comment("r7", "khalid_77", "Thanks for this", 2, parent="t3"),
+                ig_comment("r8", "test.account", "@hessa.a noted", 55, owner=True, parent="t3")]),
+        ]
+        items, done = summary._comment_items(rows, "P38", IG, "instagram")
+        self.assertEqual([x["id"] for x in items], ["r6", "r4", "r2", "r5", "t2", "r7", "t1"])     # newest first, none of yours
+        self.assertEqual({k: v["how"] for k, v in done.items()}, {
+            "t1": "ig-replied",       # the comment on top: any reply of yours under it, as before
+            "r2": "ig-replied",       # written before your second reply in the thread
+            "r6": "ig-mentioned",     # your reply in another thread @mentions them afterwards
+            "r7": "ig-replied",       # under your own comment, and you wrote in that thread later
+        })                            # r4 came after your last reply, r5 and t2 got no answer: waiting
+        self.assertEqual(done["r7"]["at"], "2026-11-18T06:55:00+0000")
+        self.assertEqual((done["t1"]["at"], done["t1"]["text"]), ("2026-11-18T06:10:00+0000", "@omar.dev welcome"))
+        self.assertEqual((done["r2"]["at"], done["r2"]["text"]), ("2026-11-18T06:30:00+0000", "@omar.dev here you go"))
+        by = {x["id"]: x for x in items}
+        self.assertEqual(by["r7"]["replyTo"], {"author": "test.account", "text": "Thank you all"})   # a reply under your own comment
+        self.assertEqual({by[i]["parentId"] for i in ("r2", "r4")}, {"t1"})
+
+    def test_39_reply_listed_twice_shows_once_with_its_author(self):
+        """2026-11-18: Zernio lists some replies twice: as a row of their own and inside the thread, where the copy
+        has no author and says isOwner false even on the user's own reply. Each shows once, with its author."""
+        import summary
+        rows = [
+            ig_comment("y2", "lina.codes", "Thanks, got it", 30),                                # also inside s1's thread below
+            ig_comment("y1", "test.account", "@omar.dev sent it", 20, owner=True),               # your own reply, also a row
+            ig_comment("s1", "omar.dev", "Please send it", 10, replies=[
+                ig_comment("y2", None, "Thanks, got it", 30, parent="s1", stub=True),
+                ig_comment("y1", None, "@omar.dev sent it", 20, parent="s1", stub=True)]),
+            ig_comment("s2", "sara.k", "Hello", 5, replies=[
+                ig_comment("y3", None, "No name on this one", 6, parent="s2", stub=True)]),          # only inside, no author at all
+            ig_comment("s1", "omar.dev", "Please send it", 10),                                  # a row repeated by a shifted page
+        ]
+        items, done = summary._comment_items(rows, "P39", IG, "instagram")
+        self.assertEqual(sorted(x["id"] for x in items), ["s1", "s2", "y2", "y3"])                # once each; your reply is not an item
+        by = {x["id"]: x for x in items}
+        self.assertEqual((by["y2"]["author"], by["y2"]["authorId"], by["y2"]["parentId"]), ("lina.codes", "9y2", "s1"))
+        self.assertEqual(by["y2"]["replyTo"], {"author": "omar.dev", "text": "Please send it"})
+        self.assertEqual((by["y3"]["author"], by["y3"]["authorId"], by["y3"]["parentId"]), (None, None, "s2"))
+        self.assertEqual({k: v["how"] for k, v in done.items()}, {"s1": "ig-replied"})            # the stub hid your reply before
+        # the same through a real refresh: no id twice in the cache, and the DM check skips the one without an author
+        cache, _, inbox = self._sync({"P39": rows})
+        ids = [x["id"] for x in cache["comments"]]
+        self.assertEqual(sorted(ids), ["s1", "s2", "y2", "y3"])
+        self.assertEqual(sorted(x["id"] for x in inbox.waiting()), ["s2", "y2", "y3"])
+
+    def test_40_busy_post_is_read_to_the_last_page(self):
+        """2026-11-18: a post with 547 comments showed its newest 100 only. Every page is read now, up to a
+        safety cap that the Inbox is told about."""
+        rows = [ig_comment(f"c{i}", f"person_{i}", f"Comment {i}", 300 - i) for i in range(230)]
+        rows[-1]["replies"] = [ig_comment("deep", "lina.codes", "A reply under the oldest comment", 400, parent="c229")]
+        cache, summary, inbox = self._sync({"P40": rows})
+        self.assertEqual(len(cache["comments"]), 231)
+        self.assertEqual(len({x["id"] for x in cache["comments"]}), 231)
+        self.assertEqual(cache["comments"][0]["id"], "deep")                                    # newest first
+        self.assertEqual(cache["commentPosts"]["P40"]["count"], 230)
+        self.assertNotIn("more", cache["commentPosts"]["P40"])
+        self.assertEqual(len(inbox.waiting()), 231)
+        pages = self.fz.sent("GET", "/inbox/comments/P40")
+        self.assertEqual([c["query"].get("cursor") for c in pages], [None, ["50"], ["100"], ["150"], ["200"]])   # stops at hasMore false
+        self.assertEqual({c["query"]["limit"][0] for c in pages}, {"100"})                      # Zernio's largest page
+        # the safety cap: the read stops and says so
+        import zernio
+        cap, summary.COMMENT_ROWS_MAX = summary.COMMENT_ROWS_MAX, 100
+        try:
+            got, _post, more = summary._read_comments(zernio.Zernio(), lambda name, fn: fn(), "P40", IG)
+        finally:
+            summary.COMMENT_ROWS_MAX = cap
+        self.assertEqual((len(got), more), (100, True))
+        self.assertEqual(cap, 2000)
+        src = Path(summary.__file__).read_text(encoding="utf-8")
+        self.assertIn('cposts[pid]["more"] = True', src)
+
+    def test_41_post_older_than_a_week_keeps_its_comments(self):
+        """2026-11-18: `since` on Zernio's comment list is the post's publish date. With 7 days, a post people
+        still comment on left the Inbox the day it turned a week old. It is 30 days now."""
+        from datetime import date, timedelta
+        one = lambda cid: [ig_comment(cid, "sara.k", "Still here", 10)]
+        cache, _, inbox = self._sync({"PNEW": one("n1"), "PWEEK": one("w1"), "POLD": one("o1")}, {"PNEW": 2, "PWEEK": 12, "POLD": 45})
+        self.assertEqual(sorted(cache["commentPosts"]), ["PNEW", "PWEEK"])
+        self.assertEqual(sorted(x["id"] for x in inbox.waiting()), ["n1", "w1"])
+        since = date.fromisoformat(self.fz.sent("GET", "/inbox/comments")[0]["query"]["since"][0])
+        self.assertTrue(timedelta(days=29) <= date.today() - since <= timedelta(days=31), since)
+
+    def test_43_busy_older_post_stays_when_newer_posts_get_comments(self):
+        """2026-11-18: only the 10 newest posts with comments were read, so a post people kept commenting on
+        left the Inbox once ten newer posts had a comment each. The 5 busiest older posts are read too."""
+        one = lambda cid: [ig_comment(cid, "sara.k", "Nice", 10)]
+        posts = {f"P{n:02d}": one(f"c{n:02d}") for n in range(1, 18)}                  # P01 newest … P17 oldest
+        posts["P17"] = [ig_comment(f"b{i}", "omar.dev", f"Question {i}", 10 + i) for i in range(6)]
+        cache, _, inbox = self._sync(posts, {f"P{n:02d}": n for n in range(1, 18)})
+        read = sorted(cache["commentPosts"])
+        self.assertEqual(read, [f"P{n:02d}" for n in range(1, 15)] + ["P17"])       # 10 newest + P17 (busiest) + the 4 next newest
+        self.assertEqual(sum(1 for x in inbox.waiting() if x["postId"] == "P17"), 6)
+
+    def test_42_dm_threads_are_not_read_again_on_every_refresh(self):
+        """2026-11-18: with every comment of a busy post read, each refresh opened dozens of DM threads and asked
+        Instagram who follows (seconds each): 32 s became 136 s. A thread is read again only after it changes, its
+        newest messages are the ones read, and a refresh asks about a few followers at a time."""
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        fresh("store")
+        summary = fresh("summary")
+        GIFT = "Hello! Here is your free course, sign up here https://example.com/form"
+        seen = {"messages": [], "follow": []}
+        stamp = {"t1": "2026-11-18T07:00:00.000Z"}
+
+        class Z:
+            def get(self, path, **q):
+                if path == "/inbox/conversations":
+                    return {"data": [{"id": "t" + i, "participantId": i, "participantName": "Instagram User",
+                                      "updatedTime": stamp.get("t" + i, "2026-11-18T07:00:00.000Z")} for i in map(str, range(1, 10))],
+                            "pagination": {"hasMore": False}}
+                if "/follow-status/" in path:
+                    seen["follow"].append(path.rsplit("/", 1)[1])
+                    return {"isFollower": False}
+                tid = path.split("/")[3]
+                seen["messages"].append((tid, q.get("sortOrder"), q.get("limit")))
+                if tid == "t1":       # you answered them yourself
+                    return {"messages": [{"direction": "incoming", "createdAt": stamp["t1"][:19] + ".400Z", "message": "hi"},
+                                         {"direction": "outgoing", "createdAt": "2026-11-18T06:50:00.000Z", "message": "Sent you the details"}]}
+                return {"messages": [{"direction": "outgoing", "createdAt": "2026-11-18T07:00:00.300Z", "message": GIFT,
+                                      "metadata": {"sentVia": "comment_automation"}}]}
+
+        autos = [{"id": "a1", "postId": "P", "message": GIFT, "followGate": False}]
+        comments = [{"id": "c" + i, "postId": "P", "accountId": "acc", "platform": "instagram", "author": "u" + i, "authorId": i,
+                     "createdAt": "2026-11-18T06:00:00+0000", "parentId": None, "replyTo": None} for i in map(str, range(1, 10))]
+        run = lambda: (lambda log: (summary._dm_answers(Z(), lambda name, fn: fn(), comments, log, autos), log))({})
+        gifts, log = run()
+        self.assertEqual(len(seen["messages"]), 9)
+        self.assertEqual({(order, limit) for _t, order, limit in seen["messages"]}, {("desc", 20)})     # the newest messages
+        self.assertEqual({k: v["how"] for k, v in log.items()}, {"c1": "ig-dm"})
+        self.assertEqual(len(seen["follow"]), summary.FOLLOW_ASKS)                                # a few now…
+        self.assertEqual(sorted(str(v["follows"]) for v in gifts.values()), ["False"] * 5 + ["None"] * 3)
+        gifts, log = run()
+        self.assertEqual(len(seen["messages"]), 9)                                                # nothing changed: no thread read again
+        self.assertEqual(len(seen["follow"]), 8)                                                  # …the rest on the next refresh
+        self.assertEqual({k: v["how"] for k, v in log.items()}, {"c1": "ig-dm"})
+        self.assertEqual([v["follows"] for v in gifts.values()], [False] * 8)
+        stamp["t1"] = "2026-11-18T09:00:00.000Z"                                                  # a new message in one thread
+        run()
+        self.assertEqual([t for t, _o, _l in seen["messages"][9:]], ["t1"])                       # only that one is read again
 
 
 class ImageViewerInApp(unittest.TestCase):

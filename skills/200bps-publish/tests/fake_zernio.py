@@ -33,6 +33,8 @@ class FakeZernio:
         self.calls: list[dict] = []
         self.posts: dict[str, dict] = {}
         self.automations: dict[str, dict] = {}
+        self.comment_posts: list[dict] = []                  # GET /inbox/comments: posts with their comment counts
+        self.comments: dict[str, list[dict]] = {}            # post id -> its comment rows, newest first (replies inside)
         self.uploads: dict[str, int] = {}
         self.lock = threading.Lock()
         self.fail_next: dict[str, tuple[int, dict]] = {}     # "POST /posts" -> (status, body)
@@ -174,6 +176,22 @@ class FakeZernio:
             if m == "PATCH":
                 self.automations[aid].update(body or {})
                 return 200, {"automation": self.automations[aid]}
+        # Inbox comments, as the real API serves them: `since` is the post's publish date; a page holds
+        # about half of `limit` rows (Zernio counts replies too, 100 at most); the cursor comes only with hasMore.
+        if path == "/inbox/comments" and m == "GET" and self.comment_posts:
+            since = (q.get("since") or [""])[0]
+            data = sorted((cp for cp in self.comment_posts if (cp.get("createdTime") or "") >= since),
+                          key=lambda cp: cp.get("createdTime") or "", reverse=True)
+            return 200, {"status": "success", "data": data[:int((q.get("limit") or ["50"])[0])], "pagination": {"hasMore": False, "nextCursor": None}}
+        if parts[:2] == ["inbox", "comments"] and len(parts) == 3 and m == "GET" and parts[2] in self.comments:
+            rows = self.comments[parts[2]]
+            size = max(1, min(int((q.get("limit") or ["25"])[0]), 100) // 2)
+            at = int((q.get("cursor") or ["0"])[0])
+            more = at + size < len(rows)
+            return 200, {"status": "success", "comments": rows[at:at + size],
+                         "pagination": {"hasMore": more, **({"cursor": str(at + size)} if more else {})},
+                         "post": {"id": parts[2], "permalink": f"https://www.instagram.com/p/{parts[2]}/", "text": "Fake post caption"},
+                         "meta": {"platform": "instagram", "postId": parts[2]}}
         # read-only analytics & inbox: empty but well-formed
         if path.startswith("/analytics") or path.startswith("/inbox") or path.startswith("/accounts/"):
             return 200, {}

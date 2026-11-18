@@ -172,6 +172,7 @@ def _conv_for(c: dict, by_id: dict, by_user: dict):
 
 
 FOLLOW_TTL = 6 * 3600
+FOLLOW_ASKS = 5             # new follow checks in one refresh (Instagram takes seconds for each); the rest wait for the next
 
 
 def _follows(z, section, account_id: str, user_id: str, memo: dict):
@@ -189,6 +190,9 @@ def _follows(z, section, account_id: str, user_id: str, memo: dict):
     if hit and time.time() - (hit.get("ts") or 0) < FOLLOW_TTL:
         memo[key] = hit.get("follows")
         return memo[key]
+    if memo.get("_asked", 0) >= FOLLOW_ASKS:
+        return None                               # not asked this time, not remembered: the next refresh asks
+    memo["_asked"] = memo.get("_asked", 0) + 1
     r = section("follow status", lambda: z.get(f"/accounts/{account_id}/follow-status/{user_id}"))
     if not isinstance(r, dict):
         return None                               # the call failed: don't remember it
@@ -217,6 +221,12 @@ def _dm_answers(z, section, comments: list[dict], log: dict, automations: list[d
       the returned {commentId: {at, follows}} lets the Inbox say so."""
     left = [c for c in comments if c["id"] not in log and c.get("platform") in ("instagram", "facebook") and (c.get("author") or c.get("authorId"))]
     needles, gifts, msgs, follow_memo = _gift_needles(automations or []), {}, {}, {}
+    if not left:
+        return gifts
+    # Your messages in each DM thread, kept until the thread changes (.bps/dm_cache.json):
+    # a busy post has hundreds of commenters, and reading every thread again on each refresh took minutes.
+    kept_p = state_dir() / "dm_cache.json"
+    kept, kept_new = read_json(kept_p, {}) or {}, False
     for aid in {c["accountId"] for c in left}:
         mine = [c for c in left if c["accountId"] == aid]
         oldest = min(_iso(c.get("createdAt")) for c in mine)
@@ -237,8 +247,21 @@ def _dm_answers(z, section, comments: list[dict], log: dict, automations: list[d
             if not cv or (cv.get("updatedTime") or "") < _iso(c.get("createdAt")):
                 continue
             if cv["id"] not in msgs:              # two comments by one person: read the thread once
-                m = section("DM messages", lambda cv=cv: z.get(f"/inbox/conversations/{cv['id']}/messages", accountId=aid, limit=20)) or {}
-                msgs[cv["id"]] = m.get("data") or m.get("messages") or []
+                hit = kept.get(cv["id"]) or {}
+                if hit.get("u") and hit.get("u") == cv.get("updatedTime"):
+                    msgs[cv["id"]] = hit.get("out") or []
+                else:
+                    # the newest 20: Zernio's default order is oldest first, which hid the answer in a long thread
+                    m = section("DM messages", lambda cv=cv: z.get(f"/inbox/conversations/{cv['id']}/messages", accountId=aid, limit=20, sortOrder="desc"))
+                    got = (m or {}).get("data") or (m or {}).get("messages") or []
+                    msgs[cv["id"]] = sorted(({"direction": "outgoing", "createdAt": x.get("createdAt"), "message": (x.get("message") or "")[:400],
+                                              "metadata": {"sentVia": (x.get("metadata") or {}).get("sentVia")}}
+                                             for x in got if x.get("direction") == "outgoing"), key=lambda x: x.get("createdAt") or "")
+                    newest = max((_iso(x.get("createdAt")) for x in got), default="")
+                    # keep it only when what came back is as new as the thread's stamp (Zernio may serve an older copy)
+                    if m is not None and cv.get("updatedTime") and newest >= _iso(cv["updatedTime"]):
+                        kept[cv["id"]] = {"u": cv["updatedTime"], "ts": int(time.time()), "out": msgs[cv["id"]]}
+                        kept_new = True
             after = [x for x in msgs[cv["id"]] if x.get("direction") == "outgoing" and (x.get("createdAt") or "") >= _iso(c.get("createdAt"))]
             own = next((x for x in after if ((x.get("metadata") or {}).get("sentVia") or "") != "comment_automation"), None)
             if own:
@@ -257,6 +280,8 @@ def _dm_answers(z, section, comments: list[dict], log: dict, automations: list[d
                 else:
                     gifts[c["id"]] = {"at": x.get("createdAt"), "follows": follows}
                 break
+    if kept_new:
+        write_json(kept_p, {k: v for k, v in kept.items() if time.time() - (v.get("ts") or 0) < 30 * 86400})
     return gifts
 
 
@@ -266,6 +291,119 @@ def _iso(t) -> str:
         return datetime.fromisoformat(str(t).replace("Z", "+00:00").replace("+0000", "+00:00")).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
     except Exception:
         return str(t or "")
+
+
+COMMENT_PAGE = 100          # Zernio's maximum. It counts comments and replies together: about 55 rows a page
+COMMENT_ROWS_MAX = 2000     # safety cap per post; a cut read is marked commentPosts[pid]["more"]
+
+
+def _comment_posts_to_read(posts: list[dict], newest: int = 10, busiest: int = 5) -> list[dict]:
+    """Which posts' comments a refresh reads: the newest ones, plus the busiest of the
+    older ones. Newest only, a post people still comment on drops out as soon as ten
+    newer posts have a comment each."""
+    posts = sorted(posts, key=lambda cp: cp.get("createdTime") or "", reverse=True)
+    rest = sorted(posts[newest:], key=lambda cp: _num(cp.get("commentCount")) or 0, reverse=True)   # stable: newer first on a tie
+    return posts[:newest] + rest[:busiest]
+
+
+def _read_comments(z, section, pid: str, aid: str) -> tuple[list, dict, bool]:
+    """Every page of one post's comments, newest first: (rows, post, more).
+    more is True when the read stopped before the last page (the safety cap, or a
+    page that failed), so the Inbox can say that older comments are missing."""
+    rows, seen, cursors, cursor, po = [], set(), set(), None, {}
+    for _page in range(200):
+        q = {"limit": COMMENT_PAGE, **({"cursor": cursor} if cursor else {})}
+        cs = section("comments on post", lambda q=q: z.comments(pid, aid, **q))
+        if cs is None:
+            return rows, po, True
+        po = po or cs.get("post") or {}
+        for c in cs.get("comments") or []:
+            if c.get("id") not in seen:           # a comment written while paging shifts the pages
+                seen.add(c.get("id"))
+                rows.append(c)
+        pg = cs.get("pagination") or {}
+        cursor = pg.get("nextCursor") or pg.get("cursor")
+        if not pg.get("hasMore") or not cursor or cursor in cursors:
+            return rows, po, False
+        cursors.add(cursor)
+        if len(rows) >= COMMENT_ROWS_MAX:
+            break
+    return rows, po, True
+
+
+def _comment_items(rows: list[dict], pid: str, aid: str, platform) -> tuple[list, dict]:
+    """One Inbox item per comment or reply that isn't yours, newest first, and which
+    of them you already answered in the app: (items, {id: {how, at, text}}).
+
+    Zernio sends a thread's replies inside the comment's `replies`. Some replies are
+    also rows of their own: the same id twice, and the copy inside the thread is then
+    often a stub (from = {"isOwner": false}, even on your own reply), so the row is
+    the one to believe. A reply's parentId is the thread's top comment."""
+    by_id, nested, parent = {}, {}, {}
+    for r in rows:
+        if r.get("id") is not None:
+            by_id.setdefault(r["id"], r)
+
+    def walk(node):
+        for rp in node.get("replies") or []:
+            if rp.get("id") is None or rp["id"] == node.get("id") or rp["id"] in parent:
+                continue
+            parent[rp["id"]] = node.get("id")
+            nested[rp["id"]] = rp
+            walk(rp)
+    for r in list(by_id.values()):
+        walk(r)
+
+    def top(cid):
+        hops = 0
+        while cid in parent and hops < 20:
+            cid, hops = parent[cid], hops + 1
+        return cid
+
+    def whole(cid) -> dict:
+        row, nst = by_id.get(cid) or {}, nested.get(cid) or {}
+        rf, nf = row.get("from") or {}, nst.get("from") or {}
+        frm = {**nf, **{k: v for k, v in rf.items() if v not in (None, "")}}
+        frm["isOwner"] = bool(rf.get("isOwner") or nf.get("isOwner"))
+        return {**nst, **row, "from": frm}
+
+    ids = list(by_id) + [i for i in nested if i not in by_id]
+    full = {i: whole(i) for i in ids}
+    when = {i: _iso(full[i].get("createdTime")) for i in ids}
+    mine = [i for i in ids if full[i]["from"]["isOwner"]]
+    threads: dict = {}                              # top comment -> your replies in its thread
+    for i in mine:
+        if i in parent:
+            threads.setdefault(top(i), []).append(i)
+    # your own comments and replies on the post that @mention someone count as an answer to them
+    own = [(str(full[i].get("message") or "").lower(), when[i]) for i in mine]
+    items, done = [], {}
+    for i in sorted(ids, key=lambda i: when[i], reverse=True):
+        c = full[i]
+        frm = c["from"]
+        if frm["isOwner"]:
+            continue
+        user = (frm.get("username") or "").lower()
+        root = top(i) if i in parent else None
+        # a comment: any reply of yours under it. A reply: a reply of yours in the thread at or after it,
+        # so what they wrote after your last answer is waiting again.
+        answers = sorted((a for a in threads.get(root or i, []) if not root or when[a] >= when[i]), key=lambda a: when[a])
+        if answers:
+            a = full[answers[0]]
+            done[i] = {"how": "ig-replied", "at": a.get("createdTime"), "text": (a.get("message") or "")[:200]}
+        elif user and any(("@" + user) in t and at >= when[i] for t, at in own):
+            done[i] = {"how": "ig-mentioned"}
+        up = full.get(root) if root else None
+        items.append({"id": i, "postId": pid, "accountId": aid, "platform": platform,
+                      "author": frm.get("username") or frm.get("name"),
+                      "authorId": str(frm.get("id") or "") or None,   # matches a DM thread's participantId
+                      "text": c.get("message") or "", "createdAt": c.get("createdTime"), "url": c.get("url"),
+                      "hidden": bool(c.get("isHidden")), "likes": c.get("likeCount") or 0, "liked": bool(c.get("isLiked")),
+                      "can": {k: bool(c.get("can" + k.capitalize(), True)) for k in ("reply", "delete", "hide")},
+                      "parentId": root,
+                      "replyTo": {"author": (up.get("from") or {}).get("username") or (up.get("from") or {}).get("name"),
+                                  "text": (up.get("message") or "")[:140]} if up else None})
+    return items, done
 
 
 def _eng(m: dict) -> float:
@@ -450,7 +588,7 @@ def build(force: bool = False) -> dict:
         _BUILD_LOCK.acquire()
     try:
         import jobs
-        with jobs.job("sync", "Refreshing from Zernio", estimate=12, step="Posts, followers, best time…"):
+        with jobs.job("sync", "Refreshing from Zernio", estimate=40, step="Posts, followers, best time…"):
             for _ in range(3):
                 out = _build()
                 if not out.get("_stale"):      # nothing changed in Zernio while it was reading
@@ -718,53 +856,29 @@ def _build() -> dict:
         out["audience"] = audience.zones(demo.get("countries") or [], tz)
 
     # comments waiting
-    # list: {data: [{id (post id), accountId, platform, commentCount}]}
-    # per post: {comments: [{id, message, createdTime, from{username, isOwner}, replies[{from{isOwner}}]}]}
-    # Every post with comments (newest first, up to 10 posts), every page of
-    # comments (up to 100 per post). Zernio lists posts without comments too,
-    # so filter before cutting, or busy posts get skipped.
-    cps = section("comments", lambda: z.comment_posts(since=d7.isoformat(), limit=50)) or {}
+    # list: {data: [{id (post id), accountId, platform, commentCount, createdTime}]}
+    # per post: {comments: [{id, message, createdTime, from{username, isOwner}, replies[{parentId, from{isOwner}}]}]}
+    # The 10 newest posts with comments plus the 5 busiest older ones (a post that
+    # keeps getting comments must not leave the Inbox because newer posts came),
+    # every page of their comments, and the replies inside each thread. Zernio lists
+    # posts without comments too, so filter before cutting, or busy posts get skipped.
+    # since= is the post's publish date, not the comment's: 30 days back, or a post
+    # people still comment on leaves the Inbox the day it turns a week old.
+    cps = section("comments", lambda: z.comment_posts(since=d30.isoformat(), limit=50)) or {}
     comments, cposts, done_on = [], {}, {}
     with_comments = [cp for cp in (cps.get("data") or []) if cp.get("commentCount")]
-    with_comments.sort(key=lambda cp: cp.get("createdTime") or "", reverse=True)
-    for cp in with_comments[:10]:
+    for cp in _comment_posts_to_read(with_comments):
         pid, aid = cp.get("id"), cp.get("accountId") or ig
         if not (pid and aid):
             continue
-        rows, cursor, po = [], None, {}
-        for _page in range(10):
-            q = {"limit": 50, **({"cursor": cursor} if cursor else {})}
-            cs = section("comments on post", lambda pid=pid, aid=aid, q=q: z.comments(pid, aid, **q)) or {}
-            po = po or cs.get("post") or {}
-            rows += cs.get("comments") or []
-            pg = cs.get("pagination") or {}
-            cursor = pg.get("nextCursor") or pg.get("cursor")
-            if not pg.get("hasMore") or not cursor or len(rows) >= 100:
-                break
+        rows, po, more = _read_comments(z, section, pid, aid)
         cposts[pid] = {"permalink": po.get("permalink") or cp.get("permalink"), "caption": (po.get("text") or cp.get("content") or "")[:600],
-                       "thumb": po.get("thumbnailUrl") or po.get("mediaUrl") or cp.get("picture")}
-        seen_ids = set()
-        # your own comments on the post that @mention someone count as an answer to them
-        own = [(str(c.get("message") or "").lower(), c.get("createdTime") or "") for c in rows if (c.get("from") or {}).get("isOwner")]
-        for c in rows:
-            if c.get("id") in seen_ids:
-                continue
-            seen_ids.add(c.get("id"))
-            frm = c.get("from") or {}
-            if frm.get("isOwner"):
-                continue
-            user = (frm.get("username") or "").lower()
-            mine = [rp for rp in c.get("replies") or [] if (rp.get("from") or {}).get("isOwner")]
-            if mine:
-                done_on[c.get("id")] = {"how": "ig-replied", "at": mine[-1].get("createdTime"), "text": (mine[-1].get("message") or "")[:200]}
-            elif user and any(("@" + user) in t and at >= (c.get("createdTime") or "") for t, at in own):
-                done_on[c.get("id")] = {"how": "ig-mentioned"}
-            comments.append({"id": c.get("id"), "postId": pid, "accountId": aid, "platform": cp.get("platform"),
-                             "author": frm.get("username") or frm.get("name"),
-                             "authorId": str(frm.get("id") or "") or None,   # matches a DM thread's participantId
-                             "text": c.get("message") or "", "createdAt": c.get("createdTime"), "url": c.get("url"),
-                             "hidden": bool(c.get("isHidden")), "likes": c.get("likeCount") or 0, "liked": bool(c.get("isLiked")),
-                             "can": {k: bool(c.get("can" + k.capitalize(), True)) for k in ("reply", "delete", "hide")}})
+                       "thumb": po.get("thumbnailUrl") or po.get("mediaUrl") or cp.get("picture"), "count": len(rows)}
+        if more:
+            cposts[pid]["more"] = True              # the read stopped early: older comments are not in the Inbox
+        items, done = _comment_items(rows, pid, aid, cp.get("platform"))
+        comments += items
+        done_on.update(done)
     out["comments"] = comments
     out["commentPosts"] = cposts
 

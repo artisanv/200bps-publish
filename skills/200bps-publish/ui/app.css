@@ -2326,3 +2326,18 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
 .td-line { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .td-acts { display: flex; gap: 6px; flex-wrap: wrap; }
 @media (max-width: 640px) { .trial-due { margin: 12px 16px 0; } }
+
+/* Inbox: a reply written inside a thread. One line: ↳ Reply to @name: the comment it answers
+   (cut with … ; the whole comment on hover, or click the line to open it). */
+.inbox-replyto { display: flex; align-items: baseline; gap: 6px; min-width: 0; font-size: 12.5px; line-height: 1.5; color: var(--bps-mute); cursor: pointer; }
+.inbox-replyto .irt-arrow { flex: none; color: var(--accent-ink); font-weight: 700; }
+[dir="rtl"] .inbox-replyto .irt-arrow { transform: scaleX(-1); }
+.inbox-replyto .irt-who { flex: 0 0 auto; min-width: 0; max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; color: var(--bps-body); }
+.inbox-replyto .irt-q { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inbox-replyto.open { flex-wrap: wrap; }
+.inbox-replyto.open .irt-who { max-width: 100%; }
+.inbox-replyto.open .irt-q { white-space: pre-wrap; overflow-wrap: anywhere; }
+.ibx-more { font-size: 12.5px; }
+/* under the list: "Showing 40 of N" + Show 40 more */
+.ibx-showmore { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; padding: 6px 0 2px; }
+.tip .tip-more { margin-top: 2px; padding-top: 6px; border-top: 1px solid var(--bps-line-strong); white-space: pre-wrap; overflow-wrap: anywhere; }

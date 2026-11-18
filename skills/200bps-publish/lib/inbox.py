@@ -151,7 +151,12 @@ def ask_drafts(items: list) -> dict:
     rows = []
     for x in (items or [])[:40]:
         if isinstance(x, dict) and x.get("id"):
-            rows.append({k: str(x.get(k) or "")[:600] for k in ("id", "author", "text", "postId", "platform", "post")})
+            row = {k: str(x.get(k) or "")[:600] for k in ("id", "author", "text", "postId", "platform", "post")}
+            rt = x.get("replyTo")
+            if isinstance(rt, dict):              # a reply inside a thread: what it answers, so the draft fits the conversation
+                row["parentId"] = str(x.get("parentId") or "")[:100]
+                row["replyTo"] = {"author": str(rt.get("author") or "")[:100], "text": str(rt.get("text") or "")[:140]}
+            rows.append(row)
     if not rows:
         raise ValueError("No waiting comments to draft.")
     n = hitl.add_note(f"Draft a reply for each of these {len(rows)} waiting comments. Save each with "
@@ -179,7 +184,9 @@ def drop_draft(comment_id: str) -> dict:
 
 def waiting() -> list:
     """Comments still waiting: not handled here, and not handled by an automation
-    or in the app (unless PIX drafted a reply for it, which the user still has to send)."""
+    or in the app (unless PIX drafted a reply for it, which the user still has to send).
+    A reply inside a thread is an item of its own: parentId is the thread's top comment
+    and replyTo = {author, text} is what it answers (both None on a top comment)."""
     c = read_json(state_dir() / "cache.json", {}) or {}
     st, auto = state(), c.get("autoLog") or {}
     posts, gifts = c.get("commentPosts") or {}, c.get("giftLog") or {}
