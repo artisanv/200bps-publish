@@ -1980,7 +1980,7 @@ pre.code { background: var(--bps-void); border: 1px solid var(--bps-line); borde
 }
 @media (max-width: 360px) { .brand .name { font-size: 18px; } }
 .bell-n, .msg-dot { unicode-bidi: isolate; direction: ltr; }
-.act-note, .act-res, .zfullcap, .claude-say, .chat-msg, .daypost, .nets-row, .ibx-text { overflow-wrap: anywhere; }
+.act-note, .act-res, .zfullcap, .claude-say, .chat-msg, .daypost, .nets-row, .ibx-text, .ibx-gift, .ibx-gift * { overflow-wrap: anywhere; min-width: 0; }
 
 /* Growth: many accounts per network */
 .net-tabs { display: grid; gap: 10px; }

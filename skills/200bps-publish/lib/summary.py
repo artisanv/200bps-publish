@@ -377,6 +377,30 @@ def _comment_items(rows: list[dict], pid: str, aid: str, platform) -> tuple[list
             threads.setdefault(top(i), []).append(i)
     # your own comments and replies on the post that @mention someone count as an answer to them
     own = [(str(full[i].get("message") or "").lower(), when[i]) for i in mine]
+    members: dict = {}                              # top comment -> every reply in its thread
+    for i in ids:
+        if i in parent:
+            members.setdefault(top(i), []).append(i)
+    name = lambda j: (full[j]["from"].get("username") or "").lower()
+
+    def answered(i, root) -> dict:
+        """The message a reply answers. Instagram doesn't say which, so: the latest earlier
+        message of the person it @mentions; in the person's own thread, your last reply before
+        it (they answer you, not themselves) or someone else's; else the comment on top."""
+        me = name(i)
+        earlier = sorted((j for j in [root] + members.get(root, []) if j != i and j in full and when[j] < when[i]),
+                         key=lambda j: when[j], reverse=True)
+        for m in re.findall(r"@([\w.]+)", str(full[i].get("message") or "").lower()):
+            m = m.rstrip(".")
+            hit = next((j for j in earlier if m and m != me and name(j) == m), None)
+            if hit:
+                return full[hit]
+        if me and root in full and name(root) == me:
+            hit = (next((j for j in earlier if full[j]["from"]["isOwner"]), None)          # your last reply there, if any
+                   or next((j for j in earlier if name(j) and name(j) != me), None))
+            if hit:
+                return full[hit]
+        return full.get(root) or {}
     items, done = [], {}
     for i in sorted(ids, key=lambda i: when[i], reverse=True):
         c = full[i]
@@ -393,7 +417,7 @@ def _comment_items(rows: list[dict], pid: str, aid: str, platform) -> tuple[list
             done[i] = {"how": "ig-replied", "at": a.get("createdTime"), "text": (a.get("message") or "")[:200]}
         elif user and any(("@" + user) in t and at >= when[i] for t, at in own):
             done[i] = {"how": "ig-mentioned"}
-        up = full.get(root) if root else None
+        up = answered(i, root) if root else None
         items.append({"id": i, "postId": pid, "accountId": aid, "platform": platform,
                       "author": frm.get("username") or frm.get("name"),
                       "authorId": str(frm.get("id") or "") or None,   # matches a DM thread's participantId

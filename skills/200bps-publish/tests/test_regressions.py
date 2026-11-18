@@ -797,6 +797,9 @@ class InboxThreads(Workspace):
         by = {x["id"]: x for x in items}
         self.assertEqual(by["r7"]["replyTo"], {"author": "test.account", "text": "Thank you all"})   # a reply under your own comment
         self.assertEqual({by[i]["parentId"] for i in ("r2", "r4")}, {"t1"})
+        # in their own thread a person answers you, not their own first comment
+        self.assertEqual(by["r4"]["replyTo"], {"author": "test.account", "text": "@omar.dev here you go"})
+        self.assertEqual(by["r2"]["replyTo"], {"author": "omar.dev", "text": "First question"})      # someone else: the comment on top
 
     def test_39_reply_listed_twice_shows_once_with_its_author(self):
         """2026-11-18: Zernio lists some replies twice: as a row of their own and inside the thread, where the copy
@@ -873,6 +876,25 @@ class InboxThreads(Workspace):
         read = sorted(cache["commentPosts"])
         self.assertEqual(read, [f"P{n:02d}" for n in range(1, 15)] + ["P17"])       # 10 newest + P17 (busiest) + the 4 next newest
         self.assertEqual(sum(1 for x in inbox.waiting() if x["postId"] == "P17"), 6)
+
+    def test_44_reply_line_names_the_message_it_answers(self):
+        """2026-11-18: every reply said "Reply to" the comment on top, so a person answering the user's reply in
+        their own thread read "Reply to @themselves". It names the message of whoever they @mention, or the
+        user's last reply in their own thread; otherwise the comment on top."""
+        import summary
+        rows = [ig_comment("t1", "sara.k", "Where is it?", 0, replies=[
+            ig_comment("r5", "sara.k", "Still nothing", 50, parent="t1"),
+            ig_comment("r4", "hessa.a", "Nice post", 40, parent="t1"),
+            ig_comment("r3", "lina.codes", "@khalid_77 same here", 30, parent="t1"),
+            ig_comment("r2", "khalid_77", "@test.account I did not get it", 20, parent="t1"),
+            ig_comment("r1", "test.account", "@sara.k sent", 10, owner=True, parent="t1")])]
+        items, _done = summary._comment_items(rows, "P44", IG, "instagram")
+        to = {x["id"]: x["replyTo"] for x in items}
+        self.assertEqual(to["r2"], {"author": "test.account", "text": "@sara.k sent"})                 # @mentions you
+        self.assertEqual(to["r3"], {"author": "khalid_77", "text": "@test.account I did not get it"})  # @mentions another person
+        self.assertEqual(to["r4"], {"author": "sara.k", "text": "Where is it?"})                       # no mention: the comment on top
+        self.assertEqual(to["r5"], {"author": "test.account", "text": "@sara.k sent"})                 # own thread: your last reply there
+        self.assertEqual({x["parentId"] for x in items if x["id"] != "t1"}, {"t1"})
 
     def test_42_dm_threads_are_not_read_again_on_every_refresh(self):
         """2026-11-18: with every comment of a busy post read, each refresh opened dozens of DM threads and asked

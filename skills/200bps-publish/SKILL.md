@@ -598,7 +598,8 @@ saves a draft the user sees on that comment. Comments a Zernio DM automation alr
 Handled by themselves; each automation shows its gift funnel (Zernio's stats). Comments the user answered in the Instagram app (a reply under it,
 an @mention in their own comment, or a DM they sent afterwards) also move to Handled (`ig-replied` / `ig-mentioned` / `ig-dm`).
 **Replies inside a thread** are Inbox items of their own (the dashboard shows "↳ Reply to @name" plus the comment it answers): `parentId` is
-the thread's top comment and `replyTo {author, text}` is that comment; both are `null` on a top-level comment. Reply, gift, label, hide and
+the thread's top comment and `replyTo {author, text}` is the message it answers (the latest earlier message of whoever it @mentions; in the
+person's own thread, the user's last reply before it; otherwise the top comment); both are `null` on a top-level comment. Reply, gift, label, hide and
 delete work on them like on any comment, and `bps.py inbox waiting` returns them too. A reply moves to Handled by itself when the user
 answered at or after it (a reply in the same thread, or an @mention of its author: `ig-replied` / `ig-mentioned`); a reply written after
 the user's last answer in that thread is waiting.

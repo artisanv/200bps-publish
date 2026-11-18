@@ -378,7 +378,7 @@ posts/agent-anatomy/
 ### ✅ فحص ذاتي
 
 ```bash
-python3 <skill>/bin/bps.py selftest          # 75 فحص، تقريباً دقيقة
+python3 <skill>/bin/bps.py selftest          # 76 فحص، تقريباً دقيقة
 python3 <skill>/bin/bps.py selftest --quick  # بدون فحص المتصفح
 ```
 

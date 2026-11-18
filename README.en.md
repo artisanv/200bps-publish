@@ -333,7 +333,7 @@ Other things you can ask for:
 ## Self-test
 
 ```bash
-python3 <skill>/bin/bps.py selftest          # 75 checks, about a minute
+python3 <skill>/bin/bps.py selftest          # 76 checks, about a minute
 python3 <skill>/bin/bps.py selftest --quick  # skip the browser check
 ```
 
