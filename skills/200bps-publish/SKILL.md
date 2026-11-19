@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
 description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram, LinkedIn, Facebook, TikTok and Snapchat through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.20.1
+version: 1.20.2
 ---
 
 # 200BPS Publish
@@ -605,6 +605,10 @@ answered at or after it (a reply in the same thread, or an @mention of its autho
 the user's last answer in that thread is waiting.
 **Every comment of a post is read** (all pages, not just the newest 100). Safety cap: 2,000 per post. `commentPosts[pid].more` is true when
 the read stopped early; the Inbox says so on that post, so never tell the user "that is every comment" for it.
+**Replies that arrive without an author:** inside a thread Zernio sends some replies as `from: {isOwner: false}` with no name, the user's own
+replies included. Each is asked for by its id once (`GET /inbox/comments/{postId}?commentId=`) and remembered in `.bps/comment_authors.json`:
+the user's own replies never become items, other people's get their name. One still unnamed is held back, and listed with no author
+("Someone") after 3 tries. So an item with `author: null` is a real reply whose writer Zernio never gave; say so, never guess who it is.
 **Commented twice (gift already received).** Each sync reads the DM thread of every commenter still waiting (matched by Instagram id, then
 username; `summary._dm_answers`). If the post's gift reached them by DM after that comment and they follow the account
 (`GET /accounts/{id}/follow-status/{userId}`, kept 6 h in `.bps/follow_cache.json`; a follow-first gift counts as following), the comment is

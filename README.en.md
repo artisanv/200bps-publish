@@ -63,6 +63,13 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 | ![Post window](media/post-window.png) | ![Images](media/image-window.png) |
 | **Posts**: play a Reel with sound inside the dashboard, with its results per network. | **Images**: OpenAI paints, or **PIX designs it** in code at the exact post size, free. |
 
+## New in v1.20.2 (one Inbox fix, 19 Nov 2026)
+
+A bug came with v1.20.1 and is fixed. With auto-update on, the fix reaches you by itself; by hand: `/plugin marketplace update 200bps`.
+
+- **Your own replies no longer show as comments waiting for you:** Instagram threads sometimes reach the Inbox without the name of who wrote each reply, your own replies included, and v1.20.1 listed those as other people's (after a day of replying, the Inbox said 69 waiting; 56 were our own replies). The Inbox now asks who wrote each nameless reply, once, and remembers it: your replies never show, and other people's show with their name.
+- **Handled stays handled, and the refresh is faster:** comments marked "got the gift and follows you" no longer come back to Waiting, and comments you already dealt with are not checked against your DMs again.
+
 ## New in v1.20.1 (two Inbox fixes, 18 Nov 2026)
 
 Did a reply show in your Instagram notifications but never in the dashboard's Inbox? There were two causes, and both are fixed. With auto-update on, the fix reaches you by itself; by hand: `/plugin marketplace update 200bps`.
@@ -270,7 +277,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.20.1.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.20.2.zip -d .claude/skills/
 claude
 ```
 
@@ -333,7 +340,7 @@ Other things you can ask for:
 ## Self-test
 
 ```bash
-python3 <skill>/bin/bps.py selftest          # 76 checks, about a minute
+python3 <skill>/bin/bps.py selftest          # 79 checks, about a minute
 python3 <skill>/bin/bps.py selftest --quick  # skip the browser check
 ```
 

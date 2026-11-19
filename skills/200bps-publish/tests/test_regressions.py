@@ -825,8 +825,8 @@ class InboxThreads(Workspace):
         # the same through a real refresh: no id twice in the cache, and the DM check skips the one without an author
         cache, _, inbox = self._sync({"P39": rows})
         ids = [x["id"] for x in cache["comments"]]
-        self.assertEqual(sorted(ids), ["s1", "s2", "y2", "y3"])
-        self.assertEqual(sorted(x["id"] for x in inbox.waiting()), ["s2", "y2", "y3"])
+        self.assertEqual(sorted(ids), ["s1", "s2", "y2"])                 # y3 has no name yet: held back (test 45)
+        self.assertEqual(sorted(x["id"] for x in inbox.waiting()), ["s2", "y2"])
 
     def test_40_busy_post_is_read_to_the_last_page(self):
         """2026-11-18: a post with 547 comments showed its newest 100 only. Every page is read now, up to a
@@ -895,6 +895,74 @@ class InboxThreads(Workspace):
         self.assertEqual(to["r4"], {"author": "sara.k", "text": "Where is it?"})                       # no mention: the comment on top
         self.assertEqual(to["r5"], {"author": "test.account", "text": "@sara.k sent"})                 # own thread: your last reply there
         self.assertEqual({x["parentId"] for x in items if x["id"] != "t1"}, {"t1"})
+
+    def test_45_replies_without_a_name_are_looked_up_not_listed_as_waiting(self):
+        """2026-11-19: the day after 1.20.1 the Inbox showed 69 waiting; 56 were the user's own replies. Zernio
+        sends some replies inside a thread with no author (isOwner false, even on your own reply), and they were
+        listed as someone else's. Each is now asked for by its id, once, and remembered; one nobody can name is
+        held back, then shown as "Someone" after three tries, so a real reply is never lost."""
+        from store import read_json, state_dir
+        rows = [
+            ig_comment("k1", "sara.k", "Where is the link?", 10, replies=[
+                ig_comment("q2", None, "@test.account nothing arrived", 30, parent="k1", stub=True),      # hers, no author in the thread
+                ig_comment("q1", None, "Sent it to your DMs", 20, parent="k1", stub=True)]),               # yours, no author either
+            ig_comment("k2", "omar.dev", "Nice", 5, replies=[
+                ig_comment("q3", None, "Thanks", 6, parent="k2", stub=True)]),                             # nobody can name this one
+        ]
+        self.fz.authors = {"q1": {"id": "900", "name": "test.account", "username": "test.account", "isOwner": True},
+                           "q2": {"id": "9q2", "name": "sara.k", "username": "sara.k", "isOwner": False}}
+        asked = lambda: sorted(c["query"]["commentId"][0] for c in self.fz.sent("GET", "/inbox/comments/P45") if c["query"].get("commentId"))
+        cache, _, inbox = self._sync({"P45": rows})
+        self.assertEqual(asked(), ["q1", "q2", "q3"])
+        by = {x["id"]: x for x in cache["comments"]}
+        self.assertEqual(sorted(by), ["k1", "k2", "q2"])                          # your reply is not an item; q3 waits for a name
+        self.assertEqual((by["q2"]["author"], by["q2"]["parentId"]), ("sara.k", "k1"))
+        self.assertEqual(by["q2"]["replyTo"], {"author": "test.account", "text": "Sent it to your DMs"})
+        self.assertEqual(cache["autoLog"]["k1"]["how"], "ig-replied")             # your nameless reply answers her comment
+        self.assertEqual(sorted(x["id"] for x in inbox.waiting()), ["k2", "q2"])
+        cache, _, inbox = self._sync({"P45": rows})
+        self.assertEqual(asked(), ["q3"])                                         # the named ones are remembered
+        self.assertNotIn("q3", [x["id"] for x in cache["comments"]])
+        cache, _, inbox = self._sync({"P45": rows})
+        self.assertEqual(asked(), ["q3"])                                         # third try without a name…
+        by = {x["id"]: x for x in cache["comments"]}
+        self.assertEqual((by["q3"]["author"], by["q3"]["parentId"]), (None, "k2"))   # …so it shows as "Someone", not lost
+        cache, _, inbox = self._sync({"P45": rows})
+        self.assertEqual(asked(), [])                                             # and is not asked for again
+        kept = read_json(state_dir() / "comment_authors.json")
+        self.assertEqual((kept["q1"]["from"]["isOwner"], kept["q2"]["from"]["username"], kept["q3"]["tries"]), (True, "sara.k", 3))
+
+    def test_46_follow_answer_stays_when_a_refresh_is_over_its_budget(self):
+        """2026-11-19: a refresh asks Instagram about 5 followers at most. For the rest it forgot the answer it
+        had, so comments already handled ("got the gift and follows you") came back to Waiting every 6 hours."""
+        import time
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        fresh("store")
+        summary = fresh("summary")
+        from store import state_dir, write_json
+        old = int(time.time()) - summary.FOLLOW_TTL - 60
+        write_json(state_dir() / "follow_cache.json", {f"A:{i}": {"follows": True, "ts": old} for i in range(8)})
+        asked = []
+
+        class Z:
+            def get(self, path, **q):
+                asked.append(path)
+                return {"isFollower": True}
+        memo = {}
+        got = [summary._follows(Z(), lambda name, fn: fn(), "A", str(i), memo) for i in range(8)]
+        self.assertEqual(got, [True] * 8)                                         # the 3 not asked keep their last answer
+        self.assertEqual(len(asked), summary.FOLLOW_ASKS)
+
+    def test_47_comments_handled_here_are_not_checked_in_dms_again(self):
+        """2026-11-19: comments already replied to or ignored in the dashboard were still looked up in the DM
+        list on every refresh, back to the oldest of them: about 27 of a 64-second refresh."""
+        rows = [ig_comment("h1", "sara.k", "First", 10), ig_comment("h2", "omar.dev", "Second", 20)]
+        _cache, _, inbox = self._sync({"P47": rows})
+        self.assertTrue(self.fz.sent("GET", "/inbox/conversations"))             # both wait: their DM threads are checked
+        inbox.ignore(["h1", "h2"])
+        _cache, _, inbox = self._sync({"P47": rows})
+        self.assertEqual(self.fz.sent("GET", "/inbox/conversations"), [])        # nothing waits: no DM read
+        self.assertEqual(inbox.waiting(), [])
 
     def test_42_dm_threads_are_not_read_again_on_every_refresh(self):
         """2026-11-18: with every comment of a busy post read, each refresh opened dozens of DM threads and asked

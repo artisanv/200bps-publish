@@ -191,7 +191,9 @@ def _follows(z, section, account_id: str, user_id: str, memo: dict):
         memo[key] = hit.get("follows")
         return memo[key]
     if memo.get("_asked", 0) >= FOLLOW_ASKS:
-        return None                               # not asked this time, not remembered: the next refresh asks
+        # over this refresh's budget: the last answer stands until it is asked again (forgetting it
+        # put comments already handled back in Waiting every 6 hours)
+        return hit.get("follows") if hit else None
     memo["_asked"] = memo.get("_asked", 0) + 1
     r = section("follow status", lambda: z.get(f"/accounts/{account_id}/follow-status/{user_id}"))
     if not isinstance(r, dict):
@@ -331,6 +333,55 @@ def _read_comments(z, section, pid: str, aid: str) -> tuple[list, dict, bool]:
     return rows, po, True
 
 
+AUTHOR_ASKS = 40            # authorless replies asked about in one refresh (under a second each); the rest wait for the next
+AUTHOR_TRIES = 3            # answers without an author before the reply is shown as "Someone" rather than held back
+
+
+def _named(c: dict) -> bool:
+    f = c.get("from") or {}
+    return bool(f.get("username") or f.get("id") or f.get("name"))
+
+
+def _name_replies(z, pid: str, aid: str, rows: list[dict]) -> None:
+    """Give the replies Zernio sends without an author their author.
+
+    Inside a thread some replies come as from = {"isOwner": false} with no name, your own
+    replies included, and which ones changes from one read to the next. Asking for the reply
+    by its id returns the author, so each one is asked once and remembered
+    (.bps/comment_authors.json). A reply nobody could name yet is marked `_unknown` and stays
+    out of the Inbox until it is named: most of them are your own replies, and listing them
+    filled Waiting with your own words."""
+    have = {r.get("id") for r in rows if _named(r)}
+    stubs = [rp for r in rows for rp in r.get("replies") or []
+             if rp.get("id") and rp["id"] not in have and not _named(rp) and not (rp.get("from") or {}).get("isOwner")]
+    if not stubs:
+        return
+    path = state_dir() / "comment_authors.json"
+    kept, asked, changed, now = read_json(path, {}) or {}, 0, False, int(time.time())
+    for rp in stubs:
+        hit = kept.get(rp["id"]) or {}
+        if not hit.get("from") and hit.get("tries", 0) < AUTHOR_TRIES and asked < AUTHOR_ASKS:
+            asked += 1
+            try:
+                r = z.comments(pid, aid, commentId=rp["id"])
+            except Exception:                     # not worth a warning: the next refresh asks again
+                r = None
+            if isinstance(r, dict):
+                c = r.get("comment") if isinstance(r.get("comment"), dict) else {}
+                f = (c.get("from") or {}) if c.get("id") == rp["id"] else {}
+                if f.get("username") or f.get("id") or f.get("name"):
+                    hit = {"from": {k: f.get(k) for k in ("id", "name", "username")} | {"isOwner": bool(f.get("isOwner"))}, "ts": now}
+                else:
+                    hit = {"tries": hit.get("tries", 0) + 1, "ts": now}
+                kept[rp["id"]], changed = hit, True
+        if hit.get("from"):
+            rp["from"] = dict(hit["from"])
+        elif hit.get("tries", 0) < AUTHOR_TRIES:
+            rp["_unknown"] = True                 # held back until it has a name
+    if changed:
+        write_json(path, {k: v for k, v in kept.items() if now - (v.get("ts") or 0) < 60 * 86400})
+
+
 def _comment_items(rows: list[dict], pid: str, aid: str, platform) -> tuple[list, dict]:
     """One Inbox item per comment or reply that isn't yours, newest first, and which
     of them you already answered in the app: (items, {id: {how, at, text}}).
@@ -348,6 +399,8 @@ def _comment_items(rows: list[dict], pid: str, aid: str, platform) -> tuple[list
         for rp in node.get("replies") or []:
             if rp.get("id") is None or rp["id"] == node.get("id") or rp["id"] in parent:
                 continue
+            if rp.get("_unknown") and rp["id"] not in by_id:
+                continue                          # nobody could name it yet (_name_replies): not an item, not your reply
             parent[rp["id"]] = node.get("id")
             nested[rp["id"]] = rp
             walk(rp)
@@ -896,6 +949,8 @@ def _build() -> dict:
         if not (pid and aid):
             continue
         rows, po, more = _read_comments(z, section, pid, aid)
+        jobs.here(step="Reading who wrote the replies")
+        _name_replies(z, pid, aid, rows)
         cposts[pid] = {"permalink": po.get("permalink") or cp.get("permalink"), "caption": (po.get("text") or cp.get("content") or "")[:600],
                        "thumb": po.get("thumbnailUrl") or po.get("mediaUrl") or cp.get("picture"), "count": len(rows)}
         if more:
@@ -920,7 +975,10 @@ def _build() -> dict:
         out["autoLog"].setdefault(cid, v)
     # ... or the gift reached them by DM for another comment of theirs: handled when they
     # follow (dm-gift); otherwise it stays waiting and giftLog says the gift arrived.
-    out["giftLog"] = _dm_answers(z, section, comments, out["autoLog"], out["automations"])
+    # Comments you already dealt with here (replied, gift, ignored) need no DM check: with them in,
+    # the DM list was read back to the oldest of them on every refresh (half a minute on a busy account).
+    done_here = (read_json(state_dir() / "inbox.json", {}) or {}).get("handled") or {}
+    out["giftLog"] = _dm_answers(z, section, [c for c in comments if c["id"] not in done_here], out["autoLog"], out["automations"])
     if ig:
         ib = section("ice breakers", lambda: z.ice_breakers(ig))
         out["iceBreakers"] = (ib or {}).get("ice_breakers", []) if isinstance(ib, dict) else []

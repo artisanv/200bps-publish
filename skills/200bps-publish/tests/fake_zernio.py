@@ -35,6 +35,7 @@ class FakeZernio:
         self.automations: dict[str, dict] = {}
         self.comment_posts: list[dict] = []                  # GET /inbox/comments: posts with their comment counts
         self.comments: dict[str, list[dict]] = {}            # post id -> its comment rows, newest first (replies inside)
+        self.authors: dict[str, dict] = {}                   # reply id -> the author the API gives when asked for that reply alone
         self.uploads: dict[str, int] = {}
         self.lock = threading.Lock()
         self.fail_next: dict[str, tuple[int, dict]] = {}     # "POST /posts" -> (status, body)
@@ -183,6 +184,17 @@ class FakeZernio:
             data = sorted((cp for cp in self.comment_posts if (cp.get("createdTime") or "") >= since),
                           key=lambda cp: cp.get("createdTime") or "", reverse=True)
             return 200, {"status": "success", "data": data[:int((q.get("limit") or ["50"])[0])], "pagination": {"hasMore": False, "nextCursor": None}}
+        if parts[:2] == ["inbox", "comments"] and len(parts) == 3 and m == "GET" and parts[2] in self.comments and q.get("commentId"):
+            # one comment by its id, as the real API answers: it has its author even when the copy inside a thread
+            # doesn't (self.authors: reply id -> from; a reply not listed there stays without one)
+            cid = q["commentId"][0]
+            for row in self.comments[parts[2]]:
+                for c in [row] + (row.get("replies") or []):
+                    if c.get("id") == cid:
+                        one = {**c, "replies": [], **({"from": self.authors[cid]} if cid in self.authors else {})}
+                        return 200, {"status": "success", "comment": one, "comments": [], "pagination": {"hasMore": False},
+                                     "meta": {"platform": "instagram", "postId": parts[2]}}
+            return 404, {"error": "comment not found"}
         if parts[:2] == ["inbox", "comments"] and len(parts) == 3 and m == "GET" and parts[2] in self.comments:
             rows = self.comments[parts[2]]
             size = max(1, min(int((q.get("limit") or ["25"])[0]), 100) // 2)
