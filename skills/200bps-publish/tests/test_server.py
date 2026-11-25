@@ -62,6 +62,37 @@ class DashboardBase(Workspace):
 
 
 class Dashboard(DashboardBase):
+    def test_incoming_tray(self):
+        """2026-11-25: Content OS sent two posts 2 s apart; the second became the open post and nothing showed the first.
+        Posts sent with --from (or from a Content OS folder) now sit in the 📥 Incoming tray, in arrival order."""
+        a = self.post_folder("in-a", CAPTION)
+        b = self.post_folder("in-b", CAPTION)
+        pa = self.bps("analyze", str(a), "--platforms", "instagram", "--from", "Content OS")["id"]
+        self.bps("schedule", "2030-03-01T19:30:00+03:00")
+        pb = self.bps("analyze", str(b), "--platforms", "instagram", "--from", "Content OS")["id"]
+        self.bps("schedule", "2030-03-02T19:30:00+03:00")
+        inc = json.loads(self.get("/api/state")[1])["incoming"]
+        self.assertEqual([x["id"] for x in inc], [pa, pb])
+        self.assertEqual([x["state"] for x in inc], ["new", "open"])
+        self.assertEqual(inc[0]["from"], "Content OS")
+        code, _ = self.post("/api/plan", {"op": "select", "id": pa})                 # Open → the first one, the second is kept
+        self.assertEqual(code, 200)
+        st = json.loads(self.get("/api/state")[1])
+        self.assertEqual(st["plan"]["id"], pa)
+        self.assertEqual([x["state"] for x in st["incoming"]], ["open", "seen"])
+        code, r = self.post("/api/batch", {"op": "run", "confirm": "go", "items": [{"plan": x["id"], "at": x["at"]} for x in st["incoming"]]})
+        self.assertEqual(code, 200, r)                                              # Schedule all = the batch Go step
+        for _ in range(60):
+            if json.loads(self.get("/api/batch")[1]).get("state") != "running":
+                break
+            time.sleep(0.5)
+        inc = json.loads(self.get("/api/state")[1])["incoming"]
+        self.assertEqual([x["state"] for x in inc], ["scheduled", "scheduled"])
+        self.assertEqual(inc[1]["at"][:16], "2030-03-02T19:30")                   # each went out at the time it came with
+        self.post("/api/plan", {"op": "incoming_clear", "id": "done"})
+        self.assertEqual(json.loads(self.get("/api/state")[1])["incoming"], [])
+        self.bps("incoming")                                                       # the CLI view works too
+
     def test_page_and_state(self):
         code, body = self.get("/")
         self.assertEqual(code, 200)

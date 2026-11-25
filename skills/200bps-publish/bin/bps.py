@@ -6,7 +6,8 @@
     bps.py accounts                      list connected Zernio accounts (for setup)
     bps.py sync                          refresh the Zernio mirror (analytics, best time...)
     bps.py jobs                          what is running in the background, with % done
-    bps.py analyze <folder> [--platforms instagram,linkedin]
+    bps.py analyze <folder> [--platforms instagram,linkedin] [--from "Content OS"]   (--from: another app sent it → 📥 Incoming)
+    bps.py incoming [--clear PLAN_ID|done]   posts other apps sent (the dashboard's 📥 Incoming tray), oldest first
     bps.py recheck                       re-run checks + score on the current plan
     bps.py schedule best|now|<ISO time>  set when the current plan goes out
     bps.py ready                         mark the plan "awaiting_approval" (shows in dashboard)
@@ -100,6 +101,8 @@ def main() -> None:
     sub.add_parser("accounts")
     sub.add_parser("sync")
     a = sub.add_parser("analyze"); a.add_argument("folder"); a.add_argument("--platforms")
+    a.add_argument("--from", dest="source", default="", help="the app that sent this post (shows in the 📥 Incoming tray)")
+    inc = sub.add_parser("incoming"); inc.add_argument("--clear", default="", help="PLAN_ID, or 'done' for every scheduled one")
     sub.add_parser("recheck")
     s = sub.add_parser("schedule"); s.add_argument("when")
     sub.add_parser("ready")
@@ -223,9 +226,16 @@ def run(args) -> None:
                       "next": "Several posts: run 'batch prepare' with these folders, or analyze one."})
                 return
             args.folder = str(posts[0])
+        import batch
+        source = plans.source_of(args.folder, args.source)          # another app (Content OS…) sent it: 📥 Incoming tray
+        args.folder = str(batch.import_folder(Path(args.folder)))     # a folder outside the project is copied into my-posts/
         rec = acct.reconcile(acct.live(Zernio()) if Zernio().configured else None)
         pl = plans.analyze(args.folder, args.platforms.split(",") if args.platforms else None, connected=rec["connected"])
+        if source:
+            plans.mark_incoming(pl, source)
         out = _brief(pl)
+        if source:
+            out["incoming"] = {"from": source, "waiting": [x["id"] for x in plans.incoming_list() if x["state"] != "scheduled"]}
         out["accounts"] = {"auto_selected": rec["auto"], "skipped_not_connected": pl.get("skipped_platforms", []), "notes": rec["notes"]}
         emit(out)
     elif c == "recheck":
@@ -479,6 +489,12 @@ def run(args) -> None:
         r = z.connect_url(plat, pid)
         emit({"ok": True, "platform": plat, "authUrl": r.get("authUrl"),
               "next": "Give the user this link; they approve on the network's site. Then run doctor (the account is saved automatically)."})
+    elif c == "incoming":
+        if args.clear:
+            n = plans.incoming_clear(done_only=True) if args.clear == "done" else plans.incoming_clear(args.clear)
+            emit({"ok": True, "cleared": n, "incoming": plans.incoming_list()})
+        else:
+            emit({"ok": True, "incoming": plans.incoming_list()})
     elif c == "clear":
         kept = plans.clear_current()
         emit({"ok": True, "kept": kept, "note": "Nothing deleted; the post is under Posts → Not uploaded and can be continued."})

@@ -204,6 +204,7 @@
       goalEdit: "Change goal", goalPh: "e.g. 1000", goalQuick: "Quick picks", goalSaved: "Goal updated", goalBad: "Enter a number above your current followers.",
       goalTitle: "Your follower goal", goalNeed: "Connect Zernio to track progress.",
       bBtn: "Batch schedule", bKicker: "Batch schedule", bS1: "Pick posts", bS2: "Set times", bS3: "Go",
+      inTitle: "Incoming posts", inHint: "Posts other apps (like Content OS) sent here, in the order they arrived. Open one to review it; nothing goes out until you type go.", inNew: "New", inOpenNow: "Open now", inSeen: "Seen", inSched: "✓ Scheduled", inFix: "Fix first", inNoTime: "no time yet", inOpen: "Open", inNext: "Next post →", inPrev: "‹ Previous", inNextShort: "Next ›", inAll: "Schedule all ({n})", inClearDone: "Clear scheduled", inClear: "Take it off this list (the post stays in Posts)", inEmpty: "Nothing waiting.", inArrived: "📥 {from} sent {n} posts. The newest is open; the others wait in 📥 Incoming.", inArrived1: "📥 {from} sent a post. It's open now.", inStrip: "📥 From {from} · post {k} of {n}", inList: "All incoming", inSkipped: "{n} can't join yet (no time, a time that has passed, or something to fix). Open each to finish it.", inNextNone: "No other post is waiting.", inFromApp: "another app", bBasisKept: "the time it came with",
       bPickTitle: "Which posts should go out?", bPickHint: "Every folder in this workspace that has a caption. Tick the ones to schedule.",
       bAllNew: "Select all new", bNone: "Clear", bSel: "{n} selected", bNext2: "Next: set times", bNext3: "Next: review",
       bEmpty: "No post folders found here. Make one folder per post with a caption.txt and its images or video.",
@@ -417,6 +418,7 @@
       goalEdit: "غيّر الهدف", goalPh: "مثلاً 1000", goalQuick: "اختيارات سريعة", goalSaved: "انحدّث الهدف", goalBad: "اكتب رقم أكبر من عدد متابعينك الحين.",
       goalTitle: "هدف المتابعين", goalNeed: "اربط Zernio عشان نتابع التقدم.",
       bBtn: "جدولة مجموعة", bKicker: "جدولة مجموعة", bS1: "اختار البوستات", bS2: "حدد الأوقات", bS3: "نشر",
+      inTitle: "البوستات الواصلة", inHint: "بوستات وصلتك من برامج ثانية (مثل Content OS)، بترتيب وصولها. افتح أي واحد وراجعه؛ ما ينشر شي إلا لما تكتب go.", inNew: "جديد", inOpenNow: "مفتوح الحين", inSeen: "شفته", inSched: "✓ مجدول", inFix: "يبي تصليح", inNoTime: "بدون وقت", inOpen: "افتح", inNext: "البوست اللي بعده ←", inPrev: "→ السابق", inNextShort: "التالي ←", inAll: "جدول الكل ({n})", inClearDone: "شيل المجدولة", inClear: "شيله من هالقائمة (البوست يبقى في البوستات)", inEmpty: "ما في شي ينتظر.", inArrived: "📥 {from} أرسل {n} بوستات. آخر واحد مفتوح، والباقي ينتظرك في 📥 الواصلة.", inArrived1: "📥 {from} أرسل بوست، مفتوح الحين.", inStrip: "📥 من {from} · بوست {k} من {n}", inList: "كل الواصلة", inSkipped: "{n} ما يقدر يدخل للحين (بدون وقت، أو وقته فات، أو فيه شي يبي تصليح). افتح كل واحد وكمّله.", inNextNone: "ما في بوست ثاني ينتظر.", inFromApp: "برنامج ثاني", bBasisKept: "الوقت اللي وصل فيه",
       bPickTitle: "أي بوستات تبي تنزل؟", bPickHint: "كل مجلد في هالمساحة فيه كابشن. علّم على اللي تبي تجدوله.",
       bAllNew: "اختار كل الجديد", bNone: "مسح", bSel: "{n} مختار", bNext2: "التالي: الأوقات", bNext3: "التالي: المراجعة",
       bEmpty: "ما لقيت مجلدات بوستات هني. سوّ مجلد لكل بوست فيه caption.txt والصور أو الفيديو.",
@@ -455,6 +457,7 @@
   };
   state.h12 = (() => { try { const v = localStorage.getItem("bps.h12"); if (v != null) return v === "1"; } catch (e) {} return !!Intl.DateTimeFormat(undefined, { hour: "numeric" }).resolvedOptions().hour12; })();
   try { state.lang = localStorage.getItem("bps.lang") || state.lang; state.view = localStorage.getItem("bps.view") || state.view; } catch (e) {}
+  try { const qv = new URLSearchParams(location.search).get("view"); if (qv) state.view = qv; } catch (e) {}   // a link can open a tab directly: ?view=post
   const t = (k) => (I18N[state.lang] && I18N[state.lang][k]) ?? I18N.en[k] ?? k;
   const localDay = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   const loc = () => (state.lang === "ar" ? "ar-KW" : undefined);
@@ -822,6 +825,7 @@
   function bBasis(tm) {
     if (!tm) return "";
     if (tm.basis === "edited") return t("bBasisEdited");
+    if (tm.basis === "kept") return t("bBasisKept");
     if (tm.basis === "fixed") return t("bBasisFixed");
     const wd = new Date(tm.at).toLocaleDateString(loc(), { weekday: "short", timeZone: bTz() });
     const s = tm.basis === "best" ? fill("bBasisBest", { d: wd, l: tm.lift, n: tm.posts }) : fill("bBasisOverall", { l: tm.lift });
@@ -1023,6 +1027,12 @@
     status.append(el("div", { class: "status-banner" }, el("span", { class: "dot" }), msg,
       pid && ["scheduled", "published"].includes(p.status) ? el("button", { class: "btn danger-ghost cancel-btn", type: "button", style: "margin-inline-start:auto",
         onclick: () => openCancel(rowByPost(pid)) }, p.status === "published" ? t("cRemoveBtn") + "…" : t("cThis") + "…") : ""));
+    const inc = inRows(), ik = inc.findIndex((x) => x.id === p.id);
+    if (ik >= 0) status.append(el("div", { class: "in-strip" },
+      el("span", {}, fill("inStrip", { from: inFrom(inc[ik]), k: ik + 1, n: inc.length })),
+      inc.length > 1 ? el("button", { class: "btn", type: "button", disabled: !inNextId(-1), onclick: () => inGoNext(-1) }, t("inPrev")) : null,
+      inc.length > 1 ? el("button", { class: "btn", type: "button", disabled: !inNextId(1), onclick: () => inGoNext(1) }, t("inNextShort")) : null,
+      el("button", { class: "btn", type: "button", onclick: (e) => { e.stopPropagation(); toggleIn(true); } }, t("inList"))));
 
     $("#postType").textContent = (p.type || "").toUpperCase() + " · " + (p.media || []).length + " FILE" + ((p.media || []).length === 1 ? "" : "S");
     const strip = $("#mediaStrip");
@@ -2678,6 +2688,108 @@
   document.addEventListener("click", (e) => { if (ACT.open && !actPanel.contains(e.target)) toggleAct(false); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && ACT.open) toggleAct(false); });
   window.addEventListener("resize", () => ACT.open && placeAct());
+
+  /* ---------- 📥 Incoming: posts another app (Content OS…) sent here ---------- */
+  const IN = { open: false };
+  const inPanel = el("div", { class: "jobs-panel in-panel", role: "dialog", "aria-label": "Incoming", hidden: true });
+  document.body.append(inPanel);
+  function inRows() { return (state.data && state.data.incoming) || []; }
+  function inFrom(x) { return (x && x.from) || t("inFromApp"); }
+  function inWaiting() { return inRows().filter((x) => x.state !== "scheduled"); }
+  function inUsable(x) { return x.state !== "scheduled" && !x.blocking && !!x.at && new Date(x.at).getTime() > Date.now() + 15 * 60000; }
+  async function openIncoming(id) {
+    try { await post("/api/plan", { op: "select", id }); toggleIn(false); lastSig = ""; await load(false); go("post"); }
+    catch (e) { toast(e.message); }
+  }
+  function inNextId(dir) {                      // the next (or previous) post still waiting, in arrival order
+    const all = inRows(), cur = ((state.data || {}).plan || {}).id, i = all.findIndex((x) => x.id === cur);
+    if (i < 0) { const w = inWaiting(); return w.length ? w[dir > 0 ? 0 : w.length - 1].id : null; }
+    for (let k = 1; k < all.length; k++) { const x = all[((i + dir * k) % all.length + all.length) % all.length]; if (x.state !== "scheduled") return x.id; }
+    return null;
+  }
+  function inGoNext(dir) { const id = inNextId(dir); if (id) openIncoming(id); else toast(t("inNextNone")); }
+  function inScheduleAll() {                    // Batch schedule's Go step, each post at the time it came with
+    const ok = inRows().filter(inUsable);
+    if (!ok.length) return;
+    toggleIn(false);
+    B.items = ok.map((x) => ({ plan: x.id, name: x.line || x.id, caption: x.line || "", type: x.type, platforms: x.platforms, status: x.status,
+      score: x.score, blocking: [], warnings: [], media: x.firstMedia ? [x.firstMedia] : [], sent: false }));
+    const inTz = (iso) => {                       // the batch window works in the account's own clock ("YYYY-MM-DDTHH:MM")
+      const f = new Intl.DateTimeFormat("en-CA", { timeZone: bTz(), year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date(iso));
+      const g = (k) => (f.find((x) => x.type === k) || {}).value;
+      return `${g("year")}-${g("month")}-${g("day")}T${g("hour")}:${g("minute")}`;
+    };
+    B.times = ok.map((x) => ({ at: inTz(x.at), basis: "kept" }));
+    B.edited = {}; B.step = 3; bShow();
+  }
+  function inChip(x) {
+    const fix = x.blocking && x.state !== "scheduled";
+    return el("span", { class: "in-st st-" + (fix ? "fix" : x.state) },
+      x.state === "scheduled" ? t("inSched") : fix ? t("inFix") : x.state === "open" ? t("inOpenNow") : x.state === "seen" ? t("inSeen") : t("inNew"));
+  }
+  async function inClear(id) { try { await post("/api/plan", { op: "incoming_clear", id }); lastSig = ""; load(false); } catch (e) { toast(e.message); } }
+  function renderIn() {
+    const b = $("#inBtn"); if (!b) return;
+    const rows = inRows(), w = inWaiting();
+    b.hidden = !rows.length;
+    b.querySelector("span").textContent = "📥 " + (w.length ? w.length : "✓");
+    b.classList.toggle("has", !!w.length);
+    b.title = t("inTitle");
+    inArrivals(rows);
+    if (IN.open) drawIn();
+  }
+  function inArrivals(rows) {                   // a message when posts arrive, so a second one never hides the first
+    let seen = null; try { seen = JSON.parse(localStorage.getItem("bps.inSeen") || "null"); } catch (e) {}
+    const ids = rows.map((x) => x.id + ":" + x.arrived);
+    const keep = () => { try { localStorage.setItem("bps.inSeen", JSON.stringify(ids.concat(seen || []).slice(0, 200))); } catch (e) {} };
+    if (!Array.isArray(seen)) { seen = []; keep(); return; }
+    const fresh = rows.filter((x) => !seen.includes(x.id + ":" + x.arrived));
+    if (!fresh.length) return;
+    keep();
+    const last = fresh[fresh.length - 1], now = Date.now() / 1000;
+    const n = rows.filter((x) => x.from === last.from && x.state !== "scheduled" && now - x.arrived < 600).length;
+    toast(n > 1 ? fill("inArrived", { from: inFrom(last), n }) : fill("inArrived1", { from: inFrom(last) }));
+    const b = $("#inBtn"); b.classList.remove("pulse"); void b.offsetWidth; b.classList.add("pulse");
+  }
+  function drawIn() {
+    const rows = inRows();
+    inPanel.innerHTML = "";
+    inPanel.append(el("div", { class: "jobs-head" }, el("b", {}, t("inTitle") + " · " + rows.length), el("span", { class: "hint" }, t("inHint"))));
+    if (!rows.length) { inPanel.append(el("p", { class: "hint" }, t("inEmpty"))); return; }
+    const list = el("ol", { class: "in-list" });
+    rows.forEach((x, i) => {
+      const fm = x.firstMedia;
+      const thumb = fm && fm.kind === "image" ? el("img", { src: "/media?f=" + encodeURIComponent(fm.file) + "&plan=" + encodeURIComponent(x.id), alt: "", loading: "lazy" })
+        : el("span", { "aria-hidden": "true" }, x.type === "reel" ? "▶" : "▦");
+      list.append(el("li", { class: "in-row st-" + x.state },
+        el("span", { class: "in-n mono" }, String(i + 1)),
+        el("button", { class: "in-thumb", type: "button", "aria-label": t("inOpen"), onclick: () => openIncoming(x.id) }, thumb),
+        el("div", { class: "in-meta" },
+          el("b", { style: "unicode-bidi:plaintext" }, x.line || x.id),
+          el("small", {}, inChip(x), " ", x.at ? dt(x.at) : t("inNoTime"), " · ", inFrom(x), (x.platforms || []).length ? " · " + x.platforms.join(", ") : "")),
+        el("span", { class: "in-acts" },
+          x.state === "open" ? null : el("button", { class: "btn", type: "button", onclick: () => openIncoming(x.id) }, t("inOpen")),
+          el("button", { class: "btn in-x", type: "button", "aria-label": t("inClear"), onclick: () => inClear(x.id) }, "✕"))));
+    });
+    inPanel.append(list);
+    const usable = rows.filter(inUsable), skipped = inWaiting().length - usable.length;
+    if (skipped > 0) inPanel.append(el("p", { class: "hint" }, fill("inSkipped", { n: skipped })));
+    const done = rows.some((x) => x.state === "scheduled");
+    inPanel.append(el("div", { class: "in-foot" },
+      done ? el("button", { class: "btn", type: "button", onclick: () => inClear("done") }, t("inClearDone")) : null,
+      el("button", { class: "btn", type: "button", disabled: !inNextId(1), onclick: () => inGoNext(1) }, t("inNext")),
+      el("button", { class: "btn on in-all", type: "button", disabled: !usable.length, onclick: inScheduleAll }, fill("inAll", { n: usable.length }))));
+  }
+  function placeIn() {
+    const b = $("#inBtn"), r = (b.hidden ? $("#bellBtn") : b).getBoundingClientRect(), w = Math.min(460, window.innerWidth - 24);
+    inPanel.style.width = w + "px"; inPanel.style.top = (r.bottom + 8) + "px";
+    inPanel.style.left = Math.max(12, Math.min(window.innerWidth - w - 12, r.right - w)) + "px";
+  }
+  function toggleIn(force) { IN.open = force ?? !IN.open; inPanel.hidden = !IN.open; if (IN.open) { placeIn(); drawIn(); } }
+  $("#inBtn").addEventListener("click", (e) => { e.stopPropagation(); toggleIn(); });
+  document.addEventListener("click", (e) => { if (IN.open && !inPanel.contains(e.target) && e.target.isConnected) toggleIn(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && IN.open) toggleIn(false); });
+  window.addEventListener("resize", () => IN.open && placeIn());
 
   // keep a chat on its newest message while its content settles (avatars loading, the window opening);
   // stops as soon as the user scrolls up to read
@@ -6444,6 +6556,14 @@
         "Each time shows why it was picked (e.g. \"best Wed · +96% · n=5\"). Drag ⋮⋮ or use ↑↓ to reorder; edit any time directly.",
         "<b>3 Go:</b> review the list, type <b>go</b> once. Every post is created in Zernio as <i>scheduled</i>, with a live tick per post. Nothing goes out now.",
         "Posts that can't be scheduled yet are listed apart, with \"Ask PIX to fix\"."]],
+      ["Incoming posts (from Content OS)", [
+        "When another app (like <b>Content OS</b>) sends posts here, the <b>📥</b> button appears in the top bar. Its number counts the posts not scheduled yet.",
+        "Click it to see every post that arrived, oldest first, each marked <b>New</b>, <b>Open now</b>, <b>Seen</b>, <b>Fix first</b> or <b>✓ Scheduled</b>, with its time.",
+        "<b>Open</b> shows a post in the Post tab. The post you had open is kept, with all its changes. <b>Next post →</b> goes through the waiting ones in order.",
+        "On an incoming post, the Post tab shows <b>📥 From Content OS · post 1 of 2</b> with <b>‹ Previous</b> and <b>Next ›</b>.",
+        "<b>Schedule all</b> opens the Go step of Batch schedule with every post that has a time, at that time: check the list, type <b>go</b> once. Posts with no time, a time that has passed or something to fix wait until you open them.",
+        "<b>✕</b> takes a post off the list (the post stays in Posts); <b>Clear scheduled</b> removes the ones already done. A post leaves the list by itself 14 days after it arrived.",
+        "When several posts arrive at once, a message tells you how many, so none gets lost."]],
       ["Plan: calendar and best hours", [
         "The calendar shows exactly the posts in the Posts tab. Colours: <b>lime</b> published, <b>blue</b> scheduled, <b>red</b> needs attention, <b>outline</b> not uploaded.",
         "‹ and › change month (or week, or day); <b>Today</b> jumps back. Switch <b>Month · Week · Day</b> at the top.",
@@ -6583,6 +6703,14 @@
         "كل وقت يقول ليش انختار (مثلاً «أفضل وقت الأربعاء · +96% · n=5»). اسحب ⋮⋮ أو ↑↓ عشان ترتب؛ وعدّل أي وقت مباشرة.",
         "<b>3 نشر:</b> راجع القائمة واكتب <b>go</b> مرة وحدة. كل بوست ينسوى في Zernio <i>كمجدول</i>، مع علامة ✓ لكل واحد. ما ينزل شي الحين.",
         "البوستات اللي ما ينفع تنجدول تطلع لحالها، مع «اطلب من PIX يصلحه»."]],
+      ["البوستات الواصلة (من Content OS)", [
+        "لما برنامج ثاني (مثل <b>Content OS</b>) يرسل بوستات هني، يطلع زر <b>📥</b> فوق. الرقم اللي عليه يعد البوستات اللي ما انجدلت للحين.",
+        "اضغطه وتشوف كل بوست وصل، الأقدم أول، وعلى كل واحد: <b>جديد</b>، <b>مفتوح الحين</b>، <b>شفته</b>، <b>يبي تصليح</b> أو <b>✓ مجدول</b>، مع وقته.",
+        "<b>افتح</b> يعرض البوست في تبويب البوست. البوست اللي كان مفتوح يبقى بكل تعديلاته. <b>البوست اللي بعده</b> يمشي على اللي ينتظرون بالترتيب.",
+        "على البوست الواصل، تبويب البوست يعرض <b>📥 من Content OS · بوست 1 من 2</b> مع <b>السابق</b> و<b>التالي</b>.",
+        "<b>جدول الكل</b> يفتح خطوة النشر في «جدولة مجموعة» بكل بوست عنده وقت، على وقته: راجع القائمة واكتب <b>go</b> مرة وحدة. اللي بدون وقت أو وقته فات أو فيه شي يبي تصليح ينتظر لين تفتحه.",
+        "<b>✕</b> يشيل البوست من القائمة (البوست يبقى في البوستات)؛ <b>شيل المجدولة</b> يشيل اللي خلصوا. والبوست يطلع من القائمة بروحه بعد 14 يوم من وصوله.",
+        "لما توصل كذا بوست مرة وحدة، تطلع لك رسالة بعددهم، عشان ما يضيع ولا واحد."]],
       ["الخطة: التقويم وأفضل الساعات", [
         "التقويم يعرض نفس البوستات اللي في تبويب المنشورات. الألوان: <b>ليموني</b> منشور، <b>أزرق</b> مجدول، <b>أحمر</b> يحتاج انتباه، <b>إطار</b> ما انرفع.",
         "‹ و› يغيرون الشهر (أو الأسبوع أو اليوم)؛ <b>اليوم</b> يرجعك. بدّل <b>شهر · أسبوع · يوم</b> من فوق.",
@@ -6698,6 +6826,7 @@
       { k: "image", label: t("imgTitle"), hint: "OpenAI · gpt-image", run: () => openImage() },
       { k: "jobs", label: t("jobsTitle"), hint: "%", run: () => toggleJobs(true) },
       { k: "newfiles", label: t("npTitle"), hint: t("npPaletteHint"), run: () => openNewPost() },
+      { k: "incoming", label: t("inTitle"), hint: "📥", run: () => setTimeout(() => toggleIn(true), 60) },
       { k: "batch", label: t("bBtn"), hint: "Plan", run: () => openBatch() },
       { k: "trial reels instagram viral non-followers test", label: "🧪 " + t("trTitle"), hint: "Instagram", run: () => openTrials() },
       { k: "guide", label: t("guideTitle"), hint: "?", run: () => openGuide() },
@@ -7112,6 +7241,7 @@
       setTimeout(npLive, 0);
       setTimeout(watchNotes, 0);
       setTimeout(renderBell, 0);
+      setTimeout(renderIn, 0);
       setTimeout(() => { const k = JSON.stringify(d.inbox || {}); if (k !== state.ibxSig) { state.ibxSig = k; renderComments({ auto: true }); } }, 0);
       if (first && !state.langChosen && !localStorageLang() && state.data.config && state.data.config.language === "ar") state.lang = "ar";
     } catch (e) { state.data = state.data || { doctor: { checks: [] } }; }
@@ -7334,6 +7464,10 @@
       tgCol: ["Plan a time", "Click or drag on an empty time (15-minute steps) to put a draft there, start a new post for that time, or have PIX draft one from an idea."],
       tgEv: ["A post", "Click to see it, move it, edit its caption or cancel it. Drag it to another time to move it: posts in Zernio ask you to type move; drafts move at once. Published posts can't change."],
       bell: ["Activity", "Every note and request you sent PIX, with where it is (waiting, working, done, couldn't) and the result. The number counts new results."],
+      inBox: ["Incoming posts", "Posts other apps (Content OS) sent here, in the order they arrived, each marked New, Open now, Seen or Scheduled. Open any to review it, Next post to go through them, Schedule all to send them at their own times with one typed go. The number counts the ones not scheduled yet."],
+      inStrip: ["Incoming post", "This post came from another app. ‹ Previous and Next › switch between the posts that arrived; All incoming opens the list."],
+      inAllBtn: ["Schedule all", "Opens the Go step of Batch schedule with every incoming post that has a time, at that time. You check the list and type go once. Posts with no time (or something to fix) wait: open them first."],
+      inClearBtn: ["Take off the list", "Removes the post from this list only. The post itself stays in Posts (or in Zernio if it's scheduled)."],
       notice: ["PIX finished", "Shown when PIX completes one of your notes, with the result. The dashboard refreshes itself so you see the change. View opens the conversation."],
       readiness: ["Readiness", "What's set up: Python, ffprobe, your key, Zernio and add-ons. Each problem shows its fix."],
       accounts: ["Connected accounts", "The Instagram and LinkedIn accounts posts go to."],
@@ -7530,6 +7664,10 @@
       tgCol: ["خطط وقت", "اضغط أو اسحب على وقت فاضي (كل 15 دقيقة) عشان تحط مسودة فيه، أو تبدأ بوست جديد لهالوقت، أو تخلي PIX يكتب واحد من فكرة."],
       tgEv: ["بوست", "اضغط عشان تشوفه أو تنقله أو تعدّل الكابشن أو تلغيه. اسحبه لوقت ثاني عشان تنقله: بوستات Zernio تطلب تكتب move؛ والمسودات تنتقل على طول. المنشور ما يتغيّر."],
       bell: ["النشاط", "كل ملاحظة وطلب أرسلته لـPIX، وين وصل (ينتظر، يشتغل، خلصت، ما قدر) والنتيجة. الرقم يعد النتايج الجديدة."],
+      inBox: ["البوستات الواصلة", "بوستات وصلتك من برامج ثانية (Content OS)، بترتيب وصولها، وكل واحد عليه: جديد، مفتوح الحين، شفته، أو مجدول. افتح أي واحد وراجعه، «البوست اللي بعده» تمشي عليهم واحد واحد، و«جدول الكل» يرسلهم كلهم بأوقاتهم بكتابة go مرة وحدة. الرقم يعد اللي ما انجدلوا للحين."],
+      inStrip: ["بوست واصل", "هالبوست جاك من برنامج ثاني. «السابق» و«التالي» تنقلك بين البوستات اللي وصلت، و«كل الواصلة» تفتح القائمة."],
+      inAllBtn: ["جدول الكل", "يفتح خطوة النشر في «جدولة مجموعة» بكل بوست واصل عنده وقت، على وقته. تراجع القائمة وتكتب go مرة وحدة. اللي بدون وقت (أو فيه شي يبي تصليح) ينتظر: افتحه أول."],
+      inClearBtn: ["شيله من القائمة", "يشيل البوست من هالقائمة بس. البوست نفسه يبقى في البوستات (أو في Zernio إذا كان مجدول)."],
       notice: ["PIX خلّص", "يطلع لما PIX يخلّص وحدة من ملاحظاتك، مع النتيجة. واللوحة تتحدث بروحها عشان تشوف التغيير. «شوف» يفتح المحادثة."],
       readiness: ["الجاهزية", "شنو جاهز: Python وffprobe ومفتاحك وZernio والإضافات. كل مشكلة معاها حلها."],
       accounts: ["الحسابات المربوطة", "حسابات Instagram وLinkedIn اللي تنزل عليها البوستات."],
@@ -7555,7 +7693,7 @@
     [".ann-mask", "annMask"], [".ann-fs", "annFs"], [".ann-result", "annResult"],
     [".ib-all", "ibAll"], [".ib-pick", "ibPick"], [".ib-del", "ibDel"], [".ib-md", "ibMd"], [".ib-json", "ibJson"], [".ib-add", "ibAdd"],
     [".ib-load", "ibLoad"], [".ib-clear", "ibClear"], [".ib-undo", "ibUndo"], [".ib-editone", "ibEditOne"],
-    [".rw-ask", "rwAsk"], [".rw-review, .rw-row, .rw-all", "rwReview"], [".ab-open", "abOpen"], [".ab-ask", "abAsk"], [".ab-go, .ab-word", "abGo"], [".ab-check, .ab-table", "abCheck"], [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-posted", "liPosted"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".inbox-replyto", "ibxReplyTo"], [".ibx-more", "ibxMore"], [".ibx-showmore", "ibxShowMore"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
+    [".rw-ask", "rwAsk"], [".rw-review, .rw-row, .rw-all", "rwReview"], [".ab-open", "abOpen"], [".ab-ask", "abAsk"], [".ab-go, .ab-word", "abGo"], [".ab-check, .ab-table", "abCheck"], [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-posted", "liPosted"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".inbox-replyto", "ibxReplyTo"], [".ibx-more", "ibxMore"], [".ibx-showmore", "ibxShowMore"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#inBtn", "inBox"], [".in-strip", "inStrip"], [".in-all", "inAllBtn"], [".in-x", "inClearBtn"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
     [".steps-track .step[data-step]", (n) => "step_" + n.dataset.step], [".checks li.fixable", "fixable"],
     [".cal .ev", "calEv"], [".cal .d.click", "calDay"], [".cal-key", "calKey"], ["#calPrev", "calPrev"], ["#calNext", "calNext"], ["#calToday", "calToday"],
     [".heat-insight, .heat .dl, .heat .h, .heat-legend", "heat"], [".toptimes", "peaks"],

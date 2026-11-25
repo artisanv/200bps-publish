@@ -63,9 +63,12 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 | ![Post window](media/post-window.png) | ![Images](media/image-window.png) |
 | **Posts**: play a Reel with sound inside the dashboard, with its results per network. | **Images**: OpenAI paints, or **PIX designs it** in code at the exact post size, free. |
 
-## New in v1.20.2 (one Inbox fix, 19 Nov 2026)
+## New in v1.20.2 (📥 Incoming posts 25 Nov, Inbox fix 19 Nov 2026)
 
-A bug came with v1.20.1 and is fixed. With auto-update on, the fix reaches you by itself; by hand: `/plugin marketplace update 200bps`.
+With auto-update on, all of this reaches you by itself; by hand: `/plugin marketplace update 200bps`.
+
+- **📥 Incoming posts (from Content OS and other apps):** when another app sends several posts at once, none gets lost. A **📥** button in the top bar counts the ones not scheduled yet and lists every post that arrived, in order, each marked New, Open now, Seen, Fix first or ✓ Scheduled, with its time. Open any of them, step through with **Next post →** (or ‹ Previous / Next › on the Post tab), and **Schedule all** at their own times with one typed **go**. Chat: `bps.py incoming`; other apps: `bps.py analyze FOLDER --from "Content OS"`.
+- **Fixed:** a post folder from outside your project (such as a Content OS job) made the image window fail to open. It's copied into `my-posts/` now, like any outside folder. And a dashboard link can open a tab directly (`?view=post`).
 
 - **Your own replies no longer show as comments waiting for you:** Instagram threads sometimes reach the Inbox without the name of who wrote each reply, your own replies included, and v1.20.1 listed those as other people's (after a day of replying, the Inbox said 69 waiting; 56 were our own replies). The Inbox now asks who wrote each nameless reply, once, and remembers it: your replies never show, and other people's show with their name.
 - **Handled stays handled, and the refresh is faster:** comments marked "got the gift and follows you" no longer come back to Waiting, and comments you already dealt with are not checked against your DMs again.

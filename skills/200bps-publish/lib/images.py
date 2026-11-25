@@ -197,7 +197,8 @@ def ref_path(ref: str) -> Path:
 
 
 def rel(p: Path) -> str:
-    return str(p.resolve().relative_to(workspace()))
+    p, root = p.resolve(), workspace()
+    return str(p.relative_to(root)) if p == root or root in p.parents else str(p)     # outside the project: the full path
 
 
 def save_upload(name: str, data_b64: str) -> dict:
@@ -600,9 +601,10 @@ def state() -> dict:
     p = plans.load()
     post_media = []
     if p:
+        root = workspace()
         for m in p.get("media", []):
-            f = Path(p["folder"]) / m["file"]
-            if f.suffix.lower() in IMG_EXT and f.exists():
+            f = (Path(p["folder"]) / m["file"]).resolve()
+            if f.suffix.lower() in IMG_EXT and f.exists() and root in f.parents:     # a plan made before folders were copied in may point outside
                 post_media.append({"path": rel(f), "file": m["file"], "plan": p["id"]})
     try:
         refresh_models()                          # stale list → re-read it in the background

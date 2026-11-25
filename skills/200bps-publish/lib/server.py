@@ -677,8 +677,15 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             pid = str(data.get("id", ""))
             if not plans.load(pid):
                 raise ValueError("Unknown post.")
+            prev = plans.current_id()
             (state_dir() / "current.txt").write_text(pid)
+            plans.incoming_opened(pid)
+            if prev and prev != pid:
+                plans.incoming_opened(prev)        # it was on screen: on the 📥 tray it now shows as Seen, not New
             return {"ok": True}
+        if op == "incoming_clear":            # off the 📥 Incoming tray; the post itself stays
+            one = str(data.get("id") or "")
+            return {"ok": True, "cleared": plans.incoming_clear(done_only=True) if one == "done" else plans.incoming_clear(one)}
         # the Plan tab can time any local draft (it becomes the open post)
         p = plans.load(str(data["planId"])) if op in ("time", "networks") and data.get("planId") else plans.load()
         if not p:
@@ -856,6 +863,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             "claudeMsg": hitl.unseen(),
             "keys": keys.listing(),
             "plans": plans.list_plans(),
+            "incoming": plans.incoming_list(),
             "notes": hitl.notes(unread_only=False)[-5:],
             "trialDue": _trial_due(),
         }

@@ -964,6 +964,43 @@ class InboxThreads(Workspace):
         self.assertEqual(self.fz.sent("GET", "/inbox/conversations"), [])        # nothing waits: no DM read
         self.assertEqual(inbox.waiting(), [])
 
+    def test_49_content_os_posts_land_in_incoming(self):
+        """2026-11-25: a post from a Content OS job folder is marked incoming (no --from needed) and stays on the tray
+        after a re-check; a post the user opens here is not."""
+        import shutil, tempfile
+        root = Path(tempfile.mkdtemp(prefix="bps-cf-")) / "Content_Factory" / "data" / "jobs" / "j1" / "output"
+        root.mkdir(parents=True)
+        src = root / "instagram"
+        shutil.copytree(self.post_folder("re49src", CAPTION), src)
+        out = self.bps("analyze", str(src), "--platforms", "instagram")
+        self.assertEqual(out["incoming"]["from"], "Content OS")
+        self.bps("recheck")
+        self.assertEqual(self.plan()["incoming"]["from"], "Content OS")
+        self.bps("analyze", str(self.post_folder("re49own", CAPTION)), "--platforms", "instagram")
+        self.assertNotIn("incoming", self.plan())
+        ids = [x["id"] for x in self.bps("incoming")["incoming"]]
+        self.assertIn(out["id"], ids)
+        self.assertEqual(self.bps("incoming", "--clear", out["id"])["cleared"], 1)
+        shutil.rmtree(root.parents[3], ignore_errors=True)
+
+    def test_48_post_folder_outside_the_project_is_copied_in(self):
+        """2026-11-20: `analyze` on a folder outside the project kept the outside path in the plan, so the image
+        window (/api/images) crashed on every open (ValueError: not in the subpath of the workspace)."""
+        import shutil, tempfile
+        out = Path(tempfile.mkdtemp(prefix="bps-outside-")) / "cf-carousel"
+        shutil.copytree(self.post_folder("re48src", CAPTION), out)
+        self.bps("analyze", str(out), "--platforms", "instagram")
+        p = self.plan()
+        self.assertTrue(Path(p["folder"]).resolve().is_relative_to(self.ws.resolve()))
+        self.assertTrue((Path(p["folder"]) / "caption.txt").exists())
+        p["folder"] = str(out)                                       # an older plan that still points outside
+        (self.ws / ".bps" / "plans" / f"{p['id']}.json").write_text(json.dumps(p))
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        fresh("store"); images = fresh("images")
+        st = images.state()                                         # must not raise
+        self.assertEqual(st["post"]["media"], [])                    # outside images aren't offered as guides
+        shutil.rmtree(out.parent, ignore_errors=True)
+
     def test_42_dm_threads_are_not_read_again_on_every_refresh(self):
         """2026-11-18: with every comment of a busy post read, each refresh opened dozens of DM threads and asked
         Instagram who follows (seconds each): 32 s became 136 s. A thread is read again only after it changes, its

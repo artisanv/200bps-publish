@@ -278,6 +278,19 @@ Show the user the full list (post, day, time, why that time) and run `batch run
 --confirm` only after they say go to that exact list. If any time or post
 changes afterwards, show the list again and ask again.
 
+## Incoming posts (from Content OS and other apps)
+
+Another app hands a post over with `bps.py analyze <folder> --from "Content OS"` (a folder inside a Content OS
+job is recognised without `--from`; `BPS_FROM` works too). The post opens as usual and is also marked
+`plan.incoming = {at, from}`, so several posts sent at once never hide each other:
+- The top bar shows **📥 n** (posts not scheduled yet). Its list is in arrival order, each marked New, Open now,
+  Seen, Fix first or ✓ Scheduled, with Open, Next post →, **Schedule all** (Batch schedule's Go step with each
+  post at the time it came with; one typed **go**) and ✕ (off the list; the post stays in Posts). The Post tab
+  shows "📥 From Content OS · post k of n" with ‹ Previous / Next ›. A post leaves the list 14 days after arriving.
+- From chat: `bps.py incoming` lists them (`state`, `at`, `blocking`); `bps.py incoming --clear PLAN_ID|done`.
+- When the user asks what arrived or what is still waiting, answer from `bps.py incoming`. Re-analyzing such a
+  folder keeps it on the tray. Schedule them only through the user's typed go (Schedule all or Batch schedule).
+
 ## LinkedIn polls, reposts and text posts
 
 A post folder with only a caption (no media) is a **text post**: LinkedIn and Facebook take it; the

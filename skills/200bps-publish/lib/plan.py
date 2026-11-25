@@ -101,6 +101,77 @@ def clear_current() -> str | None:
     return cur
 
 
+# ---- Incoming: posts another app (Content OS…) handed over with `bps.py analyze` ----
+INCOMING_DAYS = 14          # an incoming post leaves the tray this long after it arrived
+
+
+def source_of(folder: str, given: str = "") -> str:
+    """Who sent this post: --from NAME (or BPS_FROM), else Content OS when the
+    folder is one of its jobs. Empty = a post the user (or PIX) opened here."""
+    import os
+    name = (given or os.environ.get("BPS_FROM") or "").strip()
+    if name:
+        return name[:40]
+    return "Content OS" if "/Content_Factory/" in str(folder).replace("\\", "/") else ""
+
+
+def mark_incoming(plan: dict, source: str) -> dict:
+    """A post that arrived from another app: it shows in the dashboard's 📥 Incoming
+    tray until it is scheduled and cleared, so a second arrival never hides the first."""
+    plan["incoming"] = {"at": int(time.time()), "from": source}
+    save(plan, record=False, make_current=current_id() == plan["id"])
+    return plan
+
+
+def incoming_state(p: dict, cur: str | None = None) -> str:
+    if (p.get("result") or {}).get("postId") or p.get("status") in ("scheduled", "published"):
+        return "scheduled"
+    if p["id"] == (cur if cur is not None else current_id()):
+        return "open"
+    return "seen" if (p.get("incoming") or {}).get("opened") else "new"
+
+
+def incoming_list() -> list[dict]:
+    """The tray: posts that arrived from another app in the last INCOMING_DAYS and
+    were not cleared, in the order they arrived."""
+    cur, out, cutoff = current_id(), [], time.time() - INCOMING_DAYS * 86400
+    for f in (state_dir() / "plans").glob("*.json"):
+        p = read_json(f) or {}
+        inc = p.get("incoming") or {}
+        if not p.get("id") or not inc.get("at") or inc.get("cleared") or inc["at"] < cutoff:
+            continue
+        cap = next(iter((p.get("captions") or {}).values()), "")
+        out.append({"id": p["id"], "from": inc.get("from") or "", "arrived": inc["at"], "opened": inc.get("opened"),
+                    "state": incoming_state(p, cur), "status": p.get("status"), "type": p.get("type"),
+                    "platforms": p.get("platforms") or [], "at": (p.get("schedule") or {}).get("at"),
+                    "line": (cap.strip().split("\n") or [""])[0][:120], "postId": (p.get("result") or {}).get("postId"),
+                    "blocking": len(p.get("blocking") or []),
+                    "score": {k: v.get("value") for k, v in (p.get("score") or {}).items()},
+                    "firstMedia": ({"file": p["media"][0]["file"], "kind": p["media"][0]["kind"]} if p.get("media") else None)})
+    return sorted(out, key=lambda x: (x["arrived"], x["id"]))
+
+
+def incoming_opened(plan_id: str) -> None:
+    p = load(plan_id)
+    if p and p.get("incoming") and not p["incoming"].get("opened"):
+        p["incoming"]["opened"] = int(time.time())
+        write_json(plan_path(plan_id), p)
+
+
+def incoming_clear(plan_id: str = "", done_only: bool = False) -> int:
+    """Take posts off the tray (the post itself stays: Posts → Not uploaded or Zernio).
+    plan_id = one post; done_only = every post already scheduled."""
+    n = 0
+    for x in incoming_list():
+        if (plan_id and x["id"] != plan_id) or (done_only and x["state"] != "scheduled"):
+            continue
+        p = load(x["id"])
+        p["incoming"]["cleared"] = int(time.time())
+        write_json(plan_path(x["id"]), p)
+        n += 1
+    return n
+
+
 def publish_from_dashboard(typed: str) -> dict:
     """The dashboard's Publish button. The user typed the confirm word ("go")
     in their own local dashboard; that is their explicit approval, so this runs
@@ -170,7 +241,7 @@ def list_plans() -> list[dict]:
                     "hasCover": bool(p.get("cover")), "mediaCount": len(p.get("media") or []),
                     "mediaList": [{"file": m["file"], "kind": m["kind"]} for m in p.get("media") or []], "captions": p.get("captions"),
                     "kind": {"reel": "reel", "carousel": "carousel", "single": "post", "document": "document", "text": "text"}.get(p.get("type"), "post"),
-                    "fmts": _fmts(p)})
+                    "fmts": _fmts(p), "incoming": (p.get("incoming") or {}).get("from") if (p.get("incoming") or {}).get("at") else None})
     return sorted(out, key=lambda x: -(x.get("updated") or 0))
 
 
@@ -456,6 +527,8 @@ def analyze(folder: str, platforms: list[str] | None = None, connected: list[str
         "skipped_reasons": {p: f"{p} can't show a {t} post" for p, t in unfit.items()},
         "status": "draft",
     }
+    if old.get("incoming"):                              # still on the 📥 Incoming tray after a re-check
+        plan["incoming"] = old["incoming"]
     if (old.get("result") or {}).get("postId"):          # already sent to Zernio: keep that, so it can't go out twice
         for k in ("result", "status", "uploads", "remote", "validation", "abtest", "cancelled"):
             if k in old:
