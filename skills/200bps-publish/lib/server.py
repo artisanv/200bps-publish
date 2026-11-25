@@ -76,6 +76,7 @@ def _public_config(cfg: dict) -> dict:
     out["reelDefaults"] = {"trial": bool(ig.get("trial_reels", False)), "graduation": ig.get("trial_graduation") or "SS_PERFORMANCE",
                            "remind": ig.get("trial_remind", True) is not False}
     import accounts as acct
+    out["updatesCheck"] = (cfg.get("updates") or {}).get("check", True) is not False
     out["connectable"] = list(acct.CONNECTABLE)
     out["comingSoon"] = list(acct.COMING_SOON)
     return out
@@ -89,6 +90,15 @@ def _trial_due() -> list:
         return trial.due()
     except Exception:
         return []
+
+def _update() -> dict:
+    """A newer 200bps Publish on GitHub? (cached; checked once a day in the background; never breaks the page)"""
+    try:
+        import update
+        return update.status()
+    except Exception:
+        return {"enabled": False}
+
 
 class Handler(BaseHTTPRequestHandler):
     server_version = "200bps-publish"
@@ -436,6 +446,17 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
                                       {"type": "trial_advice", "items": items, "stats": adv["stats"]})
                     return self._json({"ok": True, "note": n.get("id")})
                 raise ValueError("Unknown trial op.")
+            if path == "/api/update":          # the "a new version is out" banner: Later, check now, on/off
+                import update
+                op = data.get("op")
+                if op == "dismiss":
+                    return self._json({"ok": True, "update": update.dismiss(str(data.get("build") or ""))})
+                if op == "check":
+                    return self._json({"ok": True, "update": update.set_check(bool(data.get("on")))})
+                if op == "refresh":
+                    update.refresh(force=True)
+                    return self._json({"ok": True, "update": update.status()})
+                raise ValueError("Unknown update op.")
             if path == "/api/reeldefaults":      # Settings: new Instagram Reels start as Trial Reels or not
                 cfg = config()
                 ig = cfg.setdefault("instagram", {})
@@ -866,6 +887,7 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
             "incoming": plans.incoming_list(),
             "notes": hitl.notes(unread_only=False)[-5:],
             "trialDue": _trial_due(),
+            "update": _update(),
         }
         if visit:
             snap_p = state_dir() / "snapshot.json"

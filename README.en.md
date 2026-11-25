@@ -63,13 +63,19 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 | ![Post window](media/post-window.png) | ![Images](media/image-window.png) |
 | **Posts**: play a Reel with sound inside the dashboard, with its results per network. | **Images**: OpenAI paints, or **PIX designs it** in code at the exact post size, free. |
 
-## New in v1.20.2 (📥 Incoming posts 25 Nov, Inbox fix 19 Nov 2026)
+## New in v1.21.0 (25 Nov 2026)
 
-With auto-update on, all of this reaches you by itself; by hand: `/plugin marketplace update 200bps`.
+With auto-update on, this reaches you by itself; by hand: `/plugin marketplace update 200bps`. From now on the dashboard also tells you when a new version is out.
 
+- **A new version? The dashboard tells you:** once a day it checks GitHub (nothing about you is sent) and, when a newer 200bps Publish is out, a card at the top shows what's new and the exact command for your install, with **Copy**. **Later** hides it; **Ctrl+K → Check for updates now** asks at once; Settings → Preferences turns it off.
 - **📥 Incoming posts (from Content OS and other apps):** when another app sends several posts at once, none gets lost. A **📥** button in the top bar counts the ones not scheduled yet and lists every post that arrived, in order, each marked New, Open now, Seen, Fix first or ✓ Scheduled, with its time. Open any of them, step through with **Next post →** (or ‹ Previous / Next › on the Post tab), and **Schedule all** at their own times with one typed **go**. Chat: `bps.py incoming`; other apps: `bps.py analyze FOLDER --from "Content OS"`.
-- **Fixed:** a post folder from outside your project (such as a Content OS job) made the image window fail to open. It's copied into `my-posts/` now, like any outside folder. And a dashboard link can open a tab directly (`?view=post`).
+- **Post folders get a real name:** a post from an app's `output/instagram` folder is copied into `my-posts/` under the first words of its caption, not as `instagram`, `instagram-2`…
 - **PIX changes the exact post you asked about:** keep clicking around while PIX works. Every edit command takes `--plan ID` and never switches the post open in the dashboard, and a caption fix you approve lands on the post it was made for.
+- **Fixed:** a post folder from outside your project (such as a Content OS job) made the image window fail to open. And a dashboard link can open a tab directly (`?view=post`).
+
+## New in v1.20.2 (one Inbox fix, 19 Nov 2026)
+
+A bug came with v1.20.1 and is fixed.
 
 - **Your own replies no longer show as comments waiting for you:** Instagram threads sometimes reach the Inbox without the name of who wrote each reply, your own replies included, and v1.20.1 listed those as other people's (after a day of replying, the Inbox said 69 waiting; 56 were our own replies). The Inbox now asks who wrote each nameless reply, once, and remembers it: your replies never show, and other people's show with their name.
 - **Handled stays handled, and the refresh is faster:** comments marked "got the gift and follows you" no longer come back to Waiting, and comments you already dealt with are not checked against your DMs again.
@@ -281,7 +287,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.20.2.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.21.0.zip -d .claude/skills/
 claude
 ```
 

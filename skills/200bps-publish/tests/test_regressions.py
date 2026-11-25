@@ -983,6 +983,47 @@ class InboxThreads(Workspace):
         self.assertEqual(self.bps("incoming", "--clear", out["id"])["cleared"], 1)
         shutil.rmtree(root.parents[3], ignore_errors=True)
 
+    def test_51_generic_folder_gets_the_post_title(self):
+        """2026-11-25: posts handed over from an app's "…/output/instagram" folder were copied as my-posts/instagram,
+        instagram-2, … Now a generic folder name is replaced by the caption's first words (else a real parent name)."""
+        import shutil, tempfile
+        root = Path(tempfile.mkdtemp(prefix="bps-gen-")) / "2026-11-25-carousel-agent-memory--a31b78c0b4e9413a" / "output"
+        src = root / "instagram"
+        shutil.copytree(self.post_folder("re51src", "بلا ذاكرة، وكيل الذكاء الاصطناعي يبدأ من الصفر 🧠\n\nسؤال؟"), src)
+        self.bps("analyze", str(src), "--platforms", "instagram")
+        self.assertEqual(Path(self.plan()["folder"]).name, "بلا-ذاكرة-وكيل-الذكاء-الاصطناعي-يبدأ")
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        fresh("store"); fresh("plan"); batch = fresh("batch")
+        bare = root / "linkedin"; bare.mkdir()
+        self.assertEqual(batch.post_name(bare), "2026-11-25-carousel-agent-memory")       # no caption: the job's own name
+        self.assertEqual(batch.post_name(Path("/x/My Trip")), "My Trip")                 # a real name stays
+        shutil.rmtree(root.parents[1], ignore_errors=True)
+
+    def test_52_update_check_shows_a_newer_build_only(self):
+        """2026-11-25: installs without auto-update never heard of new versions. The dashboard reads RELEASE.json on
+        GitHub once a day; only a newer build shows the banner; Later hides that build; the check can be turned off."""
+        import tempfile
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        fresh("store"); upd = fresh("update")
+        remote = Path(tempfile.mkdtemp(prefix="bps-up-")) / "RELEASE.json"
+        os.environ["BPS_UPDATE_URL"] = remote.as_uri()
+        try:
+            remote.write_text(json.dumps({"version": "0.0.1", "build": "2000-01-01T00:00Z"}))
+            upd.refresh(force=True)
+            self.assertFalse(upd.status()["available"])                                    # older than this copy: nothing
+            remote.write_text(json.dumps({"version": "9.9.9", "build": "2999-01-01T00:00Z", "notes": "New"}))
+            upd.refresh(force=True)
+            st = upd.status()
+            self.assertTrue(st["available"]); self.assertEqual(st["latest"]["version"], "9.9.9")
+            self.assertFalse(upd.dismiss("2999-01-01T00:00Z")["available"])                # Later
+            self.assertEqual(upd.how("/home/u/.claude/plugins/cache/200bps/200bps-publish/abc/skills/200bps-publish")["commands"][0],
+                             "/plugin marketplace update 200bps")
+            self.assertEqual(upd.how("/p/.claude/skills/200bps-publish")["kind"], "zip")
+            self.assertFalse(upd.set_check(False)["enabled"])                              # Settings → off
+            upd.set_check(True)
+        finally:
+            os.environ["BPS_UPDATE_URL"] = "off"
+
     def test_50_plan_flag_never_switches_the_open_post(self):
         """2026-11-25: the user opened another post from the 📥 tray between two of PIX's commands, so `schedule` and
         `ready` (which work on the open post) changed the wrong carousel. `--plan ID` pins the post; a caption fix

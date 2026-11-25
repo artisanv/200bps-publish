@@ -2372,3 +2372,17 @@ main > .view, .view > *, #netDash > *, #growthAll > * { min-width: 0; }
   border-radius: 8px; background: var(--bps-slate); font-weight: 600; }
 .in-strip > span { margin-inline-end: auto; }
 @media (prefers-reduced-motion: reduce) { .pill.in-pill.pulse { animation: none; } }
+
+/* ⬆ a new version is out */
+.update-banner { margin: 0 auto 14px; max-width: 1180px; padding: 14px 16px; border: 1px solid var(--bps-lime); border-radius: 12px;
+  background: var(--bps-slate); display: grid; gap: 8px; }
+.update-banner[hidden] { display: none; }
+.up-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.up-head b { font: 700 15px var(--bps-font-display); }
+.up-notes { margin: 0; color: var(--bps-text); }
+.up-how { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.up-cmd { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 10px; border: 1px solid var(--bps-line-strong); border-radius: 8px;
+  background: var(--bps-panel); direction: ltr; }
+.up-cmd code { font: 600 13px var(--bps-font-mono); }
+.up-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.up-auto { margin: 0; }

@@ -7,6 +7,7 @@
     bps.py sync                          refresh the Zernio mirror (analytics, best time...)
     bps.py jobs                          what is running in the background, with % done
     bps.py analyze <folder> [--platforms instagram,linkedin] [--from "Content OS"]   (--from: another app sent it → 📥 Incoming)
+    bps.py update [--on|--off]           is a newer 200bps Publish on GitHub? (the dashboard checks once a day)
     bps.py incoming [--clear PLAN_ID|done]   posts other apps sent (the dashboard's 📥 Incoming tray), oldest first
     bps.py recheck                       re-run checks + score on the current plan
     bps.py schedule best|now|<ISO time>  set when the current plan goes out
@@ -104,6 +105,7 @@ def main() -> None:
     sub.add_parser("sync")
     a = sub.add_parser("analyze"); a.add_argument("folder"); a.add_argument("--platforms")
     a.add_argument("--from", dest="source", default="", help="the app that sent this post (shows in the 📥 Incoming tray)")
+    upd = sub.add_parser("update"); upd.add_argument("--off", action="store_true"); upd.add_argument("--on", action="store_true")
     inc = sub.add_parser("incoming"); inc.add_argument("--clear", default="", help="PLAN_ID, or 'done' for every scheduled one")
     sub.add_parser("recheck")
     s = sub.add_parser("schedule"); s.add_argument("when")
@@ -496,6 +498,13 @@ def run(args) -> None:
         r = z.connect_url(plat, pid)
         emit({"ok": True, "platform": plat, "authUrl": r.get("authUrl"),
               "next": "Give the user this link; they approve on the network's site. Then run doctor (the account is saved automatically)."})
+    elif c == "update":
+        import update
+        if args.off or args.on:
+            update.set_check(bool(args.on))
+        else:
+            update.refresh(force=True)
+        emit({"ok": True, **update.status()})
     elif c == "incoming":
         if args.clear:
             n = plans.incoming_clear(done_only=True) if args.clear == "done" else plans.incoming_clear(args.clear)

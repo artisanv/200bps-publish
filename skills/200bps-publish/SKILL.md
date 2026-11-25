@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
 description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram, LinkedIn, Facebook, TikTok and Snapchat through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.20.2
+version: 1.21.0
 ---
 
 # 200BPS Publish
@@ -71,6 +71,11 @@ actions still need the user's own yes / typed go).
   plugin and before a release, and report the result in one line.
 - A running dashboard restarts itself when the plugin's Python code changes, once nothing is in progress, on the
   same address; open pages reload. No manual restart after an update.
+- **New version notice:** once a day the dashboard reads `RELEASE.json` on GitHub (a plain GET; nothing about the user is
+  sent) and, when its `build` is newer than this copy's, shows a card with the exact update command for this install
+  (`/plugin marketplace update <marketplace>` then `/reload-plugins`, or the new zip). Later hides that build; Settings →
+  Preferences (or `bps.py update --off`) turns the check off; `bps.py update` checks now. **Before every push** of this
+  plugin run `python3 tools/stamp.py "<what's new, one line>" "<نفس السطر بالعربي>"` so installs see the update.
 
 ## Step 0: open the dashboard + readiness (every run)
 
@@ -293,6 +298,8 @@ job is recognised without `--from`; `BPS_FROM` works too). The post opens as usu
   `suggest`, `rewrite`, `revert`, `undo`, `history`, `publish`, `dm`, `cover`, `abtest` and `ask` whenever the request
   is about a specific post (a fix request, a note's `[About … post …]`, an incoming post): it changes that post and
   leaves the open one alone. A caption fix the user approves always lands on the post it was made for.
+- A post handed over from a folder with a generic name (`output/instagram`, `export`…) is copied into `my-posts/`
+  under the first words of its caption (else the nearest real folder name above it), not as `instagram`, `instagram-2`.
 - When the user asks what arrived or what is still waiting, answer from `bps.py incoming`. Re-analyzing such a
   folder keeps it on the tray. Schedule them only through the user's typed go (Schedule all or Batch schedule).
 

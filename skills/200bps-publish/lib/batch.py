@@ -13,6 +13,7 @@ Nothing here publishes without the typed "go", and every time must be in the fut
 """
 from __future__ import annotations
 
+import re
 import threading
 import time
 from datetime import datetime, timedelta
@@ -76,6 +77,32 @@ IMPORT_SKIP = {".git", "node_modules", "__pycache__", ".venv", "venv", ".bps", "
 MAX_IMPORT = 4 * 1024 ** 3                  # 4 GB per imported folder
 
 
+# folder names that say where a post came from, not what it is (an app's "output/instagram", an "export"…)
+GENERIC_NAMES = {"instagram", "linkedin", "facebook", "tiktok", "snapchat", "threads", "x", "output", "outputs", "out",
+                 "export", "exports", "post", "posts", "final", "slides", "dist", "build", "media", "images", "carousel",
+                 "reel", "video", "ready", "publish", "upload", "uploads"}
+
+
+def post_name(src: Path) -> str:
+    """The name for a copied post folder: its own name, unless that name is generic ("instagram", "output"…);
+    then the first words of its caption, else the nearest folder above with a real name."""
+    if src.name.strip().lower() not in GENERIC_NAMES:
+        return src.name
+    for cap in ("caption.txt", "caption.md"):
+        f = src / cap
+        if f.is_file():
+            first = next((ln for ln in f.read_text(encoding="utf-8", errors="ignore").splitlines() if ln.strip()), "")
+            words = re.findall(r"\w+", re.sub(r"[#@]\S+", " ", first))[:6]   # letters and digits, any script
+            name = "-".join(words)[:60].strip("-_")
+            if len(name) >= 3:
+                return name
+    for up in src.parents:
+        nm = re.sub(r"-{2,}[0-9a-f]{6,}$", "", up.name).strip("-_ ")      # an app's job folder ends in "--<id>"
+        if nm and nm.lower() not in GENERIC_NAMES:
+            return nm[:60]
+    return src.name
+
+
 def import_folder(src: Path) -> Path:
     """Copy a folder from outside the project into the posts folder; returns the copy."""
     import shutil
@@ -91,9 +118,10 @@ def import_folder(src: Path) -> Path:
             if size > MAX_IMPORT:
                 raise ValueError("That folder is over 4 GB. Pick a smaller post folder.")
     base = workspace() / (config().get("posts_dir") or "my-posts")
-    dest, i = base / src.name, 2
+    name = post_name(src)
+    dest, i = base / name, 2
     while dest.exists():
-        dest, i = base / f"{src.name}-{i}", i + 1
+        dest, i = base / f"{name}-{i}", i + 1
     shutil.copytree(src, dest, ignore=lambda d, names: [n for n in names if n in IMPORT_SKIP or n.startswith(".")])
     append_log({"event": "folder_imported", "from": str(src), "to": _rel(dest)})
     return dest

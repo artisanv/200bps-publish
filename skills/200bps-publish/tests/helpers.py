@@ -9,6 +9,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+os.environ.setdefault("BPS_UPDATE_URL", "off")              # in-process tests never ask GitHub either
 import shutil
 import subprocess
 import sys
@@ -49,7 +50,8 @@ class Workspace(unittest.TestCase):
             "keywords": ["Claude Code"], "instagram": {"trial_reels": False, "trial_graduation": "SS_PERFORMANCE"},
         }))
         cls.env = {**os.environ, "BPS_WORKSPACE": str(cls.ws), "ZERNIO_BASE_URL": cls.fz.base,
-                   "ZERNIO_API_KEY": f"sk_test_{'0' * 40}", "PYTHONDONTWRITEBYTECODE": "1"}
+                   "ZERNIO_API_KEY": f"sk_test_{'0' * 40}", "PYTHONDONTWRITEBYTECODE": "1",
+                   "BPS_UPDATE_URL": "off"}                                  # the self-test never asks GitHub
 
     @classmethod
     def tearDownClass(cls):

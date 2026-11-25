@@ -204,6 +204,7 @@
       goalEdit: "Change goal", goalPh: "e.g. 1000", goalQuick: "Quick picks", goalSaved: "Goal updated", goalBad: "Enter a number above your current followers.",
       goalTitle: "Your follower goal", goalNeed: "Connect Zernio to track progress.",
       bBtn: "Batch schedule", bKicker: "Batch schedule", bS1: "Pick posts", bS2: "Set times", bS3: "Go",
+      upTitle: "A new version of 200bps Publish is out: {v}", upHow: "In Claude Code, type:", upZip: "Download the new zip and unzip it into .claude/skills/ (replace the old folder).", upZipBtn: "Download ↗", upNotes: "What's new ↗", upLater: "Later", upCopy: "Copy", upCopied: "Copied", upPref: "Check once a day for a new version of 200bps Publish", upNow: "Check for updates now", upNone: "You have the newest version ({v}).", upOff: "Update check is off (Settings → Preferences).", upFail: "Couldn't reach GitHub. Try again later.", upAuto: "Tip: turn on auto-update once and you'll never see this: /plugin → Marketplaces → your 200bps marketplace → Enable auto-update.", upYours: "You have {v}.",
       inTitle: "Incoming posts", inHint: "Posts other apps (like Content OS) sent here, in the order they arrived. Open one to review it; nothing goes out until you type go.", inNew: "New", inOpenNow: "Open now", inSeen: "Seen", inSched: "✓ Scheduled", inFix: "Fix first", inNoTime: "no time yet", inOpen: "Open", inNext: "Next post →", inPrev: "‹ Previous", inNextShort: "Next ›", inAll: "Schedule all ({n})", inClearDone: "Clear scheduled", inClear: "Take it off this list (the post stays in Posts)", inEmpty: "Nothing waiting.", inArrived: "📥 {from} sent {n} posts. The newest is open; the others wait in 📥 Incoming.", inArrived1: "📥 {from} sent a post. It's open now.", inStrip: "📥 From {from} · post {k} of {n}", inList: "All incoming", inSkipped: "{n} can't join yet (no time, a time that has passed, or something to fix). Open each to finish it.", inNextNone: "No other post is waiting.", inFromApp: "another app", bBasisKept: "the time it came with",
       bPickTitle: "Which posts should go out?", bPickHint: "Every folder in this workspace that has a caption. Tick the ones to schedule.",
       bAllNew: "Select all new", bNone: "Clear", bSel: "{n} selected", bNext2: "Next: set times", bNext3: "Next: review",
@@ -418,6 +419,7 @@
       goalEdit: "غيّر الهدف", goalPh: "مثلاً 1000", goalQuick: "اختيارات سريعة", goalSaved: "انحدّث الهدف", goalBad: "اكتب رقم أكبر من عدد متابعينك الحين.",
       goalTitle: "هدف المتابعين", goalNeed: "اربط Zernio عشان نتابع التقدم.",
       bBtn: "جدولة مجموعة", bKicker: "جدولة مجموعة", bS1: "اختار البوستات", bS2: "حدد الأوقات", bS3: "نشر",
+      upTitle: "طلعت نسخة جديدة من 200bps Publish: {v}", upHow: "في Claude Code اكتب:", upZip: "نزّل الـ zip الجديد وفكّه داخل .claude/skills/ (بدل المجلد القديم).", upZipBtn: "نزّله ↗", upNotes: "شنو الجديد ↗", upLater: "بعدين", upCopy: "انسخ", upCopied: "انسخ ✓", upPref: "دوّر مرة باليوم على نسخة جديدة من 200bps Publish", upNow: "دوّر على تحديث الحين", upNone: "عندك آخر نسخة ({v}).", upOff: "البحث عن تحديث مطفي (الإعدادات ← التفضيلات).", upFail: "ما قدرت أوصل GitHub. جرّب بعدين.", upAuto: "نصيحة: شغّل التحديث التلقائي مرة وحدة وما بتشوف هالرسالة: /plugin ← Marketplaces ← 200bps ← Enable auto-update.", upYours: "عندك {v}.",
       inTitle: "البوستات الواصلة", inHint: "بوستات وصلتك من برامج ثانية (مثل Content OS)، بترتيب وصولها. افتح أي واحد وراجعه؛ ما ينشر شي إلا لما تكتب go.", inNew: "جديد", inOpenNow: "مفتوح الحين", inSeen: "شفته", inSched: "✓ مجدول", inFix: "يبي تصليح", inNoTime: "بدون وقت", inOpen: "افتح", inNext: "البوست اللي بعده ←", inPrev: "→ السابق", inNextShort: "التالي ←", inAll: "جدول الكل ({n})", inClearDone: "شيل المجدولة", inClear: "شيله من هالقائمة (البوست يبقى في البوستات)", inEmpty: "ما في شي ينتظر.", inArrived: "📥 {from} أرسل {n} بوستات. آخر واحد مفتوح، والباقي ينتظرك في 📥 الواصلة.", inArrived1: "📥 {from} أرسل بوست، مفتوح الحين.", inStrip: "📥 من {from} · بوست {k} من {n}", inList: "كل الواصلة", inSkipped: "{n} ما يقدر يدخل للحين (بدون وقت، أو وقته فات، أو فيه شي يبي تصليح). افتح كل واحد وكمّله.", inNextNone: "ما في بوست ثاني ينتظر.", inFromApp: "برنامج ثاني", bBasisKept: "الوقت اللي وصل فيه",
       bPickTitle: "أي بوستات تبي تنزل؟", bPickHint: "كل مجلد في هالمساحة فيه كابشن. علّم على اللي تبي تجدوله.",
       bAllNew: "اختار كل الجديد", bNone: "مسح", bSel: "{n} مختار", bNext2: "التالي: الأوقات", bNext3: "التالي: المراجعة",
@@ -2313,7 +2315,7 @@
   }
 
   function renderAll() {
-    applyLang(); applyToggles(); renderHeader(); renderConnect(); renderNewPost(); renderKeys(); renderPosts(); renderJourney(); renderChanges(); renderPost(); renderCover(); renderGrowth(); renderCalendar(); renderInbox(); renderIdeas(); renderSystem(); renderQuestion(); renderTrialDue();
+    applyLang(); applyToggles(); renderHeader(); renderConnect(); renderNewPost(); renderKeys(); renderPosts(); renderJourney(); renderChanges(); renderPost(); renderCover(); renderGrowth(); renderCalendar(); renderInbox(); renderIdeas(); renderSystem(); renderQuestion(); renderTrialDue(); renderUpdate();
     if (typeof renderGuide === "function" && !$("#drawer").hidden) renderGuide();
   }
 
@@ -6565,6 +6567,12 @@
         "<b>✕</b> takes a post off the list (the post stays in Posts); <b>Clear scheduled</b> removes the ones already done. A post leaves the list by itself 14 days after it arrived.",
         "When several posts arrive at once, a message tells you how many, so none gets lost.",
         "Keep clicking around while PIX works: PIX changes the exact post you asked about, never the one you just opened, and a caption fix you approve lands on the post it was made for."]],
+      ["Updates: always the newest version", [
+        "Once a day the dashboard checks GitHub for a newer 200bps Publish. Nothing about you, your posts or your keys is sent: it only reads a small release file.",
+        "When one is out, a card at the top shows <b>what's new</b> and the exact command for your install, with <b>Copy</b>: <code>/plugin marketplace update 200bps</code>, then <code>/reload-plugins</code>. Installed from the zip? It links the new zip instead.",
+        "<b>Later</b> hides the card until the next version. <b>Ctrl+K → Check for updates now</b> asks right away. Settings → Preferences turns the daily check off.",
+        "Best of all: turn on auto-update once (<code>/plugin</code> → Marketplaces → 200bps → Enable auto-update) and every update reaches you by itself.",
+        "Posts that arrive from another app in a folder with a generic name (like <code>output/instagram</code>) are copied into <code>my-posts/</code> under the first words of their caption, so every post folder has a real name."]],
       ["Plan: calendar and best hours", [
         "The calendar shows exactly the posts in the Posts tab. Colours: <b>lime</b> published, <b>blue</b> scheduled, <b>red</b> needs attention, <b>outline</b> not uploaded.",
         "‹ and › change month (or week, or day); <b>Today</b> jumps back. Switch <b>Month · Week · Day</b> at the top.",
@@ -6713,6 +6721,12 @@
         "<b>✕</b> يشيل البوست من القائمة (البوست يبقى في البوستات)؛ <b>شيل المجدولة</b> يشيل اللي خلصوا. والبوست يطلع من القائمة بروحه بعد 14 يوم من وصوله.",
         "لما توصل كذا بوست مرة وحدة، تطلع لك رسالة بعددهم، عشان ما يضيع ولا واحد.",
         "تقدر تتنقل بين البوستات وPIX يشتغل: PIX يعدّل البوست اللي طلبته بالضبط، مو اللي فتحته توّك، والكابشن اللي توافق عليه ينحط على البوست اللي انكتب له."]],
+      ["التحديثات: دايماً آخر نسخة", [
+        "مرة باليوم اللوحة تشيّك على GitHub إذا فيه نسخة أحدث من 200bps Publish. ولا ينرسل شي عنك أو عن بوستاتك أو مفاتيحك: بس تقرا ملف إصدار صغير.",
+        "لما تطلع نسخة، تطلع بطاقة فوق فيها <b>شنو الجديد</b> والأمر بالضبط حسب طريقة تثبيتك، مع زر <b>انسخ</b>: <code>/plugin marketplace update 200bps</code> وبعدها <code>/reload-plugins</code>. مثبّته من الـ zip؟ تعطيك رابط الـ zip الجديد.",
+        "<b>بعدين</b> تخفي البطاقة لين النسخة اللي بعدها. <b>Ctrl+K ← دوّر على تحديث الحين</b> يسأل على طول. والإعدادات ← التفضيلات تطفي الفحص اليومي.",
+        "الأحسن: شغّل التحديث التلقائي مرة وحدة (<code>/plugin</code> ← Marketplaces ← 200bps ← Enable auto-update) وكل تحديث يوصلك بروحه.",
+        "البوستات اللي توصل من برنامج ثاني بمجلد اسمه عام (مثل <code>output/instagram</code>) تنسخ داخل <code>my-posts/</code> باسم أول كلمات من الكابشن، عشان كل مجلد بوست يكون له اسم واضح."]],
       ["الخطة: التقويم وأفضل الساعات", [
         "التقويم يعرض نفس البوستات اللي في تبويب المنشورات. الألوان: <b>ليموني</b> منشور، <b>أزرق</b> مجدول، <b>أحمر</b> يحتاج انتباه، <b>إطار</b> ما انرفع.",
         "‹ و› يغيرون الشهر (أو الأسبوع أو اليوم)؛ <b>اليوم</b> يرجعك. بدّل <b>شهر · أسبوع · يوم</b> من فوق.",
@@ -6829,6 +6843,7 @@
       { k: "jobs", label: t("jobsTitle"), hint: "%", run: () => toggleJobs(true) },
       { k: "newfiles", label: t("npTitle"), hint: t("npPaletteHint"), run: () => openNewPost() },
       { k: "incoming", label: t("inTitle"), hint: "📥", run: () => setTimeout(() => toggleIn(true), 60) },
+      { k: "update", label: t("upNow"), hint: "⬆", run: () => checkUpdateNow() },
       { k: "batch", label: t("bBtn"), hint: "Plan", run: () => openBatch() },
       { k: "trial reels instagram viral non-followers test", label: "🧪 " + t("trTitle"), hint: "Instagram", run: () => openTrials() },
       { k: "guide", label: t("guideTitle"), hint: "?", run: () => openGuide() },
@@ -7081,6 +7096,9 @@
     const rem = d.remind !== false;
     $("#trialRemBtn").textContent = rem ? t("on") : t("off");
     $("#trialRemBtn").classList.toggle("on", rem);
+    const upOn = ((state.data || {}).config || {}).updatesCheck !== false;
+    $("#upPrefBtn").textContent = upOn ? t("on") : t("off");
+    $("#upPrefBtn").classList.toggle("on", upOn);
   }
   async function saveTrialPref(body) {
     try {
@@ -7094,6 +7112,10 @@
   $("#trialDefBtn").addEventListener("click", () => saveTrialPref({ trial: !(((state.data || {}).config || {}).reelDefaults || {}).trial }));
   $("#trialAutoBtn").addEventListener("click", () => saveTrialPref({ graduation: "SS_PERFORMANCE" }));
   $("#trialManBtn").addEventListener("click", () => saveTrialPref({ graduation: "MANUAL" }));
+  $("#upPrefBtn").addEventListener("click", async () => {
+    const on = (((state.data || {}).config || {}).updatesCheck === false);
+    try { await post("/api/update", { op: "check", on }); lastSig = ""; load(false); } catch (e) { toast(e.message); }
+  });
   $("#trialRemBtn").addEventListener("click", async () => { await saveTrialPref({ remind: (((state.data || {}).config || {}).reelDefaults || {}).remind === false }); lastSig = ""; load(false); });
 
   /* 3-day reminder: live Trial Reels 72 h+ old. No app can share a live trial with followers,
@@ -7110,6 +7132,34 @@
     next();
     return box;
   }
+  function renderUpdate() {                      // a newer 200bps Publish on GitHub: the exact way to update this install
+    const host = $("#updateBanner"); if (!host) return;
+    const up = (state.data && state.data.update) || {};
+    host.innerHTML = ""; host.hidden = !up.available;
+    if (!up.available) return;
+    const L = up.latest || {}, how = up.how || {};
+    const notes = state.lang === "ar" ? (L.notes_ar || L.notes) : L.notes;
+    const cmd = (c) => { const b = el("button", { class: "btn sm up-copy", type: "button" }, t("upCopy"));
+      b.onclick = () => { try { navigator.clipboard.writeText(c); b.textContent = t("upCopied"); } catch (e) {} };
+      return el("div", { class: "up-cmd" }, el("code", {}, c), b); };
+    host.append(...[el("div", { class: "up-head" }, el("b", {}, "⬆ " + fill("upTitle", { v: L.version || "" })),
+        el("span", { class: "label" }, fill("upYours", { v: (up.current || {}).version || "" }) + (L.date ? " · " + L.date : ""))),
+      notes ? el("p", { class: "up-notes", style: "unicode-bidi:plaintext" }, notes) : null,
+      how.kind === "zip" ? el("p", { class: "hint" }, t("upZip"))
+        : el("div", { class: "up-how" }, el("span", { class: "hint" }, t("upHow")), ...(how.commands || []).map(cmd)),
+      how.kind === "zip" ? null : el("p", { class: "hint up-auto" }, t("upAuto")),
+      el("div", { class: "up-acts" },
+        how.kind === "zip" ? el("a", { class: "btn sm on", href: how.url, target: "_blank", rel: "noopener" }, t("upZipBtn")) : null,
+        L.release ? el("a", { class: "btn sm", href: L.release, target: "_blank", rel: "noopener" }, t("upNotes")) : null,
+        el("button", { class: "btn sm", type: "button", onclick: async () => { try { await post("/api/update", { op: "dismiss", build: L.build }); lastSig = ""; load(false); } catch (e) { toast(e.message); } } }, t("upLater")))].filter(Boolean));
+  }
+  async function checkUpdateNow() {
+    try {
+      const r = await post("/api/update", { op: "refresh" }); const u = r.update || {};
+      if (!u.enabled) toast(t("upOff")); else if (u.newer) { lastSig = ""; await load(false); toast(fill("upTitle", { v: (u.latest || {}).version || "" })); }
+      else toast(u.error ? t("upFail") : fill("upNone", { v: (u.current || {}).version || "" }));
+    } catch (e) { toast(e.message); }
+  }
   function renderTrialDue() {
     const host = $("#trialDue"); if (!host) return;
     const items = (state.data && state.data.trialDue) || [];
@@ -7117,7 +7167,7 @@
     if (!items.length) return;
     const answer = async (id, how, btn) => {
       btn.disabled = true;
-      try { await post("/api/trial", { op: "remind_done", postId: id, how }); toast(t(how === "shared" ? "tdSharedOk" : "tdKeptOk")); lastSig = ""; await load(false); renderTrialDue(); }
+      try { await post("/api/trial", { op: "remind_done", postId: id, how }); toast(t(how === "shared" ? "tdSharedOk" : "tdKeptOk")); lastSig = ""; await load(false); renderTrialDue(); renderUpdate(); }
       catch (e) { toast(e.message); btn.disabled = false; }
     };
     host.append(el("div", { class: "td-head" }, el("b", {}, "🧪 " + t(items.length === 1 ? "tdTitle1" : "tdTitle").replace("{n}", items.length)),
@@ -7466,6 +7516,8 @@
       tgCol: ["Plan a time", "Click or drag on an empty time (15-minute steps) to put a draft there, start a new post for that time, or have PIX draft one from an idea."],
       tgEv: ["A post", "Click to see it, move it, edit its caption or cancel it. Drag it to another time to move it: posts in Zernio ask you to type move; drafts move at once. Published posts can't change."],
       bell: ["Activity", "Every note and request you sent PIX, with where it is (waiting, working, done, couldn't) and the result. The number counts new results."],
+      updateBanner: ["A new version is out", "200bps Publish checks GitHub once a day (nothing about you is sent). When a newer version is out, this card shows the exact command for your install: copy it into Claude Code, then /reload-plugins. Later hides it until the next version. Turn the check off in Settings → Preferences."],
+      upPref: ["Check for a new version", "On: once a day the dashboard reads the small release file on GitHub and tells you when a newer 200bps Publish is out. Off: it never asks. Ctrl+K → Check for updates now asks right away."],
       inBox: ["Incoming posts", "Posts other apps (Content OS) sent here, in the order they arrived, each marked New, Open now, Seen or Scheduled. Open any to review it, Next post to go through them, Schedule all to send them at their own times with one typed go. The number counts the ones not scheduled yet."],
       inStrip: ["Incoming post", "This post came from another app. ‹ Previous and Next › switch between the posts that arrived; All incoming opens the list."],
       inAllBtn: ["Schedule all", "Opens the Go step of Batch schedule with every incoming post that has a time, at that time. You check the list and type go once. Posts with no time (or something to fix) wait: open them first."],
@@ -7666,6 +7718,8 @@
       tgCol: ["خطط وقت", "اضغط أو اسحب على وقت فاضي (كل 15 دقيقة) عشان تحط مسودة فيه، أو تبدأ بوست جديد لهالوقت، أو تخلي PIX يكتب واحد من فكرة."],
       tgEv: ["بوست", "اضغط عشان تشوفه أو تنقله أو تعدّل الكابشن أو تلغيه. اسحبه لوقت ثاني عشان تنقله: بوستات Zernio تطلب تكتب move؛ والمسودات تنتقل على طول. المنشور ما يتغيّر."],
       bell: ["النشاط", "كل ملاحظة وطلب أرسلته لـPIX، وين وصل (ينتظر، يشتغل، خلصت، ما قدر) والنتيجة. الرقم يعد النتايج الجديدة."],
+      updateBanner: ["طلعت نسخة جديدة", "200bps Publish يشيّك على GitHub مرة باليوم (وما ينرسل شي عنك). لما تطلع نسخة أحدث، هالبطاقة تعطيك الأمر بالضبط حسب طريقة تثبيتك: انسخه في Claude Code وبعدها /reload-plugins. «بعدين» تخفيها لين النسخة اللي بعدها. تقدر تطفي الفحص من الإعدادات ← التفضيلات."],
+      upPref: ["دوّر على نسخة جديدة", "شغّال: مرة باليوم اللوحة تقرا ملف صغير على GitHub وتقولك إذا طلعت نسخة أحدث. مطفي: ما تسأل أبد. Ctrl+K ← «دوّر على تحديث الحين» يسأل على طول."],
       inBox: ["البوستات الواصلة", "بوستات وصلتك من برامج ثانية (Content OS)، بترتيب وصولها، وكل واحد عليه: جديد، مفتوح الحين، شفته، أو مجدول. افتح أي واحد وراجعه، «البوست اللي بعده» تمشي عليهم واحد واحد، و«جدول الكل» يرسلهم كلهم بأوقاتهم بكتابة go مرة وحدة. الرقم يعد اللي ما انجدلوا للحين."],
       inStrip: ["بوست واصل", "هالبوست جاك من برنامج ثاني. «السابق» و«التالي» تنقلك بين البوستات اللي وصلت، و«كل الواصلة» تفتح القائمة."],
       inAllBtn: ["جدول الكل", "يفتح خطوة النشر في «جدولة مجموعة» بكل بوست واصل عنده وقت، على وقته. تراجع القائمة وتكتب go مرة وحدة. اللي بدون وقت (أو فيه شي يبي تصليح) ينتظر: افتحه أول."],
@@ -7695,7 +7749,7 @@
     [".ann-mask", "annMask"], [".ann-fs", "annFs"], [".ann-result", "annResult"],
     [".ib-all", "ibAll"], [".ib-pick", "ibPick"], [".ib-del", "ibDel"], [".ib-md", "ibMd"], [".ib-json", "ibJson"], [".ib-add", "ibAdd"],
     [".ib-load", "ibLoad"], [".ib-clear", "ibClear"], [".ib-undo", "ibUndo"], [".ib-editone", "ibEditOne"],
-    [".rw-ask", "rwAsk"], [".rw-review, .rw-row, .rw-all", "rwReview"], [".ab-open", "abOpen"], [".ab-ask", "abAsk"], [".ab-go, .ab-word", "abGo"], [".ab-check, .ab-table", "abCheck"], [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-posted", "liPosted"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".inbox-replyto", "ibxReplyTo"], [".ibx-more", "ibxMore"], [".ibx-showmore", "ibxShowMore"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#inBtn", "inBox"], [".in-strip", "inStrip"], [".in-all", "inAllBtn"], [".in-x", "inClearBtn"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
+    [".rw-ask", "rwAsk"], [".rw-review, .rw-row, .rw-all", "rwReview"], [".ab-open", "abOpen"], [".ab-ask", "abAsk"], [".ab-go, .ab-word", "abGo"], [".ab-check, .ab-table", "abCheck"], [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-posted", "liPosted"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".inbox-replyto", "ibxReplyTo"], [".ibx-more", "ibxMore"], [".ibx-showmore", "ibxShowMore"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#updateBanner", "updateBanner"], ["#upPrefBtn", "upPref"], ["#inBtn", "inBox"], [".in-strip", "inStrip"], [".in-all", "inAllBtn"], [".in-x", "inClearBtn"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
     [".steps-track .step[data-step]", (n) => "step_" + n.dataset.step], [".checks li.fixable", "fixable"],
     [".cal .ev", "calEv"], [".cal .d.click", "calDay"], [".cal-key", "calKey"], ["#calPrev", "calPrev"], ["#calNext", "calNext"], ["#calToday", "calToday"],
     [".heat-insight, .heat .dl, .heat .h, .heat-legend", "heat"], [".toptimes", "peaks"],
