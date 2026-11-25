@@ -39,8 +39,20 @@ def current_id() -> str | None:
     return p.read_text().strip() if p.exists() else None
 
 
+_PIN: str | None = None     # `bps.py … --plan ID`: work on that post and never switch the one open in the dashboard
+
+
+def pin(plan_id: str) -> None:
+    """Every load()/save() of this process goes to plan_id; the dashboard's open post stays as the user left it
+    (the user can open another post at any second, so "the current post" is not a safe target for an edit)."""
+    global _PIN
+    if not plan_path(plan_id).exists():
+        raise ValueError(f"Unknown post: {plan_id} (see `bps.py incoming` or .bps/plans/).")
+    _PIN = plan_id
+
+
 def load(plan_id: str | None = None) -> dict | None:
-    pid = plan_id or current_id()
+    pid = plan_id or _PIN or current_id()
     return read_json(plan_path(pid)) if pid else None
 
 
@@ -85,7 +97,7 @@ def save(plan: dict, via: str = "", record: bool = True, make_current: bool = Tr
         plan["history"] = hist[-60:]
     plan["updated"] = int(time.time())
     write_json(plan_path(plan["id"]), plan)
-    if make_current:
+    if make_current and not _PIN:
         (state_dir() / "current.txt").write_text(plan["id"])
 
 

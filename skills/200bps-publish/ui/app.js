@@ -6563,7 +6563,8 @@
         "On an incoming post, the Post tab shows <b>📥 From Content OS · post 1 of 2</b> with <b>‹ Previous</b> and <b>Next ›</b>.",
         "<b>Schedule all</b> opens the Go step of Batch schedule with every post that has a time, at that time: check the list, type <b>go</b> once. Posts with no time, a time that has passed or something to fix wait until you open them.",
         "<b>✕</b> takes a post off the list (the post stays in Posts); <b>Clear scheduled</b> removes the ones already done. A post leaves the list by itself 14 days after it arrived.",
-        "When several posts arrive at once, a message tells you how many, so none gets lost."]],
+        "When several posts arrive at once, a message tells you how many, so none gets lost.",
+        "Keep clicking around while PIX works: PIX changes the exact post you asked about, never the one you just opened, and a caption fix you approve lands on the post it was made for."]],
       ["Plan: calendar and best hours", [
         "The calendar shows exactly the posts in the Posts tab. Colours: <b>lime</b> published, <b>blue</b> scheduled, <b>red</b> needs attention, <b>outline</b> not uploaded.",
         "‹ and › change month (or week, or day); <b>Today</b> jumps back. Switch <b>Month · Week · Day</b> at the top.",
@@ -6710,7 +6711,8 @@
         "على البوست الواصل، تبويب البوست يعرض <b>📥 من Content OS · بوست 1 من 2</b> مع <b>السابق</b> و<b>التالي</b>.",
         "<b>جدول الكل</b> يفتح خطوة النشر في «جدولة مجموعة» بكل بوست عنده وقت، على وقته: راجع القائمة واكتب <b>go</b> مرة وحدة. اللي بدون وقت أو وقته فات أو فيه شي يبي تصليح ينتظر لين تفتحه.",
         "<b>✕</b> يشيل البوست من القائمة (البوست يبقى في البوستات)؛ <b>شيل المجدولة</b> يشيل اللي خلصوا. والبوست يطلع من القائمة بروحه بعد 14 يوم من وصوله.",
-        "لما توصل كذا بوست مرة وحدة، تطلع لك رسالة بعددهم، عشان ما يضيع ولا واحد."]],
+        "لما توصل كذا بوست مرة وحدة، تطلع لك رسالة بعددهم، عشان ما يضيع ولا واحد.",
+        "تقدر تتنقل بين البوستات وPIX يشتغل: PIX يعدّل البوست اللي طلبته بالضبط، مو اللي فتحته توّك، والكابشن اللي توافق عليه ينحط على البوست اللي انكتب له."]],
       ["الخطة: التقويم وأفضل الساعات", [
         "التقويم يعرض نفس البوستات اللي في تبويب المنشورات. الألوان: <b>ليموني</b> منشور، <b>أزرق</b> مجدول، <b>أحمر</b> يحتاج انتباه، <b>إطار</b> ما انرفع.",
         "‹ و› يغيرون الشهر (أو الأسبوع أو اليوم)؛ <b>اليوم</b> يرجعك. بدّل <b>شهر · أسبوع · يوم</b> من فوق.",

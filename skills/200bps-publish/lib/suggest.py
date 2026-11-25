@@ -44,8 +44,8 @@ def propose(platforms: list[str], text: str, reasons: list[str], checks_fixed: l
                      "fixed": sorted(set(b["failing"]) - set(a["failing"])),
                      "stillFailing": a["failing"], "newIssues": sorted(set(a["failing"]) - set(b["failing"]))})
     sid = "fix-" + uuid.uuid4().hex[:6]
-    s = {"id": sid, "platforms": platforms, "after": text, "reasons": reasons, "rows": rows, "status": "pending",
-         "created": int(time.time())}
+    s = {"id": sid, "plan": plan["id"], "platforms": platforms, "after": text, "reasons": reasons, "rows": rows,
+         "status": "pending", "created": int(time.time())}
     plan.setdefault("suggestions", []).append(s)
     # link open dashboard fix requests to this suggestion (stops duplicate requests)
     fr = plan.setdefault("fixRequests", {})
@@ -61,8 +61,9 @@ def propose(platforms: list[str], text: str, reasons: list[str], checks_fixed: l
     return {"suggestion": s, "question": q["id"]}
 
 
-def resolve(sid: str, q: dict) -> dict:
-    plan = plans.load()
+def resolve(sid: str, q: dict, plan_id: str | None = None) -> dict:
+    # the post the fix was made for, even if the user opened another one while the pop-up waited
+    plan = plans.load(plan_id) or {}
     s = next((x for x in plan.get("suggestions", []) if x["id"] == sid), None)
     if not s:
         raise ValueError("Unknown suggestion.")
@@ -70,7 +71,7 @@ def resolve(sid: str, q: dict) -> dict:
     ans = (q.get("answer") or "").lower()
     if q.get("status") != "answered" or ans == "reject":
         s["status"] = "rejected" if ans == "reject" else q.get("status", "timeout")
-        plans.save(plan)
+        plans.save(plan, make_current=plans.current_id() in (None, plan.get("id")))
         return {"applied": False, "status": s["status"], "note": q.get("note")}
     text = q.get("edited") if ans == "edit" else s["after"]
     for p in s["platforms"]:
@@ -81,7 +82,7 @@ def resolve(sid: str, q: dict) -> dict:
     s["status"] = "edited" if ans == "edit" else "approved"
     plan["status"] = "draft" if plan.get("status") == "awaiting_approval" else plan.get("status")
     plans.recheck(plan)
-    plans.save(plan)
+    plans.save(plan, make_current=plans.current_id() in (None, plan.get("id")))
     return {"applied": True, "status": s["status"], "note": q.get("note"),
             "score": {p: plan["score"][p]["value"] for p in s["platforms"]},
             "blocking": [c["msg"] for c in plan["blocking"]]}

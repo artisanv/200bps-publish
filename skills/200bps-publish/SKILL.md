@@ -288,6 +288,11 @@ job is recognised without `--from`; `BPS_FROM` works too). The post opens as usu
   post at the time it came with; one typed **go**) and ✕ (off the list; the post stays in Posts). The Post tab
   shows "📥 From Content OS · post k of n" with ‹ Previous / Next ›. A post leaves the list 14 days after arriving.
 - From chat: `bps.py incoming` lists them (`state`, `at`, `blocking`); `bps.py incoming --clear PLAN_ID|done`.
+- **Change the exact post, never "whatever is open":** the user can open another post at any second (the tray makes
+  it easy), and plain edit commands work on the open post. Add `--plan ID` to `schedule`, `set`, `ready`, `recheck`,
+  `suggest`, `rewrite`, `revert`, `undo`, `history`, `publish`, `dm`, `cover`, `abtest` and `ask` whenever the request
+  is about a specific post (a fix request, a note's `[About … post …]`, an incoming post): it changes that post and
+  leaves the open one alone. A caption fix the user approves always lands on the post it was made for.
 - When the user asks what arrived or what is still waiting, answer from `bps.py incoming`. Re-analyzing such a
   folder keeps it on the tray. Schedule them only through the user's typed go (Schedule all or Batch schedule).
 

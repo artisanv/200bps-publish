@@ -983,6 +983,37 @@ class InboxThreads(Workspace):
         self.assertEqual(self.bps("incoming", "--clear", out["id"])["cleared"], 1)
         shutil.rmtree(root.parents[3], ignore_errors=True)
 
+    def test_50_plan_flag_never_switches_the_open_post(self):
+        """2026-11-25: the user opened another post from the 📥 tray between two of PIX's commands, so `schedule` and
+        `ready` (which work on the open post) changed the wrong carousel. `--plan ID` pins the post; a caption fix
+        approved after the user switched posts lands on the post it was made for."""
+        a = self.bps("analyze", str(self.post_folder("re50a", CAPTION)), "--platforms", "instagram")["id"]
+        b = self.bps("analyze", str(self.post_folder("re50b", CAPTION)), "--platforms", "instagram")["id"]
+        cur = self.ws / ".bps" / "current.txt"
+        self.assertEqual(cur.read_text().strip(), b)
+        self.bps("schedule", "2030-04-01T19:00:00+03:00", "--plan", a)
+        self.bps("set", "instagram.firstComment", "سؤال؟", "--plan", a)
+        self.bps("ready", "--plan", a)
+        self.assertEqual(cur.read_text().strip(), b)                               # the open post never moved
+        pa = json.loads((self.ws / ".bps" / "plans" / f"{a}.json").read_text())
+        pb = json.loads((self.ws / ".bps" / "plans" / f"{b}.json").read_text())
+        self.assertEqual(pa["schedule"]["at"], "2030-04-01T19:00:00+03:00")
+        self.assertEqual(pa["settings"]["instagram"]["firstComment"], "سؤال؟")
+        self.assertEqual(pa["status"], "awaiting_approval")
+        self.assertEqual(pb["schedule"].get("mode"), "ask")
+        self.assertEqual(pb["status"], "draft")
+        self.bps("schedule", "2030-04-01T19:00:00+03:00", "--plan", "nope-000000", ok=False)
+        os.environ["BPS_WORKSPACE"] = str(self.ws)
+        fresh("store"); plans = fresh("plan"); sug = fresh("suggest")
+        cur.write_text(a)
+        res = sug.propose(["instagram"], CAPTION + "\nسطر جديد؟", ["test"])
+        cur.write_text(b)                                                          # the user opens another post meanwhile
+        out = sug.resolve(res["suggestion"]["id"], {"status": "answered", "answer": "approve"}, res["suggestion"]["plan"])
+        self.assertTrue(out["applied"])
+        self.assertIn("سطر جديد", plans.load(a)["captions"]["instagram"])
+        self.assertNotIn("سطر جديد", plans.load(b)["captions"]["instagram"])
+        self.assertEqual(cur.read_text().strip(), b)
+
     def test_48_post_folder_outside_the_project_is_copied_in(self):
         """2026-11-20: `analyze` on a folder outside the project kept the outside path in the plan, so the image
         window (/api/images) crashed on every open (ValueError: not in the subpath of the workspace)."""

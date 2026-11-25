@@ -37,6 +37,8 @@
     bps.py connect PLATFORM              print the sign-in link to connect instagram or linkedin in Zernio
     bps.py clear                         start fresh: set the current post aside (nothing is deleted)
     bps.py set PLATFORM.SETTING VALUE    e.g. set instagram.firstComment "..." (history + undo + re-check)
+    --plan ID (on schedule, set, ready, recheck, suggest, rewrite, revert, undo, history, publish, dm, cover, abtest, ask):
+                                         change that post; the post open in the dashboard is never switched
     bps.py batch scan                    list post folders in the workspace (for batch scheduling)
     bps.py batch prepare FOLDER ...      analyse several folders (the current post is not changed)
     bps.py batch suggest --count N [--start YYYY-MM-DD] [--every D | --days 0,3,5] [--mode best|fixed] [--hour H]
@@ -171,9 +173,14 @@ def main() -> None:
     bt_.add_argument("--count", type=int, default=0); bt_.add_argument("--start", default=""); bt_.add_argument("--every", type=int, default=1)
     bt_.add_argument("--days", default=""); bt_.add_argument("--mode", default="best", choices=["best", "fixed"]); bt_.add_argument("--hour", type=int, default=20)
     bt_.add_argument("--file"); bt_.add_argument("--confirm", action="store_true")
+    for name in ("recheck", "schedule", "ready", "preview", "publish", "dm", "cover", "suggest", "revert", "undo-step",
+                 "history", "undo", "set", "rewrite", "abtest", "ask"):         # --plan ID: change that post, not the open one
+        sub.choices[name].add_argument("--plan", default="", help="the post to work on (default: the one open in the dashboard)")
     args = ap.parse_args()
 
     try:
+        if getattr(args, "plan", None) and args.cmd != "report":
+            plans.pin(args.plan)
         run(args)
     except (ZernioError, PermissionError, ValueError, RuntimeError) as e:
         emit({"ok": False, "error": str(e)})
@@ -452,7 +459,7 @@ def run(args) -> None:
         res = suggest.propose([p.strip() for p in args.platform.split(",") if p.strip()], text, args.reason, args.check)
         print(json.dumps({"asked": res["question"], "rows": [{k: r[k] for k in ("platform", "scoreBefore", "scoreAfter", "fixed", "newIssues")} for r in res["suggestion"]["rows"]]}, ensure_ascii=False), flush=True)
         q = hitl.wait(res["question"], timeout=args.timeout)
-        emit(suggest.resolve(res["suggestion"]["id"], q))
+        emit(suggest.resolve(res["suggestion"]["id"], q, res["suggestion"]["plan"]))
     elif c == "reschedule":
         from datetime import datetime
         datetime.fromisoformat(args.at)
