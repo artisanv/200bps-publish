@@ -1,6 +1,7 @@
 """The local dashboard server: starts, serves the page, refuses other websites and
 path tricks, never leaks .env, and only publishes with a typed "go"."""
 import json
+from pathlib import Path
 import re
 import subprocess
 import sys
@@ -92,6 +93,36 @@ class Dashboard(DashboardBase):
         self.post("/api/plan", {"op": "incoming_clear", "id": "done"})
         self.assertEqual(json.loads(self.get("/api/state")[1])["incoming"], [])
         self.bps("incoming")                                                       # the CLI view works too
+
+    def test_zernio_account_limit_is_explained(self):
+        """2026-11-26: connecting a 3rd account showed only a quick toast with Zernio's raw 402; now the
+        dashboard says it's Zernio's limit (payment method), remembers it, and the CLI says the same."""
+        limit = (402, {"error": "Add a payment method to connect more than 2 accounts.", "code": "PAYMENT_REQUIRED"})
+        self.fz.fail_next["GET /connect/facebook"] = limit
+        code, r = self.post("/api/connect", {"platform": "facebook"})
+        self.assertEqual(code, 200)
+        self.assertFalse(r["ok"])
+        self.assertEqual((r["code"], r["max"], r["used"], r["platform"]), ("account_limit", 2, 2, "facebook"))
+        self.assertIn("payment method", r["error"])
+        self.assertIn("not this skill", r["error"])
+        cfg = json.loads(self.get("/api/state")[1])["config"]
+        self.assertEqual(cfg["accountLimit"]["max"], 2)                       # remembered for the Accounts card
+        code, r = self.post("/api/connect", {"platform": "facebook"})        # Zernio says yes again (payment added)
+        self.assertTrue(r["ok"], r)
+        self.assertTrue(r["authUrl"].startswith("https://auth.example/facebook"))
+        self.fz.fail_next["GET /connect/tiktok"] = limit
+        out = self.bps("connect", "tiktok", ok=False)
+        self.assertIn("2 connected accounts", out.get("error", "") + out.get("raw", "") + out["_err"])
+        self.fz.fail_next["GET /connect/tiktok"] = (500, {"error": "boom"})   # other errors are not called a limit
+        code, r = self.post("/api/connect", {"platform": "tiktok"})
+        self.assertNotEqual(r.get("code"), "account_limit")
+        js = (Path(__file__).resolve().parent.parent / "ui" / "app.js").read_text(encoding="utf-8")
+        for k in ("accLimTitle", "accLimWhy", "accLimHow", "accLimOpen", "accLimRetry", "accLimUsed"):
+            self.assertEqual(js.count(k + ": \""), 2, k)                                  # English + Arabic
+        for k in ("accLimit", "accLimOpen", "accLimRetry"):
+            self.assertEqual(js.count("      " + k + ": ["), 2, k)                        # hover tips in both
+        self.assertIn('err.data = j', js)
+        self.assertIn('e.data.code === "account_limit"', js)
 
     def test_page_and_state(self):
         code, body = self.get("/")

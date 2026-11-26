@@ -63,6 +63,10 @@ The skill still works on its own: you can copy `skills/200bps-publish/` into you
 | ![Post window](media/post-window.png) | ![Images](media/image-window.png) |
 | **Posts**: play a Reel with sound inside the dashboard, with its results per network. | **Images**: OpenAI paints, or **PIX designs it** in code at the exact post size, free. |
 
+## New in v1.21.1 (26 Nov 2026)
+
+- **Connecting a 3rd account tells you why it can't:** Zernio connects 2 accounts until you add a payment method in your Zernio account. Instead of a blank tab and a vanishing message, a window now explains it (Zernio's rule, not the dashboard's), with **Open Zernio ↗** and **Try again**; Settings → Accounts shows **2 of 2 accounts used**.
+
 ## New in v1.21.0 (25 Nov 2026)
 
 With auto-update on, this reaches you by itself; by hand: `/plugin marketplace update 200bps`. From now on the dashboard also tells you when a new version is out.
@@ -287,7 +291,7 @@ In the dashboard press **Test** next to the key; you'll see **✓ Connected** an
 ```bash
 mkdir my-posts && cd my-posts
 mkdir -p .claude/skills
-unzip ~/Downloads/200bps-publish-v1.21.0.zip -d .claude/skills/
+unzip ~/Downloads/200bps-publish-v1.21.1.zip -d .claude/skills/
 claude
 ```
 

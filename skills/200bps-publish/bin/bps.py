@@ -495,7 +495,13 @@ def run(args) -> None:
         z = Zernio(); pid = acct.profile_id(z)
         if not pid:
             raise ValueError("No Zernio profile found.")
-        r = z.connect_url(plat, pid)
+        try:
+            r = z.connect_url(plat, pid)
+        except ZernioError as e:
+            lim = acct.limit_hit(e)
+            if lim is None:
+                raise
+            raise ValueError(acct.limit_text(lim)) from None
         emit({"ok": True, "platform": plat, "authUrl": r.get("authUrl"),
               "next": "Give the user this link; they approve on the network's site. Then run doctor (the account is saved automatically)."})
     elif c == "update":

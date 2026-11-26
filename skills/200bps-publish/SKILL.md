@@ -1,7 +1,7 @@
 ---
 name: 200bps-publish
 description: Publish a ready post (caption + image, carousel, video/Reel or PDF) from a folder to Instagram, LinkedIn, Facebook, TikTok and Snapchat through Zernio, with readiness checks, caption and hashtag checks plus approve/edit fix suggestions, a 0-100 post score, Reel cover generation, data-backed best posting time, optional follow-gated DM gifts, and a branded interactive dashboard (pop-up decisions, clickable heatmap and calendar) that mirrors the Zernio account. Use when the user says "publish/post/schedule this folder", "/200bps-publish", asks for their social growth dashboard, post results, ice breakers, or best time to post.
-version: 1.21.0
+version: 1.21.1
 ---
 
 # 200BPS Publish
@@ -129,7 +129,10 @@ Connecting accounts: the user can connect Instagram or LinkedIn from the
 dashboard (Settings → Accounts, or "+ Connect" in the Posts tab). It opens
 Zernio's sign-in link; they approve on the network's own site, and the new
 account is saved and enabled automatically. From chat, `bps.py connect linkedin`
-prints the link to give them. Never ask for social-network passwords. Other
+prints the link to give them. **Zernio's account limit:** Zernio connects 2 accounts until a payment method is
+added to the user's Zernio account; it then answers 402 `PAYMENT_REQUIRED`. The dashboard explains it in a window
+(Open Zernio ↗ / Try again; Settings → Accounts shows "2 of 2 accounts used") and `connect` says the same. It is
+Zernio's rule, never this skill's: tell the user plainly and never try to work around it. Never ask for social-network passwords. Other
 networks are listed as "coming soon" (`lib/accounts.py → CONNECTABLE`).
 
 Accounts: `doctor` and `analyze` save the connected account automatically

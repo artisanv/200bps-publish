@@ -6,7 +6,10 @@
 """
 from __future__ import annotations
 
-from store import config, save_config
+import re
+import time
+
+from store import config, read_json, save_config, state_dir, write_json
 
 SUPPORTED = ("instagram", "linkedin", "tiktok", "snapchat", "facebook")
 # Networks the dashboard can connect today, and ones shown as "coming soon".
@@ -31,6 +34,44 @@ def profile_id(z) -> str | None:
         return (ps[0] or {}).get("_id") if ps else None
     except Exception:
         return None
+
+
+# Zernio's own account limit (a 402 "Add a payment method to connect more than N accounts").
+# It is Zernio's rule, not this skill's: remembered so the dashboard can say so before the next try.
+LIMIT_FILE = "account_limit.json"
+
+
+def limit_hit(err) -> dict | None:
+    """If a Zernio error is its account-limit answer (402), remember it and return {max, at, zernio}."""
+    if getattr(err, "status", None) != 402:
+        return None
+    body = getattr(err, "body", None)
+    msg = str((body.get("error") or body.get("message") or "") if isinstance(body, dict) else (body or err))
+    m = re.search(r"more than (\d+) (?:social )?accounts?", msg, re.I)
+    rec = {"max": int(m.group(1)) if m else None, "at": int(time.time()), "zernio": msg[:300]}
+    write_json(state_dir() / LIMIT_FILE, rec)
+    return rec
+
+
+def known_limit() -> dict | None:
+    return read_json(state_dir() / LIMIT_FILE) or None
+
+
+def limit_check(n_accounts: int) -> None:
+    """More accounts than the remembered limit (a payment method was added): forget it."""
+    rec = known_limit()
+    if rec and rec.get("max") is not None and n_accounts > rec["max"]:
+        clear_limit()
+
+
+def clear_limit() -> None:
+    (state_dir() / LIMIT_FILE).unlink(missing_ok=True)
+
+
+def limit_text(rec: dict | None) -> str:
+    n = (rec or {}).get("max")
+    return (f"Zernio allows {n} connected accounts" if n else "Zernio's account limit is reached") + \
+        " until a payment method is added to your Zernio account (zernio.com). This is Zernio's rule, not this skill's."
 
 
 def enable_platform(platform: str) -> None:

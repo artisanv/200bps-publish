@@ -79,6 +79,8 @@ def _public_config(cfg: dict) -> dict:
     out["updatesCheck"] = (cfg.get("updates") or {}).get("check", True) is not False
     out["connectable"] = list(acct.CONNECTABLE)
     out["comingSoon"] = list(acct.COMING_SOON)
+    lim = acct.known_limit()
+    out["accountLimit"] = {"max": lim.get("max"), "at": lim.get("at")} if lim else None
     return out
 
 
@@ -544,13 +546,19 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
         host = self.headers.get("Host") or "127.0.0.1"
         back = f"http://{host}/connected?platform={plat}"
         try:
-            r = z.connect_url(plat, pid, back)
-        except ZernioError as e:
-            if e.status == 400:                      # redirect not accepted: use Zernio's default finish page
-                r = z.connect_url(plat, pid)
+            try:
+                r = z.connect_url(plat, pid, back)
+            except ZernioError as e:
+                if e.status != 400:
+                    raise
+                r = z.connect_url(plat, pid)         # redirect not accepted: use Zernio's default finish page
                 back = None
-            else:
+        except ZernioError as e:
+            lim = acct.limit_hit(e)                  # Zernio's own account limit (402): say so plainly
+            if lim is None:
                 raise
+            return {"ok": False, "code": "account_limit", "platform": plat, "max": lim.get("max"),
+                    "used": len(acct.live(z) or []), "error": acct.limit_text(lim)}
         before = [a.get("_id") for a in (acct.live(z) or []) if a.get("platform") == plat]
         write_json(state_dir() / "connecting.json", {"platform": plat, "before": before, "ts": int(time.time())})
         return {"ok": True, "authUrl": r.get("authUrl"), "returnsHere": bool(back)}
@@ -566,7 +574,9 @@ a{{color:#CCFF33}}</style><div class="c"><div class="t">✓</div><h1>{plat.title
         pend = read_json(state_dir() / "connecting.json") or {}
         new = [a for a in live_ if a.get("platform") == pend.get("platform") and a.get("_id") not in pend.get("before", [])]
         rec = acct.reconcile(live_)
+        acct.limit_check(len(live_))
         if new:
+            acct.clear_limit()
             acct.enable_platform(new[0]["platform"])
             (state_dir() / "connecting.json").unlink(missing_ok=True)
             drop_cache()

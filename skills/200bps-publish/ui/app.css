@@ -1165,6 +1165,8 @@ pre.code { background: var(--bps-void); border: 1px solid var(--bps-line); borde
 .net-big { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--bps-slate); font: 700 13px var(--bps-font-mono); flex: 0 0 auto; }
 .acc-soon { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
 .acc-soon .chip { color: var(--bps-mute); box-shadow: inset 0 0 0 1px var(--bps-line-strong); }
+.acc-limit { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; margin: 0 0 8px; padding: 8px 12px; border-radius: 10px; font-size: 13px; color: var(--bps-text); background: color-mix(in srgb, #ffb020 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, #ffb020 45%, transparent); }
+p.acc-limit { display: block; font-weight: 600; }
 .aud-z.add-acc { cursor: pointer; border: 1px dashed var(--accent-ink); color: var(--bps-text); font: inherit; text-align: start; }
 .aud-z.add-acc b { color: var(--accent-ink); }
 .aud-z.add-acc:hover { background: var(--bps-panel); }

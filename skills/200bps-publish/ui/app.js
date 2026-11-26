@@ -48,6 +48,9 @@
       accNotConnected: "Not connected", accConnect: "Connect", accReconnect: "Reconnect", accAddAnother: "Add another", accSoon: "Coming soon", accConnectShort: "Connect account",
       accWaiting: "Waiting for {n}…", accW1: "Opened the secure sign-in page", accW2: "Approve access on {n} (in the new tab)", accW3: "Saved and ready to post",
       accPrivacy: "Your password goes only to the network. Keep this window open; it updates by itself when you're done.", accOpenAgain: "Open the sign-in page again",
+      accLimTitle: "Zernio's limit: {n} accounts", accLimTitleAny: "Zernio's account limit is reached", accLimUsed: "{u} of {n} accounts used · Zernio's limit",
+      accLimWhy: "Zernio connects up to {n} accounts until a payment method is added to your Zernio account. The block is in Zernio, not in this dashboard: your posts and connected accounts keep working.",
+      accLimHow: "To connect more: open Zernio → Billing → add a payment method. Then come back and press Try again.", accLimOpen: "Open Zernio ↗", accLimRetry: "I added it · Try again", accLimInfo: "Why?",
       accDone: "Connected: {a}. It's ready to post.",
       zGrid: "Grid", zList: "List", zViewLabel: "View", ideaGet: "Get ideas", ideaMore: "More ideas", ideaTopicPh: "Optional topic, e.g. AI Agents for beginners",
       ideaEmptyTitle: "No ideas yet", ideaEmptyHint: "PIX studies your best posts in Zernio (follows, saves, shares) and suggests 5 posts with a hook, outline and best time. It refills after every publish.",
@@ -263,6 +266,9 @@
       accNotConnected: "مو مربوط", accConnect: "اربط", accReconnect: "أعد الربط", accAddAnother: "أضف حساب ثاني", accSoon: "قريباً", accConnectShort: "اربط حساب",
       accWaiting: "بانتظار {n}…", accW1: "انفتحت صفحة الدخول الآمنة", accW2: "وافق على الصلاحية في {n} (بالتبويب الجديد)", accW3: "انحفظ وجاهز للنشر",
       accPrivacy: "كلمة السر تروح للشبكة بس. خل هالنافذة مفتوحة؛ بتتحدث بروحها أول ما تخلص.", accOpenAgain: "افتح صفحة الدخول مرة ثانية",
+      accLimTitle: "حد Zernio: {n} حسابات", accLimTitleAny: "وصلت لحد الحسابات في Zernio", accLimUsed: "{u} من {n} حسابات مستخدمة · حد Zernio",
+      accLimWhy: "Zernio يربط لين {n} حسابات بس، لين ما تضيف طريقة دفع بحسابك في Zernio. المنع من Zernio مو من هاللوحة: بوستاتك وحساباتك المربوطة تشتغل عادي.",
+      accLimHow: "عشان تربط أكثر: افتح Zernio ← Billing ← أضف طريقة دفع. بعدين ارجع هني واضغط جرّب مرة ثانية.", accLimOpen: "افتح Zernio ↗", accLimRetry: "أضفتها · جرّب مرة ثانية", accLimInfo: "ليش؟",
       accDone: "انربط: {a}. جاهز للنشر.",
       zGrid: "شبكة", zList: "قائمة", zViewLabel: "العرض", ideaGet: "اطلب أفكار", ideaMore: "أفكار أكثر", ideaTopicPh: "موضوع اختياري، مثلاً: AI Agents للمبتدئين",
       ideaEmptyTitle: "ما في أفكار للحين", ideaEmptyHint: "PIX يدرس أفضل بوستاتك في Zernio (المتابعات، الحفظ، المشاركة) ويقترح 5 بوستات مع افتتاحية ومخطط وأفضل وقت. وتتجدد بعد كل نشر.",
@@ -2332,7 +2338,7 @@
     const r = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json", "X-BPS-Token": TOKEN }, body: JSON.stringify(body) });
     let j = {};
     try { j = await r.json(); } catch (e) {}
-    if (!r.ok || !j.ok) throw new Error(j.error || ("HTTP " + r.status));
+    if (!r.ok || !j.ok) { const err = new Error(j.error || ("HTTP " + r.status)); err.data = j; throw err; }
     modal.sentMode = true;          // the next modal close uses the fly-away exit
     flyToClaude(lastBtn);
     return j;
@@ -4919,6 +4925,9 @@
         !mine.length ? t("accConnect") : needs ? t("accReconnect") : "+ " + t("accAddAnother")));
       host.append(row);
     });
+    const lim = accLimit();
+    if (lim) host.prepend(el("div", { class: "acc-limit" }, el("span", {}, lim.max ? t("accLimUsed").replace("{u}", accounts.length).replace("{n}", lim.max) : t("accLimTitleAny")),
+      el("button", { class: "btn sm", type: "button", onclick: () => showAccLimit(null, { max: lim.max, used: accounts.length }) }, t("accLimInfo"))));
     if (soon.length) host.append(el("div", { class: "acc-soon" }, el("span", { class: "label" }, t("accSoon")),
       ...soon.map((p) => el("span", { class: "chip" }, NET_NAME[p] || p))));
     if (!(state.z && state.z.ok)) host.append(el("p", { class: "hint" }, t("zernioOff")));
@@ -4933,11 +4942,43 @@
     modal.open ? closeModal(() => showModal("connect", build)) : showModal("connect", build);
   }
   let connectPoll = 0;
-  async function startConnect(platform) {
+  // Zernio's own account limit (its 402 "add a payment method"), remembered by the server after the first refusal.
+  // Shown only while the connected count is still at or over it (adding a payment method lifts it).
+  function accLimit() {
+    const lim = state.data && state.data.config && state.data.config.accountLimit;
+    const n = ((state.z && state.z.accounts) || []).length;
+    return lim && (lim.max == null || n >= lim.max) ? lim : null;
+  }
+  function showAccLimit(platform, info) {
+    const n = info && info.max, u = info && info.used;
+    const build = (body) => {
+      body.append(el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, t("accKicker")),
+        el("h2", { id: "mTitle" }, n ? t("accLimTitle").replace("{n}", n) : t("accLimTitleAny")),
+        n && u != null ? el("p", { class: "acc-limit" }, t("accLimUsed").replace("{u}", u).replace("{n}", n)) : "",
+        el("p", { class: "ctx" }, t("accLimWhy").replace("{n}", n || "2")), el("p", { class: "hint" }, t("accLimHow")),
+        el("div", { class: "actions" },
+          el("a", { class: "btn on acc-lim-open", href: "https://zernio.com", target: "_blank", rel: "noopener" }, t("accLimOpen")),
+          platform ? el("button", { class: "btn acc-lim-retry", type: "button", onclick: () => startConnect(platform, true) }, t("accLimRetry")) : "",
+          el("button", { class: "btn", type: "button", onclick: () => closeModal(renderQuestion) }, t("close"))));
+    };
+    modal.open ? closeModal(() => showModal("acclimit", build)) : showModal("acclimit", build);
+  }
+  async function startConnect(platform, retry) {
+    const accounts = (state.z && state.z.accounts) || [];
+    const fix = accounts.some((a) => a.platform === platform && (a.needsReconnection || a.active === false));
+    const lim = accLimit();
+    if (lim && !retry && !fix) return showAccLimit(platform, { max: lim.max, used: accounts.length });   // known: say why first
     const win = window.open("about:blank", "_blank");            // open now (inside the click) so it isn't blocked
     let r;
     try { r = await post("/api/connect", { platform }); }
-    catch (e) { if (win) win.close(); toast(e.message); return; }
+    catch (e) {
+      if (win) win.close();
+      if (e.data && e.data.code === "account_limit") {
+        if (state.data && state.data.config) state.data.config.accountLimit = { max: e.data.max, at: Date.now() / 1000 };
+        return showAccLimit(platform, e.data);
+      }
+      toast(e.message); return;
+    }
     if (win) win.location.href = r.authUrl; else window.location.assign(r.authUrl);
     const build = (body) => {
       body.append(el("div", { class: "label kicker", style: "color:var(--accent-ink)" }, t("accKicker")),
@@ -6511,6 +6552,7 @@
         "Paste your Zernio API key in the <b>Connect Zernio</b> card and press Save. It's tested right away and stays in this folder's .env file.",
         "Answer the one-time setup questions (accounts, keywords, words to avoid, goal…), or say \"defaults\".",
         "Connect Instagram, LinkedIn, <b>Facebook</b>, <b>TikTok</b> or <b>Snapchat</b> from <b>Posts → + Connect account</b>. You approve on the network's own site.",
+        "<b>Zernio's account limit</b>: Zernio connects only 2 accounts until you add a payment method to your Zernio account. If you reach it, the dashboard says so in a window (and Settings → Accounts shows “2 of 2 accounts used”), with <b>Open Zernio ↗</b> and <b>Try again</b>. It's Zernio's rule; your posts and connected accounts keep working.",
         "A post goes to every connected network that can show it: TikTok takes videos and photo posts (no PDFs); Snapchat takes one photo or one video. Skipped networks are listed with the reason.",
         "<b>TikTok</b> needs two things from you before it can be scheduled: who can see it, and your OK that you previewed the post and agree to post it (asked again if the caption or media change). You can also set comments, duets, stitches, a promotional label, an AI label, or send it to your TikTok inbox as a draft.",
         "<b>Facebook</b> (a Page): Feed post (text, a photo, up to 10 photos, or a video; no mixing), Reel (one vertical video, 3-90 s, optional title) or Story (one item, 24 hours, no caption). Add a first comment, save it as a draft in Facebook's Publishing Tools, and pick the Page if you have several.",
@@ -6665,6 +6707,7 @@
         "الصق مفتاح Zernio في بطاقة <b>اربط Zernio</b> واضغط حفظ. ينختبر على طول ويظل في ملف ‎.env‎ بهالمجلد.",
         "جاوب أسئلة الإعداد مرة وحدة (الحسابات، الكلمات، الكلمات الممنوعة، الهدف…)، أو قول «defaults».",
         "اربط Instagram أو LinkedIn أو <b>Facebook</b> أو <b>TikTok</b> أو <b>Snapchat</b> من <b>المنشورات ← + اربط حساب</b>. توافق في موقع الشبكة نفسها.",
+        "<b>حد الحسابات في Zernio</b>: Zernio يربط حسابين بس لين ما تضيف طريقة دفع بحسابك فيه. إذا وصلت للحد، اللوحة تقولك بنافذة (والإعدادات ← الحسابات تبين «2 من 2 حسابات مستخدمة»)، مع <b>افتح Zernio ↗</b> و<b>جرّب مرة ثانية</b>. هذا شرط Zernio؛ بوستاتك وحساباتك المربوطة تشتغل عادي.",
         "البوست يروح لكل منصة مربوطة تقدر تعرضه: TikTok ياخذ فيديو وبوستات صور (بدون PDF)؛ وSnapchat ياخذ صورة وحدة أو فيديو واحد. المنصات اللي انتجاهلت تطلع مع السبب.",
         "<b>TikTok</b> يحتاج منك شيئين قبل الجدولة: منو يشوفه، وموافقتك إنك شفت البوست وتبي تنشره (تنطلب مرة ثانية إذا تغيّر الكابشن أو الملفات). وتقدر بعد تحدد التعليقات والدويت والستيتش، علامة ترويج، علامة ذكاء اصطناعي، أو ترسله لصندوق TikTok كمسودة.",
         "<b>Facebook</b> (صفحة): بوست عادي (نص، صورة، لين 10 صور، أو فيديو؛ بدون خلط)، ريل (فيديو عمودي واحد، 3-90 ثانية، وعنوان اختياري) أو ستوري (عنصر واحد، 24 ساعة، بدون كابشن). أضف أول تعليق، احفظه كمسودة في أدوات النشر بفيسبوك، واختار الصفحة إذا عندك أكثر من وحدة.",
@@ -7435,6 +7478,9 @@
       ibxShowMore: ["Show more comments", "The list shows 40 comments at a time so the page stays fast. Press the button for the next 40, as often as you need. The counts at the top always include every comment. Changing the filter or label starts again at 40."],
       accPick: ["Accounts in this network", "Your accounts on this network in Zernio. All accounts adds them up; pick one for its own dashboard. ☆ pins an account to the top. With many accounts a search box appears."],
       netAdd: ["Connect", "Add another network or account. It opens Zernio's sign-in for that network; it shows up here once connected."],
+      accLimit: ["Zernio's account limit", "Zernio connects only a set number of accounts until a payment method is added to your Zernio account. Why? shows how to lift it. It's Zernio's rule, not this dashboard's."],
+      accLimOpen: ["Open Zernio", "Opens zernio.com in a new tab. Sign in, go to Billing and add a payment method; then come back and press Try again."],
+      accLimRetry: ["Try again", "Asks Zernio again for the sign-in page. Works once the payment method is added in Zernio."],
       accTable: ["Accounts side by side", "Each account's followers, change, posts, engagement rate and engagements for the last 30 days. Click a column to sort, a row to open that account."],
       netTabs: ["One dashboard per network", "All networks shows the overview. Pick a network for its own followers, goal, last 30 days, best times, posting rhythm and top posts."],
       netKpis: ["Last 30 days", "From this network's own posts and follower count, compared with the 30 days before (the % below). Engagements = likes + comments + shares + saves."],
@@ -7637,6 +7683,9 @@
       ibxShowMore: ["اعرض تعليقات أكثر", "القائمة تعرض 40 تعليق كل مرة عشان الصفحة تظل سريعة. اضغط الزر عشان تطلع الـ40 اللي بعدها، كل ما احتجت. الأرقام اللي فوق دايماً تحسب كل التعليقات. وإذا غيّرت الفلتر أو التصنيف ترجع تبدأ من 40."],
       accPick: ["حسابات هالمنصة", "حساباتك على هالمنصة في Zernio. «كل الحسابات» يجمعهم؛ واختار حساب عشان تشوف لوحته. ☆ تثبّت الحساب فوق. ولما تكثر الحسابات يطلع مربع بحث."],
       netAdd: ["اربط حساب", "ضيف منصة أو حساب ثاني. يفتح تسجيل الدخول من Zernio لهالمنصة؛ ويبين هني بعد ما ينربط."],
+      accLimit: ["حد الحسابات في Zernio", "Zernio يربط عدد معيّن من الحسابات بس لين ما تضيف طريقة دفع بحسابك فيه. «ليش؟» يوريك شلون ترفعه. هذا شرط Zernio مو شرط اللوحة."],
+      accLimOpen: ["افتح Zernio", "يفتح zernio.com بتبويب جديد. سجّل دخول، روح Billing وأضف طريقة دفع؛ بعدين ارجع واضغط جرّب مرة ثانية."],
+      accLimRetry: ["جرّب مرة ثانية", "يطلب من Zernio صفحة الدخول مرة ثانية. يشتغل بعد ما تضيف طريقة الدفع في Zernio."],
       accTable: ["الحسابات جنب بعض", "متابعين كل حساب وتغيّره وبوستاته ونسبة تفاعله وتفاعلاته بآخر 30 يوم. اضغط عمود عشان ترتّب، وصف عشان تفتح الحساب."],
       netTabs: ["لوحة لكل منصة", "«كل المنصات» تعرض الملخص. اختار منصة عشان تشوف متابعينها وهدفها وآخر 30 يوم وأفضل أوقاتها وإيقاع نشرك وأفضل بوستاتها."],
       netKpis: ["آخر 30 يوم", "من بوستات هالمنصة وعدد متابعينها، مقارنة بالـ30 يوم اللي قبلها (النسبة تحت). التفاعلات = لايكات + تعليقات + مشاركات + حفظ."],
@@ -7749,7 +7798,7 @@
     [".ann-mask", "annMask"], [".ann-fs", "annFs"], [".ann-result", "annResult"],
     [".ib-all", "ibAll"], [".ib-pick", "ibPick"], [".ib-del", "ibDel"], [".ib-md", "ibMd"], [".ib-json", "ibJson"], [".ib-add", "ibAdd"],
     [".ib-load", "ibLoad"], [".ib-clear", "ibClear"], [".ib-undo", "ibUndo"], [".ib-editone", "ibEditOne"],
-    [".rw-ask", "rwAsk"], [".rw-review, .rw-row, .rw-all", "rwReview"], [".ab-open", "abOpen"], [".ab-ask", "abAsk"], [".ab-go, .ab-word", "abGo"], [".ab-check, .ab-table", "abCheck"], [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-posted", "liPosted"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".inbox-replyto", "ibxReplyTo"], [".ibx-more", "ibxMore"], [".ibx-showmore", "ibxShowMore"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#updateBanner", "updateBanner"], ["#upPrefBtn", "upPref"], ["#inBtn", "inBox"], [".in-strip", "inStrip"], [".in-all", "inAllBtn"], [".in-x", "inClearBtn"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
+    [".rw-ask", "rwAsk"], [".rw-review, .rw-row, .rw-all", "rwReview"], [".ab-open", "abOpen"], [".ab-ask", "abAsk"], [".ab-go, .ab-word", "abGo"], [".ab-check, .ab-table", "abCheck"], [".rc-open", "rcOpen"], [".rc-row", "rcRow"], [".rc-ask", "rcAsk"], [".rc-go, .rc-word", "rcGo"], [".li-posted", "liPosted"], [".li-pv-main", "liPreviewMain"], [".li-kind", "liKind"], [".np-texthint, .np-typelbl", "npTextPost"], [".ns", "ns"], ["#clipBar", "clipBar"], [".cp-btn, .ev-copy", "cpBtn"], ["#accTargets", "accTargets"], [".nw-btn", "nwBtn"], [".view-btn", "viewBtn"], [".netstack", "netStack"], [".post-batch", "postBatch"], [".ibx-tzwrap", "ibxTz"], [".ibx-when", "ibxWhen"], [".inbox-replyto", "ibxReplyTo"], [".ibx-more", "ibxMore"], [".ibx-showmore", "ibxShowMore"], [".ibx-draftall", "ibxDraftAll"], [".net-menu", "accPick"], [".net-add", "netAdd"], [".acc-lim-open", "accLimOpen"], [".acc-lim-retry", "accLimRetry"], [".acc-limit", "accLimit"], [".acc-table", "accTable"], ["#netTabs", "netTabs"], [".net-kpis", "netKpis"], [".net-goal", "netGoal"], [".net-best", "netBest"], [".net-bars", "netRhythm"], [".ibx-sendall", "ibxSendAll"], [".ibx-draft", "ibxDraft"], [".fn", "funnel"], [".fol-fresh", "folFresh"], [".ibx-post", "ibxPost"], [".ibx-gift", "ibxGift"], [".ibx-lab", "ibxLab"], [".ibx-acts", "ibxActs"], ["#calViews", "calViews"], [".tg-ev", "tgEv"], [".tg-col", "tgCol"], [".gs-sentence", "gsSentence"], [".gs-story", "gsStory"], [".gs-when", "gsWhen"], [".gs-gate", "gsGate"], ["#updateBanner", "updateBanner"], ["#upPrefBtn", "upPref"], ["#inBtn", "inBox"], [".in-strip", "inStrip"], [".in-all", "inAllBtn"], [".in-x", "inClearBtn"], ["#bellBtn", "bell"], [".chat-state", "noteState"], [".notice", "notice"], [".np-track", "npTrack"], [".np-sug", "npSug"], [".np-checks", "npChecks"], [".np-slots", "npSlots"], [".np-cap2", "npCapEdit"],
     [".steps-track .step[data-step]", (n) => "step_" + n.dataset.step], [".checks li.fixable", "fixable"],
     [".cal .ev", "calEv"], [".cal .d.click", "calDay"], [".cal-key", "calKey"], ["#calPrev", "calPrev"], ["#calNext", "calNext"], ["#calToday", "calToday"],
     [".heat-insight, .heat .dl, .heat .h, .heat-legend", "heat"], [".toptimes", "peaks"],

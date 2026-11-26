@@ -16,6 +16,7 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - Paste your Zernio API key in the **Connect Zernio** card and press Save. It's tested right away and stays in this folder's .env file.
 - Answer the one-time setup questions (accounts, keywords, words to avoid, goal…), or say "defaults".
 - Connect Instagram, LinkedIn, **Facebook**, **TikTok** or **Snapchat** from **Posts → + Connect account**. You approve on the network's own site.
+- **Zernio's account limit**: Zernio connects only 2 accounts until you add a payment method to your Zernio account. If you reach it, the dashboard says so in a window (and Settings → Accounts shows “2 of 2 accounts used”), with **Open Zernio ↗** and **Try again**. It's Zernio's rule; your posts and connected accounts keep working.
 - A post goes to every connected network that can show it: TikTok takes videos and photo posts (no PDFs); Snapchat takes one photo or one video. Skipped networks are listed with the reason.
 - **TikTok** needs two things from you before it can be scheduled: who can see it, and your OK that you previewed the post and agree to post it (asked again if the caption or media change). You can also set comments, duets, stitches, a promotional label, an AI label, or send it to your TikTok inbox as a draft.
 - **Facebook** (a Page): Feed post (text, a photo, up to 10 photos, or a video; no mixing), Reel (one vertical video, 3-90 s, optional title) or Story (one item, 24 hours, no caption). Add a first comment, save it as a draft in Facebook's Publishing Tools, and pick the Page if you have several.
@@ -69,6 +70,25 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - Each time shows why it was picked (e.g. "best Wed · +96% · n=5"). Drag ⋮⋮ or use ↑↓ to reorder; edit any time directly.
 - **3 Go:** review the list, type **go** once. Every post is created in Zernio as scheduled, with a live tick per post. Nothing goes out now.
 - Posts that can't be scheduled yet are listed apart, with "Ask PIX to fix".
+
+### Incoming posts (from Content OS)
+
+- When another app (like **Content OS**) sends posts here, the **📥** button appears in the top bar. Its number counts the posts not scheduled yet.
+- Click it to see every post that arrived, oldest first, each marked **New**, **Open now**, **Seen**, **Fix first** or **✓ Scheduled**, with its time.
+- **Open** shows a post in the Post tab. The post you had open is kept, with all its changes. **Next post →** goes through the waiting ones in order.
+- On an incoming post, the Post tab shows **📥 From Content OS · post 1 of 2** with **‹ Previous** and **Next ›**.
+- **Schedule all** opens the Go step of Batch schedule with every post that has a time, at that time: check the list, type **go** once. Posts with no time, a time that has passed or something to fix wait until you open them.
+- **✕** takes a post off the list (the post stays in Posts); **Clear scheduled** removes the ones already done. A post leaves the list by itself 14 days after it arrived.
+- When several posts arrive at once, a message tells you how many, so none gets lost.
+- Keep clicking around while PIX works: PIX changes the exact post you asked about, never the one you just opened, and a caption fix you approve lands on the post it was made for.
+
+### Updates: always the newest version
+
+- Once a day the dashboard checks GitHub for a newer 200bps Publish. Nothing about you, your posts or your keys is sent: it only reads a small release file.
+- When one is out, a card at the top shows **what's new** and the exact command for your install, with **Copy**: `/plugin marketplace update 200bps`, then `/reload-plugins`. Installed from the zip? It links the new zip instead.
+- **Later** hides the card until the next version. **Ctrl+K → Check for updates now** asks right away. Settings → Preferences turns the daily check off.
+- Best of all: turn on auto-update once (`/plugin` → Marketplaces → 200bps → Enable auto-update) and every update reaches you by itself.
+- Posts that arrive from another app in a folder with a generic name (like `output/instagram`) are copied into `my-posts/` under the first words of their caption, so every post folder has a real name.
 
 ### Plan: calendar and best hours
 
@@ -179,6 +199,7 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - الصق مفتاح Zernio في بطاقة **اربط Zernio** واضغط حفظ. ينختبر على طول ويظل في ملف ‎.env‎ بهالمجلد.
 - جاوب أسئلة الإعداد مرة وحدة (الحسابات، الكلمات، الكلمات الممنوعة، الهدف…)، أو قول «defaults».
 - اربط Instagram أو LinkedIn أو **Facebook** أو **TikTok** أو **Snapchat** من **المنشورات ← + اربط حساب**. توافق في موقع الشبكة نفسها.
+- **حد الحسابات في Zernio**: Zernio يربط حسابين بس لين ما تضيف طريقة دفع بحسابك فيه. إذا وصلت للحد، اللوحة تقولك بنافذة (والإعدادات ← الحسابات تبين «2 من 2 حسابات مستخدمة»)، مع **افتح Zernio ↗** و**جرّب مرة ثانية**. هذا شرط Zernio؛ بوستاتك وحساباتك المربوطة تشتغل عادي.
 - البوست يروح لكل منصة مربوطة تقدر تعرضه: TikTok ياخذ فيديو وبوستات صور (بدون PDF)؛ وSnapchat ياخذ صورة وحدة أو فيديو واحد. المنصات اللي انتجاهلت تطلع مع السبب.
 - **TikTok** يحتاج منك شيئين قبل الجدولة: منو يشوفه، وموافقتك إنك شفت البوست وتبي تنشره (تنطلب مرة ثانية إذا تغيّر الكابشن أو الملفات). وتقدر بعد تحدد التعليقات والدويت والستيتش، علامة ترويج، علامة ذكاء اصطناعي، أو ترسله لصندوق TikTok كمسودة.
 - **Facebook** (صفحة): بوست عادي (نص، صورة، لين 10 صور، أو فيديو؛ بدون خلط)، ريل (فيديو عمودي واحد، 3-90 ثانية، وعنوان اختياري) أو ستوري (عنصر واحد، 24 ساعة، بدون كابشن). أضف أول تعليق، احفظه كمسودة في أدوات النشر بفيسبوك، واختار الصفحة إذا عندك أكثر من وحدة.
@@ -232,6 +253,25 @@ Generated from the dashboard's Guide by `tools/gen_features.py`. Answer users fr
 - كل وقت يقول ليش انختار (مثلاً «أفضل وقت الأربعاء · +96% · n=5»). اسحب ⋮⋮ أو ↑↓ عشان ترتب؛ وعدّل أي وقت مباشرة.
 - **3 نشر:** راجع القائمة واكتب **go** مرة وحدة. كل بوست ينسوى في Zernio كمجدول، مع علامة ✓ لكل واحد. ما ينزل شي الحين.
 - البوستات اللي ما ينفع تنجدول تطلع لحالها، مع «اطلب من PIX يصلحه».
+
+### البوستات الواصلة (من Content OS)
+
+- لما برنامج ثاني (مثل **Content OS**) يرسل بوستات هني، يطلع زر **📥** فوق. الرقم اللي عليه يعد البوستات اللي ما انجدلت للحين.
+- اضغطه وتشوف كل بوست وصل، الأقدم أول، وعلى كل واحد: **جديد**، **مفتوح الحين**، **شفته**، **يبي تصليح** أو **✓ مجدول**، مع وقته.
+- **افتح** يعرض البوست في تبويب البوست. البوست اللي كان مفتوح يبقى بكل تعديلاته. **البوست اللي بعده** يمشي على اللي ينتظرون بالترتيب.
+- على البوست الواصل، تبويب البوست يعرض **📥 من Content OS · بوست 1 من 2** مع **السابق** و**التالي**.
+- **جدول الكل** يفتح خطوة النشر في «جدولة مجموعة» بكل بوست عنده وقت، على وقته: راجع القائمة واكتب **go** مرة وحدة. اللي بدون وقت أو وقته فات أو فيه شي يبي تصليح ينتظر لين تفتحه.
+- **✕** يشيل البوست من القائمة (البوست يبقى في البوستات)؛ **شيل المجدولة** يشيل اللي خلصوا. والبوست يطلع من القائمة بروحه بعد 14 يوم من وصوله.
+- لما توصل كذا بوست مرة وحدة، تطلع لك رسالة بعددهم، عشان ما يضيع ولا واحد.
+- تقدر تتنقل بين البوستات وPIX يشتغل: PIX يعدّل البوست اللي طلبته بالضبط، مو اللي فتحته توّك، والكابشن اللي توافق عليه ينحط على البوست اللي انكتب له.
+
+### التحديثات: دايماً آخر نسخة
+
+- مرة باليوم اللوحة تشيّك على GitHub إذا فيه نسخة أحدث من 200bps Publish. ولا ينرسل شي عنك أو عن بوستاتك أو مفاتيحك: بس تقرا ملف إصدار صغير.
+- لما تطلع نسخة، تطلع بطاقة فوق فيها **شنو الجديد** والأمر بالضبط حسب طريقة تثبيتك، مع زر **انسخ**: `/plugin marketplace update 200bps` وبعدها `/reload-plugins`. مثبّته من الـ zip؟ تعطيك رابط الـ zip الجديد.
+- **بعدين** تخفي البطاقة لين النسخة اللي بعدها. **Ctrl+K ← دوّر على تحديث الحين** يسأل على طول. والإعدادات ← التفضيلات تطفي الفحص اليومي.
+- الأحسن: شغّل التحديث التلقائي مرة وحدة (`/plugin` ← Marketplaces ← 200bps ← Enable auto-update) وكل تحديث يوصلك بروحه.
+- البوستات اللي توصل من برنامج ثاني بمجلد اسمه عام (مثل `output/instagram`) تنسخ داخل `my-posts/` باسم أول كلمات من الكابشن، عشان كل مجلد بوست يكون له اسم واضح.
 
 ### الخطة: التقويم وأفضل الساعات
 

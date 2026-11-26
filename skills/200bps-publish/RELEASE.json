@@ -1,8 +1,8 @@
 {
- "version": "1.21.0",
- "build": "2026-11-25T09:40Z",
- "date": "2026-11-25",
- "notes": "Update notice in the dashboard, 📥 Incoming posts from other apps, --plan ID, post folders named after their title.",
- "notes_ar": "تنبيه بالتحديثات داخل اللوحة، 📥 البوستات الواصلة من البرامج الثانية، --plan ID، ومجلدات البوستات باسم عنوانها.",
- "release": "https://github.com/artisanv/200bps-publish/releases/tag/v1.21.0"
+ "version": "1.21.1",
+ "build": "2026-11-26T08:20Z",
+ "date": "2026-11-26",
+ "notes": "Connecting a 3rd account now explains Zernio's 2-account limit (payment method), with Open Zernio and Try again.",
+ "notes_ar": "ربط حساب ثالث صار يشرح حد Zernio (حسابين لين تضيف طريقة دفع)، مع افتح Zernio وجرّب مرة ثانية.",
+ "release": "https://github.com/artisanv/200bps-publish/releases/tag/v1.21.1"
 }

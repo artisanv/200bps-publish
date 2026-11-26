@@ -112,6 +112,8 @@ class FakeZernio:
         parts = [p for p in path.split("/") if p]
         if path == "/accounts" and m == "GET":
             return 200, {"accounts": ACCOUNTS}
+        if parts[:1] == ["connect"] and m == "GET":              # OAuth link for a network (the real one asks the network)
+            return 200, {"authUrl": f"https://auth.example/{parts[1]}?profileId={(q.get('profileId') or [''])[0]}"}
         if path == "/accounts/health":
             return 200, {"accounts": [{"accountId": a["_id"], "platform": a["platform"], "status": "healthy"} for a in ACCOUNTS]}
         if path == "/profiles":
